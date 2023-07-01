@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/01 12:24:57 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/01 14:36:38 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ italic = \033[3m
 all: dir $(NAME)
 -include $(DEP)
 dir:
-	make -C $(LIBFT)
+	make -C $(LIBFT) --no-print-directory
 	-mkdir  $(D_OBJ)
 $(D_OBJ)/%.o:$(L_SRC)/%.c
 	$(CC) -MMD $(FLAGS) -c $< -o $@ $(INC)
@@ -85,12 +85,12 @@ $(NAME): $(OBJ)
 .PHONY: all clean fclean re
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C $(LIBFT)
+	make fclean -C $(LIBFT) --no-print-directory
 	echo "✅ ==== $(P)$(ligth)minishell executable files and name cleaned!$(E) ==== ✅\n"
 	
 clean:
 	$(RM) $(D_OBJ)
-	make clean -C $(LIBFT)
+	make clean -C $(LIBFT) --no-print-directory
 	echo "✅ ==== $(P)$(ligth)minishell object files cleaned!$(E) ==== ✅"
 re: fclean all
 TOTAL_FILES := $(words $(SRC))
