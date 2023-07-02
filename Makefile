@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/01 14:36:38 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/02 19:26:34 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,10 @@ PROGRESS_BAR :=
 ################################################################################
 SRC = hola.c
 LIBFT = ./lib/libft/
+READL = ./lib/readline/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
-L_RDL = ./lib/readline/
+L_RDL = ./lib/readline/readline
 INC		=	-I ./inc/\
 			-I ./lib/libft/\
 			-I ./lib/readline/\
@@ -64,6 +65,8 @@ all: dir $(NAME)
 -include $(DEP)
 dir:
 	make -C $(LIBFT) --no-print-directory
+	cd $(READL) && ./configure
+	make -C $(READL) --no-print-directory
 	-mkdir  $(D_OBJ)
 $(D_OBJ)/%.o:$(L_SRC)/%.c
 	$(CC) -MMD $(FLAGS) -c $< -o $@ $(INC)
@@ -76,7 +79,7 @@ $(D_OBJ)/%.o:$(L_SRC)/%.c
 		echo "$(B) All done$(E)"; \
 	fi
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(L_LIB) -o $(NAME) $(INC)
+	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_RDL) -o $(NAME) $(INC)
 	echo "\n\n✅ ==== $(B)$(ligth)Project minishell compiled!$(E) ==== ✅"
 ################################################################################
 #                               CLEAN                                          #
@@ -86,11 +89,13 @@ $(NAME): $(OBJ)
 fclean: clean
 	$(RM) $(NAME)
 	make fclean -C $(LIBFT) --no-print-directory
+	make clean -C $(READL) --no-print-directory
 	echo "✅ ==== $(P)$(ligth)minishell executable files and name cleaned!$(E) ==== ✅\n"
 	
 clean:
 	$(RM) $(D_OBJ)
 	make clean -C $(LIBFT) --no-print-directory
+	make clean -C $(READL) --no-print-directory
 	echo "✅ ==== $(P)$(ligth)minishell object files cleaned!$(E) ==== ✅"
 re: fclean all
 TOTAL_FILES := $(words $(SRC))
