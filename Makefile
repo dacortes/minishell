@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/10 10:48:57 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/10 11:30:52 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,8 +66,8 @@ all: dir $(NAME)
 -include $(DEP)
 dir:
 	make -C $(LIBFT) --no-print-directory
-	cd $(READL) && ./configure
-	make -C $(READL) --no-print-directory
+	cd $(READL) && ./configure &> /dev/null
+	make -C $(READL) --no-print-directory &> /dev/null
 	-mkdir  $(D_OBJ)
 $(D_OBJ)/%.o:$(L_SRC)/%.c
 	$(CC) -MMD $(FLAGS) -c -D READLINE_LIBRARY=1 $< -o $@ $(INC)
@@ -90,13 +90,13 @@ $(NAME): $(OBJ)
 fclean: clean
 	$(RM) $(NAME)
 	make fclean -C $(LIBFT) --no-print-directory
-	make clean -C $(READL) --no-print-directory
+	make clean -C $(READL) --no-print-directory &> /dev/null
 	echo "✅ ==== $(P)$(ligth)minishell executable files and name cleaned!$(E) ==== ✅\n"
 	
 clean:
 	$(RM) $(D_OBJ)
 	make clean -C $(LIBFT) --no-print-directory
-	make clean -C $(READL) --no-print-directory
+	make clean -C $(READL) --no-print-directory &> /dev/null
 	echo "✅ ==== $(P)$(ligth)minishell object files cleaned!$(E) ==== ✅"
 re: fclean all
 TOTAL_FILES := $(words $(SRC))
