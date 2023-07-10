@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/10 11:48:02 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/10 17:08:52 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ PROGRESS_BAR :=
 ################################################################################
 #                               SOURCES                                        #
 ################################################################################
-SRC = hola.c
+SRC = built-ins/cd.c built-ins/pwd.c main.c
 LIBFT = ./lib/libft/
 READL = ./lib/readline/
 L_SRC = ./src
@@ -69,6 +69,7 @@ dir:
 	make -C $(LIBFT) --no-print-directory
 	make -C $(READL) --no-print-directory &> /dev/null
 	-mkdir  $(D_OBJ)
+	-mkdir	$(D_OBJ)/built-ins
 $(D_OBJ)/%.o:$(L_SRC)/%.c
 	$(CC) -MMD $(FLAGS) -c -D READLINE_LIBRARY=1 $< -o $@ $(INC)
 	$(eval CURRENT_FILE := $(shell echo $$(($(CURRENT_FILE) + 1)))) \
