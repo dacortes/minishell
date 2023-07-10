@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/02 19:26:34 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/10 10:48:57 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ LIBFT = ./lib/libft/
 READL = ./lib/readline/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
-L_RDL = ./lib/readline/readline
+L_RDL = ./lib/readline/libreadline.a
+L_HIT = 
 INC		=	-I ./inc/\
 			-I ./lib/libft/\
 			-I ./lib/readline/\
@@ -69,7 +70,7 @@ dir:
 	make -C $(READL) --no-print-directory
 	-mkdir  $(D_OBJ)
 $(D_OBJ)/%.o:$(L_SRC)/%.c
-	$(CC) -MMD $(FLAGS) -c $< -o $@ $(INC)
+	$(CC) -MMD $(FLAGS) -c -D READLINE_LIBRARY=1 $< -o $@ $(INC)
 	$(eval CURRENT_FILE := $(shell echo $$(($(CURRENT_FILE) + 1)))) \
 	$(eval PROGRESS_BAR := $(shell awk "BEGIN { printf \"%.0f\", $(CURRENT_FILE)*100/$(TOTAL_FILES) }")) \
 	printf "\r$B$(ligth)⏳Compiling libft:$E $(ligth)%-30s [$(CURRENT_FILE)/$(TOTAL_FILES)] [%-50s] %3d%%\033[K" \
@@ -79,7 +80,7 @@ $(D_OBJ)/%.o:$(L_SRC)/%.c
 		echo "$(B) All done$(E)"; \
 	fi
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_RDL) -o $(NAME) $(INC)
+	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_RDL) $(L_HIT) -o $(NAME) $(INC)
 	echo "\n\n✅ ==== $(B)$(ligth)Project minishell compiled!$(E) ==== ✅"
 ################################################################################
 #                               CLEAN                                          #
