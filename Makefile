@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/10 11:30:52 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/10 11:48:02 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,8 +65,8 @@ italic = \033[3m
 all: dir $(NAME)
 -include $(DEP)
 dir:
+#cd $(READL) && ./configure &> /dev/null
 	make -C $(LIBFT) --no-print-directory
-	cd $(READL) && ./configure &> /dev/null
 	make -C $(READL) --no-print-directory &> /dev/null
 	-mkdir  $(D_OBJ)
 $(D_OBJ)/%.o:$(L_SRC)/%.c
