@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/10 15:42:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/10 16:02:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	msg_error(int e, int exit_, char *cm)
 /* hay que crear un getenv propio para saber puntualmente donde se encuentra*/
 int	cd(char *path)
 {
-	char dir[4096];
+	char	dir[4096];
+	int		chek;
 
 	if (sizeof(path) >= 4096)
 		return (msg_error(E_NSF, E_EXIT, "chdir"));
@@ -32,10 +33,11 @@ int	cd(char *path)
 		chdir(getenv("HOME")); /* esto hay que cambiarlo hay que actualizar el olpwd al new*/
 		printf("%s\n", getcwd(dir, sizeof(dir)));
 	}
-	if (path && chdir(path) < SUCCESS)
+	chek = chdir(path);
+	if (path && chek < SUCCESS)
 		return (msg_error(E_NSF, E_EXIT, "chdir"));
-	else
-		printf("Cambio de dic %s", getcwd(dir, sizeof(dir)));
+	else if (path && chek == SUCCESS)
+		printf("%s\n", getcwd(dir, sizeof(dir)));
 	return (SUCCESS);
 }
 
@@ -44,6 +46,6 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	(void)env;
-	cd(NULL);
+	cd("../");
 	return (0);	
 }
