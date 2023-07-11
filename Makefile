@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/10 17:08:52 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/10 18:42:48 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ $(D_OBJ)/%.o:$(L_SRC)/%.c
 		echo "$(B) All done$(E)"; \
 	fi
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_RDL) $(L_HIT) -o $(NAME) $(INC)
+	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_RDL) $(L_HIT) -ltermcap -o $(NAME) $(INC)
 	echo "\n\n✅ ==== $(B)$(ligth)Project minishell compiled!$(E) ==== ✅"
 ################################################################################
 #                               CLEAN                                          #

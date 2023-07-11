@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/10 17:09:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/11 15:10:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 
 # include "../lib/libft/libft.h"
 # include "../lib/libft/ft_printf.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdio.h>
 # include <limits.h>
+# include <errno.h>
 // ================================= MACROS ================================= //
 /* Outputs */
 # define SUCCESS 0
@@ -37,7 +40,6 @@
 # define E_NSF 3
 # define E_PRR 4
 # define E_PNF 5
-# define E_FTN 6
 # define E_PRM 126
 # define E_CNF 127
 // ================================= COLORS ================================= //
@@ -47,18 +49,18 @@
 # define Y "\033[1;33m"    //yellow
 # define B "\033[1;34m"    //blue
 // ================================= STRUCTURES ============================= //
-typedef struct s_tokens
+typedef struct s_env
 {
-	int	q2;
-	int	q1;
-	int	et;
-	int	pip;
-}	t_tokens;
+	char			*var;
+	char			*val;
+	struct s_env	*next;
+}	t_env;
+
 // ================================= FUNCTIONS ============================== //
 /* built-ins/cd.c */
 int	cd(char *path);
 /* built-ins/cpwd.c */
-int pwd(void);
+int	pwd(void);
 /* test */
 int	msg_error(int e, int exit_, char *cm);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:07:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/10 17:06:45 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:29:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	cd(char *path)
 		/* esto hay que cambiarlo hay 
 		que actualizar el olpwd al new*/
 		if (getcwd(dir, sizeof(dir)) == NULL)
-			return(msg_error(E_FTN, E_EXIT, "getcwd"));
+			return(msg_error(E_PRR, E_EXIT, "getcwd"));
 		printf("%s\n", dir);
 	}
 	chek = chdir(path);
@@ -37,7 +37,7 @@ int	cd(char *path)
 	else if (path && chek == SUCCESS)
 	{
 		if (getcwd(dir, sizeof(dir)) == NULL)
-			return(msg_error(E_FTN, E_EXIT, "getcwd"));
+			return(msg_error(E_PRR, E_EXIT, "getcwd"));
 		printf("%s\n", dir);
 	}
 	return (SUCCESS);

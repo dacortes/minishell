@@ -30,12 +30,14 @@ Kernel configured for up to 6 processors.
 Processor type: x86_64h (Intel x86-64h Haswell)
 Processors active: 0 1 2 3 4 5
 Primary memory available: 8.00 gigabytes
-Default processor set: 337 tasks, 1594 threads, 6 processors
-Load average: 1.25, Mach factor: 4.73
+Default processor set: 311 tasks, 1501 threads, 6 processors
+Load average: 1.00, Mach factor: 4.99
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
 
+PATH: /Users/dacortes/.brew/bin/
+PATH: /goinfre/dacortes/miniconda3/bin/
 PATH: /Users/dacortes/.brew/bin/
 PATH: /goinfre/dacortes/miniconda3/bin/
 PATH: /usr/local/bin/
@@ -47,6 +49,7 @@ PATH: /usr/local/go/bin/
 PATH: /usr/local/munki/
 PATH: /Users/dacortes/.brew/bin/
 PATH: /goinfre/dacortes/miniconda3/bin/
+PATH: /opt/anaconda3/condabin/
 PATH: /opt/anaconda3/condabin/
 
 
@@ -1939,7 +1942,7 @@ configure:7074: checking for tgetent
 configure:7074: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols for architecture x86_64:
   "_tgetent", referenced from:
-      _main in conftest-0d3936.o
+      _main in conftest-fe93e3.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 configure:7074: $? = 1
@@ -2234,7 +2237,7 @@ configure:7421: checking for mbscasecmp
 configure:7421: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols for architecture x86_64:
   "_mbscasecmp", referenced from:
-      _main in conftest-7d50df.o
+      _main in conftest-3df046.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 configure:7421: $? = 1
@@ -2374,7 +2377,7 @@ configure:7428: checking for mbscmp
 configure:7428: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols for architecture x86_64:
   "_mbscmp", referenced from:
-      _main in conftest-824ff6.o
+      _main in conftest-3adb3d.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 configure:7428: $? = 1
@@ -2522,7 +2525,7 @@ configure:7450: checking for mbschr
 configure:7450: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols for architecture x86_64:
   "_mbschr", referenced from:
-      _main in conftest-75448e.o
+      _main in conftest-e90ed3.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 configure:7450: $? = 1
