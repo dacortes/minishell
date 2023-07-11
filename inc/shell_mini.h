@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/11 15:10:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/11 17:28:41 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,13 @@ typedef struct s_env
 	char			*val;
 	struct s_env	*next;
 }	t_env;
+
+typedef struct s_mini
+{
+	int		e_size;
+	t_env	*env;
+}	t_mini;
+
 
 // ================================= FUNCTIONS ============================== //
 /* built-ins/cd.c */

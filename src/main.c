@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/11 15:14:57 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:11:43 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,55 @@ int	msg_error(int e, int exit_, char *cm)
 	return (exit_);	
 }
 
-int	add_env(char *s_env, t_env *env)
+int mini_init(t_mini **shell)
 {
-	t_env *new;
-
-	env = ft_calloc(sizeof(t_env), 1);
-	if (!env)
-		exit (msg_error(E_MEM, 1, "env"));
-	new = ft_calloc(sizeof(t_env), 1);
-	if (!new)
-		exit (msg_error(E_MEM, 1, "new"));
-	new->var = ft_calloc(ft_strchrpos(s_env, '=') + 1, sizeof(char));
-	if (!new->var)
-		exit (msg_error(E_MEM, 1, "var"));
-	ft_strlcpy(new->var, s_env, ft_strchrpos(s_env, '='));
-	new->val = ft_calloc(((int)ft_strlen(s_env) - ft_strchrpos(s_env, '=') + 1), sizeof(char));
-	if (!new->val)
-		exit (msg_error(E_MEM, 1, "var"));
-	ft_strlcpy(new->val, &s_env[ft_strchrpos(s_env, '=') + 1], ft_strlen(s_env));
-	printf(B"%s=%s\n"E, new->var, new->val);
-	new->next = env;
-	env = new;
+	*shell = (t_mini *)ft_calloc(sizeof(t_mini), 1);
+	if (!shell)
+		exit (msg_error(E_MEM, 1, NULL));
+	(*shell)->e_size = 0;
+	(*shell)->env = NULL;
 	return (SUCCESS);
+}
+
+int	new_var_env(t_mini *shell, char *var)
+{
+	t_env	*new;
+	int		len_r;
+	int		len_l;
+
+	len_r = ft_strchrpos(var, '=');
+	len_l = (ft_strlen(var) - len_r);
+	new = (t_env *)ft_calloc(sizeof(t_env), 1);
+	if (!new)
+		exit (msg_error(E_MEM, 1, NULL));
+	new->var = ft_substr(var, 0, len_r);
+	if (!new->var)
+		exit (msg_error(E_MEM, 1, NULL));
+	new->val = ft_substr(var, len_r + 1, len_l);
+	if (!new->val)
+		exit (msg_error(E_MEM, 1, NULL));
+	new->next = NULL;
+	if (shell->e_size == 0)
+		shell->env = new;
+	else
+	{
+		new->next = shell->env;
+		shell->env = new;
+	}
+	shell->e_size++;
+	return (SUCCESS);
+}
+
+void printf_env(t_env *env)
+{
+	t_env *tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		printf("%s=%s\n", tmp->var, tmp->val);
+		tmp = tmp->next;
+	}
 }
 
 int main(int ac, char **av, char **env)
@@ -51,11 +78,14 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	(void)env;
 	char	*input = NULL;
-	t_env	ev;
-	
+	t_mini *shell;
+
+	mini_init(&shell);
 	int i = 0;
-	while(env[i])
-		add_env(env[i++], &ev);
+	while (env[i])
+		new_var_env(shell, env[i++]);
+	printf("%d\n", shell->e_size);
+	printf_env(shell->env);
 	while (TRUE)
 	{
 		input = readline("hola ᐅ ");
