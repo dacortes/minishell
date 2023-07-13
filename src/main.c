@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/13 12:22:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/13 14:38:01 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int main(int ac, char **av, char **env)
 		ft_printf (F"%s➜ "E, shell->user);
 		ft_printf (C"%s 🗂"E, shell->dir);
 		input = readline(O" ᐅ "E);
-		printf("%s\n", input);
+		add_var_env(shell, input);
+		printf_env(shell->env);
 		if (input[0] != '\0')
 			add_history(input);
 		if (ft_strncmp(input, "exit", 4) == 0)

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/13 12:31:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/13 14:35:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int		cd(char *path, t_mini **sh);
 int		new_var_env(t_mini *shell, char *var);
 char	*find_var_env(t_env *env, char *find, int type);
 void	printf_env(t_env *env);
+/* built-ins/export.c */
+int		add_var_env(t_mini *sh, char *var);
 /* built-ins/cpwd.c */
 int		pwd(void);
 /* test */

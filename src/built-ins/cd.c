@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:07:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/13 12:31:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/13 14:36:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 /* hay que crear un getenv propio para saber puntualmente donde se encuentra*/
 int	cd(char *path, t_mini **sh)
 {
+	(void)sh;
 	char	dir[PATH_MAX];
 	int		chek;
 
