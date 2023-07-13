@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:07:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/10 17:29:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/13 12:31:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* si el home no tiene nada */
 /* tenemos que guardar la ubicacion del pwd el actual y el old */
 /* hay que crear un getenv propio para saber puntualmente donde se encuentra*/
-int	cd(char *path)
+int	cd(char *path, t_mini **sh)
 {
 	char	dir[PATH_MAX];
 	int		chek;
@@ -29,7 +29,7 @@ int	cd(char *path)
 		que actualizar el olpwd al new*/
 		if (getcwd(dir, sizeof(dir)) == NULL)
 			return(msg_error(E_PRR, E_EXIT, "getcwd"));
-		printf("%s\n", dir);
+		ft_printf("%s\n", dir);
 	}
 	chek = chdir(path);
 	if (path && chek < SUCCESS)
@@ -38,7 +38,7 @@ int	cd(char *path)
 	{
 		if (getcwd(dir, sizeof(dir)) == NULL)
 			return(msg_error(E_PRR, E_EXIT, "getcwd"));
-		printf("%s\n", dir);
+		ft_printf("%s\n", dir);
 	}
 	return (SUCCESS);
 }

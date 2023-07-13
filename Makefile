@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/10 18:42:48 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/13 12:07:43 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ PROGRESS_BAR :=
 ################################################################################
 #                               SOURCES                                        #
 ################################################################################
-SRC = built-ins/cd.c built-ins/pwd.c main.c
+SRC = built-ins/cd.c built-ins/env.c built-ins/pwd.c main.c
 LIBFT = ./lib/libft/
 READL = ./lib/readline/
 L_SRC = ./src
