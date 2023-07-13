@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/11 18:11:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:26:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ int main(int ac, char **av, char **env)
 	t_mini *shell;
 
 	mini_init(&shell);
-	int i = 0;
+	int i = ft_double_ptr_len((void **)env) - 1;
 	while (env[i])
-		new_var_env(shell, env[i++]);
+		new_var_env(shell, env[i--]);
 	printf("%d\n", shell->e_size);
 	printf_env(shell->env);
 	while (TRUE)
