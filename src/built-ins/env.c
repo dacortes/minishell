@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 16:50:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:05:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ void	printf_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		if (tmp->val)
-			printf("%s=%s\n", tmp->var, tmp->val);
+		// if (tmp->val)
+		printf("%s=%s\n", tmp->var, tmp->val);
 		tmp = tmp->next;
 	}
 }
