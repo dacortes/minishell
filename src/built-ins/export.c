@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:24:59 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:25:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	export(t_mini *sh, char *str)
 	len_k = (ft_strlen(str) - len_r);
 	var = ft_substr(str, 0, len_r);
 	val = ft_substr(str, len_r + 1, len_k);
-	ft_printf(B"%s\n"E, val);
 	if (!var || !val)
 		exit (msg_error(E_MEM, 1, NULL));
 	if (ft_strchrpos(str, '=') == ERROR)
