@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:22:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:24:59 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	export(t_mini *sh, char *str)
 	char	*var;
 	char	*val;
 	int		len_r;
-	int 	len_k;
+	int		len_k;
 
 	len_r = ft_strchrpos(str, '=');
 	len_k = (ft_strlen(str) - len_r);
