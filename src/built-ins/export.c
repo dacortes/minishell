@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/13 14:38:59 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:38:30 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ int	add_var_env(t_mini *sh, char *var)
 	new->val = ft_substr(var, len_r + 1, len_l);
 	if (!new->val)
 		exit (msg_error(E_MEM, 1, NULL));
+	if (ft_strchrpos(var, '=') == ERROR)
+	{
+		free(new->val);
+		new->val = NULL;
+	}
 	new->next = NULL;
 	if (sh->e_size > 0)
 	{
