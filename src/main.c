@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:16:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:59:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	msg_error(int e, int exit_, char *cm)
 {
 	e == E_NSF && fd_printf(2, "mini: %s: No such file or directory\n", cm);
 	e == E_MEM && fd_printf(2, "mini: error trying to allocate memory\n", cm);
+	e == E_EXP && fd_printf(2, "mini: export: not an identifier:%s", cm);
 	if (e == E_PRR)
 		perror("mini");
 	return (exit_);	

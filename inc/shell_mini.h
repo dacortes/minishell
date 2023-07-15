@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:20:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:33:43 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define E_NSF 3
 # define E_PRR 4
 # define E_PNF 5
+# define E_EXP 6
 # define E_PRM 126
 # define E_CNF 127
 // ================================= COLORS ================================= //

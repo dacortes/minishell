@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:25:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 18:59:41 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	replace_val(t_env *env, char *var, char *val)
 			if (tmp->val)
 				free(tmp->val);
 			tmp->val = val;
-			ft_printf(Y"Estoy aqui %s\n"E, val);
 			return (TRUE);
 		}
 		tmp = tmp->next;
@@ -52,6 +51,9 @@ int	add_var_env(t_mini *sh, char *var, char *val)
 	return (SUCCESS);
 }
 
+/* regas para la variable son: alphanum y _ esto verificar el la primer posicion
+si se le ingresa a= pero sin valor el valor tiene una str vacia
+*/
 int	export(t_mini *sh, char *str)
 {
 	char	*var;
@@ -59,6 +61,8 @@ int	export(t_mini *sh, char *str)
 	int		len_r;
 	int		len_k;
 
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (msg_error(E_EXP, 1, str));
 	len_r = ft_strchrpos(str, '=');
 	len_k = (ft_strlen(str) - len_r);
 	var = ft_substr(str, 0, len_r);
