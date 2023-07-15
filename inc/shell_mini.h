@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/13 14:35:44 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:49:02 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # define ERROR 	-1
 # define E_EXIT  1
 /* Inputs */
-# define KEY 1
-# define VAR 2
+# define VAR 1
+# define KEY 2
 /* Error */
 # define E_SPC -2
 # define E_ARG 1

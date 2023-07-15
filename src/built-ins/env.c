@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 16:40:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/15 16:50:04 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,21 @@ char	*find_var_env(t_env *env, char *find, int type)
 	t_env	*tmp;
 
 	tmp = env;
-	if (type == KEY)
+	if (type == VAR)
+	{
+		while (tmp)
+		{
+			if (ft_strncmp(tmp->var, find, ft_strlen(find)) == 0)
+				return (tmp->var);
+			tmp = tmp->next;
+		}
+	}
+	else if (type == KEY)
 	{
 		while (tmp)
 		{
 			if (ft_strncmp(tmp->var, find, ft_strlen(find)) == 0)
 				return (tmp->val);
-			tmp = tmp->next;
-		}
-	}
-	else if (type == VAR)
-	{
-		while (tmp)
-		{
-			if (ft_strncmp(tmp->val, find, ft_strlen(find)) == 0)
-				return (tmp->var);
 			tmp = tmp->next;
 		}
 	}
