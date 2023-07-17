@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:59:41 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:31:10 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,23 @@ int	add_var_env(t_mini *sh, char *var, char *val)
 	return (SUCCESS);
 }
 
-/* regas para la variable son: alphanum y _ esto verificar el la primer posicion
-si se le ingresa a= pero sin valor el valor tiene una str vacia
+int	check_exp_var(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (TRUE);
+	while(str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) || !ft_isalnum(str[i]))
+			return (TRUE);
+		i++;
+	}
+	return (SUCCESS);
+}
+/*
+si se le ingresa a= pero sin valor, el valor tiene una str vacia
 */
 int	export(t_mini *sh, char *str)
 {
@@ -61,7 +76,7 @@ int	export(t_mini *sh, char *str)
 	int		len_r;
 	int		len_k;
 
-	if (!ft_isalpha(str[0]) && str[0] != '_')
+	if (check_exp_var(str))
 		return (msg_error(E_EXP, 1, str));
 	len_r = ft_strchrpos(str, '=');
 	len_k = (ft_strlen(str) - len_r);
