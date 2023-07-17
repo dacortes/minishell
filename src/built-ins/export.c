@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 12:01:37 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:24:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ int	replace_val(t_env *env, char *var, char *val)
 	{
 		if (ft_strncmp(tmp->var, var, ft_strlen(var)) == 0)
 		{
+			ft_printf(R"El ptr de varriable es:%p\n"E, var);
+			ft_printf(R"El ptr de value es:%p\n"E, tmp->val);
+			ft_printf(Y"El valor del ptr de value es :%s\n"E, tmp->val);
 			free(var);
-			if (tmp->val)
+			if (tmp->eql && ft_strncmp(tmp->val, "", sizeof("")) != 0)
 				free(tmp->val);
 			tmp->val = val;
 			return (TRUE);
@@ -85,6 +88,7 @@ int	export(t_mini *sh, char *str)
 		aux.eql = TRUE;
 		free(aux.val);
 		aux.val = "";
+		ft_printf(C"estoy qui\n"E);
 	}
 	if (ft_strchrpos(str, '=') == ERROR)
 	{
