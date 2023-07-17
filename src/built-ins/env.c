@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 15:38:44 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:20:29 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,9 @@ void	printf_env(t_env *env)
 	while (tmp)
 	{
 		if (tmp->eql && tmp->val)
-		{
 			ft_printf("%s=%s\n", tmp->var, tmp->val);
-			ft_printf(Y"tiene igual? %d\n"E, tmp->eql);
-		}
 		else if (tmp->eql && !tmp->val)
-		{
 			ft_printf("%s=\n", tmp->var);
-			ft_printf(R"tiene igual? %d\n"E, tmp->eql);
-		}
 		tmp = tmp->next;
 	}
 }
