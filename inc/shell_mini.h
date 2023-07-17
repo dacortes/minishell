@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:33:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:45:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,14 @@
 # define O "\033[38;5;208m" //orange
 # define F "\033[38;5;128m"  //purple
 // ================================= STRUCTURES ============================= //
+typedef struct s_axu
+{
+	char	*var;
+	char	*val;
+	int		len_r;
+	int		len_k;
+}	t_axu;
+
 typedef struct s_env
 {
 	char			*var;

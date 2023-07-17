@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 10:31:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:47:17 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,27 +71,29 @@ si se le ingresa a= pero sin valor, el valor tiene una str vacia
 */
 int	export(t_mini *sh, char *str)
 {
-	char	*var;
-	char	*val;
-	int		len_r;
-	int		len_k;
+	t_axu	axu;
 
 	if (check_exp_var(str))
 		return (msg_error(E_EXP, 1, str));
-	len_r = ft_strchrpos(str, '=');
-	len_k = (ft_strlen(str) - len_r);
-	var = ft_substr(str, 0, len_r);
-	val = ft_substr(str, len_r + 1, len_k);
-	if (!var || !val)
+	axu.len_r = ft_strchrpos(str, '=');
+	axu.len_k = (ft_strlen(str) - axu.len_r);
+	axu.var = ft_substr(str, 0, axu.len_r);
+	axu.val = ft_substr(str, axu.len_r + 1, axu.len_k);
+	if (!axu.var || !axu.val)
 		exit (msg_error(E_MEM, 1, NULL));
+	if (ft_strchrpos(str, '=') && !str[axu.len_r + 1])
+	{
+		free(axu.val);
+		axu.val = "";
+	}
 	if (ft_strchrpos(str, '=') == ERROR)
 	{
-		free(val);
-		val = NULL;
+		free(axu.val);
+		axu.val = NULL;
 	}
-	if (replace_val(sh->env, var, val))
+	if (replace_val(sh->env, axu.var, axu.val))
 		;
 	else
-		add_var_env(sh, var, val);
+		add_var_env(sh, axu.var, axu.val);
 	return (SUCCESS);
 }
