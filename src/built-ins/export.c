@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 18:27:05 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 19:15:39 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	replace_val(t_env *env, char *var, char *val, int eql)
 				free(tmp->val);
 			tmp->val = val;
 			tmp->eql = eql;
-			ft_printf(F"status eql:%d\n", tmp->eql);
 			return (TRUE);
 		}
 		tmp = tmp->next;
@@ -97,11 +96,11 @@ void	print_export(t_env *env)
 	while (tmp)
 	{
 		if (!tmp->eql && !tmp->val)
-			ft_printf("%s\n", tmp->var);
+			ft_printf("declare -x %s\n", tmp->var);
 		else if (tmp->eql && !tmp->val)
-			ft_printf("%s=\"\"\n", tmp->var);
+			ft_printf("declare -x %s=\"\"\n", tmp->var);
 		else
-			ft_printf("%s=\"%s\"\n", tmp->var, tmp->val);
+			ft_printf("declare -x %s=\"%s\"\n", tmp->var, tmp->val);
 		tmp = tmp->next;
 	}
 }
