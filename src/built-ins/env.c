@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:21:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:09:04 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int	new_var_env(t_mini *shell, char *var)
 	new->val = ft_substr(var, len_r + 1, len_l);
 	if (!new->val)
 		exit (msg_error(E_MEM, 1, NULL));
+	if (ft_strchrpos(var, '='))
+		new->eql = TRUE;
+	else
+		new->eql = FALSE;
 	new->next = NULL;
 	if (shell->e_size == 0)
 		shell->env = new;
@@ -74,8 +78,10 @@ void	printf_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		if (tmp->val)
+		if (tmp->eql && tmp->val)
 			printf("%s=%s\n", tmp->var, tmp->val);
+		else if (tmp->eql && !tmp->val)
+			printf("%s=n", tmp->var);
 		tmp = tmp->next;
 	}
 }

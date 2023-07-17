@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/15 18:59:15 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 12:57:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	msg_error(int e, int exit_, char *cm)
 {
 	e == E_NSF && fd_printf(2, "mini: %s: No such file or directory\n", cm);
 	e == E_MEM && fd_printf(2, "mini: error trying to allocate memory\n", cm);
-	e == E_EXP && fd_printf(2, "mini: export: not an identifier:%s", cm);
+	e == E_EXP && fd_printf(2, "mini: export: not an identifier:%s\n", cm);
 	if (e == E_PRR)
 		perror("mini");
 	return (exit_);	
@@ -55,7 +55,10 @@ int main(int ac, char **av, char **env)
 		ft_printf (C"%s 🗂"E, shell->dir);
 		input = readline(O" ᐅ "E);
 		export(shell, input);
+		ft_printf(B"El print del env\n"E);
 		printf_env(shell->env);
+		ft_printf(G"El print del export\n"E);
+		print_export(shell->env);
 		if (input[0] != '\0')
 			add_history(input);
 		if (ft_strncmp(input, "exit", 4) == 0)

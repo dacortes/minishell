@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 10:47:17 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 12:01:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	replace_val(t_env *env, char *var, char *val)
 	return (FALSE);
 }
 
-int	add_var_env(t_mini *sh, char *var, char *val)
+int	add_var_env(t_mini *sh, char *var, char *val, int eql)
 {
 	t_env	*new;
 
@@ -41,6 +41,7 @@ int	add_var_env(t_mini *sh, char *var, char *val)
 		exit (msg_error(E_MEM, 1, NULL));
 	new->var = var;
 	new->val = val;
+	new->eql = eql;
 	new->next = NULL;
 	if (sh->e_size > 0)
 	{
@@ -51,7 +52,7 @@ int	add_var_env(t_mini *sh, char *var, char *val)
 	return (SUCCESS);
 }
 
-int	check_exp_var(char *str)
+static int	check_exp_var(char *str)
 {
 	int	i;
 
@@ -66,34 +67,51 @@ int	check_exp_var(char *str)
 	}
 	return (SUCCESS);
 }
-/*
-si se le ingresa a= pero sin valor, el valor tiene una str vacia
-*/
+
 int	export(t_mini *sh, char *str)
 {
-	t_axu	axu;
+	t_axu	aux;
 
 	if (check_exp_var(str))
 		return (msg_error(E_EXP, 1, str));
-	axu.len_r = ft_strchrpos(str, '=');
-	axu.len_k = (ft_strlen(str) - axu.len_r);
-	axu.var = ft_substr(str, 0, axu.len_r);
-	axu.val = ft_substr(str, axu.len_r + 1, axu.len_k);
-	if (!axu.var || !axu.val)
+	aux.len_r = ft_strchrpos(str, '=');
+	aux.len_k = (ft_strlen(str) - aux.len_r);
+	aux.var = ft_substr(str, 0, aux.len_r);
+	aux.val = ft_substr(str, aux.len_r + 1, aux.len_k);
+	if (!aux.var || !aux.val)
 		exit (msg_error(E_MEM, 1, NULL));
-	if (ft_strchrpos(str, '=') && !str[axu.len_r + 1])
+	if (ft_strchrpos(str, '=') && !str[aux.len_r + 1])
 	{
-		free(axu.val);
-		axu.val = "";
+		aux.eql = TRUE;
+		free(aux.val);
+		aux.val = "";
 	}
 	if (ft_strchrpos(str, '=') == ERROR)
 	{
-		free(axu.val);
-		axu.val = NULL;
+		aux.eql = FALSE;
+		free(aux.val);
+		aux.val = NULL;
 	}
-	if (replace_val(sh->env, axu.var, axu.val))
+	if (replace_val(sh->env, aux.var, aux.val))
 		;
 	else
-		add_var_env(sh, axu.var, axu.val);
+		add_var_env(sh, aux.var, aux.val, aux.eql);
 	return (SUCCESS);
+}
+
+void	print_export(t_env *env)
+{
+	t_env *tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (!tmp->eql && !tmp->val)
+			ft_printf("%s\n", tmp->var);
+		else if (tmp->eql && !tmp->val)
+			ft_printf("%s=\"\"\n", tmp->var);
+		else
+			ft_printf("%s=\"%s\"\n", tmp->var, tmp->val);
+		tmp = tmp->next;
+	}
 }
