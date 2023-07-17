@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 18:20:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:39:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ int	add_var_env(t_mini *sh, char *var, char *val, int eql)
 	return (SUCCESS);
 }
 
+static void	aux_new_var_env(t_mini *shell, t_env *new, char *var)
+{
+	if (ft_strchrpos(var, '=') >= 0)
+		new->eql = TRUE;
+	else
+		new->eql = FALSE;
+	new->next = NULL;
+	if (shell->e_size == 0)
+		shell->env = new;
+	else
+	{
+		new->next = shell->env;
+		shell->env = new;
+	}
+}
+
 int	new_var_env(t_mini *shell, char *var)
 {
 	t_env	*new;
@@ -49,18 +65,7 @@ int	new_var_env(t_mini *shell, char *var)
 	new->val = ft_substr(var, len_r + 1, len_l);
 	if (!new->val)
 		exit (msg_error(E_MEM, 1, NULL));
-	if (ft_strchrpos(var, '=') >= 0)
-		new->eql = TRUE;
-	else
-		new->eql = FALSE;
-	new->next = NULL;
-	if (shell->e_size == 0)
-		shell->env = new;
-	else
-	{
-		new->next = shell->env;
-		shell->env = new;
-	}
+	aux_new_var_env(shell, new, var);
 	shell->e_size++;
 	return (SUCCESS);
 }
