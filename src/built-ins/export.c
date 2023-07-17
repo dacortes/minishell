@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 18:20:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:27:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,21 @@ static int	check_exp_var(char *str)
 	return (SUCCESS);
 }
 
-void	put_value_null(t_axu aux, char *str)
+static void	put_value_null(t_axu *aux, char *str)
 {
-	if (ft_strchrpos(str, '=') && !str[aux.len_r + 1])
+	if (ft_strchrpos(str, '=') && str[aux->len_r + 1])
+		aux->eql = TRUE;
+	if (ft_strchrpos(str, '=') && !str[aux->len_r + 1])
 	{
-		aux.eql = TRUE;
-		free(aux.val);
-		aux.val = "";
+		aux->eql = TRUE;
+		free(aux->val);
+		aux->val = "";
 	}
 	if (ft_strchrpos(str, '=') == ERROR)
 	{
-		aux.eql = FALSE;
-		free(aux.val);
-		aux.val = NULL;
+		aux->eql = FALSE;
+		free(aux->val);
+		aux->val = NULL;
 	}
 }
 
@@ -79,21 +81,7 @@ int	export(t_mini *sh, char *str)
 	aux.val = ft_substr(str, aux.len_r + 1, aux.len_k);
 	if (!aux.var || !aux.val)
 		exit (msg_error(E_MEM, 1, NULL));
-	if (ft_strchrpos(str, '=') && str[aux.len_r + 1])
-		aux.eql = TRUE;
-	if (ft_strchrpos(str, '=') && !str[aux.len_r + 1])
-	{
-		aux.eql = TRUE;
-		free(aux.val);
-		aux.val = "";
-	}
-	if (ft_strchrpos(str, '=') == ERROR)
-	{
-		aux.eql = FALSE;
-		free(aux.val);
-		aux.val = NULL;
-	}
-	// put_value_null(aux, str);
+	put_value_null(&aux, str);
 	if (replace_val(sh->env, aux.var, aux.val, aux.eql))
 		;
 	else
