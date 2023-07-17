@@ -6,11 +6,31 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 13:09:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:38:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
+
+int	add_var_env(t_mini *sh, char *var, char *val, int eql)
+{
+	t_env	*new;
+
+	new = (t_env *)ft_calloc(sizeof(t_env), 1);
+	if (!new)
+		exit (msg_error(E_MEM, 1, NULL));
+	new->var = var;
+	new->val = val;
+	new->eql = eql;
+	new->next = NULL;
+	if (sh->e_size > 0)
+	{
+		new->next = sh->env;
+		sh->env = new;
+	}
+	sh->e_size++;
+	return (SUCCESS);
+}
 
 int	new_var_env(t_mini *shell, char *var)
 {
@@ -29,7 +49,7 @@ int	new_var_env(t_mini *shell, char *var)
 	new->val = ft_substr(var, len_r + 1, len_l);
 	if (!new->val)
 		exit (msg_error(E_MEM, 1, NULL));
-	if (ft_strchrpos(var, '='))
+	if (ft_strchrpos(var, '=') >= 0)
 		new->eql = TRUE;
 	else
 		new->eql = FALSE;
@@ -79,9 +99,15 @@ void	printf_env(t_env *env)
 	while (tmp)
 	{
 		if (tmp->eql && tmp->val)
-			printf("%s=%s\n", tmp->var, tmp->val);
+		{
+			ft_printf("%s=%s\n", tmp->var, tmp->val);
+			ft_printf(Y"tiene igual? %d\n"E, tmp->eql);
+		}
 		else if (tmp->eql && !tmp->val)
-			printf("%s=n", tmp->var);
+		{
+			ft_printf("%s=\n", tmp->var);
+			ft_printf(R"tiene igual? %d\n"E, tmp->eql);
+		}
 		tmp = tmp->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 12:57:18 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:38:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int main(int ac, char **av, char **env)
 		if (ft_strncmp(input, "exit", 4) == 0)
 		{
 			free(input);
-			exit(SUCCESS);
+			exit (SUCCESS);
 		}
 		free(input);
 	}
