@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:07:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/19 17:57:58 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:26:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 /* tenemos que guardar la ubicacion del pwd el actual y el old */
 /* hay que crear un getenv propio para saber puntualmente donde se encuentra*/
 
+/* estoy en test del cd y las variables privadas pwd y oldpwd*/
 int	replace_static(t_env *env, char *var, char *val, int eql)
 {
 	t_env *tmp;
@@ -51,6 +52,12 @@ int	cd(char *path, t_mini **sh)
 		if (getcwd(dir, sizeof(dir)) == NULL)
 			return(msg_error(E_PRR, E_EXIT, "getcwd"));
 		replace_static((*sh)->env, "PWD", dir, TRUE);
+		if (ft_strncmp(dir, (*sh)->dir, -1) != 0)
+		{
+			free((*sh)->old);
+			(*sh)->old = (*sh)->dir;
+			(*sh)->dir = ft_strdup(dir);
+		}
 		ft_printf("%s\n", dir);
 	}
 	else

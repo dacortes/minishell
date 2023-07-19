@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/19 17:58:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:20:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ int	prompt(t_mini **sh, char **input)
 	(*sh)->user = find_var_env((*sh)->env, "USER", KEY);
 	ft_printf(R"%p\n"E, (*sh)->dir);
 	ft_printf(C"%s\n", (*sh)->old);
-	ft_printf(F"%s➜ "C"%s 🗂", (*sh)->user, &ft_strrchr((*sh)->dir, '/')[1]);
+	if (!(*sh)->dir[1])
+		ft_printf(F"%s➜ "C"%s 🗂", (*sh)->user, ft_strrchr((*sh)->dir, '/'));
+	else
+		ft_printf(F"%s➜ "C"%s 🗂", (*sh)->user, &ft_strrchr((*sh)->dir, '/')[1]);
 	*input = readline(O" ᐅ "E);
 	return (SUCCESS);
 }
@@ -61,8 +64,8 @@ int main(int ac, char **av, char **env)
 	while (TRUE)
 	{
 		prompt(&sh, &input);
-		// cd(input, &sh);
-		export(sh, input);
+		cd(input, &sh);
+		// export(sh, input);
 		printf_env(sh->env);
 		if (input[0] != '\0')
 			add_history(input);
