@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 18:49:42 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:21:53 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*find_var_env(t_env *env, char *find, int type)
 	{
 		while (tmp)
 		{
-			if (ft_strncmp(tmp->var, find, ft_strlen(find)) == 0)
+			if (ft_strncmp(tmp->var, find, -1) == 0)
 				return (tmp->var);
 			tmp = tmp->next;
 		}
@@ -88,7 +88,7 @@ char	*find_var_env(t_env *env, char *find, int type)
 	{
 		while (tmp)
 		{
-			if (ft_strncmp(tmp->var, find, ft_strlen(find)) == 0)
+			if (ft_strncmp(tmp->var, find, -1) == 0)
 				return (tmp->val);
 			tmp = tmp->next;
 		}

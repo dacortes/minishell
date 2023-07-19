@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 19:22:49 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/19 17:58:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,31 @@ int	msg_error(int e, int exit_, char *cm)
 	return (exit_);	
 }
 
-int mini_init(t_mini **shell, char **env)
+int mini_init(t_mini **sh, char **env)
 {
 	int	i;
 
 	i = ft_double_ptr_len((void **)env) - 1;
-	*shell = (t_mini *)ft_calloc(sizeof(t_mini), 1);
-	if (!shell)
+	*sh = (t_mini *)ft_calloc(sizeof(t_mini), 1);
+	if (!sh)
 		exit (msg_error(E_MEM, 1, NULL));
-	(*shell)->e_size = 0;
-	(*shell)->env = NULL;
+	(*sh)->e_size = 0;
+	(*sh)->env = NULL;
 	while (env[i])
-		new_var_env(*shell, env[i--]);
-	(*shell)->user = find_var_env((*shell)->env, "USER", KEY);
-	(*shell)->dir = find_var_env((*shell)->env, "PWD", KEY);
-	(*shell)->dir = &(ft_strrchr((*shell)->dir, '/'))[1];
+		new_var_env(*sh, env[i--]);
+	(*sh)->user = find_var_env((*sh)->env, "USER", KEY);
+	(*sh)->dir = ft_strdup(find_var_env((*sh)->env, "PWD", KEY));
+	(*sh)->old = ft_strdup(find_var_env((*sh)->env, "OLDPWD", KEY));
+	return (SUCCESS);
+}
+
+int	prompt(t_mini **sh, char **input)
+{
+	(*sh)->user = find_var_env((*sh)->env, "USER", KEY);
+	ft_printf(R"%p\n"E, (*sh)->dir);
+	ft_printf(C"%s\n", (*sh)->old);
+	ft_printf(F"%s➜ "C"%s 🗂", (*sh)->user, &ft_strrchr((*sh)->dir, '/')[1]);
+	*input = readline(O" ᐅ "E);
 	return (SUCCESS);
 }
 
@@ -44,23 +54,16 @@ int main(int ac, char **av, char **env)
 {
 	(void)ac;
 	(void)av;
-	(void)env;
 	char	*input = NULL;
-	t_mini *shell;
+	t_mini	*sh;
 
-	mini_init(&shell, env);
+	mini_init(&sh, env);
 	while (TRUE)
 	{
-		ft_printf (F"%s➜ "E, shell->user);
-		ft_printf (C"%s 🗂"E, shell->dir);
-		input = readline(O" ᐅ "E);
-		// export(shell, input);
-		// ft_printf(B"El print del env\n"E);
-		// printf_env(shell->env);
-		// ft_printf(G"El print del export\n"E);
-		// print_export(shell->env);
-		cd(input, &shell);
-		printf_env(shell->env);
+		prompt(&sh, &input);
+		// cd(input, &sh);
+		export(sh, input);
+		printf_env(sh->env);
 		if (input[0] != '\0')
 			add_history(input);
 		if (ft_strncmp(input, "exit", 4) == 0)

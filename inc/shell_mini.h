@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 19:24:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:12:52 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_mini
 {
 	int		e_size;
 	char	*user;
+	char	*old;
 	char	*dir;
 	t_env	*env;
 }	t_mini;
