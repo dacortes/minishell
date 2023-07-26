@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dacortes <dacortes@student.42barcelona.    +#+  +:+       +#+         #
+#    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/13 14:36:22 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/26 12:04:43 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ PROGRESS_BAR :=
 #                               SOURCES                                        #
 ################################################################################
 SRC = built-ins/cd.c built-ins/env.c built-ins/export.c built-ins/pwd.c\
-	main.c
+	built-ins/exit.c main.c
 LIBFT = ./lib/libft/
 READL = ./lib/readline/
 L_SRC = ./src

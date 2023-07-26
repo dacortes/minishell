@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/26 11:20:03 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:53:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
+/* test con cd export env exit*/
+/* falta el unset pwd*/
 int main(int ac, char **av, char **env)
 {
 	(void)ac;
@@ -64,17 +66,10 @@ int main(int ac, char **av, char **env)
 	while (TRUE)
 	{
 		prompt(&sh, &input);
-		cd(input, &sh);
-		//export(sh, input);
-		printf_env(sh->env);
-		print_export(sh->env);
+		pwd();
 		if (input[0] != '\0')
 			add_history(input);
-		if (ft_strncmp(input, "exit", 4) == 0)
-		{
-			free(input);
-			exit (SUCCESS);
-		}
+		ft_exit(input);
 		free(input);
 	}
 	return (SUCCESS);

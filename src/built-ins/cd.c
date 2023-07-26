@@ -6,17 +6,12 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:07:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/26 11:37:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/26 12:45:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-/* si el home no tiene nada */
-/* tenemos que guardar la ubicacion del pwd el actual y el old */
-/* hay que crear un getenv propio para saber puntualmente donde se encuentra*/
-
-/* estoy en test del cd y las variables privadas pwd y oldpwd*/
 int	replace_static(t_env *env, char *var, char *val, int eql)
 {
 	t_env *tmp;
@@ -57,6 +52,45 @@ int	replace_oldpwd(t_env *env, char *var, char *val, int eql)
 	return (FALSE);
 }
 
+int	not_path(int *check, char **dir, t_mini **sh)
+{
+		*check = chdir(find_var_env((*sh)->env, "HOME", VAR));
+			return (msg_error(E_NSF, E_EXIT, "chdir"));
+		if (getcwd(*dir, sizeof(*dir)) == NULL)
+			return(msg_error(E_PRR, E_EXIT, "getcwd"));
+		replace_static((*sh)->env, "PWD", *dir, TRUE);
+		if (ft_strncmp(*dir, (*sh)->dir, -1) != 0)
+		{
+			replace_oldpwd((*sh)->env, "OLDPWD", (*sh)->old, TRUE);
+			free((*sh)->old);
+			(*sh)->old = (*sh)->dir;
+			(*sh)->dir = ft_strdup(*dir);
+		}
+		ft_printf("%s\n", dir);
+		return (SUCCESS);
+}
+int	is_path(int *check, char *dir, char *path, t_mini **sh)
+{
+	char *old;
+	
+	*check = chdir(path);
+	if (*check < SUCCESS)
+		return (msg_error(E_NSF, E_EXIT, "chdir"));
+	if (getcwd(dir, sizeof(dir)) == NULL)
+		return(msg_error(E_PRR, E_EXIT, "getcwd"));
+	replace_static((*sh)->env, "PWD", dir, TRUE);
+	if (ft_strncmp(dir, (*sh)->dir, -1) != 0)
+	{
+		replace_oldpwd((*sh)->env, "OLDPWD", (*sh)->old, TRUE);
+		old = (*sh)->old;
+		free((*sh)->old);
+		(*sh)->old = (*sh)->dir;
+		(*sh)->dir = ft_strdup(dir);
+	}
+	ft_printf("%s\n", dir);
+	return (SUCCESS);
+}
+
 int	cd(char *path, t_mini **sh)
 {
 	char	dir[PATH_MAX];
@@ -75,6 +109,7 @@ int	cd(char *path, t_mini **sh)
 		replace_static((*sh)->env, "PWD", dir, TRUE);
 		if (ft_strncmp(dir, (*sh)->dir, -1) != 0)
 		{
+			replace_oldpwd((*sh)->env, "OLDPWD", (*sh)->old, TRUE);
 			free((*sh)->old);
 			(*sh)->old = (*sh)->dir;
 			(*sh)->dir = ft_strdup(dir);
@@ -83,6 +118,7 @@ int	cd(char *path, t_mini **sh)
 	}
 	else
 	{
+		// is_path(&check, dir, path, sh);
 		check = chdir(path);
 		if (check < SUCCESS)
 			return (msg_error(E_NSF, E_EXIT, "chdir"));
