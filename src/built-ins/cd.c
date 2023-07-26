@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:07:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/19 18:26:57 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/26 11:37:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,33 @@ int	replace_static(t_env *env, char *var, char *val, int eql)
 		}
 		tmp = tmp->next;
 	}
-	return (SUCCESS);
+	return (FALSE);
+}
+
+int	replace_oldpwd(t_env *env, char *var, char *val, int eql)
+{
+	t_env *tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->var, var, -1) == 0)
+		{
+			if (ft_strncmp(tmp->val, val, -1) == 0)
+				free(tmp->val);
+			tmp->val = val;
+			tmp->eql = eql;
+			return (TRUE);
+		}
+		tmp = tmp->next;
+	}
+	return (FALSE);
 }
 
 int	cd(char *path, t_mini **sh)
 {
 	char	dir[PATH_MAX];
+	char	*old;
 	int		check;
 
 	check = 0;
@@ -70,6 +91,8 @@ int	cd(char *path, t_mini **sh)
 		replace_static((*sh)->env, "PWD", dir, TRUE);
 		if (ft_strncmp(dir, (*sh)->dir, -1) != 0)
 		{
+			replace_oldpwd((*sh)->env, "OLDPWD", (*sh)->old, TRUE);
+			old = (*sh)->old;
 			free((*sh)->old);
 			(*sh)->old = (*sh)->dir;
 			(*sh)->dir = ft_strdup(dir);
