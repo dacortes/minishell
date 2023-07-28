@@ -6,22 +6,22 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:55:33 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/28 13:32:42 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/28 13:40:47 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-void	magic_mode(t_env *env)
+void	magic_node(t_mini *sh)
 {
 	t_env	*node;
 
-	if (!env)
+	if (!sh->env)
 	{
 		ft_printf(R"No hay nodos\n"E);
 		return ;
 	}
-	node = env;
+	node = sh->env;
 	while (node)
 	{
 		ft_printf(B"node actual➜"E" %p\n", node);
@@ -29,6 +29,7 @@ void	magic_mode(t_env *env)
 		ft_printf(G"node siguente➜"E" %p\n", node);
 		node = node->next;
 	}
+	ft_printf(B"size del env %d\n"E, sh->e_size);
 }
 
 // int	unset(t_env *env, char *var)
@@ -54,7 +55,7 @@ void	magic_mode(t_env *env)
 // 	return (SUCCESS);
 // }
 
-int	unset(t_env **env, char *var)
+int	unset(int *size, t_env **env, char *var)
 {
 	t_env	*rm;
 	t_env	*prev;
@@ -72,6 +73,7 @@ int	unset(t_env **env, char *var)
 			free(rm->var);
 			free(rm->val);
 			free(rm);
+			(*size)--;
 			return (SUCCESS);
 		}
 		prev = rm;

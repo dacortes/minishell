@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/28 13:29:58 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/28 13:40:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ void	print_export(t_env *env);
 /* built-ins/cpwd.c */
 int		pwd(void);
 /* built-ins/unset  */
-int		unset(t_env **env, char *var);
+int		unset(int *size, t_env **env, char *var);
 /* test */
-void	magic_mode(t_env *env);
+void	magic_node(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
 
 #endif

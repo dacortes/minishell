@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/28 13:30:05 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/28 13:40:59 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ int main(int ac, char **av, char **env)
 		{
 			printf_env(sh->env);
 			print_export(sh->env);
-			magic_mode(sh->env);
+			magic_node(sh);
 		}
 		if (ft_strncmp(input, "unset", -1) == 0)
 		{
-			unset(&sh->env, "a");
-			magic_mode(sh->env);
-			//unset(sh->env, "h");
+			unset(&sh->e_size, &sh->env, "a");
+			unset(&sh->e_size, &sh->env, "h");
+			magic_node(sh);
 		}
 		//pwd();
 		if (input[0] != '\0')
