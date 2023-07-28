@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/26 12:53:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:53:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,14 @@ int main(int ac, char **av, char **env)
 	while (TRUE)
 	{
 		prompt(&sh, &input);
-		pwd();
+		if (ft_strncmp(input, "env", -1) == 0)
+		{
+			printf_env(sh->env);
+			print_export(sh->env);
+		}
+		if (ft_strncmp(input, "unset", -1) == 0)
+			unset(sh->env, "a");
+		//pwd();
 		if (input[0] != '\0')
 			add_history(input);
 		ft_exit(input);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:06:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/17 19:15:39 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:54:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	put_value_null(t_axu *aux, char *str)
 	}
 }
 
-int	export(t_mini *sh, char *str)
+int	_export(t_mini *sh, char *str)
 {
 	t_axu	aux;
 

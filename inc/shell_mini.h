@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/26 12:05:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/28 12:54:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,13 @@ void	printf_env(t_env *env);
 int		ft_exit(char *input);
 /* built-ins/export.c */
 int		replace_val(t_env *env, char *var, char *val, int eql);
-int		export(t_mini *sh, char *str);
+int		_export(t_mini *sh, char *str);
 void	print_export(t_env *env);
 /* built-ins/cpwd.c */
 int		pwd(void);
+/* built-ins/unset  */
+int		unset(t_env *env, char *var);
 /* test */
 int		msg_error(int e, int exit_, char *cm);
+
 #endif
