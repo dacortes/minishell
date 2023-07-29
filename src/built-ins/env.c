@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/26 11:18:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/29 15:00:10 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*find_var_env(t_env *env, char *find, int type)
 			tmp = tmp->next;
 		}
 	}
-	else if (type == KEY)
+	else if (type == VAL)
 	{
 		while (tmp)
 		{

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/28 13:40:59 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/29 15:57:36 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ int	msg_error(int e, int exit_, char *cm)
 	return (exit_);	
 }
 
+/* parse input y despues un parse par los comandos */
+/* un token es todo aquell separado por un espacio pipe o algun tipo de redireccion siempre
+y cuando estos no se encuentren entre comillas dobles o simples*/
+// int	token(t_token *tk, char *input)
+// {
+/*ls       "$a| echo -a"$USER-a"'-a$USER' |ls -la .|grep*/
+// 	return (SUCCESS);
+// }
+
 int mini_init(t_mini **sh, char **env)
 {
 	int	i;
@@ -34,15 +43,15 @@ int mini_init(t_mini **sh, char **env)
 	(*sh)->env = NULL;
 	while (env[i])
 		new_var_env(*sh, env[i--]);
-	(*sh)->user = find_var_env((*sh)->env, "USER", KEY);
-	(*sh)->dir = ft_strdup(find_var_env((*sh)->env, "PWD", KEY));
-	(*sh)->old = ft_strdup(find_var_env((*sh)->env, "OLDPWD", KEY));
+	(*sh)->user = find_var_env((*sh)->env, "USER", VAL);
+	(*sh)->dir = ft_strdup(find_var_env((*sh)->env, "PWD", VAL));
+	(*sh)->old = ft_strdup(find_var_env((*sh)->env, "OLDPWD", VAL));
 	return (SUCCESS);
 }
 
 int	prompt(t_mini **sh, char **input)
 {
-	(*sh)->user = find_var_env((*sh)->env, "USER", KEY);
+	(*sh)->user = find_var_env((*sh)->env, "USER", VAL);
 	ft_printf(R"%p\n"E, (*sh)->dir);
 	ft_printf(C"%s\n", (*sh)->old);
 	if (!(*sh)->dir[1])
@@ -54,7 +63,6 @@ int	prompt(t_mini **sh, char **input)
 }
 
 /* test con cd export env exit*/
-/* falta el unset pwd*/
 int main(int ac, char **av, char **env)
 {
 	(void)ac;
@@ -66,6 +74,7 @@ int main(int ac, char **av, char **env)
 	while (TRUE)
 	{
 		prompt(&sh, &input);
+		ft_printf(C"%s\n"E, input);
 		if (ft_strncmp(input, "env", -1) == 0)
 		{
 			printf_env(sh->env);

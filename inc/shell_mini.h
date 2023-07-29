@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/28 13:40:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/29 15:11:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,25 @@
 # define TRUE	 1
 # define ERROR 	-1
 # define E_EXIT  1
+/* Types
+1=pipe
+2=<< >>
+3=txt
+4=file
+5=command
+6=dolar
+7=space
+*/
+# define PP 1
+# define RD 2
+# define TX 3
+# define FL 4
+# define CM 5
+# define DL 6
+# define SP 7
 /* Inputs */
 # define VAR 1
-# define KEY 2
+# define VAL 2
 /* Error */
 # define E_SPC -2
 # define E_ARG 1
@@ -60,6 +76,18 @@ typedef struct s_axu
 	int		len_k;
 }	t_axu;
 
+/* pipe, quotes, double quotes */
+typedef struct s_token
+{
+	int				t_pp;
+	int				t_qu;
+	int				t_dq;
+	int				t_dl;
+	int				type;
+	char			*arg;
+	struct s_token	*next;
+}	t_token;
+
 typedef struct s_env
 {
 	char			*var;
@@ -76,7 +104,6 @@ typedef struct s_mini
 	char	*dir;
 	t_env	*env;
 }	t_mini;
-
 
 // ================================= FUNCTIONS ============================== //
 /* built-ins/cd.c */
