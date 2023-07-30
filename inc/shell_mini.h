@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/30 10:54:12 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/30 11:13:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_env
 
 typedef struct s_parse
 {
+	int		size;
 	t_token	*tk;
 }	t_parse;
 
