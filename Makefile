@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/07/28 12:56:07 by dacortes         ###   ########.fr        #
+#    Updated: 2023/07/30 10:55:24 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ PROGRESS_BAR :=
 #                               SOURCES                                        #
 ################################################################################
 SRC = built-ins/cd.c built-ins/env.c built-ins/export.c built-ins/pwd.c\
-	built-ins/exit.c built-ins/unset.c main.c
+	built-ins/exit.c built-ins/unset.c\
+	parse/tokens.c parse/utils.c main.c
 LIBFT = ./lib/libft/
 READL = ./lib/readline/
 L_SRC = ./src
@@ -71,6 +72,7 @@ dir:
 	make -C $(READL) --no-print-directory &> /dev/null
 	-mkdir  $(D_OBJ)
 	-mkdir	$(D_OBJ)/built-ins
+	-mkdir  $(D_OBJ)/parse
 $(D_OBJ)/%.o:$(L_SRC)/%.c
 	$(CC) -MMD $(FLAGS) -c -D READLINE_LIBRARY=1 $< -o $@ $(INC)
 	$(eval CURRENT_FILE := $(shell echo $$(($(CURRENT_FILE) + 1)))) \

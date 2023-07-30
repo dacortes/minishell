@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/29 15:11:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/30 10:54:12 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 # include <limits.h>
 # include <errno.h>
 // ================================= MACROS ================================= //
+/* Utils */
+# define D_QUOTES	34
+# define QUOTES		39
+# define BLASH		92
 /* Outputs */
 # define SUCCESS 0
 # define FALSE	 0
@@ -79,7 +83,6 @@ typedef struct s_axu
 /* pipe, quotes, double quotes */
 typedef struct s_token
 {
-	int				t_pp;
 	int				t_qu;
 	int				t_dq;
 	int				t_dl;
@@ -95,6 +98,11 @@ typedef struct s_env
 	int				eql;
 	struct s_env	*next;
 }	t_env;
+
+typedef struct s_parse
+{
+	t_token	*tk;
+}	t_parse;
 
 typedef struct s_mini
 {
@@ -123,6 +131,11 @@ void	print_export(t_env *env);
 int		pwd(void);
 /* built-ins/unset  */
 int		unset(int *size, t_env **env, char *var);
+/* parse/tokens */
+int		ft_is_space(int c);
+int		ignore_sp(char *str);
+/* parse/utils */
+int		token(/*t_token *tk, */char *inp);
 /* test */
 void	magic_node(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);

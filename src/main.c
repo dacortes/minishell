@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/29 16:14:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/07/30 10:52:07 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,6 @@ int	msg_error(int e, int exit_, char *cm)
 		perror("mini");
 	return (exit_);	
 }
-
-void	ignore_sp(char *str, int *i)
-{
-	while (str[*i] && (str[*i] == ' ' || (str[*i] >= 9 && str[*i] <= 13)))
-		(*i)++;	
-}
-/* parse input y despues un parse par los comandos */
-/* un token es todo aquell separado por un espacio pipe o algun tipo de redireccion siempre
-y cuando estos no se encuentren entre comillas dobles o simples*/
-// int	token(t_token *tk, char *input)
-// {
-/*ls       "$a| echo -a"$USER-a"'-a$USER' |ls -la .|grep*/
-// 	return (SUCCESS);
-// }
 
 int mini_init(t_mini **sh, char **env)
 {
@@ -57,8 +43,6 @@ int mini_init(t_mini **sh, char **env)
 int	prompt(t_mini **sh, char **input)
 {
 	(*sh)->user = find_var_env((*sh)->env, "USER", VAL);
-	ft_printf(R"%p\n"E, (*sh)->dir);
-	ft_printf(C"%s\n", (*sh)->old);
 	if (!(*sh)->dir[1])
 		ft_printf(F"%s➜ "C"%s 🗂", (*sh)->user, ft_strrchr((*sh)->dir, '/'));
 	else
@@ -79,7 +63,7 @@ int main(int ac, char **av, char **env)
 	while (TRUE)
 	{
 		prompt(&sh, &input);
-		ft_printf(C"%s\n"E, input);
+		token(input);
 		if (ft_strncmp(input, "env", -1) == 0)
 		{
 			printf_env(sh->env);
