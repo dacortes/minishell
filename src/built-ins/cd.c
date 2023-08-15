@@ -6,12 +6,14 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:07:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/26 12:45:57 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:16:42 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
+/* error cuando se hace primero el env y despues dos cd .. libera memoria 
+donde no deberia */
 int	replace_static(t_env *env, char *var, char *val, int eql)
 {
 	t_env *tmp;
@@ -118,13 +120,13 @@ int	cd(char *path, t_mini **sh)
 	}
 	else
 	{
-		// is_path(&check, dir, path, sh);
 		check = chdir(path);
 		if (check < SUCCESS)
 			return (msg_error(E_NSF, E_EXIT, "chdir"));
 		if (getcwd(dir, sizeof(dir)) == NULL)
 			return(msg_error(E_PRR, E_EXIT, "getcwd"));
 		replace_static((*sh)->env, "PWD", dir, TRUE);
+		ft_printf(C"%s\n"E, find_var_env((*sh)->env, "PWD", VAL));
 		if (ft_strncmp(dir, (*sh)->dir, -1) != 0)
 		{
 			replace_oldpwd((*sh)->env, "OLDPWD", (*sh)->old, TRUE);

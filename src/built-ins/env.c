@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:45:03 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/29 15:00:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:14:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	printf_env(t_env *env)
 			ft_printf("%s=%s\n", tmp->var, tmp->val);
 		else if (tmp->eql && !tmp->val)
 			ft_printf("%s=\n", tmp->var);
+		//ft_printf("%s\n", find_var_env(env, "PWD", VAL));
 		tmp = tmp->next;
 	}
 }

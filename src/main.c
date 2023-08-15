@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/30 10:52:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:10:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,15 @@ int main(int ac, char **av, char **env)
 		if (ft_strncmp(input, "env", -1) == 0)
 		{
 			printf_env(sh->env);
-			print_export(sh->env);
-			magic_node(sh);
+			//print_export(sh->env);
 		}
 		if (ft_strncmp(input, "unset", -1) == 0)
 		{
 			unset(&sh->e_size, &sh->env, "a");
 			unset(&sh->e_size, &sh->env, "h");
-			magic_node(sh);
 		}
-		//pwd();
+		if (ft_strncmp(input, "cd ..", -1) == 0)
+			cd("..", &sh);
 		if (input[0] != '\0')
 			add_history(input);
 		ft_exit(input);
