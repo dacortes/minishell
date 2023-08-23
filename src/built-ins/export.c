@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:24 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 16:37:06 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:14:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static int	check_key(char *inp)
 {
 	int	i;
 
-	if (!ft_isalpha(inp[0]) && inp[0] != '_')
+	if (!ft_isalpha(inp[0]) || inp[0] != '_')
 		return (TRUE);
 	i = 1;
 	while (inp[i] && inp[i] != '=')
 	{
-		if (!ft_isalnum(inp[i]) || !ft_isalpha(inp[i]))
+		if (!ft_isalnum(inp[i]) && !ft_isalpha(inp[i]) && inp[i] != '_')
 			return (TRUE);
 		i++;
 	}
@@ -60,7 +60,7 @@ static void	put_value_null(t_aux *tmp, char *inp)
 	else if (!tmp->eql)
 	{
 		free(tmp->_val);
-				tmp->_val = ft_strdup("");
+		tmp->_val = ft_strdup("");
 		if (!tmp->_val)
 			exit (msg_error(E_MEM, 1, NULL));
 	}
@@ -68,10 +68,13 @@ static void	put_value_null(t_aux *tmp, char *inp)
 
 int	_export(t_mini *sh, char *inp)
 {
-	t_aux tmp;
+	t_aux	tmp;
 
 	if (check_key(inp))
+	{
+		ft_printf(Y"Estoy aqui\n"E);
 		return (msg_error(E_EXP, 1, inp));
+	}
 	tmp.eql = (ft_strchrpos(inp, '=') >= 0);
 	tmp.key = ft_strchrpos(inp, '=');
 	tmp.val = (ft_strlen(inp) - tmp.key);
