@@ -6,13 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:24 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 16:22:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:37:06 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-int	check_key(char *inp)
+static int	check_key(char *inp)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ int	check_key(char *inp)
 	return (SUCCESS);
 }
 
-int	is_it_replaceable(t_env *env, t_aux tmp)
+static int	is_it_replaceable(t_env *env, t_aux tmp)
 {
 	t_env	*find;
 
@@ -48,7 +48,7 @@ int	is_it_replaceable(t_env *env, t_aux tmp)
 	return (FALSE);
 }
 
-void	put_value_null(t_aux *tmp, char *inp)
+static void	put_value_null(t_aux *tmp, char *inp)
 {
 	if (tmp->eql && !inp[tmp->key + 1])
 	{
@@ -87,4 +87,21 @@ int	_export(t_mini *sh, char *inp)
 	free(tmp._key);
 	free(tmp._val);
 	return (SUCCESS);
+}
+
+void	show_export(t_env *env)
+{
+	t_env	*show;
+
+	show = env;
+	while (show)
+	{
+		if (!show->eql)
+			ft_printf("declare -x %s\n", show->key);
+		else if (show->eql && !show->val[0])
+			ft_printf("declare -x %s=\"\"\n", show->key);
+		else
+			ft_printf("declare -x %s=\"%s\"\n", show->key, show->val);
+		show = show->next;
+	}
 }

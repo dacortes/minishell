@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 15:41:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:37:28 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(int ac, char **av, char **env)
 		{
 			ft_printf(R"input"E"=%s\n", input);
 			_export(sh, ft_strchr(input, 'a'));
-			_env(sh->env);
+			show_export(sh->env);
 		}
 		if (ft_strncmp(input, "exit", -1) == 0)
 		{

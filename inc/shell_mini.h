@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 15:05:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:37:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,10 @@ void	_env(t_env *env);
 int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
 /* built-ins/export.c */
-int	_export(t_mini *sh, char *inp);
+void	show_export(t_env *env);
+int		_export(t_mini *sh, char *inp);
 /* test */
-void	magic_node(t_mini *sh);
+int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
 
 #endif
