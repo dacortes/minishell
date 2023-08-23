@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 12:48:02 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:26:30 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ int	main(int ac, char **av, char **env)
 		exit (msg_error(E_MEM, 1, NULL));
 	sh->env = NULL;
 	init_env(sh, env);
+	_export(sh, "_a=");
+	_env(sh->env);
+	_export(sh, "_a=20");
 	_env(sh->env);
 	clear(sh);
 	return (SUCCESS);

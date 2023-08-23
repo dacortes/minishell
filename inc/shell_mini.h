@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 12:30:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:05:24 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@
 # define O "\033[38;5;208m" //orange
 # define F "\033[38;5;128m"  //purple
 // ================================= STRUCTURES ============================= //
-typedef struct s_axu
+typedef struct s_aux
 {
-	char	*var;
-	char	*val;
+	int		key;
+	int		val;
 	int		eql;
-	int		len_r;
-	int		len_k;
-}	t_axu;
+	char	*_key;
+	char	*_val;
+}	t_aux;
 
 /* pipe, quotes, double quotes */
 typedef struct s_token
@@ -120,6 +120,8 @@ typedef struct s_mini
 void	_env(t_env *env);
 int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
+/* built-ins/export.c */
+int	_export(t_mini *sh, char *inp);
 /* test */
 void	magic_node(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
