@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:24 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 15:28:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:54:59 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ int	is_it_replaceable(t_env *env, t_aux tmp)
 
 void	put_value_null(t_aux *tmp, char *inp)
 {
-	if (tmp->eql && !inp[tmp->val + 1])
+	if (tmp->eql && !inp[tmp->key + 1])
 	{
+		ft_printf(R"_val%s--->%p\n"E, tmp->_val, tmp->_val);
 		free(tmp->_val);
 		tmp->_val = ft_strdup("");
 		if (!tmp->_val)
@@ -60,7 +61,9 @@ void	put_value_null(t_aux *tmp, char *inp)
 	else if (!tmp->eql)
 	{
 		free(tmp->_val);
-		tmp->_val = NULL;
+				tmp->_val = ft_strdup("");
+		if (!tmp->_val)
+			exit (msg_error(E_MEM, 1, NULL));
 	}
 }
 
@@ -76,9 +79,9 @@ int	_export(t_mini *sh, char *inp)
 	tmp.val = (ft_strlen(inp) - tmp.key);
 	tmp._key = ft_substr(inp, 0, tmp.key);
 	tmp._val = ft_substr(inp, tmp.key + 1, tmp.val);
-	put_value_null(&tmp, inp);
 	if (!tmp._key || !tmp._val)
 		exit (msg_error(E_MEM, 1, NULL));
+	put_value_null(&tmp, inp);
 	if (is_it_replaceable(sh->env, tmp))
 		;
 	else

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 15:26:30 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:41:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,31 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	t_mini *sh;
 
+	char *input = NULL;
 	sh = ft_calloc(sizeof(t_mini), 1);
 	if (!sh)
 		exit (msg_error(E_MEM, 1, NULL));
 	sh->env = NULL;
 	init_env(sh, env);
-	_export(sh, "_a=");
-	_env(sh->env);
-	_export(sh, "_a=20");
-	_env(sh->env);
+	while (TRUE)
+	{
+		input = readline(O"ᐅ"E);
+		ft_printf(R"input"E"=%p\n", input);
+		if (ft_strncmp(input, "export", 6) == 0)
+		{
+			ft_printf(R"input"E"=%s\n", input);
+			_export(sh, ft_strchr(input, 'a'));
+			_env(sh->env);
+		}
+		if (ft_strncmp(input, "exit", -1) == 0)
+		{
+			free(input);
+			break ;
+		}
+		if (input[0] != '\0')
+			add_history(input);
+		free(input);
+	}
 	clear(sh);
 	return (SUCCESS);
 }
