@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/07/30 11:13:18 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 10:22:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_token
 
 typedef struct s_env
 {
+	char			*key;
 	char			*var;
 	char			*val;
 	int				eql;
@@ -107,7 +108,7 @@ typedef struct s_parse
 
 typedef struct s_mini
 {
-	int		e_size;
+	int		size;
 	char	*user;
 	char	*old;
 	char	*dir;
@@ -115,28 +116,11 @@ typedef struct s_mini
 }	t_mini;
 
 // ================================= FUNCTIONS ============================== //
-/* built-ins/cd.c */
-int		cd(char *path, t_mini **sh);
-/* built-ins/env */
-int		add_var_env(t_mini *sh, char *var, char *val, int eql);
-int		new_var_env(t_mini *shell, char *var);
-char	*find_var_env(t_env *env, char *find, int type);
-void	printf_env(t_env *env);
-/* buuild-ins/exit.c */
-int		ft_exit(char *input);
-/* built-ins/export.c */
-int		replace_val(t_env *env, char *var, char *val, int eql);
-int		_export(t_mini *sh, char *str);
-void	print_export(t_env *env);
-/* built-ins/cpwd.c */
-int		pwd(void);
-/* built-ins/unset  */
-int		unset(int *size, t_env **env, char *var);
-/* parse/tokens */
-int		ft_is_space(int c);
-int		ignore_sp(char *str);
-/* parse/utils */
-int		token(/*t_token *tk, */char *inp);
+
+/* built-ins/env.c */
+void	show_env(t_env *env);
+int		init_env(t_mini *sh, char **env);
+int		add_key(t_mini *sh, char *key, char *val, int eql);
 /* test */
 void	magic_node(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
