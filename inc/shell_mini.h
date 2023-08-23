@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 10:22:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:30:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct s_token
 typedef struct s_env
 {
 	char			*key;
-	char			*var;
 	char			*val;
 	int				eql;
 	struct s_env	*next;
@@ -118,7 +117,7 @@ typedef struct s_mini
 // ================================= FUNCTIONS ============================== //
 
 /* built-ins/env.c */
-void	show_env(t_env *env);
+void	_env(t_env *env);
 int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
 /* test */
