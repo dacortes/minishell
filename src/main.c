@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 16:37:28 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/24 10:55:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,36 @@ int	clear(t_mini *sh)
 		rm = rm->next;
 		free(tmp);
 	}
+	if (sh->dir)
+		free(sh->dir);
+	if (sh->old)
+		free(sh->old);
 	free(sh);
+	return (SUCCESS);
+}
+
+int	mini_init(t_mini **sh, char **env)
+{
+	*sh = (t_mini *)ft_calloc(sizeof(t_mini), 1);
+	if (!sh)
+		exit (msg_error(E_MEM, 1, NULL));
+	(*sh)->size = 0;
+	(*sh)->env = NULL;
+	init_env(*sh, env);
+	(*sh)->user = search_env((*sh)->env, "USER", VAL);
+	(*sh)->dir = ft_strdup(search_env((*sh)->env, "PWD", VAL));
+	(*sh)->old = ft_strdup(search_env((*sh)->env, "OLDPWD", VAL));
+	return (SUCCESS);
+}
+
+int	prompt(t_mini **sh, char **input)
+{
+	(*sh)->user = search_env((*sh)->env, "USER", VAL);
+	if (!(*sh)->dir[1])
+		ft_printf(F"%s➜ "C"%s 🗂 ", (*sh)->user, ft_strrchr((*sh)->dir, '/'));
+	else
+		ft_printf(F"%s➜ "C"%s 🗂 ", (*sh)->user, &ft_strrchr((*sh)->dir, '/')[1]);
+	*input = readline(O" ᐅ "E);
 	return (SUCCESS);
 }
 
@@ -52,19 +81,14 @@ int	main(int ac, char **av, char **env)
 	t_mini *sh;
 
 	char *input = NULL;
-	sh = ft_calloc(sizeof(t_mini), 1);
-	if (!sh)
-		exit (msg_error(E_MEM, 1, NULL));
-	sh->env = NULL;
-	init_env(sh, env);
+	mini_init(&sh, env);
 	while (TRUE)
 	{
-		input = readline(O"ᐅ"E);
-		ft_printf(R"input"E"=%p\n", input);
+		prompt(&sh, &input);
 		if (ft_strncmp(input, "export", 6) == 0)
 		{
 			ft_printf(R"input"E"=%s\n", input);
-			_export(sh, ft_strchr(input, 'a'));
+			_export(sh, "f_a=20"/*ft_strchr(input, 'a')*/);
 			show_export(sh->env);
 		}
 		if (ft_strncmp(input, "exit", -1) == 0)

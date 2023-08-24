@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:24 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 17:14:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/24 10:51:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,19 @@ static int	check_key(char *inp)
 {
 	int	i;
 
-	if (!ft_isalpha(inp[0]) || inp[0] != '_')
+	if (!ft_isalpha(inp[0]) && inp[0] != '_')
+	{
+		ft_printf(Y"estoy aqui\n"E);
 		return (TRUE);
+	}
 	i = 1;
 	while (inp[i] && inp[i] != '=')
 	{
 		if (!ft_isalnum(inp[i]) && !ft_isalpha(inp[i]) && inp[i] != '_')
+		{
+			ft_printf(Y"estoy aqui\n"E);
 			return (TRUE);
+		}
 		i++;
 	}
 	return (SUCCESS);
@@ -71,8 +77,7 @@ int	_export(t_mini *sh, char *inp)
 	t_aux	tmp;
 
 	if (check_key(inp))
-	{
-		ft_printf(Y"Estoy aqui\n"E);
+	{ft_printf(Y"estoy aqui\n"E);
 		return (msg_error(E_EXP, 1, inp));
 	}
 	tmp.eql = (ft_strchrpos(inp, '=') >= 0);

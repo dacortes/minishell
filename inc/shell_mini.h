@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 16:37:19 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/24 10:43:34 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
 # define DL 6
 # define SP 7
 /* Inputs */
-# define VAR 1
+# define KEY 1
 # define VAL 2
 /* Error */
 # define E_SPC -2
@@ -116,13 +116,15 @@ typedef struct s_mini
 
 // ================================= FUNCTIONS ============================== //
 
-/* built-ins/env.c */
+/* src/built-ins/env.c */
 void	_env(t_env *env);
 int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
-/* built-ins/export.c */
+/* src/built-ins/export.c */
 void	show_export(t_env *env);
 int		_export(t_mini *sh, char *inp);
+/* scr/utils.c */
+char	*search_env(t_env *env, char *key, int type);
 /* test */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
