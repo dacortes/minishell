@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/24 10:43:34 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:02:22 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,9 @@
 # define TRUE	 1
 # define ERROR 	-1
 # define E_EXIT  1
-/* Types
-1=pipe
-2=<< >>
-3=txt
-4=file
-5=command
-6=dolar
-7=space
-*/
-# define PP 1
-# define RD 2
-# define TX 3
-# define FL 4
-# define CM 5
-# define DL 6
-# define SP 7
+/* tokens types */
+# define T_EXP 1
+# define T_TXT 2
 /* Inputs */
 # define KEY 1
 # define VAL 2
@@ -83,13 +70,18 @@ typedef struct s_aux
 /* pipe, quotes, double quotes */
 typedef struct s_token
 {
-	int				t_qu;
-	int				t_dq;
-	int				t_dl;
 	int				type;
 	char			*arg;
 	struct s_token	*next;
 }	t_token;
+
+/* get_cmd*/
+typedef struct s_cmd
+{
+	int		type;
+	char	*cmd;
+	char	*arg;
+}	t_cmd;
 
 typedef struct s_env
 {
@@ -98,12 +90,6 @@ typedef struct s_env
 	int				eql;
 	struct s_env	*next;
 }	t_env;
-
-typedef struct s_parse
-{
-	int		size;
-	t_token	*tk;
-}	t_parse;
 
 typedef struct s_mini
 {
@@ -124,6 +110,7 @@ int		add_key(t_mini *sh, char *key, char *val, int eql);
 void	show_export(t_env *env);
 int		_export(t_mini *sh, char *inp);
 /* scr/utils.c */
+int		is_close(char *str, char delimiter);
 char	*search_env(t_env *env, char *key, int type);
 /* test */
 int		clear(t_mini *sh);

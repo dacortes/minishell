@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:24 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/24 10:51:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:29:11 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,12 @@ static int	check_key(char *inp)
 	int	i;
 
 	if (!ft_isalpha(inp[0]) && inp[0] != '_')
-	{
-		ft_printf(Y"estoy aqui\n"E);
 		return (TRUE);
-	}
 	i = 1;
 	while (inp[i] && inp[i] != '=')
 	{
 		if (!ft_isalnum(inp[i]) && !ft_isalpha(inp[i]) && inp[i] != '_')
-		{
-			ft_printf(Y"estoy aqui\n"E);
 			return (TRUE);
-		}
 		i++;
 	}
 	return (SUCCESS);

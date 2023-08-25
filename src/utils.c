@@ -6,11 +6,39 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:25:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/24 10:43:18 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/24 12:13:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/shell_mini.h"
+
+int	is_close(char *str, char delimiter)
+{
+	int	del;
+	int	i;
+
+	del = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == delimiter)
+			del++;
+		else if (str[i] == delimiter && del % 2 == 0)
+		{
+			while (str[i])
+			{
+				i++;
+				if (str[i] == delimiter)
+				{
+					del++;
+					break ;
+				}
+			}
+		}
+		i++;
+	}
+	return (del % 2 == 0);
+}
 
 char	*search_env(t_env *env, char *key, int type)
 {
