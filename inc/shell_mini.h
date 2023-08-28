@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/28 11:43:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:28:18 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ typedef struct s_mini
 
 // ================================= FUNCTIONS ============================== //
 
+/* src/built-ins/unset.c*/
+int	unset(int *size, t_env **env, char *key);
 /* src/built-ins/env.c */
 void	_env(t_env *env);
 int		init_env(t_mini *sh, char **env);

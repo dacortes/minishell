@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/28 11:46:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:26:26 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,11 @@ int	main(int ac, char **av, char **env)
 		{
 			free(inp);
 			break ;
+		}
+		if (ft_strncmp(inp, "unset", -1) == 0)
+		{
+			unset(&sh->size, &sh->env, inp);
+			break;
 		}
 		if (inp[0] != '\0')
 			add_history(inp);
