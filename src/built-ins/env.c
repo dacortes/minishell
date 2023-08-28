@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:14 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/23 15:05:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:06:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	add_key(t_mini *sh, char *key, char *val, int eql)
 		exit (msg_error(E_MEM, 1, NULL));
 	new->key = ft_strdup((const char *)key);
 	new->val = ft_strdup((const char *)val);
+	if (!new->key || !new->val)
+		exit (msg_error(E_MEM, 1, NULL));
 	new->eql = eql;
 	new->next = sh->env;
 	sh->env = new;

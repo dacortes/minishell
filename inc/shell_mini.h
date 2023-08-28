@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/24 15:02:22 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:43:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@
 # include <errno.h>
 // ================================= MACROS ================================= //
 /* Utils */
-# define D_QUOTES	34
-# define QUOTES		39
-# define BLASH		92
+# define DQU	34
+# define QUO	39
+# define RDE	60
+# define RDS	62
 /* Outputs */
 # define SUCCESS 0
 # define FALSE	 0
@@ -112,6 +113,9 @@ int		_export(t_mini *sh, char *inp);
 /* scr/utils.c */
 int		is_close(char *str, char delimiter);
 char	*search_env(t_env *env, char *key, int type);
+/* parse/token.c test */
+// int		token(char *inp, int *e);
+int		token(char *inp);
 /* test */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);

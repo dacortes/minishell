@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:24 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/24 11:29:11 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:07:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static int	is_it_replaceable(t_env *env, t_aux tmp)
 			if (find->val)
 				free(find->val);
 			find->val = ft_strdup(tmp._val);
+			if (!find->val)
+				exit (msg_error(E_MEM, 1, NULL));
 			find->eql = tmp.eql;
 			return (TRUE);
 		}
