@@ -6,7 +6,7 @@
 /*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 11:08:32 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:31:44 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,6 @@ int	main(int ac, char **av, char **env)
 	{
 		prompt(&sh, &inp);
 		init_tk(inp);
-		if (ft_strncmp(inp, "exit", -1) == 0)
-		{
-			free(inp);
-			break ;
-		}
 		if (ft_strncmp(inp, "unset", -1) == 0)
 			unset(&sh->size, &sh->env, inp);
 		if (ft_strncmp(inp, "pwd", 3) == 0)
@@ -114,6 +109,8 @@ int	main(int ac, char **av, char **env)
 			_env(sh->env);
 		if (ft_strncmp(inp, "cd", 2) == 0)
 			cd(inp + 3, &sh);
+		if (ft_strncmp(inp, "exit", 4) == 0)
+			ft_exit(inp);
 		if (inp[0] != '\0')
 			add_history(inp);
 		free(inp);

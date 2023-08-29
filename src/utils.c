@@ -6,7 +6,7 @@
 /*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:25:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 11:10:07 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:52:04 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*ft_strdup_exit(const char *s1)
 	char	*cp;
 
 	cp = (char *)malloc(ft_strlen(s1) + 1);
-	if (!cd)
+	if (!cp)
 		exit (msg_error(E_MEM, E_EXIT, "ft_strdup"));
 	ft_memcpy(cp, s1, ft_strlen(s1) + 1);
 	return (cp);

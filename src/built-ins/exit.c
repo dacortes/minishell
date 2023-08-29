@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:18 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/22 14:05:19 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:56:53 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../inc/shell_mini.h"
+
+void ft_exit(char *input)
+{
+	int inp = ft_atoi(&input[5]);
+	exit (inp);
+}
