@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 15:31:44 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:19:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,6 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
-int	init_tk(/*t_token **tk,*/ char *inp)
-{
-	int end;
-
-	end = -1;
-	// *tk = NULL;
-	// while (inp[++end])
-	// 	token(inp, &end);
-	ft_printf("Estamos con comillas ? %i\n", token(inp));
-	return (SUCCESS);
-}
-
-
 int	main(int ac, char **av, char **env)
 {
 	(void)ac;
@@ -100,7 +87,7 @@ int	main(int ac, char **av, char **env)
 	while (TRUE)
 	{
 		prompt(&sh, &inp);
-		init_tk(inp);
+		init_ln(inp);
 		if (ft_strncmp(inp, "unset", -1) == 0)
 			unset(&sh->size, &sh->env, inp);
 		if (ft_strncmp(inp, "pwd", 3) == 0)

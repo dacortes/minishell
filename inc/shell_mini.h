@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 14:55:01 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:18:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,13 @@
 // ================================= STRUCTURES ============================= //
 typedef struct s_aux
 {
+	int		i;
+	int		j;
 	int		key;
 	int		val;
 	int		eql;
+	int		in_qu;
+	char	*tmp;
 	char	*_key;
 	char	*_val;
 }	t_aux;
@@ -75,14 +79,14 @@ typedef struct s_token
 	char			*arg;
 	struct s_token	*next;
 }	t_token;
-
-/* get_cmd*/
-typedef struct s_cmd
+/* line to pipe */
+typedef	struct s_line
 {
-	int		type;
-	char	*cmd;
-	char	*arg;
-}	t_cmd;
+	int				argc;
+	char			**argv;
+	char			*line;
+	struct s_line	*next;
+}	t_line;
 
 typedef struct s_env
 {
@@ -122,9 +126,11 @@ int		_export(t_mini *sh, char *inp);
 int		is_close(char *str, char delimiter);
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
+/* parse/line.c test */
+int		add_line(t_line **ln, char *line);
+int		init_ln(char *inp);
 /* parse/token.c test */
-// int		token(char *inp, int *e);
-int		token(char *inp);
+int		init_tk(/*t_token **tk,*/ char *inp);
 /* test */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);

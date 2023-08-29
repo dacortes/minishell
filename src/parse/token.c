@@ -6,9 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/28 11:52:42 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:22:23 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../inc/shell_mini.h"
 
 #include "../../inc/shell_mini.h"
 
@@ -30,53 +32,42 @@ int	add_token(t_token *tk, char *arg, int type)
 	return (SUCCESS);
 }
 
-// int	token(char *inp)
-// {
-// 	t_token	tk;
-// 	char	del;
-
-// 	del = ' ';
-// 	int i = 0;
-// 	int	e = 0;
-// 	while (inp[i] && inp[i] == ' ')
-// 		i++;
-// 	del = ' ' + ((inp[i] == D_QUOTES) * 2) + ((inp[i] == QUOTES) * 7);
-// 	i += (inp[i] == D_QUOTES) || (inp[i] == QUOTES);
-// 	e = i;
-// 	while(inp[e] && inp[e] != del)
-// 	{
-// 		if (inp[e] == D_QUOTES || inp[e] == QUOTES)
-// 			break ;
-// 		e++;
-// 	}
-// 	e -= (inp[e] == del);
-// 	ft_printf(Y"la e:%i, %c\n"E, e, del, inp[e] == del);
-// 	tk.arg = ft_substr(inp, i, e);
-// 	ft_printf(R"del=%i arg=%s# init=%i end=%i \n"E, del, tk.arg, i, e);
-// 	free(tk.arg);
-// 	return (SUCCESS);
-// }
-
-int	token(char *inp)
+/* test token txt*/
+int	init_tk(/*t_token **tk,*/ char *inp)
 {
-	int	dq;
-	int	qu;
-	int	i;
+	int i;
+	char	*txt;
+	char	*cmd;
 
-	1 && (i = -1) && (dq = 0) && (qu = 0);
-	while(inp[++i])
+	i = 0;
+	while (inp[i])
 	{
 		if (inp[i] == DQU)
 		{
-			ft_printf(R"estoy qui\n"E);
-			dq++;
+			i++;
+			ft_printf("soy una comilla\n");
+			txt = ft_difcpy(inp, DQU, &i);
+			i += (inp[i] == DQU);
+			ft_printf(Y"->%s<-\n"E, txt);
+			free(txt);
 		}
 		else if (inp[i] == QUO)
 		{
-			ft_printf(B"estoy qui\n"E);
-			qu++;
+			i++;
+			ft_printf("soy una comilla\n");
+			txt = ft_difcpy(inp, QUO, &i);
+			i += (inp[i] == QUO);
+			ft_printf(F"->%s<-\n"E, txt);
+			free(txt);
 		}
+		else
+		{
+			cmd = ft_difcpy(inp, ' ', &i);
+			ft_printf(C"->%s<-\n"E, cmd);
+			free(cmd);
+		}
+		ft_printf(B"%i\n"E, i);
+		i++;
 	}
-	ft_printf("%d\n", i);
-	return (((dq % 2 == 1) * DQU) + ((qu % 2 == 1) * QUO));
+	return (SUCCESS);
 }
