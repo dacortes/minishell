@@ -6,7 +6,7 @@
 /*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/28 15:17:14 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:06:54 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ typedef struct s_mini
 int	unset(int *size, t_env **env, char *key);
 /* src/built-ins/pwd.c */
 int	pwd(void);
+/* src/built-ins/cd.c */
+int	cd(char *path, t_mini **sh);
 /* src/built-ins/env.c */
 void	_env(t_env *env);
 int		init_env(t_mini *sh, char **env);
@@ -117,6 +119,7 @@ int		_export(t_mini *sh, char *inp);
 /* scr/utils.c */
 int		is_close(char *str, char delimiter);
 char	*search_env(t_env *env, char *key, int type);
+char	*ft_strdup_exit(const char *s1);
 /* parse/token.c test */
 // int		token(char *inp, int *e);
 int		token(char *inp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:25:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/24 12:13:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:10:07 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,15 @@ char	*search_env(t_env *env, char *key, int type)
 		}
 	}
 	return (NULL);
+}
+
+char	*ft_strdup_exit(const char *s1)
+{
+	char	*cp;
+
+	cp = (char *)malloc(ft_strlen(s1) + 1);
+	if (!cd)
+		exit (msg_error(E_MEM, E_EXIT, "ft_strdup"));
+	ft_memcpy(cp, s1, ft_strlen(s1) + 1);
+	return (cp);
 }
