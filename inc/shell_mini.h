@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 18:18:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:49:09 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_aux
 typedef struct s_token
 {
 	int				type;
+	int				ac;
 	char			*arg;
 	struct s_token	*next;
 }	t_token;
@@ -83,8 +84,8 @@ typedef struct s_token
 typedef	struct s_line
 {
 	int				argc;
-	char			**argv;
 	char			*line;
+	t_token			*tk;
 	struct s_line	*next;
 }	t_line;
 
@@ -127,10 +128,11 @@ int		is_close(char *str, char delimiter);
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
 /* parse/line.c test */
-int		add_line(t_line **ln, char *line);
+int		add_line(t_line **ln);
 int		init_ln(char *inp);
 /* parse/token.c test */
 int		init_tk(/*t_token **tk,*/ char *inp);
+int		add_token(t_token **tk, char *arg, int type);
 /* test */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:18 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 15:56:53 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:03:24 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 void ft_exit(char *input)
 {
 	int inp = ft_atoi(&input[5]);
+	clear_history();
 	exit (inp);
 }

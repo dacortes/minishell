@@ -6,17 +6,15 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 18:22:23 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:48:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-#include "../../inc/shell_mini.h"
-
 /* test */
 
-int	add_token(t_token *tk, char *arg, int type)
+int	add_token(t_token **tk, char *arg, int type)
 {
 	t_token *new;
 
@@ -27,8 +25,8 @@ int	add_token(t_token *tk, char *arg, int type)
 	if (!new->arg)
 		exit (msg_error(E_MEM, 1, NULL));
 	new->type = type;
-	new->next = tk;
-	tk = new;
+	new->next = *tk;
+	*tk = new;
 	return (SUCCESS);
 }
 

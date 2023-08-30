@@ -5,169 +5,141 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/29 18:15:28 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 18:18:17 by dacortes         ###   ########.fr       */
+/*   Created: 2023/08/30 10:34:21 by dacortes          #+#    #+#             */
+/*   Updated: 2023/08/30 16:52:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-int	add_line(t_line **ln, char *inp)
-{
-	t_line *new;
-
-	new = ft_calloc(sizeof(t_token), 1);
-	if (!new)
-		exit (msg_error(E_MEM, 1, NULL));
-	new->line = ft_strdup(inp);
-	if (!new->line)
-		exit (msg_error(E_MEM, 1, NULL));
-	new->next = *ln;
-	*ln = new;
-	return (SUCCESS);
-}
-
 int	clear_ln(t_line *ln)
 {
+	ft_printf(Y"estoy aqui\n"E);
 	t_line	*rm;
 	t_line	*tmp;
+	t_token *del_tk;
+	t_token	*tmp_tk;
 
 	rm = ln;
+	del_tk = ln->tk;
 	while (rm)
 	{
+		ft_printf(C"estoy aqui\n"E);
 		tmp = rm;
-		if (rm->line)
-			free(rm->line);
+		while (del_tk)
+		{
+			ft_printf(F"estoy aqui\n"E);
+			tmp_tk = del_tk;
+			if (del_tk->arg)
+				free(del_tk->arg);
+			del_tk = del_tk->next;
+			free(tmp_tk);
+		}
 		rm = rm->next;
 		free(tmp);
 	}
 	return (SUCCESS);
 }
 
+void	show_tk(t_token *tk)
+{
+	t_token *tmp;
+
+	tmp = tk;
+	while (tmp)
+	{
+		ft_printf(G"%s\n"E, tk->arg);
+		tmp = tmp->next;
+	}
+}
 void	show_ln(t_line *ln)
 {
-	t_line	*tmp;
+	t_line *tmp;
 
 	tmp = ln;
 	while (tmp)
 	{
-		ft_printf(R"*%s*\n"E, tmp->line);
+		show_tk(ln->tk);
 		tmp = tmp->next;
 	}
 }
 
-// int	init_ln(char *inp)
-// {
-// 	t_line	*ln;
-// 	char	*tmp;
-// 	int		i;
-// 	int		in_qu;
-// 	int		x;
-
-// 	ln = NULL;
-// 	i = 0;
-// 	x = 0;
-// 	in_qu = 0;
-// 	tmp = NULL;
-// 	while (inp[i] && ((inp[i] >= 9 && inp[i] <= 13) || inp[i] == 32))
-// 		i++;
-// 	while (inp[i])
-// 	{
-// 		tmp = ft_calloc(1000, 1);
-// 		x = 0;
-// 		while (inp[i] && inp[i] != '|')			
-// 		{
-// 			in_qu = ((inp[i] == DQU) * DQU) + ((inp[i] == QUO) * QUO);
-// 			if (in_qu == DQU)
-// 			{
-// 				while (inp[i])
-// 				{
-// 					tmp[i] = inp[i];
-// 					i++;
-// 					if (inp[i] == DQU)
-// 						break;
-// 				}
-// 				tmp[i] = DQU;
-// 				in_qu = 0;
-// 			}
-// 			tmp[x] = inp[i];
-// 			i++;
-// 			x++;
-// 		}
-// 		add_line(&ln, tmp);
-// 		i += (inp[i] == '|');
-// 		while (inp[i] && ((inp[i] >= 9 && inp[i] <= 13) || inp[i] == 32))
-// 			i++;
-// 		if (tmp)
-// 			free(tmp);
-// 	}
-// 	show_ln(ln);
-//     clear_ln(ln);
-// 	return (SUCCESS);
-// }
-
-int	cpy_qu(t_aux *a, char *inp, int type)
+int	add_line(t_line **ln)
 {
-	while (inp[a->i])
-	{
-		a->tmp[a->j++] = inp[a->i++];
-		if (inp[a->i] == type)
-			break;
-	}
-	a->tmp[a->j] = type;
-	a->in_qu = 0;
+	t_line *new;
+
+	new = ft_calloc(sizeof(t_line), 1);
+	if (!new)
+		exit (msg_error(E_MEM, 1, NULL));
+	new->next = *ln;
+	*ln = new;
+	(*ln)->argc++;
 	return (SUCCESS);
 }
 
-char *cpy_quotes(t_aux *a, char *inp, int type)
+int	copy_quotes(char *inp, t_aux *a, t_line **ln, int type)
 {
-	// char	*new;
-	int		i;
+	if (type != ' ')
+	{
+		a->i += (inp[a->i] == QUO) + (inp[a->i] == DQU);
+		a->j = ft_strchrpos(&inp[a->i], type);
+		if (a->j == ERROR)
+			return (ERROR);
+		a->tmp = ft_substr(inp, a->i, a->j);
+		ft_printf(R"%s\n"E, a->tmp);
+		a->i += a->j + 1;
+		add_token(&(*ln)->tk, a->tmp, 0);
+		free(a->tmp);
+	}
+	else
+	{
+		a->tmp = ft_difcpy(inp, ' ', &a->i);
+		ft_printf (Y"%s\n"E, a->tmp);
+		add_token(&(*ln)->tk, a->tmp, 0);
+		free(a->tmp);
+	}
+	return (SUCCESS);
+}
 
-	i = a->i;
-	// i += ft_strchrpos(&inp[i++], type);
-	if (ft_strchrpos(&inp[i++], type) == ERROR)
-		return ( NULL);
-	ft_printf(Y"%s\n"E, &inp[a->i]);
-	// new = ft_substr(inp, a->i, );
-	return (NULL);
+int	continue_ln(t_line **ln, char *inp, t_aux *a)
+{
+	(*ln)->tk = NULL;
+	while (inp[a->i] && inp[a->i] != '|')
+	{
+		while (inp[a->i] && ((inp[a->i] >= 9 \
+			&& inp[a->i] <= 13) || inp[a->i] == 32))
+			a->i++;
+		a->in_qu = ((inp[a->i] == DQU) * DQU) + ((inp[a->i] == QUO) * QUO);
+		if (a->in_qu == DQU && copy_quotes(inp, a, ln, DQU) == ERROR)
+			return ((ft_printf(R"Error double quotes\n"E) * 0) + ERROR);
+		else if (a->in_qu == QUO && copy_quotes(inp, a, ln, QUO) == ERROR)
+			return ((ft_printf(R"Error quotes\n"E) * 0) + ERROR);
+		else if (inp[a->i] && inp[a->i] != '|' && !a->in_qu)
+		{
+			if (copy_quotes(inp, a, ln, ' ') == ERROR)
+				return ((ft_printf(R"Error space\n"E) * 0) + ERROR);
+		}
+	}
+	// a->i = (inp[a->i] == '|');
+	add_line(ln);
+	return (SUCCESS);
 }
 
 int	init_ln(char *inp)
 {
-	t_line	*ln;
 	t_aux	a;
+	t_line	*ln;
 
-	ln = NULL;
+	ln = ft_calloc(sizeof(t_line), 1);
 	a.i = 0;
-	a.tmp = NULL;
 	while (inp[a.i])
 	{
-		a.j = 0;
-		while (inp[a.i] && ((inp[a.i] >= 9 && inp[a.i] <= 13) || inp[a.i] == 32))
-			a.i++;
-		a.tmp = ft_calloc(ft_strlen(inp) + 1, sizeof(char));
-		if (!a.tmp)
-			exit (msg_error(E_MEM, 1, NULL));
-		while (inp[a.i] && inp[a.i] != '|')
-		{
-			a.in_qu = ((inp[a.i] == DQU) * DQU) + ((inp[a.i] == QUO) * QUO);
-			if (a.in_qu == DQU)
-			{
-				cpy_quotes(&a, inp, DQU);
-				//cpy_qu(&a, inp, DQU);
-			}
-			else if (a.in_qu == QUO)
-				cpy_qu(&a, inp, QUO);
-			else
-				a.tmp[a.j++] = inp[a.i++];
-		}
-		add_line(&ln, a.tmp);
-		a.i += (inp[a.i] == '|');
-		if (a.tmp)
-			free(a.tmp);
+		ft_printf("hola");
+		if (continue_ln(&ln, inp, &a) == ERROR)
+			break ;
+		a.i++;
 	}
 	show_ln(ln);
-    clear_ln(ln);
+	clear_ln(ln);
 	return (SUCCESS);
 }
