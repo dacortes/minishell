@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 10:34:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/30 16:52:19 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:55:56 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,11 @@ int	init_ln(char *inp)
 	a.i = 0;
 	while (inp[a.i])
 	{
-		ft_printf("hola");
+		ft_printf("%s -> %i\n", inp, a.i);
 		if (continue_ln(&ln, inp, &a) == ERROR)
 			break ;
-		a.i++;
+		if (inp[a.i])
+			a.i++;
 	}
 	show_ln(ln);
 	clear_ln(ln);
