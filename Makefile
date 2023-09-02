@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/09/02 18:52:41 by dacortes         ###   ########.fr        #
+#    Updated: 2023/09/02 19:01:48 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,14 +101,12 @@ fclean: clean
 	$(RM) $(NAME)
 	make fclean -C $(LIBFT) --no-print-directory
 	make clean -C $(READL) --no-print-directory &> /dev/null
-	$(RM) $(READL)config.status
 	echo "✅ ==== $(P)$(ligth)minishell executable files and name cleaned!$(E) ==== ✅\n"
 	
 clean:
 	$(RM) $(D_OBJ)
 	make clean -C $(LIBFT) --no-print-directory
 	make -C $(READL) --no-print-directory &> /dev/null
-	$(RM) $(READL)config.status
 	echo "✅ ==== $(P)$(ligth)minishell object files cleaned!$(E) ==== ✅"
 re: fclean all
 TOTAL_FILES := $(words $(SRC))
