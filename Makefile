@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/08/30 18:55:50 by dacortes         ###   ########.fr        #
+#    Updated: 2023/09/02 18:52:41 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,10 +65,15 @@ italic = \033[3m
 #                               MAKE RULES                                     #
 ################################################################################
 #Rules
-all: dir $(NAME)
+all: conf dir $(NAME)
 -include $(DEP)
+CK = .hola
+conf:
+	@if [ ! -f $(READL)config.status ]; then\
+		cd $(READL) && ./configure; \
+		echo "$(G)crate config.status$(E)"; \
+	fi
 dir:
-#cd $(READL) && ./configure &> /dev/null
 	make -C $(LIBFT) --no-print-directory
 	make -C $(READL) --no-print-directory &> /dev/null
 	-mkdir  $(D_OBJ)
@@ -96,12 +101,14 @@ fclean: clean
 	$(RM) $(NAME)
 	make fclean -C $(LIBFT) --no-print-directory
 	make clean -C $(READL) --no-print-directory &> /dev/null
+	$(RM) $(READL)config.status
 	echo "✅ ==== $(P)$(ligth)minishell executable files and name cleaned!$(E) ==== ✅\n"
 	
 clean:
 	$(RM) $(D_OBJ)
 	make clean -C $(LIBFT) --no-print-directory
-	make clean -C $(READL) --no-print-directory &> /dev/null
+	make -C $(READL) --no-print-directory &> /dev/null
+	$(RM) $(READL)config.status
 	echo "✅ ==== $(P)$(ligth)minishell object files cleaned!$(E) ==== ✅"
 re: fclean all
 TOTAL_FILES := $(words $(SRC))
