@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/09/02 19:01:48 by dacortes         ###   ########.fr        #
+#    Updated: 2023/09/03 12:02:23 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,8 +70,8 @@ all: conf dir $(NAME)
 CK = .hola
 conf:
 	@if [ ! -f $(READL)config.status ]; then\
-		cd $(READL) && ./configure; \
-		echo "$(G)crate config.status$(E)"; \
+		cd $(READL) && ./configure &> /dev/null; \
+		echo "✅ ==== $(G)$(ligth)Create config.status$(E)==== ✅"; \
 	fi
 dir:
 	make -C $(LIBFT) --no-print-directory
