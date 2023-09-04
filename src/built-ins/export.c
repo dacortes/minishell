@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:24 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/25 14:07:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:19:51 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,7 @@ int	_export(t_mini *sh, char *inp)
 	t_aux	tmp;
 
 	if (check_key(inp))
-	{ft_printf(Y"estoy aqui\n"E);
 		return (msg_error(E_EXP, 1, inp));
-	}
 	tmp.eql = (ft_strchrpos(inp, '=') >= 0);
 	tmp.key = ft_strchrpos(inp, '=');
 	tmp.val = (ft_strlen(inp) - tmp.key);

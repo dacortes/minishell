@@ -3,18 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:18 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/30 17:03:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/03 19:02:13 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-void ft_exit(char *input)
+int	ft_exit(t_line **ln, t_mini *sh, char **argv, int argc)
 {
-	int inp = ft_atoi(&input[5]);
-	clear_history();
-	exit (inp);
+	int	i;
+
+	i = 0;
+	if (argc == 1)
+	{
+		clear_ln(ln);
+		clear(sh);
+		clear_history();
+		exit (0);
+	}
+	else if (argc >= 2)
+	{
+		while (argv[1][i])
+		{
+			if (!ft_isdigit(argv[1][i]) && argv[1][i] != '-' \
+				&& argv[1][i] != '+')
+			{
+				clear_ln(ln);
+				clear(sh);
+				exit (msg_error(EX, 255, argv[1]));
+			}
+			i++;
+		}
+		if (argc > 2)
+			return (msg_error(E_ARG, 1, "exit"));
+		exit (ft_atoi(argv[1]));
+	}
+	return (SUCCESS);
 }

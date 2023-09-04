@@ -6,7 +6,7 @@
 /*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:25:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 14:52:04 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:12:49 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	is_close(char *str, char delimiter)
 
 char	*search_env(t_env *env, char *key, int type)
 {
-	t_env *search;
+	t_env	*search;
 
 	search = env;
 	if (type == KEY)

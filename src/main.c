@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/29 18:19:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/03 19:15:02 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ int	msg_error(int e, int exit_, char *cm)
 	e == E_MEM && fd_printf(2, "mini: error trying to allocate memory\n", cm);
 	e == E_EXP && fd_printf(2, "mini: export: not an identifier:%s\n", cm);
 	e == E_CNF && fd_printf(2, "mini: %s: command not found\n", cm);
+	e == EX && fd_printf(2, "mini: exit: %s: numeric argument required\n", cm);
+	e == E_ARG && fd_printf(2, "mini: %s: too many arguments\n", cm);
 	if (e == E_PRR)
 		perror("mini");
-	return (exit_);	
+	return (exit_);
 }
-/*
-	funcion para limpiar el env temporalmente 
-	hay que hacer una funcion que limpie y imprima los msg de error cuando falla
-*/
+
 int	clear(t_mini *sh)
 {
 	t_env	*rm;
@@ -70,38 +69,41 @@ int	prompt(t_mini **sh, char **input)
 	if (!(*sh)->dir[1])
 		ft_printf(F"%s➜ "C"%s 🗂 ", (*sh)->user, ft_strrchr((*sh)->dir, '/'));
 	else
-		ft_printf(F"%s➜ "C"%s 🗂 ", (*sh)->user, &ft_strrchr((*sh)->dir, '/')[1]);
+		ft_printf(F"%s➜ "C"%s 🗂 ", (*sh)->user, \
+			&ft_strrchr((*sh)->dir, '/')[1]);
 	*input = readline(O" ᐅ "E);
 	return (SUCCESS);
 }
 
 int	main(int ac, char **av, char **env)
 {
+	t_mini	*sh;
+	t_line	*ln;
+	char	*inp;
+
+	inp = NULL;
 	(void)ac;
 	(void)av;
-	t_mini *sh;
-//	t_token *tk;
-
-	char *inp = NULL;
 	mini_init(&sh, env);
 	while (TRUE)
 	{
+		ln = ft_calloc(sizeof(t_line), 1);
 		prompt(&sh, &inp);
-		init_ln(inp);
-		if (ft_strncmp(inp, "unset", -1) == 0)
+		init_ln(inp, &ln);
+		if (ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
 			unset(&sh->size, &sh->env, inp);
-		if (ft_strncmp(inp, "pwd", 3) == 0)
+		if (ft_strncmp(ln->argv[0], "pwd", ft_strlen(ln->argv[0])) == 0)
 			pwd();
-		if (ft_strncmp(inp, "env", 3) == 0)
+		if (ft_strncmp(ln->argv[0], "env", ft_strlen(ln->argv[0])) == 0)
 			_env(sh->env);
-		if (ft_strncmp(inp, "cd", 2) == 0)
-			cd(inp + 3, &sh);
-		if (ft_strncmp(inp, "exit", 4) == 0)
-			ft_exit(inp);
+		if (ft_strncmp(ln->argv[0], "cd", ft_strlen(ln->argv[0])) == 0)
+			ft_cd(ln, &sh);
+		if (ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
+			ft_exit(&ln, sh, ln->argv, ln->argc);
 		if (inp[0] != '\0')
 			add_history(inp);
 		free(inp);
+		clear_ln(&ln);
 	}
-	clear(sh);
 	return (SUCCESS);
 }
