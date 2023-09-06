@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/03 19:15:02 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:58:29 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,19 @@ int	main(int ac, char **av, char **env)
 		ln = ft_calloc(sizeof(t_line), 1);
 		prompt(&sh, &inp);
 		init_ln(inp, &ln);
-		if (ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
-			unset(&sh->size, &sh->env, inp);
-		if (ft_strncmp(ln->argv[0], "pwd", ft_strlen(ln->argv[0])) == 0)
-			pwd();
-		if (ft_strncmp(ln->argv[0], "env", ft_strlen(ln->argv[0])) == 0)
-			_env(sh->env);
-		if (ft_strncmp(ln->argv[0], "cd", ft_strlen(ln->argv[0])) == 0)
-			ft_cd(ln, &sh);
-		if (ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
-			ft_exit(&ln, sh, ln->argv, ln->argc);
+		if (inp[0])
+		{
+			if (ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
+				unset(&sh->size, &sh->env, inp);
+			if (ft_strncmp(ln->argv[0], "pwd", ft_strlen(ln->argv[0])) == 0)
+				pwd();
+			if (ft_strncmp(ln->argv[0], "env", ft_strlen(ln->argv[0])) == 0)
+				_env(sh->env);
+			if (ft_strncmp(ln->argv[0], "cd", ft_strlen(ln->argv[0])) == 0)
+				ft_cd(ln, &sh);
+			if (ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
+				ft_exit(&ln, sh, ln->argv, ln->argc);
+		}
 		if (inp[0] != '\0')
 			add_history(inp);
 		free(inp);
