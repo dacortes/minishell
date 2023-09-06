@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 10:34:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/03 18:54:45 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:02:53 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,46 @@ int	clear_ln(t_line **ln)
 {
 	t_line	*rm;
 
+	int i = 0;
 	while (*ln)
 	{
 		rm = (*ln)->next;
 		if ((*ln)->line)
 		{
-			// ft_printf(B"free %s\n"E, (*ln)->line);
+			//ft_printf(O"estoy aqui\n"E);
+			// ft_printf(B"free %p\n"E, (*ln)->line);
 			free((*ln)->line);
-			(*ln)->line = NULL;
 		}
-		ft_printf("hola\n");
+		ft_printf(O"estoy aqui\n"E);
 		if ((*ln)->argv)
 		{
 			ft_printf(R"free argv\n"E);
-			while (*(*ln)->argv)
+			while ((*ln)->argv[i])
 			{
-				ft_printf("free %s\n", *(*ln)->argv);
-				if (*(*ln)->argv)
-					free(*(*ln)->argv++);
+				ft_printf("free %s\n", (*ln)->argv[i]);
+				if ((*ln)->argv[i])
+				{
+					free((*ln)->argv[i]);
+				}
+				ft_printf("free %s\n", (*ln)->argv[i]);
+				i++;
+				(*ln)->argv[i] = NULL;
+				ft_printf(R"estoy aqui\n"E);
 			}
+			i = 0;
+			if ((*ln)->argv)
+			{
+				free((*ln)->argv);
+				(*ln)->argv = NULL;
+			}
+			ft_printf(T"estoy aqui\n"E);
 		}
 		if ((*ln)->tk)
 		{
 			ft_printf(Y"free tk\n"E);
 			while ((*ln)->tk)
 			{
-				ft_printf("free %s\n", (*ln)->tk->arg);
+				//ft_printf("free %p\n", (*ln)->tk->arg);
 				if ((*ln)->tk->arg)
 					free((*ln)->tk->arg);
 				(*ln)->tk = (*ln)->tk->next;
@@ -49,6 +63,8 @@ int	clear_ln(t_line **ln)
 			free((*ln)->tk);
 		}
 		ft_printf(G"free ln\n"E);
+		// ft_printf("%p\n", ln);
+		// ft_printf(Y"%d\n"E, sizeof(t_mini));
 		(*ln) = rm;
 	}
 	return (SUCCESS);
@@ -109,13 +125,21 @@ char	**convert_to_argv(t_line *ln)
 	if (!argv)
 		exit (msg_error(E_MEM, 1, NULL));
 	temp_tk = ln->tk;
+	ft_printf(C"ln=%p\n"E, ln);
+	ft_printf(O"tmp_tk%p\n"E, temp_tk);
+	ft_printf(R"argv=%p"E, argv[0]);
 	while (argc--)
 	{
 		ft_printf("%s\n", temp_tk->arg);
 		argv[argc] = ft_strdup(temp_tk->arg);
+		if (!argv[argc])
+			exit (msg_error(E_MEM, 1, NULL));
 		temp_tk = temp_tk->next;
 	}
 	argv[argc] = NULL;
+	ft_printf(C"ln=%p\n"E, ln);
+	ft_printf(O"tmp_tk%p\n"E, temp_tk);
+	ft_printf(R"argv=%p"E, argv);
 	// print_argv(argv);
 	return (argv);
 }
@@ -198,13 +222,13 @@ int	init_ln(char *inp, t_line **ln)
 	a.i = 0;
 	a.k = 0;
 	tmp = *ln;
-	if (!inp)
-	{
-		(*ln)->line = ft_strdup("");
-		(*ln)->argv = ft_calloc(sizeof(char *), 1);
-		(*ln)->argv[0] = ft_strdup("");
-		return (SUCCESS);
-	}
+	// if (!inp)
+	// {
+	// 	(*ln)->line = ft_strdup("");
+	// 	(*ln)->argv = ft_calloc(sizeof(char *), 1);
+	// 	(*ln)->argv[0] = ft_strdup("");
+	// 	return (SUCCESS);
+	// }
 	while (inp[a.i])
 	{
 		if (continue_ln(&tmp, inp, &a) == ERROR)

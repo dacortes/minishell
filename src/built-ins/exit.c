@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:18 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/03 19:02:13 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:02:33 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_exit(t_line **ln, t_mini *sh, char **argv, int argc)
 		clear_ln(ln);
 		clear(sh);
 		clear_history();
-		exit (0);
+		exit (SUCCESS);
 	}
 	else if (argc >= 2)
 	{

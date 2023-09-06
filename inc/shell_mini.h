@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/03 19:02:08 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:57:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,12 @@ typedef struct s_mini
 // ================================= FUNCTIONS ============================== //
 
 /* src/built-ins/unset.c*/
-int	unset(int *size, t_env **env, char *key);
+int		unset(int *size, t_env **env, char *key);
 /* src/built-ins/pwd.c */
-int	pwd(void);
+int		pwd(void);
 /* src/built-ins/cd.c */
-int	cd(char *path, t_mini **sh);
-int	ft_cd(t_line *ln, t_mini **sh);
+int		cd(char *path, t_mini **sh);
+int		ft_cd(t_line *ln, t_mini **sh);
 /* src/built-ins/exit.c */
 int		ft_exit(t_line **ln, t_mini *sh, char **argv, int argc);
 /* src/built-ins/env.c */
@@ -136,9 +136,12 @@ int		clear_ln(t_line **ln);
 int		add_line(t_line **ln);
 int		init_ln(char *inp, t_line **ln);
 /* parse/token.c test */
-int		init_tk(/*t_token **tk,*/ char *inp);
 int		add_token(t_line **ln, t_token **tk, char *arg, int type);
-/* test */
+/* test line */
+int 	test_clear_tk(t_line **ln);
+int		test_clear_ln(t_line **ln);
+int		test_line(char *inp, t_line **ln);
+/* */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
 
