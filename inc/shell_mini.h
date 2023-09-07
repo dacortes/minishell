@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/07 10:12:57 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:20:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,15 +131,11 @@ int		_export(t_mini *sh, char *inp);
 int		is_close(char *str, char delimiter);
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
-/* parse/line.c test */
-int		clear_ln(t_line **ln);
-int		add_line(t_line **ln);
-int		init_ln(char *inp, t_line **ln);
 /* parse/token.c test */
-int		add_token(t_line **ln, t_token **tk, char *arg, int type);
+int		clear_tk(t_token **tk);
+int		add_token(t_token **tk, char *arg, int type, int *count);
 /* test line */
-int 	test_clear_tk(t_token **tk);
-int		test_clear_ln(t_line **ln);
+int		clear_ln(t_line **ln);
 int		test_line(char *inp, t_line **ln);
 /* */
 int		clear(t_mini *sh);
