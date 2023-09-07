@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/07 12:20:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:03:22 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ char	*ft_strdup_exit(const char *s1);
 int		clear_tk(t_token **tk);
 int		add_token(t_token **tk, char *arg, int type, int *count);
 /* test line */
+void	test(t_line *ln);
 int		clear_ln(t_line **ln);
 int		test_line(char *inp, t_line **ln);
 /* */

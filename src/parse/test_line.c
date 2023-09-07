@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/07 16:50:39 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:14:42 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,34 @@ int	copy_quotes(char *inp, t_aux *a, t_line **ln, t_token **tk, int type)
 	return (SUCCESS);
 }
 
+void	test(t_line *ln)
+{
+	t_line *tmp;
+	t_token	*tk_tmp;
+
+	tmp = ln;
+	tk_tmp = ln->tk;
+	ft_printf(O"nodes the line\n"E);
+	while (tmp)
+	{
+		ft_printf(Y"%p\n"E, tmp);
+		while (tk_tmp)
+		{
+			ft_printf(F"%s\n"E, tk_tmp->arg);
+			tk_tmp = tk_tmp->next;
+		}
+		if (!tmp->next)
+			ft_printf(R"%p\n"E, tmp);
+		tmp = tmp->next;
+	}
+	
+}
 int	continue_ln(t_line **ln, t_token **tk, t_aux *a, char *inp)
 {
 	(void)a;
 	int i;
 
 	i = 0;
-	ft_printf("hola\n");
 	while (inp[a->i] && inp[a->i] != '|')
 	{
 		while (inp[a->i] && ((inp[a->i] >= 9 \
@@ -139,7 +160,7 @@ int	continue_ln(t_line **ln, t_token **tk, t_aux *a, char *inp)
 	a->k = a->i + 1;
 	add_line(ln, *tk);
 	(*ln)->argc = i;
-	ft_printf(O"%d\n"E, (*ln)->argc);
+	//ft_printf(O"%d\n"E, (*ln)->argc);
 	return (SUCCESS);
 }
 
