@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/06 18:57:20 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/07 10:12:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		init_ln(char *inp, t_line **ln);
 /* parse/token.c test */
 int		add_token(t_line **ln, t_token **tk, char *arg, int type);
 /* test line */
-int 	test_clear_tk(t_line **ln);
+int 	test_clear_tk(t_token **tk);
 int		test_clear_ln(t_line **ln);
 int		test_line(char *inp, t_line **ln);
 /* */

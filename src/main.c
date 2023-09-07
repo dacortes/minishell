@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/06 19:05:21 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/07 11:39:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,16 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	mini_init(&sh, env);
-	ln = ft_calloc(sizeof(t_line), 1);
+	// ln = ft_calloc(sizeof(t_line), 1);
+	// ln = NULL;
 	while (TRUE)
 	{
 		// ln = ft_calloc(sizeof(t_line), 1);
-		// ln = NULL;
+		ln = NULL;
 		ft_printf(Y"%p\n"E, ln);
 		prompt(&sh, &inp);
+		if (!inp)
+			exit (0);
 		test_line(inp, &ln);
 		// init_ln(inp, &ln);
 		// if (inp[0])
@@ -121,8 +124,11 @@ int	main(int ac, char **av, char **env)
 		if (inp[0] != '\0')
 			add_history(inp);
 		free(inp);
+		test_clear_ln(&ln);
 		// free(ln);
 		// clear_ln(&ln);
 	}
 	return (SUCCESS);
 }
+
+
