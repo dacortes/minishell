@@ -6,13 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/07 17:14:42 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:32:29 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-int	add_line(t_line **ln, t_token *tk)
+int	add_line(t_line **ln, t_token *tk, char	*line)
 {
 	t_line	*new;
 
@@ -20,6 +20,9 @@ int	add_line(t_line **ln, t_token *tk)
 	if (!new)
 		exit (msg_error(E_MEM, 1, NULL));
 	new->tk = tk;
+	new->line = ft_strdup(line);
+	if (!line)
+		exit (msg_error(E_MEM, 1, NULL));
 	new->next = NULL;
 	if (!(*ln))
 		*ln = new;
@@ -39,6 +42,8 @@ int	clear_ln(t_line **ln)
 	while (rm)
 	{
 		clear_tk(&(*ln)->tk);
+		if (rm->line)
+			free(rm->line);
 		tmp = rm;
 		rm = rm->next;
 		free(tmp);
@@ -79,10 +84,8 @@ char	**convert_to_argv(t_line *ln)
 	return (argv);
 }
 
-int	copy_quotes(char *inp, t_aux *a, t_line **ln, t_token **tk, int type)
+int	copy_quotes(char *inp, t_aux *a, int *count, t_token **tk, int type)
 {
-	(void)ln;
-	int i = 0;
 	if (type == QUO || type == DQU)
 	{
 		a->i += (inp[a->i] == QUO) + (inp[a->i] == DQU);
@@ -93,7 +96,7 @@ int	copy_quotes(char *inp, t_aux *a, t_line **ln, t_token **tk, int type)
 		if (!a->tmp)
 			exit (msg_error(E_MEM, 1, NULL));
 		a->i += a->j + 1;
-		add_token(tk, a->tmp, 0, &i);
+		add_token(tk, a->tmp, 0, count);
 		free(a->tmp);
 	}
 	else
@@ -104,7 +107,7 @@ int	copy_quotes(char *inp, t_aux *a, t_line **ln, t_token **tk, int type)
 			a->j++;
 		a->tmp = ft_substr(inp, a->i, a->j - a->i);
 		a->i = a->j;
-		add_token(tk, a->tmp, 0, &i);
+		add_token(tk, a->tmp, 0, count);
 		free(a->tmp);
 	}
 	return (SUCCESS);
@@ -134,8 +137,8 @@ void	test(t_line *ln)
 }
 int	continue_ln(t_line **ln, t_token **tk, t_aux *a, char *inp)
 {
-	(void)a;
-	int i;
+	int 	i;
+	char	*tmp;
 
 	i = 0;
 	while (inp[a->i] && inp[a->i] != '|')
@@ -144,23 +147,25 @@ int	continue_ln(t_line **ln, t_token **tk, t_aux *a, char *inp)
 			&& inp[a->i] <= 13) || inp[a->i] == 32))
 			a->i++;
 		a->in_qu = ((inp[a->i] == DQU) * DQU) + ((inp[a->i] == QUO) * QUO);
-		if (a->in_qu == DQU && copy_quotes(inp, a, ln, tk, DQU) == ERROR)
+		if (a->in_qu == DQU && copy_quotes(inp, a, &i, tk, DQU) == ERROR)
 			return ((ft_printf(R"Error double quotes\n"E) * 0) + ERROR);
-		else if (a->in_qu == QUO && copy_quotes(inp, a, ln, tk, QUO) == ERROR)
+		else if (a->in_qu == QUO && copy_quotes(inp, a, &i, tk, QUO) == ERROR)
 			return ((ft_printf(R"Error quotes\n"E) * 0) + ERROR);
 		else if (inp[a->i] && inp[a->i] != '|' && !a->in_qu)
 		{
-			if (copy_quotes(inp, a, ln, tk, ' ') == ERROR)
+			if (copy_quotes(inp, a, &i, tk, ' ') == ERROR)
 				return ((ft_printf(R"Error space\n"E) * 0) + ERROR);
 		}
 	}
 	while (inp[a->k] && ((inp[a->k] >= 9 && inp[a->k] <= 13) \
 		|| inp[a->k] == 32))
 		a->k++;
+	tmp = ft_substr(inp, a->k, a->i - a->k);
 	a->k = a->i + 1;
-	add_line(ln, *tk);
+	add_line(ln, *tk, tmp);
 	(*ln)->argc = i;
-	//ft_printf(O"%d\n"E, (*ln)->argc);
+	free (tmp);
+	ft_printf(O"%d\n"E, (*ln)->argc);
 	return (SUCCESS);
 }
 
@@ -180,17 +185,3 @@ int	test_line(char *inp, t_line **ln)
 	}
 	return (SUCCESS);
 }
-
-// int	test_line(char *inp, t_line **ln)
-// {
-// 	int i = 0;
-// 	int	j = 0;
-// 	t_token *tk = NULL;
-// 	(void)i;
-// 	(void)inp;
-// 	while (i <= 2)
-// 		add_token(&tk, inp, i++, &j);
-// 	ft_printf(Y"%d\n"E, j);
-// 	add_line(ln, tk);
-// 	return (SUCCESS);
-// }

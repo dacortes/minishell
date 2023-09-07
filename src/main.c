@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/07 17:09:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:22:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
-/* error de malloc Region cookie corrupted for region 0x7fe855600000 (value is 0)[0x7fe85560407c]
-se encuentra en la estructura */
 int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;
