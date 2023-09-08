@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/08 10:49:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/08 11:10:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	clear_ln(t_line **ln)
 
 	while (rm)
 	{
-		clear_tk(&(*ln)->tk);
+		clear_tk(&rm->tk);
 		if (rm->line)
 			free(rm->line);
 		tmp = rm;
