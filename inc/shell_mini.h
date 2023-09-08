@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/08 18:00:41 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:44:32 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_aux
 	int		val;
 	int		eql;
 	int		in_qu;
+	char	*e;
 	char	*tmp;
 	char	*_key;
 	char	*_val;
@@ -136,13 +137,13 @@ int		ft_line(char *inp, t_line **ln, t_env *env);
 /* parse/utils_line.c */
 int		clear_ln(t_line **ln);
 void	show_line(t_line *ln);
-int		expand_tk(t_token **tk, t_env *env);
 char	**convert_to_argv(t_line *ln);
 int		add_line(t_line **ln, t_token *tk, char	*line);
 int		type_expand(char *inp, t_aux *a, t_token **tk, int type);
 /* parse/token.c test */
 void	show_tokens(t_line *ln);
 int		clear_tk(t_token **tk);
+int		expand_tk(t_token **tk, t_env *env);
 int		add_token(t_token **tk, char *arg, int type, int *count);
 /* */
 int		clear(t_mini *sh);
