@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/07 17:03:22 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/08 13:43:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_aux
 	int		i;
 	int		j;
 	int		k;
+	int		c;
 	int		key;
 	int		val;
 	int		eql;
@@ -83,7 +84,7 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 /* line to pipe */
-typedef	struct s_line
+typedef struct s_line
 {
 	int				argc;
 	char			**argv;
@@ -128,16 +129,19 @@ int		add_key(t_mini *sh, char *key, char *val, int eql);
 void	show_export(t_env *env);
 int		_export(t_mini *sh, char *inp);
 /* scr/utils.c */
-int		is_close(char *str, char delimiter);
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
+/* parse/line.c */
+int		ft_line(char *inp, t_line **ln);
+/* parse/utils_line.c */
+int		clear_ln(t_line **ln);
+void	show_line(t_line *ln);
+char	**convert_to_argv(t_line *ln);
+int		add_line(t_line **ln, t_token *tk, char	*line);
 /* parse/token.c test */
+void	show_tokens(t_line *ln);
 int		clear_tk(t_token **tk);
 int		add_token(t_token **tk, char *arg, int type, int *count);
-/* test line */
-void	test(t_line *ln);
-int		clear_ln(t_line **ln);
-int		test_line(char *inp, t_line **ln);
 /* */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);

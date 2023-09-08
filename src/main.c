@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/08 10:43:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/08 11:51:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,32 +91,23 @@ int	main(int ac, char **av, char **env)
 		prompt(&sh, &inp);
 		if (!inp)
 			exit (0);
-		test_line(inp, &ln);
-		// init_ln(inp, &ln);
-		// if (inp[0])
-		// {
-		// 	if (ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
-		// 		unset(&sh->size, &sh->env, inp);
-		// 	if (ft_strncmp(ln->argv[0], "pwd", ft_strlen(ln->argv[0])) == 0)
-		// 		pwd();
-		// 	if (ft_strncmp(ln->argv[0], "env", ft_strlen(ln->argv[0])) == 0)
-		// 		_env(sh->env);
-		// 	if (ft_strncmp(ln->argv[0], "cd", ft_strlen(ln->argv[0])) == 0)
-		// 		ft_cd(ln, &sh);
-		// 	if (ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
-		// 		ft_exit(&ln, sh, ln->argv, ln->argc);
-		// }
-		if  (inp[0])
+		ft_line(inp, &ln);
+		if (inp[0])
 		{
-			if (ft_strncmp(inp, "exit", ft_strlen(inp)) == 0)
-			{
-				if (ln)
-					clear_ln(&ln);
-				exit (0);
-			}
+			if (ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
+				unset(&sh->size, &sh->env, inp);
+			if (ft_strncmp(ln->argv[0], "pwd", ft_strlen(ln->argv[0])) == 0)
+				pwd();
+			if (ft_strncmp(ln->argv[0], "env", ft_strlen(ln->argv[0])) == 0)
+				_env(sh->env);
+			if (ft_strncmp(ln->argv[0], "cd", ft_strlen(ln->argv[0])) == 0)
+				ft_cd(ln, &sh);
+			if (ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
+				ft_exit(&ln, sh, ln->argv, ln->argc);
 		}
 		if (inp[0] != '\0')
 			add_history(inp);
+		clear_ln(&ln);
 		free(inp);
 	}
 	return (SUCCESS);
