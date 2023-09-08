@@ -6,11 +6,43 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/07 18:32:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/08 10:49:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
+
+// char	**convert_to_argv(t_line *ln)
+// {
+// 	int		argc;
+// 	char	**argv;
+// 	t_token	*temp_tk;
+// 	int		i;
+
+// 	i = 0;
+// 	argc = ln->argc;
+// 	argv = malloc((argc + 1) * sizeof(char *));
+// 	if (!argv)
+// 		exit (msg_error(E_MEM, 1, NULL));
+// 	temp_tk = ln->tk;
+// 	ft_printf(C"ln=%p\n"E, ln);
+// 	ft_printf(O"tmp_tk%p\n"E, temp_tk);
+// 	ft_printf(R"argv=%p"E, argv[0]);
+// 	while (argc--)
+// 	{
+// 		ft_printf("%s\n", temp_tk->arg);
+// 		argv[argc] = ft_strdup(temp_tk->arg);
+// 		if (!argv[argc])
+// 			exit (msg_error(E_MEM, 1, NULL));
+// 		temp_tk = temp_tk->next;
+// 	}
+// 	argv[argc] = NULL;
+// 	ft_printf(C"ln=%p\n"E, ln);
+// 	ft_printf(O"tmp_tk%p\n"E, temp_tk);
+// 	ft_printf(R"argv=%p"E, argv);
+// 	// print_argv(argv);
+// 	return (argv);
+// }
 
 int	add_line(t_line **ln, t_token *tk, char	*line)
 {
@@ -52,38 +84,6 @@ int	clear_ln(t_line **ln)
 	return (SUCCESS);
 }
 
-char	**convert_to_argv(t_line *ln)
-{
-	int		argc;
-	char	**argv;
-	t_token	*temp_tk;
-	int		i;
-
-	i = 0;
-	argc = ln->argc;
-	argv = malloc((argc + 1) * sizeof(char *));
-	if (!argv)
-		exit (msg_error(E_MEM, 1, NULL));
-	temp_tk = ln->tk;
-	ft_printf(C"ln=%p\n"E, ln);
-	ft_printf(O"tmp_tk%p\n"E, temp_tk);
-	ft_printf(R"argv=%p"E, argv[0]);
-	while (argc--)
-	{
-		ft_printf("%s\n", temp_tk->arg);
-		argv[argc] = ft_strdup(temp_tk->arg);
-		if (!argv[argc])
-			exit (msg_error(E_MEM, 1, NULL));
-		temp_tk = temp_tk->next;
-	}
-	argv[argc] = NULL;
-	ft_printf(C"ln=%p\n"E, ln);
-	ft_printf(O"tmp_tk%p\n"E, temp_tk);
-	ft_printf(R"argv=%p"E, argv);
-	// print_argv(argv);
-	return (argv);
-}
-
 int	copy_quotes(char *inp, t_aux *a, int *count, t_token **tk, int type)
 {
 	if (type == QUO || type == DQU)
@@ -119,10 +119,11 @@ void	test(t_line *ln)
 	t_token	*tk_tmp;
 
 	tmp = ln;
-	tk_tmp = ln->tk;
 	ft_printf(O"nodes the line\n"E);
 	while (tmp)
 	{
+		(O"nodes the token\n"E);
+		tk_tmp = ln->tk;
 		ft_printf(Y"%p\n"E, tmp);
 		while (tk_tmp)
 		{
@@ -135,10 +136,26 @@ void	test(t_line *ln)
 	}
 	
 }
-int	continue_ln(t_line **ln, t_token **tk, t_aux *a, char *inp)
+
+void tk_node(t_line *ln)
+{
+	t_token *tmp;
+
+	tmp = ln->tk;
+	while (tmp)
+	{
+		ft_printf(F"%s\n"E, tmp->arg);
+		tmp = tmp->next;
+	}	
+}
+
+int	continue_ln(t_line **ln, t_aux *a, char *inp)
 {
 	int 	i;
 	char	*tmp;
+	t_token	*tk;
+
+	tk  =  NULL;
 
 	i = 0;
 	while (inp[a->i] && inp[a->i] != '|')
@@ -147,13 +164,13 @@ int	continue_ln(t_line **ln, t_token **tk, t_aux *a, char *inp)
 			&& inp[a->i] <= 13) || inp[a->i] == 32))
 			a->i++;
 		a->in_qu = ((inp[a->i] == DQU) * DQU) + ((inp[a->i] == QUO) * QUO);
-		if (a->in_qu == DQU && copy_quotes(inp, a, &i, tk, DQU) == ERROR)
+		if (a->in_qu == DQU && copy_quotes(inp, a, &i, &tk, DQU) == ERROR)
 			return ((ft_printf(R"Error double quotes\n"E) * 0) + ERROR);
-		else if (a->in_qu == QUO && copy_quotes(inp, a, &i, tk, QUO) == ERROR)
+		else if (a->in_qu == QUO && copy_quotes(inp, a, &i, &tk, QUO) == ERROR)
 			return ((ft_printf(R"Error quotes\n"E) * 0) + ERROR);
 		else if (inp[a->i] && inp[a->i] != '|' && !a->in_qu)
 		{
-			if (copy_quotes(inp, a, &i, tk, ' ') == ERROR)
+			if (copy_quotes(inp, a, &i, &tk, ' ') == ERROR)
 				return ((ft_printf(R"Error space\n"E) * 0) + ERROR);
 		}
 	}
@@ -162,8 +179,9 @@ int	continue_ln(t_line **ln, t_token **tk, t_aux *a, char *inp)
 		a->k++;
 	tmp = ft_substr(inp, a->k, a->i - a->k);
 	a->k = a->i + 1;
-	add_line(ln, *tk, tmp);
+	add_line(ln, tk, tmp);
 	(*ln)->argc = i;
+	tk_node(*ln);
 	free (tmp);
 	ft_printf(O"%d\n"E, (*ln)->argc);
 	return (SUCCESS);
@@ -172,16 +190,17 @@ int	continue_ln(t_line **ln, t_token **tk, t_aux *a, char *inp)
 int	test_line(char *inp, t_line **ln)
 {
 	t_aux	a;
-	t_token	*tk;
-
-	tk  =  NULL;
+	
 	ft_bzero(&a, sizeof(t_aux));
 	while (inp[a.i])
 	{
-		if (continue_ln(ln, &tk, &a, inp) == ERROR)
+		if (continue_ln(ln, &a, inp) == ERROR)
 			break ;
 		if (inp[a.i])
 			a.i++;
 	}
+	clear_ln(ln);
+	*ln = NULL;
+	// ft_printf(R"%s\n"E, (*ln)->tk->next->arg);
 	return (SUCCESS);
 }
