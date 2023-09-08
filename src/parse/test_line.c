@@ -6,43 +6,37 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/08 11:10:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/08 11:28:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-// char	**convert_to_argv(t_line *ln)
-// {
-// 	int		argc;
-// 	char	**argv;
-// 	t_token	*temp_tk;
-// 	int		i;
+char	**convert_to_argv(t_line *ln)
+{
+	int		argc;
+	char	**argv;
+	t_token	*temp_tk;
+	int		i;
 
-// 	i = 0;
-// 	argc = ln->argc;
-// 	argv = malloc((argc + 1) * sizeof(char *));
-// 	if (!argv)
-// 		exit (msg_error(E_MEM, 1, NULL));
-// 	temp_tk = ln->tk;
-// 	ft_printf(C"ln=%p\n"E, ln);
-// 	ft_printf(O"tmp_tk%p\n"E, temp_tk);
-// 	ft_printf(R"argv=%p"E, argv[0]);
-// 	while (argc--)
-// 	{
-// 		ft_printf("%s\n", temp_tk->arg);
-// 		argv[argc] = ft_strdup(temp_tk->arg);
-// 		if (!argv[argc])
-// 			exit (msg_error(E_MEM, 1, NULL));
-// 		temp_tk = temp_tk->next;
-// 	}
-// 	argv[argc] = NULL;
-// 	ft_printf(C"ln=%p\n"E, ln);
-// 	ft_printf(O"tmp_tk%p\n"E, temp_tk);
-// 	ft_printf(R"argv=%p"E, argv);
-// 	// print_argv(argv);
-// 	return (argv);
-// }
+	i = 0;
+	argc = ln->argc;
+	argv = ft_calloc(argc + 1, sizeof(char *));
+	if (!argv)
+		exit (msg_error(E_MEM, 1, NULL));
+	temp_tk = ln->tk;
+	ft_printf(C"%d\n"E, ln->argc);
+	while (argc--)
+	{
+		ft_printf(Y"%s\n"E, temp_tk->arg);
+		argv[argc] = ft_strdup(temp_tk->arg);
+		if (!argv[argc])
+			exit (msg_error(E_MEM, 1, NULL));
+		temp_tk = temp_tk->next;
+	}
+	argv[argc] = NULL;
+	return (argv);
+}
 
 int	add_line(t_line **ln, t_token *tk, char	*line)
 {
@@ -69,13 +63,18 @@ int	add_line(t_line **ln, t_token *tk, char	*line)
 int	clear_ln(t_line **ln)
 {
 	t_line	*rm = *ln;
-	t_line	*tmp;	
-
+	t_line	*tmp;
+	int		i;
 	while (rm)
 	{
+		i = 0;
 		clear_tk(&rm->tk);
 		if (rm->line)
 			free(rm->line);
+		while (rm->argv[i])
+			free(rm->argv[i++]);
+		if (rm->argv)
+			free(rm->argv);
 		tmp = rm;
 		rm = rm->next;
 		free(tmp);
@@ -181,8 +180,12 @@ int	continue_ln(t_line **ln, t_aux *a, char *inp)
 	a->k = a->i + 1;
 	add_line(ln, tk, tmp);
 	(*ln)->argc = i;
+	(*ln)->argv = convert_to_argv(*ln);
 	tk_node(*ln);
 	free (tmp);
+	int c = 0;
+	while ((*ln)->argv[c])
+		ft_printf("%s\n", (*ln)->argv[c++]);
 	ft_printf(O"%d\n"E, (*ln)->argc);
 	return (SUCCESS);
 }
