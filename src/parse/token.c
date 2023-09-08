@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/08 11:54:57 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:37:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,46 @@ void	show_tokens(t_line *ln)
 		ft_printf(F"%s\n"E, tmp->arg);
 		tmp = tmp->next;
 	}
+}
+
+int	expand_tk(t_token **tk, t_env *env)
+{
+	t_token *tmp;
+	char	*ex;
+	int		i;
+
+	tmp = *tk;
+	while (tmp)
+	{
+		if (tmp->type == T_EXP)
+		{
+			i = ft_strchrpos(tmp->arg, '$');
+			if (i != ERROR)
+			{
+				ft_printf(T"%d\n"E, i);
+				if (search_env(env, &tmp->arg[i + 1], VAL))
+				{
+					ex = ft_strdup_exit(search_env(env, &tmp->arg[i + 1], VAL));
+					i -= (tmp->arg[i] == '$');
+					while (i >= 0)
+					{
+						char *add = ft_addstart_char(ex, tmp->arg[i--]);
+						free(ex);
+						ex = ft_strdup_exit(add);
+						free(add);
+					}
+				}
+				else
+					ex = ft_strdup_exit("");
+				if (tmp->arg)
+					free(tmp->arg);
+				tmp->arg = ft_strdup_exit(ex);
+				free(ex);
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
 }
 
 int	clear_tk(t_token **tk)
