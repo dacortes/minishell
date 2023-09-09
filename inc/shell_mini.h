@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/08 18:44:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/09 16:52:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int		_export(t_mini *sh, char *inp);
 /* scr/utils.c */
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
+char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
 /* parse/line.c */
 int		ft_line(char *inp, t_line **ln, t_env *env);
 /* parse/utils_line.c */

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/08 18:04:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/09 18:01:32 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ int	clear(t_mini *sh)
 	return (SUCCESS);
 }
 
+/*
+	hay que actualizar el oldpwd cuado es nuevo y ni no exite agregarlo
+*/
 int	mini_init(t_mini **sh, char **env)
 {
 	*sh = (t_mini *)ft_calloc(sizeof(t_mini), 1);
@@ -59,7 +62,10 @@ int	mini_init(t_mini **sh, char **env)
 	init_env(*sh, env);
 	(*sh)->user = search_env((*sh)->env, "USER", VAL);
 	(*sh)->dir = ft_strdup(search_env((*sh)->env, "PWD", VAL));
-	(*sh)->old = ft_strdup(search_env((*sh)->env, "OLDPWD", VAL));
+	if (!search_env((*sh)->env, "OLDPWD", VAL))
+		(*sh)->old = ft_strdup("");
+	else
+		(*sh)->old = ft_strdup(search_env((*sh)->env, "OLDPWD", VAL));
 	return (SUCCESS);
 }
 
@@ -96,13 +102,13 @@ int	main(int ac, char **av, char **env)
 		{
 			if (ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
 				unset(&sh->size, &sh->env, inp);
-			if (ft_strncmp(ln->argv[0], "pwd", ft_strlen(ln->argv[0])) == 0)
+			else if (ft_strncmp(ln->argv[0], "pwd", ft_strlen(ln->argv[0])) == 0)
 				pwd();
-			if (ft_strncmp(ln->argv[0], "env", ft_strlen(ln->argv[0])) == 0)
+			else if (ft_strncmp(ln->argv[0], "env", ft_strlen(ln->argv[0])) == 0)
 				_env(sh->env);
-			if (ft_strncmp(ln->argv[0], "cd", ft_strlen(ln->argv[0])) == 0)
+			else if (ft_strncmp(ln->argv[0], "cd", ft_strlen(ln->argv[0])) == 0)
 				ft_cd(ln, &sh);
-			if (ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
+			else if (ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
 				ft_exit(&ln, sh, ln->argv, ln->argc);
 		}
 		if (inp[0] != '\0')
