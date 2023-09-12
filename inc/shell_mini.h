@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/09 16:52:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:30:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@
 # define O "\033[38;5;208m" //orange
 # define F "\033[38;5;128m"  //purple
 // ================================= STRUCTURES ============================= //
+
 typedef struct s_aux
 {
 	int		i;
@@ -133,6 +134,7 @@ int		_export(t_mini *sh, char *inp);
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
 char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
+char	*ft_strndup(const char *src, size_t n);
 /* parse/line.c */
 int		ft_line(char *inp, t_line **ln, t_env *env);
 /* parse/utils_line.c */
@@ -149,5 +151,4 @@ int		add_token(t_token **tk, char *arg, int type, int *count);
 /* */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
-
 #endif

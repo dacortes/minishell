@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:55:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/08 14:52:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:53:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ char	**convert_to_argv(t_line *ln)
 			exit (msg_error(E_MEM, 1, NULL));
 		temp_tk = temp_tk->next;
 	}
-	argv[argc] = NULL;
 	return (argv);
 }
 
