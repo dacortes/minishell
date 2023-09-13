@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/09/13 10:40:57 by dacortes         ###   ########.fr        #
+#    Updated: 2023/09/13 11:06:32 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME = minishell
 CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
-FLAGS = -Wall -Wextra -Werror  -g #-fsanitize=address
+FLAGS = -Wall -Wextra -Werror  -g -fsanitize=address
 ################################################################################
 #  Bar                                                                         #
 ################################################################################
@@ -79,7 +79,7 @@ dir:
 	-mkdir  $(D_OBJ)
 	-mkdir	$(D_OBJ)/built-ins
 	-mkdir  $(D_OBJ)/parse
-$(D_OBJ)/%.o:$(L_SRC)/%.c
+$(D_OBJ)/%.o:$(L_SRC)/%.c Makefile
 	$(CC) -MMD $(FLAGS) -c -D READLINE_LIBRARY=1 $< -o $@ $(INC)
 	$(eval CURRENT_FILE := $(shell echo $$(($(CURRENT_FILE) + 1)))) \
 	$(eval PROGRESS_BAR := $(shell awk "BEGIN { printf \"%.0f\", $(CURRENT_FILE)*100/$(TOTAL_FILES) }")) \

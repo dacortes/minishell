@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 10:39:43 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 10:48:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:06:58 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	expand_tk(t_token **tk, t_env *env)
 			a.e = ft_strdup_exit(tmp->arg);
 			a.tmp = a.e;
 			loop_val(&a, env, &tmp);
+			free(a.e);
 		}
 		tmp = tmp->next;
 	}
