@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 12:09:06 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:44:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ int	main(int ac, char **av, char **env)
 				ft_cd(ln, &sh);
 			else if (ln->argv[0] && ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
 				ft_exit(&ln, sh, ln->argv, ln->argc);
+			else if (ln->argv[0] && ft_strncmp(ln->argv[0], "echo", ft_strlen(ln->argv[0])) == 0)
+				ft_echo(ln->argv, ln->argc);
 		}
 		if (inp[0] != '\0')
 			add_history(inp);

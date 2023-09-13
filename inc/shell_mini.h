@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 11:58:02 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:43:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,40 +115,43 @@ typedef struct s_mini
 
 // ================================= FUNCTIONS ============================== //
 
-/* src/built-ins/unset.c*/
-int		unset(int *size, t_env **env, char *key);
-/* src/built-ins/pwd.c */
-int		pwd(void);
 /* src/built-ins/cd.c */
 int		cd(char *path, t_mini **sh);
 int		ft_cd(t_line *ln, t_mini **sh);
-/* src/built-ins/exit.c */
-int		ft_exit(t_line **ln, t_mini *sh, char **argv, int argc);
+/* src/built-ins/echo.c */
+int		ft_echo(char **argv, int argc);
 /* src/built-ins/env.c */
 void	_env(t_env *env);
 int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
+/* src/built-ins/exit.c */
+int		ft_exit(t_line **ln, t_mini *sh, char **argv, int argc);
 /* src/built-ins/export.c */
 void	show_export(t_env *env);
 int		_export(t_mini *sh, char *inp);
+/* src/built-ins/pwd.c */
+int		pwd(void);
+/* src/built-ins/unset.c*/
+int		unset(int *size, t_env **env, char *key);
 /* scr/utils.c */
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
 char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
 char	*ft_strndup(const char *src, size_t n);
+/* parse/expand_tk */
+int		expand_tk(t_token **tk, t_env *env);
 /* parse/line.c */
 int		ft_line(char *inp, t_line **ln, t_env *env);
+/* parse/token.c test */
+void	show_tokens(t_line *ln);
+int		clear_tk(t_token **tk);
+int		add_token(t_token **tk, char *arg, int type, int *count);
 /* parse/utils_line.c */
 int		clear_ln(t_line **ln);
 void	show_line(t_line *ln);
 char	**convert_to_argv(t_line *ln);
 int		add_line(t_line **ln, t_token *tk, char	*line);
 int		type_expand(char *inp, t_aux *a, t_token **tk, int type);
-/* parse/token.c test */
-void	show_tokens(t_line *ln);
-int		clear_tk(t_token **tk);
-int		expand_tk(t_token **tk, t_env *env);
-int		add_token(t_token **tk, char *arg, int type, int *count);
 /* */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);

@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/09/13 11:46:04 by dacortes         ###   ########.fr        #
+#    Updated: 2023/09/13 14:37:34 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ PROGRESS_BAR :=
 ################################################################################
 #                               SOURCES                                        #
 ################################################################################
-SRC = built-ins/cd.c built-ins/env.c built-ins/export.c built-ins/pwd.c\
+SRC = built-ins/cd.c built-ins/echo.c built-ins/env.c built-ins/export.c built-ins/pwd.c\
 	built-ins/exit.c built-ins/unset.c\
 	parse/expand_tk.c parse/line.c parse/token.c parse/utils_line.c\
 	utils.c main.c

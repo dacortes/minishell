@@ -6,14 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 12:07:44 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:41:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-/* implementando el expand */
-int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env, int type)
+static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env, int type)
 {
 	if (type == QUO || type == DQU)
 	{
@@ -37,7 +36,7 @@ int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env, int type)
 	return (SUCCESS);
 }
 
-void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
+static void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 {
 	char	*tmp;
 
@@ -54,7 +53,7 @@ void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 	free (tmp);
 }
 
-int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
+static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 {
 	t_token	*tk;
 	int		c;
