@@ -3,6 +3,8 @@
 *.o
 *.a
 *.vscode
+*.test
+*.txt
 obj
 minishell
 minishell.*

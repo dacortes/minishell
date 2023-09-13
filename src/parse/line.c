@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/10 15:22:02 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:37:43 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env, int type)
 {
 	if (type == QUO || type == DQU)
-		type_expand(inp, a, tk, type);
+	{
+		if (type_expand(inp, a, tk, type) == ERROR)
+			return (ERROR);
+	}
 	else
 	{
 		a->j = a->i;
@@ -59,6 +62,7 @@ void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 {
 	t_token	*tk;
+	int		c;
 
 	tk = NULL;
 	a->c = 0;
@@ -79,7 +83,7 @@ int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 		}
 	}
 	continue_cnt(ln, &a, tk, inp);
-	int c = 0;
+	c = 0;
 	ft_printf(Y"line\n"E);
 	while ((*ln)->argv[c])
 		ft_printf("%s\n", (*ln)->argv[c++]);
@@ -94,7 +98,7 @@ int	ft_line(char *inp, t_line **ln, t_env *env)
 	while (inp[a.i])
 	{
 		if (continue_ln(ln, &a, env, inp) == ERROR)
-			break ;
+			return (ERROR);
 		if (inp[a.i])
 			a.i++;
 	}

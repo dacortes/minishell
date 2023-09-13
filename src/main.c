@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/09 18:01:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:41:10 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ int	main(int ac, char **av, char **env)
 		prompt(&sh, &inp);
 		if (!inp)
 			exit (0);
-		ft_line(inp, &ln, sh->env);
-		if (inp[0])
+		if (inp[0] && ft_line(inp, &ln, sh->env) != ERROR)
 		{
 			if (ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
 				unset(&sh->size, &sh->env, inp);
