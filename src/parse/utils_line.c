@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:55:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/12 17:53:57 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 10:49:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	add_line(t_line **ln, t_token *tk, char	*line)
 
 int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
 {
-	int expand;
+	int	expand;
 
 	expand = ((inp[a->i] == QUO) * T_TXT) + ((inp[a->i] == DQU) * T_EXP);
 	a->i += (inp[a->i] == QUO) + (inp[a->i] == DQU);

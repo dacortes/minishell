@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/09/12 17:51:00 by dacortes         ###   ########.fr        #
+#    Updated: 2023/09/13 10:40:57 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ PROGRESS_BAR :=
 ################################################################################
 SRC = built-ins/cd.c built-ins/env.c built-ins/export.c built-ins/pwd.c\
 	built-ins/exit.c built-ins/unset.c\
-	parse/line.c parse/token.c parse/utils_line.c\
+	parse/expand_tk.c parse/line.c parse/token.c parse/utils_line.c\
 	utils.c main.c
 LIBFT = ./lib/libft/
 READL = ./lib/readline/

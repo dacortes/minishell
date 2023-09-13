@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:25:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/12 16:29:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/12 18:02:09 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,27 @@ char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep)
 	org_len = ft_strlen(inp);
 	rep_len = ft_strlen(rep);
 	new_len = org_len - (end - start) + rep_len;
-	new = ft_calloc	(new_len + 1, sizeof(char));
+	new = ft_calloc(new_len + 1, sizeof(char));
 	if (!new)
 		exit (msg_error(E_MEM, E_EXIT, NULL));
 	ft_strncpy(new, inp, start);
 	ft_strcpy(&new[start], rep);
 	ft_strcpy(&new[start + rep_len], &inp[end]);
-	new[new_len] = '\0';
 	return (new);
 }
 
 char	*ft_strndup(const char *src, size_t n)
 {
-    size_t	len;
+	size_t	len;
 	char	*dst;
 
 	len = ft_strlen(src);
 	if (n < len)
-        len = n;
+		len = n;
 	dst = ft_calloc(len + 1, sizeof(char));
 	if (!dst)
 		exit (msg_error(E_MEM, E_EXIT, NULL));
-    if (dst) 
+	if (dst)
 		ft_memcpy(dst, src, len);
-    return (dst);
+	return (dst);
 }
