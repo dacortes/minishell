@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 11:37:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:07:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env, int type)
 			exit (msg_error(E_MEM, 1, NULL));
 		a->i = a->j;
 		add_token(tk, a->tmp, T_EXP, &a->c);
-		ft_printf(F"type:%d\n"E, (*tk)->type);
 		free(a->tmp);
 	}
 	expand_tk(tk, env);
@@ -55,10 +54,6 @@ void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 	free (tmp);
 }
 
-/*
-	Da segmentation fault en el pipe cuando se le agrega un espacio | 
-	Da segmentation fault despues de que un error se genere
-*/
 int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 {
 	t_token	*tk;
@@ -73,9 +68,9 @@ int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 			a->i++;
 		a->in_qu = ((inp[a->i] == DQU) * DQU) + ((inp[a->i] == QUO) * QUO);
 		if (a->in_qu == DQU && copy_quotes(inp, a, &tk, env, DQU) == ERROR)
-			return ((ft_printf(R"Error double quotes\n"E) * 0) + ERROR);
+			return (msg_error(E_SNT, E_SNT, "`\"\'"));
 		else if (a->in_qu == QUO && copy_quotes(inp, a, &tk, env, QUO) == ERROR)
-			return ((ft_printf(R"Error quotes\n"E) * 0) + ERROR);
+			return (msg_error(E_SNT, E_SNT, "`\'\'"));
 		else if (inp[a->i] && inp[a->i] != '|' && !a->in_qu)
 		{
 			if (copy_quotes(inp, a, &tk, env, ' ') == ERROR)
@@ -97,8 +92,8 @@ int	ft_line(char *inp, t_line **ln, t_env *env)
 	ft_bzero(&a, sizeof(t_aux));
 	while (inp[a.i])
 	{
-		if (continue_ln(ln, &a, env, inp) == ERROR)
-			return (ERROR);
+		if (continue_ln(ln, &a, env, inp) == E_SNT)
+			return (E_SNT);
 		if (inp[a.i])
 			a.i++;
 	}

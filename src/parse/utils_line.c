@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:55:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 11:16:28 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:54:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
 		exit (msg_error(E_MEM, 1, NULL));
 	a->i += a->j + 1;
 	add_token(tk, a->tmp, expand, &a->c);
-	ft_printf(F"type:%d\n"E, (*tk)->type);
 	free(a->tmp);
 	return (SUCCESS);
 }

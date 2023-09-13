@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 11:45:45 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/13 12:09:06 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	msg_error(int e, int exit_, char *cm)
 	e == E_CNF && fd_printf(2, "mini: %s: command not found\n", cm);
 	e == EX && fd_printf(2, "mini: exit: %s: numeric argument required\n", cm);
 	e == E_ARG && fd_printf(2, "mini: %s: too many arguments\n", cm);
+	e == E_SNT && fd_printf(2, "mini: syntax error near unexpected token %s\n", \
+		cm);
 	if (e == E_PRR)
 		perror("mini");
 	return (exit_);
@@ -97,7 +99,7 @@ int	main(int ac, char **av, char **env)
 		prompt(&sh, &inp);
 		if (!inp)
 			exit (0);
-		if (inp[0] && ft_line(inp, &ln, sh->env) != ERROR)
+		if (inp[0] && ft_line(inp, &ln, sh->env) != E_SNT)
 		{
 			if (ln->argv[0] && ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
 				unset(&sh->size, &sh->env, inp);
