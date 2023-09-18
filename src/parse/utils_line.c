@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:55:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 11:54:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:00:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,31 @@ int	add_line(t_line **ln, t_token *tk, char	*line)
 	return (SUCCESS);
 }
 
+// int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
+// {
+// 	int	expand;
+
+// 	expand = ((inp[a->i] == QUO) * T_TXT) + ((inp[a->i] == DQU) * T_EXP);
+// 	a->i += (inp[a->i] == QUO) + (inp[a->i] == DQU);
+// 	a->j = ft_strchrpos(&inp[a->i], type);
+// 	if (a->j == ERROR)
+// 		return (ERROR);
+// 	a->tmp = ft_substr(inp, a->i, a->j);
+// 	if (!a->tmp)
+// 		exit (msg_error(E_MEM, 1, NULL));
+// 	a->i += a->j + 1;
+// 	add_token(tk, a->tmp, expand, &a->c);
+// 	free(a->tmp);
+// 	return (SUCCESS);
+// }
+
 int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
 {
-	int	expand;
+	int	array[3];
 
-	expand = ((inp[a->i] == QUO) * T_TXT) + ((inp[a->i] == DQU) * T_EXP);
+	array[0] = type;
+	array[1] = ((inp[a->i] == QUO) * T_TXT) + ((inp[a->i] == DQU) * T_EXP);
+	array[2] = 10;
 	a->i += (inp[a->i] == QUO) + (inp[a->i] == DQU);
 	a->j = ft_strchrpos(&inp[a->i], type);
 	if (a->j == ERROR)
@@ -118,7 +138,7 @@ int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
 	if (!a->tmp)
 		exit (msg_error(E_MEM, 1, NULL));
 	a->i += a->j + 1;
-	add_token(tk, a->tmp, expand, &a->c);
+	add_token(tk, a->tmp, array, &a->c);
 	free(a->tmp);
 	return (SUCCESS);
 }

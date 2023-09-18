@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 10:48:09 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/18 11:44:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,45 @@ int	clear_tk(t_token **tk)
 	return (SUCCESS);
 }
 
-int	add_token(t_token **tk, char *arg, int type, int *count)
+// int	add_token(t_token **tk, char *arg, int type, int *count)
+// {
+// 	t_token	*new;
+
+// 	new = ft_calloc(sizeof(t_token), 1);
+// 	if (!new)
+// 		exit (msg_error(E_MEM, 1, NULL));
+// 	new->arg = ft_strdup(arg);
+// 	if (!new->arg)
+// 		exit (msg_error(E_MEM, 1, NULL));
+// 	new->type = type;
+// 	new->next = NULL;
+// 	if (!(*tk))
+// 		*tk = new;
+// 	else
+// 	{
+// 		new->next = *tk;
+// 		(*tk) = new;
+// 	}
+// 	(*count)++;
+// 	return (SUCCESS);
+// }
+
+int	add_token(t_token **tk, char *arg, int *type, int *count)
 {
 	t_token	*new;
+	int		i;
+	int		j;
 
+	i = 0;
+	j = 0;
 	new = ft_calloc(sizeof(t_token), 1);
 	if (!new)
 		exit (msg_error(E_MEM, 1, NULL));
 	new->arg = ft_strdup(arg);
 	if (!new->arg)
 		exit (msg_error(E_MEM, 1, NULL));
-	new->type = type;
+	while (i < 3)
+		new->type[i++] = type[j++];
 	new->next = NULL;
 	if (!(*tk))
 		*tk = new;

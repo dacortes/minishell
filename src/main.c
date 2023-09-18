@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 14:44:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/18 09:50:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	clear(t_mini *sh)
 }
 
 /*
-	hay que actualizar el oldpwd cuado es nuevo y ni no exite agregarlo
+	hay que actualizar el oldpwd cuado es nuevo y sino exite agregarlo
 */
 int	mini_init(t_mini **sh, char **env)
 {

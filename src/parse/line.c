@@ -6,21 +6,26 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/13 17:08:26 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:03:26 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env, int type)
+static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env)
 {
-	if (type == QUO || type == DQU)
+	int	array[3];
+
+	if (a->in_qu == QUO || a->in_qu == DQU)
 	{
-		if (type_expand(inp, a, tk, type) == ERROR)
+		if (type_expand(inp, a, tk, a->in_qu) == ERROR)
 			return (ERROR);
 	}
 	else
 	{
+		array[0] = FALSE;
+		array[1] = T_EXP;
+		array[2] = 10;
 		a->j = a->i;
 		while (inp[a->j] && inp[a->j] != ' ' && inp[a->j] != '|' \
 			&& inp[a->j] != QUO && inp[a->j] != DQU)
@@ -29,7 +34,7 @@ static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env, int type)
 		if (!a->tmp)
 			exit (msg_error(E_MEM, 1, NULL));
 		a->i = a->j;
-		add_token(tk, a->tmp, T_EXP, &a->c);
+		add_token(tk, a->tmp, array, &a->c);
 		free(a->tmp);
 	}
 	expand_tk(tk, env);
@@ -53,6 +58,7 @@ static void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 	free (tmp);
 }
 
+/* hay que limpiar memoria cuando hay errores */
 static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 {
 	t_token	*tk;
@@ -65,14 +71,14 @@ static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 			&& inp[a->i] <= 13) || inp[a->i] == 32))
 			a->i++;
 		a->in_qu = ((inp[a->i] == DQU) * DQU) + ((inp[a->i] == QUO) * QUO);
-		if (a->in_qu == DQU && copy_quotes(inp, a, &tk, env, DQU) == ERROR)
-			return (msg_error(E_SNT, E_SNT, "`\"\'"));
-		else if (a->in_qu == QUO && copy_quotes(inp, a, &tk, env, QUO) == ERROR)
-			return (msg_error(E_SNT, E_SNT, "`\'\'"));
+		if (a->in_qu == DQU && copy_quotes(inp, a, &tk, env) == ERROR)
+			return (clear_tk(&tk) + msg_error(E_SNT, E_SNT, "`\"\'"));
+		else if (a->in_qu == QUO && copy_quotes(inp, a, &tk, env) == ERROR)
+			return (clear_tk(&tk) + msg_error(E_SNT, E_SNT, "`\'\'"));
 		else if (inp[a->i] && inp[a->i] != '|' && !a->in_qu)
 		{
-			if (copy_quotes(inp, a, &tk, env, ' ') == ERROR)
-				return ((ft_printf(R"Error space\n"E) * 0) + ERROR);
+			if (copy_quotes(inp, a, &tk, env) == ERROR)
+				return (clear_tk(&tk) + msg_error(E_SNT, E_SNT, "`\' "));
 		}
 	}
 	continue_cnt(ln, &a, tk, inp);
