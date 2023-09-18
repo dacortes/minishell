@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/18 09:50:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:24:48 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
+/* hay que construir los argumentos con un join ya se implemento la funcion de saber si hay espacios*/
 int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;

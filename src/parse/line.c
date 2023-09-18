@@ -6,11 +6,24 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/18 12:03:26 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:14:34 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
+
+int	analize_space(char *inp, t_aux *a)
+{
+	int	spc;
+	int	start;
+
+	spc = 0;
+	start = a->j;
+	while (inp[start] && inp[start] == ' ')
+		start++ && spc++;
+	ft_printf(B"%d\n"E, spc);
+	return (spc);
+}
 
 static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env)
 {
@@ -23,13 +36,13 @@ static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env)
 	}
 	else
 	{
-		array[0] = FALSE;
-		array[1] = T_EXP;
-		array[2] = 10;
 		a->j = a->i;
 		while (inp[a->j] && inp[a->j] != ' ' && inp[a->j] != '|' \
 			&& inp[a->j] != QUO && inp[a->j] != DQU)
 			a->j++;
+		array[0] = FALSE;
+		array[1] = T_EXP;
+		array[2] = analize_space(inp, a);
 		a->tmp = ft_substr(inp, a->i, a->j - a->i);
 		if (!a->tmp)
 			exit (msg_error(E_MEM, 1, NULL));
@@ -58,7 +71,6 @@ static void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 	free (tmp);
 }
 
-/* hay que limpiar memoria cuando hay errores */
 static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 {
 	t_token	*tk;
