@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:19:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/19 15:36:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:56:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	parse_tk(t_token **tk)
 {
 	t_token	*tmp;
 	int		nd;
+	int		num;
 
 	tmp = *tk;
 	nd = 0;
@@ -64,6 +65,11 @@ int	parse_tk(t_token **tk)
 	{
 		if (!nd)
 		{
+			num = 0;
+			while (tmp->arg[num] && (tmp->arg[num] == '<'))
+				num++;
+			while (tmp->arg[num] && (tmp->arg[num] == '>'))
+				num++;
 			if (tmp->arg && ft_strlen(tmp->arg) == 1 && tmp->type[0] == FALSE
 				&& (tmp->arg[0] == '<' || tmp->arg[0] == '>'))
 				return (msg_error(E_SNT, E_SNT, "`newline\'"));
@@ -74,6 +80,8 @@ int	parse_tk(t_token **tk)
 			tmp->type[3] = T_TXT;
 			if (tmp->type[0] == FALSE && tmp->type[3] == T_TXT)
 			{
+				if (num > 2)
+					return (msg_error(E_SNT, E_SNT, "`newline\'"));
 				if (ft_strlen(tmp->arg) > 1)
 				{
 					ft_printf("queso\n");
