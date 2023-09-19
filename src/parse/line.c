@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/18 16:14:34 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/19 12:12:34 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	analize_space(char *inp, t_aux *a)
 	spc = 0;
 	start = a->j;
 	while (inp[start] && inp[start] == ' ')
-		start++ && spc++;
-	ft_printf(B"%d\n"E, spc);
+		(start++) && (spc++);
+	// ft_printf(B"%d\n"E, spc);
 	return (spc);
 }
 

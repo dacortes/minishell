@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 10:39:43 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/18 16:32:58 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:35:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	expand_tk(t_token **tk, t_env *env)
 	while (tmp)
 	{
 		if (tmp->type[1] == T_EXP)
-		{	if (ft_strlen(tmp->arg) == 1 && tmp->arg[0] == '$')
+		{
+			if (ft_strlen(tmp->arg) == 1 && tmp->arg[0] == '$')
 				;
 			else
 			{

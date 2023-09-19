@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/18 16:21:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/19 11:34:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,14 @@
 # define ERROR 	-1
 # define E_EXIT  1
 /* tokens types */
+# define T_CMD  0
 # define T_EXP 1
 # define T_TXT 2
+/* standard input ouput */
+# define T_SIR 3
+# define T_SOR 4
+# define T_RDHD 5
+# define T_RDAP 6
 /* Inputs */
 # define KEY 1
 # define VAL 2
@@ -78,11 +84,16 @@ typedef struct s_aux
 	char	*_val;
 }	t_aux;
 
-/* pipe, quotes, double quotes */
+/* 
+	pipe, quotes, double quotes
+	type[0] = quotes, type[1] = expand
+	type[2] = space,  type[3] = type
+	type = cmd or txt or redic
+*/
 typedef struct s_token
 {
 	int				argc;
-	int				type[3];
+	int				type[4];
 	char			*arg;
 	struct s_token	*next;
 }	t_token;
@@ -142,10 +153,11 @@ char	*ft_strndup(const char *src, size_t n);
 int		expand_tk(t_token **tk, t_env *env);
 /* parse/line.c */
 int		ft_line(char *inp, t_line **ln, t_env *env);
+/* parse/parce.c */
+int		ft_parse(t_line **ln);
 /* parse/token.c test */
 void	show_tokens(t_line *ln);
 int		clear_tk(t_token **tk);
-// int		add_token(t_token **tk, char *arg, int type, int *count);
 int		add_token(t_token **tk, char *arg, int *type, int *count);
 /* parse/utils_line.c */
 int		clear_ln(t_line **ln);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/18 16:23:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/19 12:08:11 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 void	show_tokens(t_line *ln)
 {
 	t_token	*tmp;
+	int		i;
 
 	tmp = ln->tk;
 	while (tmp)
 	{
+		i = 0;
+		while (i < 4)
+			ft_printf(C"types :%d\n"E, tmp->type[i++]);
 		ft_printf(F"%s\n"E, tmp->arg);
 		tmp = tmp->next;
 	}
