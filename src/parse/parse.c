@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:19:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/19 18:30:59 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:56:28 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,35 @@ int	splt_tk_start(t_token **tk, char *cut, int pos, int sum)
 	return (SUCCESS);
 }
 
-// int	splt_tk_end
+int	splt_tk_end(t_token **tk, char *cut)
+{
+	(void)tk;
+	(void)cut;
+	// (void)pos;
+	// (void)sum;
+	// t_token *act;
+	// t_token *new;
+	char	*tmp;
+	char	*err;
+	int		num;
+
+	tmp = ft_strdup_exit((*tk)->arg);
+	num = ft_strchrpos(tmp, cut[0]);
+	// if (tmp[num])
+	// 	ft_printf("%s\n", tmp[num]);
+	while (tmp[num] && tmp[num] == cut[0])
+		num++;
+	if (num > 2)
+	{
+		cut[0] == '>' && (err = "`>\'");
+		cut[0] == '<' && (err = "`<\'");
+		free(tmp);
+		return (msg_error(E_SNT, E_SNT, err));
+	}
+	ft_printf(T"%s\n"E, &tmp[ft_strchrpos(tmp, cut[0])]);
+	free(tmp);
+	return (SUCCESS);
+}
 
 int	parse_tk(t_token **tk)
 {
@@ -94,7 +122,7 @@ int	parse_tk(t_token **tk)
 					else if (tmp->arg[0] == '<' && tmp->arg[1] == '<')
 						splt_tk_start(&tmp, "<<", 0, 1);
 					else if (tmp->arg[0] != '>' && ft_strchr(tmp->arg, '>'))
-						splt_tk_start(&tmp, ">", ft_strchrpos(tmp->arg, '>'), 0);
+						splt_tk_end(&tmp, ">"/*, 0, 0*/);
 					// 	splt_tk_start(&tmp, ">", 0, 0);
 					// else if (tmp->arg[0] != '<' && tmp->arg[1] != '<')
 					// 	splt_tk_start(&tmp, "<", 0, 0);
