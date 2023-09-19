@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:19:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/19 17:56:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/19 18:05:02 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	div_token(t_token **tk, char *cut, int pos, int sum)
 		new->type[i++] = act->type[j++];
 	ft_printf(Y"%d\n"E, act->type[0]);
 	tmp = ft_strdup_exit(act->arg);
-	new->arg = ft_strdup_exit(&act->arg[pos + sum + 1]);
+	new->arg = ft_strrep(tmp, pos, ft_strlen(tmp), cut);
 	new->next = act->next;
 	if (act->arg)
 		free(act->arg);
-	act->arg = ft_strrep(tmp, pos, ft_strlen(tmp), cut);
+	act->arg = ft_strdup_exit(&act->arg[pos + sum + 1]);
 	act->next = new;
 	*tk = act;
 	free(tmp);
@@ -84,7 +84,6 @@ int	parse_tk(t_token **tk)
 					return (msg_error(E_SNT, E_SNT, "`newline\'"));
 				if (ft_strlen(tmp->arg) > 1)
 				{
-					ft_printf("queso\n");
 					if (tmp->arg[0] == '>' && tmp->arg[1] != '>')
 						div_token(&tmp, ">", 0, 0);
 					else if (tmp->arg[0] == '<' && tmp->arg[1] != '<')
@@ -101,15 +100,32 @@ int	parse_tk(t_token **tk)
 		}
 		else
 		{
+			num = 0;
+			while (tmp->arg[num] && (tmp->arg[num] == '<'))
+				num++;
+			while (tmp->arg[num] && (tmp->arg[num] == '>'))
+				num++;
 			tmp->type[3] = T_TXT;
 			identify(&tmp);
 			ft_printf(R"%d\n"E, tmp->type[0]);
 			if (tmp->type[0] == FALSE && tmp->type[3] == T_TXT)
 			{
-				ft_printf(C"%s\n"E, tmp->arg);
-				ft_printf("separar si es un redic correcto\n");
+				if (num > 2)
+					return (msg_error(E_SNT, E_SNT, "`newline\'"));
+				if (ft_strlen(tmp->arg) > 1)
+				{
+					if (tmp->arg[0] == '>' && tmp->arg[1] != '>')
+						div_token(&tmp, ">", 0, 0);
+					else if (tmp->arg[0] == '<' && tmp->arg[1] != '<')
+						div_token(&tmp, "<", 0, 0);
+					else if (tmp->arg[0] == '>' && tmp->arg[1] == '>')
+						div_token(&tmp, ">>", 0, 1);
+					else if (tmp->arg[0] == '<' && tmp->arg[1] == '<')
+						div_token(&tmp, "<<", 0, 1);
+				}
 			}
-			// ft_printf(C"%d\n"E, tmp->type[3]);
+			ft_printf(C"%s\n"E, tmp->arg);
+			ft_printf(C"%d\n"E, tmp->type[3]);
 		}
 		(tmp = tmp->next) && nd++;
 	}
