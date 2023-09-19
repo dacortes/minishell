@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/19 11:34:18 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:33:22 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define ERROR 	-1
 # define E_EXIT  1
 /* tokens types */
-# define T_CMD  0
+# define T_CMD 0
 # define T_EXP 1
 # define T_TXT 2
 /* standard input ouput */
