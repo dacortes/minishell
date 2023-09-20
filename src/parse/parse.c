@@ -6,11 +6,24 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:19:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/20 11:52:37 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:16:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
+
+int	error_unexpected(int rep, char cut, char **fr)
+{
+	char	*err;
+
+	(rep % 2 == 0) && cut == '>' && (err = "`>>\'");
+	(rep % 2 == 0) && cut == '<' && (err = "`<<\'");
+	(rep % 2 == 1) && cut == '>' && (err = "`>\'");
+	(rep % 2 == 1) && cut == '<' && (err = "`<\'");
+	if (fr && *fr)
+		free(fr);
+	return (msg_error(E_SNT, E_SNT, err));
+}
 
 int	identify(t_token **tk)
 {
@@ -27,14 +40,15 @@ int	identify(t_token **tk)
 
 int	splt_tk_start(t_token **tk, char *cut, int pos, int sum)
 {
-	t_token *act;
-	t_token *new;
+	t_token	*act;
+	t_token	*new;
 	char	*tmp;
 	int		i;
 	int		j;
 
+	i = 0;
+	j = 0;
 	act = *tk;
-	((i = 0) || (j = 0));
 	new = ft_calloc(sizeof(t_token), 1);
 	if (!new)
 		exit (msg_error(E_MEM, 1, NULL));
@@ -54,47 +68,32 @@ int	splt_tk_start(t_token **tk, char *cut, int pos, int sum)
 
 int	splt_tk_end(t_token **tk, char *cut)
 {
-	(void)tk;
 	t_token *act;
 	t_token *new;
-	char	*tmp;
-	char	*err;
-	int		num;
-	int		i;
-	int		j;
+	t_aux	a;
 
-	tmp = ft_strdup_exit((*tk)->arg);
-	num = ft_strchrpos(tmp, cut[0]);
-	while (tmp[num] && tmp[num] == cut[0])
-		num++;
-	num -= ft_strchrpos(tmp, cut[0]);
-	if (num > 2)
-	{
-		(num % 2 == 0) && cut[0] == '>' && (err = "`>>\'");
-		(num % 2 == 0) && cut[0] == '<' && (err = "`<<\'");
-		(num % 2 == 1) && cut[0] == '>' && (err = "`>\'");
-		(num % 2 == 1) && cut[0] == '<' && (err = "`<\'");
-		free(tmp);
-		return (msg_error(E_SNT, E_SNT, err));
-	}
+	ft_bzero(&a, sizeof(t_aux));
+	a.tmp = ft_strdup_exit((*tk)->arg);
+	a.c = ft_strchrpos(a.tmp, cut[0]);
+	while(a.tmp[a.c] && a.tmp[a.c] == cut[0])
+		a.c++;
+	a.c -= ft_strchrpos(a.tmp, cut[0]);
+	if (a.c > 2)
+		error_unexpected(a.c, cut[0], &a.tmp);
 	act = *tk;
-	((i = 0) || (j = 0));
 	new = ft_calloc(sizeof(t_token), 1);
 	if (!new)
 		exit (msg_error(E_MEM, 1, NULL));
-	while (i < 3)
-		new->type[i++] = act->type[j++];
-	tmp = ft_strdup_exit(act->arg);
+	while (a.i < 3)
+		new->type[a.i++] = act->type[a.j++];
 	if (act->arg)
 		free(act->arg);
-	new->arg = ft_strndup(tmp, ft_strchrpos(tmp, cut[0]));
-	act->arg = ft_strdup_exit(&tmp[ft_strlen(new->arg)]);
+	new->arg = ft_strndup(a.tmp, ft_strchrpos(a.tmp, cut[0]));
+	act->arg = ft_strdup_exit(&a.tmp[ft_strlen(new->arg)]);
 	new->next = act->next;
 	act->next = new;
 	*tk = act;
-	ft_printf(T"%s\n"E, act->arg);
-	ft_printf(T"%s\n"E, new->arg);
-	free(tmp);
+	free(a.tmp);
 	return (SUCCESS);
 }
 
@@ -136,6 +135,7 @@ int	parse_tk(t_token **tk)
 				}
 				if (ft_strlen(tmp->arg) > 1)
 				{
+					/* module */
 					if (tmp->arg[0] == '>' && tmp->arg[1] != '>')
 						splt_tk_start(&tmp, ">", 0, 0);
 					else if (tmp->arg[0] == '<' && tmp->arg[1] != '<')
@@ -145,7 +145,9 @@ int	parse_tk(t_token **tk)
 					else if (tmp->arg[0] == '<' && tmp->arg[1] == '<')
 						splt_tk_start(&tmp, "<<", 0, 1);
 					else if (tmp->arg[0] != '>' && ft_strchr(tmp->arg, '>'))
-						splt_tk_end(&tmp, ">"/*, 0, 0*/);
+						splt_tk_end(&tmp, ">");
+					else if (tmp->arg[0] != '<' && ft_strchr(tmp->arg, '<'))
+						splt_tk_end(&tmp, "<");
 				}
 			}
 			// ft_printf(C"%s\n"E, tmp->arg);
@@ -174,6 +176,7 @@ int	parse_tk(t_token **tk)
 				}
 				if (ft_strlen(tmp->arg) > 1)
 				{
+					/* module */
 					if (tmp->arg[0] == '>' && tmp->arg[1] != '>')
 						splt_tk_start(&tmp, ">", 0, 0);
 					else if (tmp->arg[0] == '<' && tmp->arg[1] != '<')
@@ -182,6 +185,10 @@ int	parse_tk(t_token **tk)
 						splt_tk_start(&tmp, ">>", 0, 1);
 					else if (tmp->arg[0] == '<' && tmp->arg[1] == '<')
 						splt_tk_start(&tmp, "<<", 0, 1);
+					else if (tmp->arg[0] != '>' && ft_strchr(tmp->arg, '>'))
+						splt_tk_end(&tmp, ">");
+					else if (tmp->arg[0] != '<' && ft_strchr(tmp->arg, '<'))
+						splt_tk_end(&tmp, "<");
 				}
 			}
 			// ft_printf(C"%s\n"E, tmp->arg);
