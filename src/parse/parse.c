@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:19:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/20 14:51:02 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:53:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,28 +152,6 @@ int	parse_tk(t_token **tk)
 			tmp->type[3] = T_TXT;
 			if (splt_tk(&tmp, num) == E_SNT)
 				return (E_SNT);
-			// if (tmp->type[0] == FALSE && tmp->type[3] == T_TXT)
-			// {
-			// 	if (num > 2)
-			// 		return (error_unexpected(num, tmp->arg[0], NULL));
-			// 	if (ft_strlen(tmp->arg) > 1)
-			// 	{
-			// 		/* module */
-			// 		if (tmp->arg[0] == '>' && tmp->arg[1] != '>')
-			// 			splt_tk_start(&tmp, ">", 0, 0);
-			// 		else if (tmp->arg[0] == '<' && tmp->arg[1] != '<')
-			// 			splt_tk_start(&tmp, "<", 0, 0);
-			// 		else if (tmp->arg[0] == '>' && tmp->arg[1] == '>')
-			// 			splt_tk_start(&tmp, ">>", 0, 1);
-			// 		else if (tmp->arg[0] == '<' && tmp->arg[1] == '<')
-			// 			splt_tk_start(&tmp, "<<", 0, 1);
-			// 		else if (tmp->arg[0] != '>' && ft_strchr(tmp->arg, '>'))
-			// 			splt_tk_end(&tmp, ">");
-			// 		else if (tmp->arg[0] != '<' && ft_strchr(tmp->arg, '<'))
-			// 			splt_tk_end(&tmp, "<");
-			// 	}
-			// }
-			// ft_printf(C"%s\n"E, tmp->arg);
 			(tmp->next == NULL) && (tmp->type[3] = T_CMD);
 			// ft_printf(C"%d\n"E, tmp->type[3]);
 		}
@@ -186,29 +164,8 @@ int	parse_tk(t_token **tk)
 				num++;
 			tmp->type[3] = T_TXT;
 			identify(&tmp);
-			// ft_printf(R"%d\n"E, tmp->type[0]);
-			if (tmp->type[0] == FALSE && tmp->type[3] == T_TXT)
-			{
-				if (num > 2)
-					return (error_unexpected(num, tmp->arg[0], NULL));
-				if (ft_strlen(tmp->arg) > 1)
-				{
-					/* module */
-					if (tmp->arg[0] == '>' && tmp->arg[1] != '>')
-						splt_tk_start(&tmp, ">", 0, 0);
-					else if (tmp->arg[0] == '<' && tmp->arg[1] != '<')
-						splt_tk_start(&tmp, "<", 0, 0);
-					else if (tmp->arg[0] == '>' && tmp->arg[1] == '>')
-						splt_tk_start(&tmp, ">>", 0, 1);
-					else if (tmp->arg[0] == '<' && tmp->arg[1] == '<')
-						splt_tk_start(&tmp, "<<", 0, 1);
-					else if (tmp->arg[0] != '>' && ft_strchr(tmp->arg, '>'))
-						splt_tk_end(&tmp, ">");
-					else if (tmp->arg[0] != '<' && ft_strchr(tmp->arg, '<'))
-						splt_tk_end(&tmp, "<");
-				}
-			}
-			// ft_printf(C"%s\n"E, tmp->arg);
+			if (splt_tk(&tmp, num) == E_SNT)
+				return (E_SNT);
 			// ft_printf(C"%d\n"E, tmp->type[3]);
 		}
 		(tmp = tmp->next) && nd++;
