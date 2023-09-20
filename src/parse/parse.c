@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:19:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/20 10:47:01 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/20 11:52:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ int	splt_tk_end(t_token **tk, char *cut)
 {
 	(void)tk;
 	t_token *act;
-	// t_token *new;
+	t_token *new;
 	char	*tmp;
 	char	*err;
 	int		num;
+	int		i;
+	int		j;
 
 	tmp = ft_strdup_exit((*tk)->arg);
 	num = ft_strchrpos(tmp, cut[0]);
@@ -76,7 +78,22 @@ int	splt_tk_end(t_token **tk, char *cut)
 		return (msg_error(E_SNT, E_SNT, err));
 	}
 	act = *tk;
-	ft_printf(T"%s\n"E, &tmp[ft_strchrpos(tmp, cut[0])]);
+	((i = 0) || (j = 0));
+	new = ft_calloc(sizeof(t_token), 1);
+	if (!new)
+		exit (msg_error(E_MEM, 1, NULL));
+	while (i < 3)
+		new->type[i++] = act->type[j++];
+	tmp = ft_strdup_exit(act->arg);
+	if (act->arg)
+		free(act->arg);
+	new->arg = ft_strndup(tmp, ft_strchrpos(tmp, cut[0]));
+	act->arg = ft_strdup_exit(&tmp[ft_strlen(new->arg)]);
+	new->next = act->next;
+	act->next = new;
+	*tk = act;
+	ft_printf(T"%s\n"E, act->arg);
+	ft_printf(T"%s\n"E, new->arg);
 	free(tmp);
 	return (SUCCESS);
 }
