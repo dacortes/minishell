@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:19:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/20 14:16:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/20 14:51:02 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	error_unexpected(int rep, char cut, char **fr)
 	(rep % 2 == 1) && cut == '>' && (err = "`>\'");
 	(rep % 2 == 1) && cut == '<' && (err = "`<\'");
 	if (fr && *fr)
-		free(fr);
+		free(*fr);
 	return (msg_error(E_SNT, E_SNT, err));
 }
 
@@ -68,18 +68,18 @@ int	splt_tk_start(t_token **tk, char *cut, int pos, int sum)
 
 int	splt_tk_end(t_token **tk, char *cut)
 {
-	t_token *act;
-	t_token *new;
+	t_token	*act;
+	t_token	*new;
 	t_aux	a;
 
 	ft_bzero(&a, sizeof(t_aux));
 	a.tmp = ft_strdup_exit((*tk)->arg);
 	a.c = ft_strchrpos(a.tmp, cut[0]);
-	while(a.tmp[a.c] && a.tmp[a.c] == cut[0])
+	while (a.tmp[a.c] && a.tmp[a.c] == cut[0])
 		a.c++;
 	a.c -= ft_strchrpos(a.tmp, cut[0]);
 	if (a.c > 2)
-		error_unexpected(a.c, cut[0], &a.tmp);
+		return (error_unexpected(a.c, cut[0], &a.tmp));
 	act = *tk;
 	new = ft_calloc(sizeof(t_token), 1);
 	if (!new)
@@ -97,12 +97,39 @@ int	splt_tk_end(t_token **tk, char *cut)
 	return (SUCCESS);
 }
 
+int	splt_tk(t_token **tk, int rep)
+{
+	int	chk;
+
+	chk = SUCCESS;
+	if ((*tk)->type[0] == FALSE && (*tk)->type[3] == T_TXT)
+	{
+		if (rep > 2)
+			return (error_unexpected(rep, (*tk)->arg[0], NULL));
+		if (ft_strlen((*tk)->arg) > 1)
+		{
+			if ((*tk)->arg[0] == '>' && (*tk)->arg[1] != '>')
+				chk = splt_tk_start(tk, ">", 0, 0);
+			else if ((*tk)->arg[0] == '<' && (*tk)->arg[1] != '<')
+				chk = splt_tk_start(tk, "<", 0, 0);
+			else if ((*tk)->arg[0] == '>' && (*tk)->arg[1] == '>')
+				chk = splt_tk_start(tk, ">>", 0, 1);
+			else if ((*tk)->arg[0] == '<' && (*tk)->arg[1] == '<')
+				chk = splt_tk_start(tk, "<<", 0, 1);
+			else if ((*tk)->arg[0] != '>' && ft_strchr((*tk)->arg, '>'))
+				chk = splt_tk_end(tk, ">");
+			else if ((*tk)->arg[0] != '<' && ft_strchr((*tk)->arg, '<'))
+				chk = splt_tk_end(tk, "<");
+		}
+	}
+	return (chk);
+}
+
 int	parse_tk(t_token **tk)
 {
 	t_token	*tmp;
 	int		nd;
 	int		num;
-	char	*err;
 
 	tmp = *tk;
 	nd = 0;
@@ -123,33 +150,29 @@ int	parse_tk(t_token **tk)
 					|| (ft_strncmp(tmp->arg, ">>", 2) == 0)))
 				return (msg_error(E_SNT, E_SNT, "`newline\'"));
 			tmp->type[3] = T_TXT;
-			if (tmp->type[0] == FALSE && tmp->type[3] == T_TXT)
-			{
-				if (num > 2)
-				{
-					(num % 2 == 0) && tmp->arg[0] == '>' && (err = "`>>\'");
-					(num % 2 == 0) && tmp->arg[0] == '<' && (err = "`<<\'");
-					(num % 2 == 1) && tmp->arg[0] == '>' && (err = "`>\'");
-					(num % 2 == 1) && tmp->arg[0] == '<' && (err = "`<\'");
-					return (msg_error(E_SNT, E_SNT, err));
-				}
-				if (ft_strlen(tmp->arg) > 1)
-				{
-					/* module */
-					if (tmp->arg[0] == '>' && tmp->arg[1] != '>')
-						splt_tk_start(&tmp, ">", 0, 0);
-					else if (tmp->arg[0] == '<' && tmp->arg[1] != '<')
-						splt_tk_start(&tmp, "<", 0, 0);
-					else if (tmp->arg[0] == '>' && tmp->arg[1] == '>')
-						splt_tk_start(&tmp, ">>", 0, 1);
-					else if (tmp->arg[0] == '<' && tmp->arg[1] == '<')
-						splt_tk_start(&tmp, "<<", 0, 1);
-					else if (tmp->arg[0] != '>' && ft_strchr(tmp->arg, '>'))
-						splt_tk_end(&tmp, ">");
-					else if (tmp->arg[0] != '<' && ft_strchr(tmp->arg, '<'))
-						splt_tk_end(&tmp, "<");
-				}
-			}
+			if (splt_tk(&tmp, num) == E_SNT)
+				return (E_SNT);
+			// if (tmp->type[0] == FALSE && tmp->type[3] == T_TXT)
+			// {
+			// 	if (num > 2)
+			// 		return (error_unexpected(num, tmp->arg[0], NULL));
+			// 	if (ft_strlen(tmp->arg) > 1)
+			// 	{
+			// 		/* module */
+			// 		if (tmp->arg[0] == '>' && tmp->arg[1] != '>')
+			// 			splt_tk_start(&tmp, ">", 0, 0);
+			// 		else if (tmp->arg[0] == '<' && tmp->arg[1] != '<')
+			// 			splt_tk_start(&tmp, "<", 0, 0);
+			// 		else if (tmp->arg[0] == '>' && tmp->arg[1] == '>')
+			// 			splt_tk_start(&tmp, ">>", 0, 1);
+			// 		else if (tmp->arg[0] == '<' && tmp->arg[1] == '<')
+			// 			splt_tk_start(&tmp, "<<", 0, 1);
+			// 		else if (tmp->arg[0] != '>' && ft_strchr(tmp->arg, '>'))
+			// 			splt_tk_end(&tmp, ">");
+			// 		else if (tmp->arg[0] != '<' && ft_strchr(tmp->arg, '<'))
+			// 			splt_tk_end(&tmp, "<");
+			// 	}
+			// }
 			// ft_printf(C"%s\n"E, tmp->arg);
 			(tmp->next == NULL) && (tmp->type[3] = T_CMD);
 			// ft_printf(C"%d\n"E, tmp->type[3]);
@@ -167,13 +190,7 @@ int	parse_tk(t_token **tk)
 			if (tmp->type[0] == FALSE && tmp->type[3] == T_TXT)
 			{
 				if (num > 2)
-				{
-					(num % 2 == 0) && tmp->arg[0] == '>' && (err = "`>>\'");
-					(num % 2 == 0) && tmp->arg[0] == '<' && (err = "`<<\'");
-					(num % 2 == 1) && tmp->arg[0] == '>' && (err = "`>\'");
-					(num % 2 == 1) && tmp->arg[0] == '<' && (err = "`<\'");
-					return (msg_error(E_SNT, E_SNT, err));
-				}
+					return (error_unexpected(num, tmp->arg[0], NULL));
 				if (ft_strlen(tmp->arg) > 1)
 				{
 					/* module */
