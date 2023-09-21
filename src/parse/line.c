@@ -6,67 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/21 16:14:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:39:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
-
-// static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env)
-// {
-// 	int	array[4];
-
-// 	if (a->in_qu == QUO || a->in_qu == DQU)
-// 	{
-// 		if (type_expand(inp, a, tk, a->in_qu) == ERROR)
-// 			return (ERROR);
-// 	}
-// 	else
-// 	{
-// 		a->j = a->i;
-// 		while (inp[a->j] && inp[a->j] != ' ' && inp[a->j] != '|' \
-// 			&& inp[a->j] != QUO && inp[a->j] != DQU
-// 			&& inp[a->j] != '<' && inp[a->j] != '>')
-// 			a->j++;
-// 		if (inp[a->j] && (inp[a->j] == '<' || inp[a->j] == '>'))
-// 		{
-// 			int 	num;
-// 			int		start;
-// 			char	*tmp;
-
-// 			start = a->j;
-// 			num = 0;
-// 			while (inp[start] && inp[start] == '>')
-// 				(start++) && (num++);
-// 			while (inp[start] && inp[start] == '<')
-// 				(start++) && (num++);
-// 			ft_printf("%d\n", num);
-// 			tmp = ft_strndup(&inp[a->j], num);
-// 			add_token(tk, tmp, array, &a->c);
-// 			ft_printf(O"%s\n"E, tmp);
-// 			free (tmp);
-// 			a->j += num;
-// 			a->j += (inp[a->j + 1] != '\0');
-// 			ft_printf(R"%d\n"E, a->j);
-// 		}
-// 		else
-// 		{
-// 			array[0] = FALSE;
-// 			array[1] = T_EXP;
-// 			array[2] = analize_space(inp, a->j);
-// 			array[3] = T_TXT;
-// 			a->tmp = ft_substr(inp, a->i, a->j - a->i);
-// 			if (!a->tmp)
-// 				exit (msg_error(E_MEM, 1, NULL));
-// 			a->i = a->j;
-// 			add_token(tk, a->tmp, array, &a->c);
-// 			free(a->tmp);
-// 			ft_printf("pasta\n");
-// 		}
-// 	}
-// 	expand_tk(tk, env);
-// 	return (SUCCESS);
-// }
 
 int	analize_space(char *inp, int count)
 {
@@ -89,7 +33,6 @@ static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env)
 	{
 		if (type_expand(inp, a, tk, a->in_qu) == ERROR)
 			return (ERROR);
-		ft_printf("queso\n");
 	}
 	else
 	{
@@ -131,6 +74,43 @@ static void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 	free (tmp);
 }
 
+int	identify(t_token **tk)
+{
+	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
+		&& (*tk)->arg[0] == '<' && ((*tk)->type[3] = T_SIR));
+	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
+		&& (*tk)->arg[0] == '>' && ((*tk)->type[3] = T_SOR));
+	(ft_strlen((*tk)->arg) == 2 && (*tk)->type[0] == FALSE
+		&& ft_strncmp((*tk)->arg, "<<", 2) == 0 && ((*tk)->type[3] = T_RDHD));
+	(ft_strlen((*tk)->arg) == 2 && (*tk)->type[0] == FALSE
+		&& ft_strncmp((*tk)->arg, ">>", 2) == 0 && ((*tk)->type[3] = T_RDAP));
+	return ((*tk)->type[3]);
+}
+
+int		copy_redic(char *inp, t_aux *a, t_token **tk, char rdc)
+{
+	int	array[4];
+	int	num;
+	int	start;
+
+	num = 0;
+	start = a->j;
+	while (inp[start] && inp[start] == rdc)
+		(num++) && (start++);
+	num -= (inp[start] != rdc);
+	a->tmp = ft_strndup(&inp[a->j], num);
+	array[0] = FALSE;
+	array[1] = T_EXP;
+	array[2] = analize_space(inp, start);
+	array[3] = T_TXT;
+	add_token(tk, a->tmp, array, &a->c);
+	free(a->tmp);
+	ft_printf(F"%d\n"E,  array[2]);
+	a->j += num;
+	a->i = a->j;
+	return (SUCCESS);
+}
+
 static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 {
 	t_token	*tk;
@@ -151,26 +131,10 @@ static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 		{
 			if (copy_quotes(inp, a, &tk, env) == ERROR)
 				return (clear_tk(&tk) + msg_error(E_SNT, E_SNT, "`\' "));
-			if (inp[a->j] && (inp[a->j] == '<' || inp[a->j] == '>'))
-			{
-				int 	num;
-				int		start;
-				char	*tmp;
-				int		array[4];
-
-				start = a->j;
-				num = 0;
-				while (inp[start] && inp[start] == '>')
-					(start++) && (num++);
-				while (inp[start] && inp[start] == '<')
-					(start++) && (num++);
-				tmp = ft_strndup(&inp[a->j], num);
-				add_token(&tk, tmp, array, &a->c);
-				free (tmp);
-				a->j += num;
-				a->i = a->j;
-				ft_printf("pan\n");
-			}
+			if (inp[a->j] && (inp[a->j] == '<'))
+				copy_redic(inp, a, &tk, '<');
+			else if  (inp[a->j] && (inp[a->j] == '>'))
+				copy_redic(inp, a, &tk, '>');
 		}
 	}
 	continue_cnt(ln, &a, tk, inp);
