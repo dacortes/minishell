@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/19 15:33:22 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/21 11:31:24 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,8 @@ void	show_tokens(t_line *ln);
 int		clear_tk(t_token **tk);
 int		add_token(t_token **tk, char *arg, int *type, int *count);
 /* parse/utils_line.c */
+int		analize_space(char *inp, int count);
 int		clear_ln(t_line **ln);
-void	show_line(t_line *ln);
 char	**convert_to_argv(t_line *ln);
 int		add_line(t_line **ln, t_token *tk, char	*line);
 int		type_expand(char *inp, t_aux *a, t_token **tk, int type);

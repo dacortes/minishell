@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/19 12:08:11 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/21 10:54:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	add_token(t_token **tk, char *arg, int *type, int *count)
 	new->arg = ft_strdup(arg);
 	if (!new->arg)
 		exit (msg_error(E_MEM, 1, NULL));
-	while (i < 3)
+	while (i < 4)
 		new->type[i++] = type[j++];
 	new->next = NULL;
 	if (!(*tk))

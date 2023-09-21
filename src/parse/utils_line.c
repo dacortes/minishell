@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:55:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/19 12:18:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/21 11:58:34 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,6 @@ int	clear_ln(t_line **ln)
 	}
 	*ln = NULL;
 	return (SUCCESS);
-}
-
-void	show_line(t_line *ln)
-{
-	t_line	*tmp;
-	t_token	*tk_tmp;
-
-	tmp = ln;
-	ft_printf(O"nodes the line\n"E);
-	while (tmp)
-	{
-		(O"nodes the token\n"E);
-		tk_tmp = ln->tk;
-		ft_printf(Y"%p\n"E, tmp);
-		while (tk_tmp)
-		{
-			ft_printf(F"%s\n"E, tk_tmp->arg);
-			tk_tmp = tk_tmp->next;
-		}
-		if (!tmp->next)
-			ft_printf(R"%p\n"E, tmp);
-		tmp = tmp->next;
-	}
 }
 
 char	**convert_to_argv(t_line *ln)
@@ -105,11 +82,8 @@ int	add_line(t_line **ln, t_token *tk, char	*line)
 
 int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
 {
-	int	array[3];
+	int	array[4];
 
-	array[0] = type;
-	array[1] = ((inp[a->i] == QUO) * T_TXT) + ((inp[a->i] == DQU) * T_EXP);
-	array[2] = 0;
 	a->i += (inp[a->i] == QUO) + (inp[a->i] == DQU);
 	a->j = ft_strchrpos(&inp[a->i], type);
 	if (a->j == ERROR)
@@ -118,6 +92,10 @@ int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
 	if (!a->tmp)
 		exit (msg_error(E_MEM, 1, NULL));
 	a->i += a->j + 1;
+	array[0] = type;
+	array[1] = ((inp[a->i] == QUO) * T_TXT) + ((inp[a->i] == DQU) * T_EXP);
+	array[2] = analize_space(inp, a->i);
+	array[3] = T_TXT;
 	add_token(tk, a->tmp, array, &a->c);
 	free(a->tmp);
 	return (SUCCESS);
