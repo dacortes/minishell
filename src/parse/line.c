@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/21 14:52:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/21 16:14:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env)
 	{
 		if (type_expand(inp, a, tk, a->in_qu) == ERROR)
 			return (ERROR);
+		ft_printf("queso\n");
 	}
 	else
 	{
@@ -105,7 +106,8 @@ static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env)
 			if (!a->tmp)
 				exit (msg_error(E_MEM, 1, NULL));
 			a->i = a->j;
-			add_token(tk, a->tmp, array, &a->c);
+			if (a->tmp && *a->tmp)
+				add_token(tk, a->tmp, array, &a->c);
 			free(a->tmp);
 	}
 	expand_tk(tk, env);
@@ -167,15 +169,15 @@ static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 				free (tmp);
 				a->j += num;
 				a->i = a->j;
+				ft_printf("pan\n");
 			}
-			ft_printf(Y"%d\n"E, a->j);
 		}
 	}
 	continue_cnt(ln, &a, tk, inp);
 	int	c = 0;
 	ft_printf(Y"line\n"E);
 	while ((*ln)->argv[c])
-		ft_printf("%s\n", (*ln)->argv[c++]);
+		ft_printf("*%s*\n", (*ln)->argv[c++]);
 	return (SUCCESS);
 }
 
