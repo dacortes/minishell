@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/21 18:39:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:56:17 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,19 @@ static void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 	free (tmp);
 }
 
+int	error_unexpected(int rep, char cut, char **fr)
+{
+	char	*err;
+
+	(rep % 2 == 0) && cut == '>' && (err = "`>>\'");
+	(rep % 2 == 0) && cut == '<' && (err = "`<<\'");
+	(rep % 2 == 1) && cut == '>' && (err = "`>\'");
+	(rep % 2 == 1) && cut == '<' && (err = "`<\'");
+	if (fr && *fr)
+		free(*fr);
+	return (msg_error(E_SNT, E_SNT, err));
+}
+
 int	identify(t_token **tk)
 {
 	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
@@ -98,14 +111,17 @@ int		copy_redic(char *inp, t_aux *a, t_token **tk, char rdc)
 	while (inp[start] && inp[start] == rdc)
 		(num++) && (start++);
 	num -= (inp[start] != rdc);
+	ft_printf(F"%d\n"E,  num);
+	if (num > 2)
+		return (error_unexpected(num, rdc, NULL));
 	a->tmp = ft_strndup(&inp[a->j], num);
 	array[0] = FALSE;
 	array[1] = T_EXP;
 	array[2] = analize_space(inp, start);
-	array[3] = T_TXT;
+	array[3] = FALSE;
 	add_token(tk, a->tmp, array, &a->c);
+	identify(tk);
 	free(a->tmp);
-	ft_printf(F"%d\n"E,  array[2]);
 	a->j += num;
 	a->i = a->j;
 	return (SUCCESS);
@@ -131,10 +147,10 @@ static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 		{
 			if (copy_quotes(inp, a, &tk, env) == ERROR)
 				return (clear_tk(&tk) + msg_error(E_SNT, E_SNT, "`\' "));
-			if (inp[a->j] && (inp[a->j] == '<'))
-				copy_redic(inp, a, &tk, '<');
-			else if  (inp[a->j] && (inp[a->j] == '>'))
-				copy_redic(inp, a, &tk, '>');
+			if (inp[a->j] && (inp[a->j] == '<') && copy_redic(inp, a, &tk, '<') == E_SNT)
+				return (clear_tk(&tk) + E_SNT);
+			else if  (inp[a->j] && (inp[a->j] == '>') && copy_redic(inp, a, &tk, '>') == E_SNT)
+				return (clear_tk(&tk) + E_SNT);
 		}
 	}
 	continue_cnt(ln, &a, tk, inp);
