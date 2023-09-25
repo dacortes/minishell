@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_line.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:55:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/21 11:58:34 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:11:03 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,47 +56,4 @@ char	**convert_to_argv(t_line *ln)
 		temp_tk = temp_tk->next;
 	}
 	return (argv);
-}
-
-int	add_line(t_line **ln, t_token *tk, char	*line)
-{
-	t_line	*new;
-
-	new = ft_calloc(sizeof(t_line), 1);
-	if (!new)
-		exit (msg_error(E_MEM, 1, NULL));
-	new->tk = tk;
-	new->line = ft_strdup(line);
-	if (!line)
-		exit (msg_error(E_MEM, 1, NULL));
-	new->next = NULL;
-	if (!(*ln))
-		*ln = new;
-	else
-	{
-		new->next = *ln;
-		*ln = new;
-	}
-	return (SUCCESS);
-}
-
-int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
-{
-	int	array[4];
-
-	a->i += (inp[a->i] == QUO) + (inp[a->i] == DQU);
-	a->j = ft_strchrpos(&inp[a->i], type);
-	if (a->j == ERROR)
-		return (ERROR);
-	a->tmp = ft_substr(inp, a->i, a->j);
-	if (!a->tmp)
-		exit (msg_error(E_MEM, 1, NULL));
-	a->i += a->j + 1;
-	array[0] = type;
-	array[1] = ((inp[a->i] == QUO) * T_TXT) + ((inp[a->i] == DQU) * T_EXP);
-	array[2] = analize_space(inp, a->i);
-	array[3] = T_TXT;
-	add_token(tk, a->tmp, array, &a->c);
-	free(a->tmp);
-	return (SUCCESS);
 }

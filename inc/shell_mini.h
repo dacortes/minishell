@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/21 11:31:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:16:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,22 +149,27 @@ char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
 char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
 char	*ft_strndup(const char *src, size_t n);
+/* parse/analize.c */
+int		identify(t_token **tk);
+int		analize_space(char *inp, int count);
+int		error_unexpected(int rep, char cut, char **fr);
+int		type_expand(char *inp, t_aux *a, t_token **tk, int type);
+/* parse/copy.c */
+int		copy_unquo(char	*inp, t_aux *a, t_token **tk);
+int		copy_redic(char *inp, t_aux *a, t_token **tk, char rdc);
+int		copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env);
 /* parse/expand_tk */
 int		expand_tk(t_token **tk, t_env *env);
 /* parse/line.c */
+int		add_line(t_line **ln, t_token *tk, char	*line);
 int		ft_line(char *inp, t_line **ln, t_env *env);
-/* parse/parce.c */
-int		ft_parse(t_line **ln);
 /* parse/token.c test */
 void	show_tokens(t_line *ln);
 int		clear_tk(t_token **tk);
 int		add_token(t_token **tk, char *arg, int *type, int *count);
-/* parse/utils_line.c */
-int		analize_space(char *inp, int count);
+/* parse/utils.c */
 int		clear_ln(t_line **ln);
 char	**convert_to_argv(t_line *ln);
-int		add_line(t_line **ln, t_token *tk, char	*line);
-int		type_expand(char *inp, t_aux *a, t_token **tk, int type);
 /* */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);

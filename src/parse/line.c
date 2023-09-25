@@ -6,54 +6,31 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/21 18:56:17 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/25 10:33:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-int	analize_space(char *inp, int count)
+int	add_line(t_line **ln, t_token *tk, char	*line)
 {
-	int	spc;
-	int	start;
+	t_line	*new;
 
-	spc = 0;
-	start = count;
-	start += (inp[start] == DQU) + (inp[start] == QUO);
-	while (inp[start] && inp[start] == ' ')
-		(start++) && (spc++);
-	return (spc);
-}
-
-static int	copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env)
-{
-	int	array[4];
-
-	if (a->in_qu == QUO || a->in_qu == DQU)
-	{
-		if (type_expand(inp, a, tk, a->in_qu) == ERROR)
-			return (ERROR);
-	}
+	new = ft_calloc(sizeof(t_line), 1);
+	if (!new)
+		exit (msg_error(E_MEM, 1, NULL));
+	new->tk = tk;
+	new->line = ft_strdup(line);
+	if (!line)
+		exit (msg_error(E_MEM, 1, NULL));
+	new->next = NULL;
+	if (!(*ln))
+		*ln = new;
 	else
 	{
-		a->j = a->i;
-		while (inp[a->j] && inp[a->j] != ' ' && inp[a->j] != '|' \
-			&& inp[a->j] != QUO && inp[a->j] != DQU
-			&& inp[a->j] != '<' && inp[a->j] != '>')
-				a->j++;
-			array[0] = FALSE;
-			array[1] = T_EXP;
-			array[2] = analize_space(inp, a->j);
-			array[3] = T_TXT;
-			a->tmp = ft_substr(inp, a->i, a->j - a->i);
-			if (!a->tmp)
-				exit (msg_error(E_MEM, 1, NULL));
-			a->i = a->j;
-			if (a->tmp && *a->tmp)
-				add_token(tk, a->tmp, array, &a->c);
-			free(a->tmp);
+		new->next = *ln;
+		*ln = new;
 	}
-	expand_tk(tk, env);
 	return (SUCCESS);
 }
 
@@ -74,62 +51,22 @@ static void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 	free (tmp);
 }
 
-int	error_unexpected(int rep, char cut, char **fr)
+static int	copy_cnt(t_aux *a, t_env *env, t_token	**tk, char *inp)
 {
-	char	*err;
-
-	(rep % 2 == 0) && cut == '>' && (err = "`>>\'");
-	(rep % 2 == 0) && cut == '<' && (err = "`<<\'");
-	(rep % 2 == 1) && cut == '>' && (err = "`>\'");
-	(rep % 2 == 1) && cut == '<' && (err = "`<\'");
-	if (fr && *fr)
-		free(*fr);
-	return (msg_error(E_SNT, E_SNT, err));
-}
-
-int	identify(t_token **tk)
-{
-	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
-		&& (*tk)->arg[0] == '<' && ((*tk)->type[3] = T_SIR));
-	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
-		&& (*tk)->arg[0] == '>' && ((*tk)->type[3] = T_SOR));
-	(ft_strlen((*tk)->arg) == 2 && (*tk)->type[0] == FALSE
-		&& ft_strncmp((*tk)->arg, "<<", 2) == 0 && ((*tk)->type[3] = T_RDHD));
-	(ft_strlen((*tk)->arg) == 2 && (*tk)->type[0] == FALSE
-		&& ft_strncmp((*tk)->arg, ">>", 2) == 0 && ((*tk)->type[3] = T_RDAP));
-	return ((*tk)->type[3]);
-}
-
-int		copy_redic(char *inp, t_aux *a, t_token **tk, char rdc)
-{
-	int	array[4];
-	int	num;
-	int	start;
-
-	num = 0;
-	start = a->j;
-	while (inp[start] && inp[start] == rdc)
-		(num++) && (start++);
-	num -= (inp[start] != rdc);
-	ft_printf(F"%d\n"E,  num);
-	if (num > 2)
-		return (error_unexpected(num, rdc, NULL));
-	a->tmp = ft_strndup(&inp[a->j], num);
-	array[0] = FALSE;
-	array[1] = T_EXP;
-	array[2] = analize_space(inp, start);
-	array[3] = FALSE;
-	add_token(tk, a->tmp, array, &a->c);
-	identify(tk);
-	free(a->tmp);
-	a->j += num;
-	a->i = a->j;
+	if (copy_quotes(inp, a, tk, env) == ERROR)
+		return (clear_tk(tk) + msg_error(E_SNT, E_SNT, "`\' "));
+	if (inp[a->j] && (inp[a->j] == '<') && copy_redic(inp, a, tk, '<') == E_SNT)
+		return (clear_tk(tk) + E_SNT);
+	else if (inp[a->j] && (inp[a->j] == '>')
+		&& copy_redic(inp, a, tk, '>') == E_SNT)
+		return (clear_tk(tk) + E_SNT);
 	return (SUCCESS);
 }
 
 static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 {
 	t_token	*tk;
+	int		chk;
 
 	tk = NULL;
 	a->c = 0;
@@ -145,19 +82,12 @@ static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 			return (clear_tk(&tk) + msg_error(E_SNT, E_SNT, "`\'\'"));
 		else if (inp[a->i] && inp[a->i] != '|' && !a->in_qu)
 		{
-			if (copy_quotes(inp, a, &tk, env) == ERROR)
-				return (clear_tk(&tk) + msg_error(E_SNT, E_SNT, "`\' "));
-			if (inp[a->j] && (inp[a->j] == '<') && copy_redic(inp, a, &tk, '<') == E_SNT)
-				return (clear_tk(&tk) + E_SNT);
-			else if  (inp[a->j] && (inp[a->j] == '>') && copy_redic(inp, a, &tk, '>') == E_SNT)
-				return (clear_tk(&tk) + E_SNT);
+			chk = copy_cnt(a, env, &tk, inp);
+			if (chk == ERROR || chk == E_SNT)
+				return (chk);
 		}
 	}
 	continue_cnt(ln, &a, tk, inp);
-	int	c = 0;
-	ft_printf(Y"line\n"E);
-	while ((*ln)->argv[c])
-		ft_printf("*%s*\n", (*ln)->argv[c++]);
 	return (SUCCESS);
 }
 
