@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/25 10:33:05 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/25 14:47:41 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,52 @@ static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 		}
 	}
 	continue_cnt(ln, &a, tk, inp);
+	int	c = 0;
+	ft_printf(Y"line\n"E);
+	while ((*ln)->argv[c])
+		ft_printf("*%s*\n", (*ln)->argv[c++]);
 	return (SUCCESS);
+}
+
+int	err_pipes(int pipe, t_line *ln)
+{
+	(void)ln;
+	(void)pipe;
+	t_line	*tmp;
+	int		num;
+
+	tmp = ln;
+	num = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		num++;
+	}
+	tmp = ln;
+	if (pipe > 0 && pipe == num)
+		return (msg_error(E_SNT, E_SNT, "`|\'"));
+	else if (pipe > 0 && pipe < num && tmp && !tmp->tk)
+		return (msg_error(E_SNT, E_SNT, "`|\'"));
+	return (num);
 }
 
 int	ft_line(char *inp, t_line **ln, t_env *env)
 {
 	t_aux	a;
+	int		pipe;
+	int		num;
 
+	pipe = 0;
 	ft_bzero(&a, sizeof(t_aux));
 	while (inp[a.i])
 	{
 		if (continue_ln(ln, &a, env, inp) == E_SNT)
 			return (E_SNT);
+		if (inp[a.i] == '|')
+			pipe++;
 		if (inp[a.i])
 			a.i++;
 	}
+	num = err_pipes(pipe, *ln);
 	return (SUCCESS);
 }
