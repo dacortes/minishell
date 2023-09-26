@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 16:04:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:55:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # define T_SOR 4
 # define T_RDHD 5
 # define T_RDAP 6
+/* file descriptor */
+# define T_FD 7
 /* Inputs */
 # define KEY 1
 # define VAL 2
@@ -84,10 +86,9 @@ typedef struct s_aux
 }	t_aux;
 
 /* 
-	pipe, quotes, double quotes
-	type[0] = quotes, type[1] = expand
-	type[2] = space,  type[3] = type
-	type = cmd or txt or redic
+	************ Token arrays ***************
+	type[0] = is_quotes, type[1] = is_expand
+	type[2] = num_space,  type[3] = type_rdct
 */
 typedef struct s_token
 {

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 18:42:05 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:56:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	show_tokens(t_line *ln)
 		tmp->type[3] == T_SOR && ft_printf(F"[3]TP  Type:"E" T_SOR \'>\'\n");
 		tmp->type[3] == T_RDHD && ft_printf(F"[3]TP  Type:"E" T_RDHD \'<<\'\n");
 		tmp->type[3] == T_RDAP && ft_printf(F"[3]TP  Type:"E" T_RDAP \'>>\'\n");
+		tmp->type[3] == T_FD && ft_printf(F"[3]FD  Type:"E" T_FD file\n");
 		ft_printf(O"Token:"E" *%s*\n", tmp->arg);
 		tmp = tmp->next;
 	}
