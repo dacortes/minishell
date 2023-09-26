@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 10:40:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 11:23:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 /* Utils */
 # define DQU	34
 # define QUO	39
-# define RDE	60
-# define RDS	62
 # define NOT	"\0"
 /* Outputs */
 # define SUCCESS 0
@@ -93,11 +91,11 @@ typedef struct s_aux
 */
 typedef struct s_token
 {
-	int				argc;
 	int				type[4];
 	char			*arg;
 	struct s_token	*next;
 }	t_token;
+
 /* line to pipe */
 typedef struct s_line
 {

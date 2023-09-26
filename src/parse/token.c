@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/21 10:54:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 11:34:42 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,24 @@
 void	show_tokens(t_line *ln)
 {
 	t_token	*tmp;
-	int		i;
 
 	tmp = ln->tk;
 	while (tmp)
 	{
-		i = 0;
-		while (i < 4)
-			ft_printf(C"types :%d\n"E, tmp->type[i++]);
+		tmp->type[0] == FALSE && ft_printf(F"QUO Type:"E" not quotes\n");
+		tmp->type[0] == QUO && ft_printf(F"QUO Type:"E" quote\n");
+		tmp->type[0] == DQU && ft_printf(F"QUO Type:"E" double cuote\n");
+		tmp->type[1] == T_CMD && ft_printf(F"TOKEN Type:"E" command\n");
+		tmp->type[1] == T_EXP && ft_printf(F"TOKEN Type:"E" expand\n");
+		tmp->type[1] == DQU && ft_printf(F"TOKEN Type:"E" text\n");
+		tmp->type[2] == FALSE && ft_printf(F"SPACE Type:"E" not space\n");
+		tmp->type[2] && ft_printf(F"SPACE Type:"E" %d\n", tmp->type[2]);
+		tmp->type[3] == T_CMD && ft_printf(F"TYPE type:"E" comman\n");
+		tmp->type[3] == T_TXT && ft_printf(F"TYPE type:"E" text\n");
+		tmp->type[3] == T_SIR && ft_printf(F"TYPE type:"E" \'<\'\n");
+		tmp->type[3] == T_SOR && ft_printf(F"TYPE type:"E" \'>\'\n");
+		tmp->type[3] == T_RDHD && ft_printf(F"TYPE type:"E" \'<<\'\n");
+		tmp->type[3] == T_RDAP && ft_printf(F"TYPE type:"E" \'>>\'\n");
 		ft_printf(F"%s\n"E, tmp->arg);
 		tmp = tmp->next;
 	}
