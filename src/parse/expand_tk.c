@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 10:39:43 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 10:43:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 11:54:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	loop_val(t_aux *a, t_env *env, t_token **tk)
 			end++;
 		a->_key = ft_strndup(a->e + start + 1, end - start -1);
 		a->_val = search_env(env, a->_key, VAL);
-		ft_printf("%s\n", a->_val);
 		free(a->_key);
 		swap_val(a, start, end);
 		if ((*tk)->arg)

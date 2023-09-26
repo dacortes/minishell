@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 11:23:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 12:10:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,11 @@ typedef struct s_line
 	struct s_line	*next;
 }	t_line;
 
+typedef struct s_get
+{
+	/* data */
+}	t_get;
+
 typedef struct s_env
 {
 	char			*key;
@@ -143,11 +148,9 @@ int		_export(t_mini *sh, char *inp);
 int		pwd(void);
 /* src/built-ins/unset.c*/
 int		unset(int *size, t_env **env, char *key);
-/* scr/utils.c */
-char	*search_env(t_env *env, char *key, int type);
-char	*ft_strdup_exit(const char *s1);
-char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
-char	*ft_strndup(const char *src, size_t n);
+
+/* get/get_cmmd.c */
+int		search_cmd(t_line **ln, t_get *g);
 /* parse/analize.c */
 int		identify(t_token **tk);
 int		analize_space(char *inp, int count);
@@ -172,4 +175,9 @@ char	**convert_to_argv(t_line *ln);
 /* */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
+/* scr/utils.c */
+char	*search_env(t_env *env, char *key, int type);
+char	*ft_strdup_exit(const char *s1);
+char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
+char	*ft_strndup(const char *src, size_t n);
 #endif

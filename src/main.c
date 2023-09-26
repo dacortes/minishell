@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 11:01:45 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 12:12:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,10 @@ int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;
 	t_line	*ln;
+	t_get	get;
 	char	*inp;
 	int		chk;
+	(void)get;
 
 	inp = NULL;
 	(void)ac;
@@ -102,6 +104,7 @@ int	main(int ac, char **av, char **env)
 		if (!inp)
 			exit (0);
 		chk = ft_line(inp, &ln, sh->env);
+		search_cmd(&ln, &get);
 		if (inp[0] && chk != E_SNT)
 		{
 			if (ln->argv[0] && ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)

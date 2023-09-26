@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/09/25 12:04:35 by dacortes         ###   ########.fr        #
+#    Updated: 2023/09/26 12:09:33 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ PROGRESS_BAR :=
 ################################################################################
 SRC = built-ins/cd.c built-ins/echo.c built-ins/env.c built-ins/export.c built-ins/pwd.c\
 	built-ins/exit.c built-ins/unset.c\
+	get/get_cmd.c\
 	parse/analyze.c parse/copy.c parse/expand_tk.c parse/line.c parse/token.c parse/utils.c\
 	utils.c main.c
 LIBFT = ./lib/libft/
@@ -78,6 +79,7 @@ dir:
 	make -C $(READL) --no-print-directory &> /dev/null
 	-mkdir  $(D_OBJ)
 	-mkdir	$(D_OBJ)/built-ins
+	-mkdir	$(D_OBJ)/get
 	-mkdir  $(D_OBJ)/parse
 $(D_OBJ)/%.o:$(L_SRC)/%.c Makefile
 	$(CC) -MMD $(FLAGS) -c -D READLINE_LIBRARY=1 $< -o $@ $(INC)

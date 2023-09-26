@@ -6,12 +6,15 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 11:38:39 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:58:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
+/*
+	Spaces are counted from the text to the right.
+*/
 void	show_tokens(t_line *ln)
 {
 	t_token	*tmp;
@@ -56,6 +59,31 @@ int	clear_tk(t_token **tk)
 	return (SUCCESS);
 }
 
+t_token	*token_last(t_token *tk)
+{
+	if (!tk)
+		return (NULL);
+	while (tk->next)
+		tk = tk->next;
+	return (tk);
+}
+
+void	add_back(t_token **tk, t_token *new)
+{
+	t_token	*tmp;
+
+	if (tk)
+	{
+		if (!*tk)
+			*tk = new;
+		else
+		{
+			tmp = token_last(*(tk));
+			tmp->next = new;
+		}
+	}
+}
+
 int	add_token(t_token **tk, char *arg, int *type, int *count)
 {
 	t_token	*new;
@@ -72,14 +100,7 @@ int	add_token(t_token **tk, char *arg, int *type, int *count)
 		exit (msg_error(E_MEM, 1, NULL));
 	while (i < 4)
 		new->type[i++] = type[j++];
-	new->next = NULL;
-	if (!(*tk))
-		*tk = new;
-	else
-	{
-		new->next = *tk;
-		(*tk) = new;
-	}
+	add_back(tk, new);
 	(*count)++;
 	return (SUCCESS);
 }

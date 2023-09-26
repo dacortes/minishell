@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 11:18:49 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:44:34 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,6 @@ static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 	}
 	continue_cnt(ln, &a, tk, inp);
 	show_tokens(*ln);
-	// int	c = 0;
-	// ft_printf(Y"line\n"E);
-	// while ((*ln)->argv[c])
-	// 	ft_printf("*%s*\n", (*ln)->argv[c++]);
 	return (SUCCESS);
 }
 
