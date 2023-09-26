@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/25 10:16:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 10:40:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define QUO	39
 # define RDE	60
 # define RDS	62
+# define NOT	"\0"
 /* Outputs */
 # define SUCCESS 0
 # define FALSE	 0

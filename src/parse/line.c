@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/25 14:49:33 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 10:41:22 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ int	ft_line(char *inp, t_line **ln, t_env *env)
 {
 	t_aux	a;
 	int		pipe;
-	int		num;
 
 	pipe = 0;
 	ft_bzero(&a, sizeof(t_aux));

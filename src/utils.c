@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:25:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/12 18:02:09 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 10:43:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*search_env(t_env *env, char *key, int type)
 			search = search->next;
 		}
 	}
-	return (NULL);
+	return (NOT);
 }
 
 char	*ft_strdup_exit(const char *s1)
