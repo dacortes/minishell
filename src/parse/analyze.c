@@ -6,23 +6,43 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 10:10:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 15:14:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:35:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
+// int	identify(t_token **tk)
+// {
+// 	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
+// 		&& (*tk)->arg[0] == '<' && ((*tk)->type[3] = T_SIR));
+// 	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
+// 		&& (*tk)->arg[0] == '>' && ((*tk)->type[3] = T_SOR));
+// 	(ft_strlen((*tk)->arg) == 2 && (*tk)->type[0] == FALSE
+// 		&& ft_strncmp((*tk)->arg, "<<", 2) == 0 && ((*tk)->type[3] = T_RDHD));
+// 	(ft_strlen((*tk)->arg) == 2 && (*tk)->type[0] == FALSE
+// 		&& ft_strncmp((*tk)->arg, ">>", 2) == 0 && ((*tk)->type[3] = T_RDAP));
+// 	return ((*tk)->type[3]);
+// }
+
 int	identify(t_token **tk)
 {
-	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
-		&& (*tk)->arg[0] == '<' && ((*tk)->type[3] = T_SIR));
-	(ft_strlen((*tk)->arg) == 1 && (*tk)->type[0] == FALSE
-		&& (*tk)->arg[0] == '>' && ((*tk)->type[3] = T_SOR));
-	(ft_strlen((*tk)->arg) == 2 && (*tk)->type[0] == FALSE
-		&& ft_strncmp((*tk)->arg, "<<", 2) == 0 && ((*tk)->type[3] = T_RDHD));
-	(ft_strlen((*tk)->arg) == 2 && (*tk)->type[0] == FALSE
-		&& ft_strncmp((*tk)->arg, ">>", 2) == 0 && ((*tk)->type[3] = T_RDAP));
-	return ((*tk)->type[3]);
+	t_token *tmp;
+
+	tmp = *tk;
+	while (tmp)
+	{
+		(ft_strlen(tmp->arg) == 1 && tmp->type[0] == FALSE
+			&& tmp->arg[0] == '<' && (tmp->type[3] = T_SIR));
+		(ft_strlen(tmp->arg) == 1 && tmp->type[0] == FALSE
+			&& tmp->arg[0] == '>' && (tmp->type[3] = T_SOR));
+		(ft_strlen(tmp->arg) == 2 && tmp->type[0] == FALSE
+			&& ft_strncmp(tmp->arg, "<<", 2) == 0 && (tmp->type[3] = T_RDHD));
+		(ft_strlen(tmp->arg) == 2 && tmp->type[0] == FALSE
+			&& ft_strncmp(tmp->arg, ">>", 2) == 0 && (tmp->type[3] = T_RDAP));
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
 }
 
 int	analize_space(char *inp, int count)

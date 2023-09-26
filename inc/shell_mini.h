@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 12:10:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:04:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,9 @@ int		copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env);
 /* parse/expand_tk */
 int		expand_tk(t_token **tk, t_env *env);
 /* parse/line.c */
-int		add_line(t_line **ln, t_token *tk, char	*line);
 int		ft_line(char *inp, t_line **ln, t_env *env);
+/*  parse/parse.c */
+int		parse(t_line **ln);
 /* parse/token.c test */
 void	show_tokens(t_line *ln);
 int		clear_tk(t_token **tk);
@@ -172,6 +173,7 @@ int		add_token(t_token **tk, char *arg, int *type, int *count);
 /* parse/utils.c */
 int		clear_ln(t_line **ln);
 char	**convert_to_argv(t_line *ln);
+int		add_line(t_line **ln, t_token *tk, char	*line);
 /* */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);

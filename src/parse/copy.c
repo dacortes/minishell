@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 17:19:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/25 10:21:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:36:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	copy_unquo(char	*inp, t_aux *a, t_token **tk)
 		exit (msg_error(E_MEM, 1, NULL));
 	a->i = a->j;
 	if (a->tmp && *a->tmp)
+	{
 		add_token(tk, a->tmp, array, &a->c);
+		identify(tk);
+	}
 	free(a->tmp);
 	return (SUCCESS);
 }

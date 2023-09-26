@@ -6,33 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 14:44:34 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:10:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
-
-int	add_line(t_line **ln, t_token *tk, char	*line)
-{
-	t_line	*new;
-
-	new = ft_calloc(sizeof(t_line), 1);
-	if (!new)
-		exit (msg_error(E_MEM, 1, NULL));
-	new->tk = tk;
-	new->line = ft_strdup(line);
-	if (!line)
-		exit (msg_error(E_MEM, 1, NULL));
-	new->next = NULL;
-	if (!(*ln))
-		*ln = new;
-	else
-	{
-		new->next = *ln;
-		*ln = new;
-	}
-	return (SUCCESS);
-}
 
 static void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 {
@@ -55,7 +33,7 @@ static int	copy_cnt(t_aux *a, t_env *env, t_token	**tk, char *inp)
 {
 	if (copy_quotes(inp, a, tk, env) == ERROR)
 		return (clear_tk(tk) + msg_error(E_SNT, E_SNT, "`\' "));
-	if (inp[a->j] && (inp[a->j] == '<') && copy_redic(inp, a, tk, '<') == E_SNT)
+	else if (inp[a->j] && (inp[a->j] == '<') && copy_redic(inp, a, tk, '<') == E_SNT)
 		return (clear_tk(tk) + E_SNT);
 	else if (inp[a->j] && (inp[a->j] == '>')
 		&& copy_redic(inp, a, tk, '>') == E_SNT)
@@ -94,8 +72,6 @@ static int	continue_ln(t_line **ln, t_aux *a, t_env *env, char *inp)
 
 int	err_pipes(int pipe, t_line *ln)
 {
-	(void)ln;
-	(void)pipe;
 	t_line	*tmp;
 	int		num;
 
