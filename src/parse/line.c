@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 17:10:18 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:43:07 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	copy_cnt(t_aux *a, t_env *env, t_token	**tk, char *inp)
 {
 	if (copy_quotes(inp, a, tk, env) == ERROR)
 		return (clear_tk(tk) + msg_error(E_SNT, E_SNT, "`\' "));
-	else if (inp[a->j] && (inp[a->j] == '<') && copy_redic(inp, a, tk, '<') == E_SNT)
+	else if (inp[a->j] && (inp[a->j] == '<')
+		&& copy_redic(inp, a, tk, '<') == E_SNT)
 		return (clear_tk(tk) + E_SNT);
 	else if (inp[a->j] && (inp[a->j] == '>')
 		&& copy_redic(inp, a, tk, '>') == E_SNT)
