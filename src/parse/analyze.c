@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 10:10:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/25 10:19:19 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:14:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	type_expand(char *inp, t_aux *a, t_token **tk, int type)
 		exit (msg_error(E_MEM, 1, NULL));
 	a->i += a->j + 1;
 	array[0] = type;
-	array[1] = ((inp[a->i] == QUO) * T_TXT) + ((inp[a->i] == DQU) * T_EXP);
+	array[1] = ((type == QUO) * T_TXT) + ((type == DQU) * T_EXP);
 	array[2] = analize_space(inp, a->i);
 	array[3] = T_TXT;
 	add_token(tk, a->tmp, array, &a->c);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 14:58:19 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:19:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ void	show_tokens(t_line *ln)
 	while (tmp)
 	{
 		tmp->type[0] == FALSE && ft_printf(F"QUO   Type:"E" not quotes\n");
-		tmp->type[0] == QUO && ft_printf(F"QUO   Type:"E" quote\n");
-		tmp->type[0] == DQU && ft_printf(F"QUO   Type:"E" double cuote\n");
-		tmp->type[1] == T_CMD && ft_printf(F"TOKEN Type:"E" command\n");
-		tmp->type[1] == T_EXP && ft_printf(F"TOKEN Type:"E" expand\n");
-		tmp->type[1] == DQU && ft_printf(F"TOKEN Type:"E" text\n");
+		tmp->type[0] == QUO && ft_printf(F"QUO   Type:"E" QUO quote\n");
+		tmp->type[0] == DQU && ft_printf(F"QUO   Type:"E" DQU double cuote\n");
+		tmp->type[1] == T_EXP && ft_printf(F"TOKEN Type:"E" T_EXP expand\n");
+		tmp->type[1] == T_TXT && ft_printf(F"TOKEN Type:"E" T_TXT text\n");
 		tmp->type[2] == FALSE && ft_printf(F"SPACE Type:"E" not space\n");
 		tmp->type[2] && ft_printf(F"SPACE Type:"E" %d\n", tmp->type[2]);
-		tmp->type[3] == T_CMD && ft_printf(F"TYPE  Type:"E" comman\n");
-		tmp->type[3] == T_TXT && ft_printf(F"TYPE  Type:"E" text\n");
-		tmp->type[3] == T_SIR && ft_printf(F"TYPE  Type:"E" \'<\'\n");
-		tmp->type[3] == T_SOR && ft_printf(F"TYPE  Type:"E" \'>\'\n");
-		tmp->type[3] == T_RDHD && ft_printf(F"TYPE  Type:"E" \'<<\'\n");
-		tmp->type[3] == T_RDAP && ft_printf(F"TYPE  Type:"E" \'>>\'\n");
-		ft_printf(O"*%s*\n"E, tmp->arg);
+		tmp->type[3] == T_CMD && ft_printf(F"TYPE  Type:"E" T_CMD comman\n");
+		tmp->type[3] == T_TXT && ft_printf(F"TYPE  Type:"E" T_TXT text\n");
+		tmp->type[3] == T_SIR && ft_printf(F"TYPE  Type:"E" T_SIR \'<\'\n");
+		tmp->type[3] == T_SOR && ft_printf(F"TYPE  Type:"E" T_SOR \'>\'\n");
+		tmp->type[3] == T_RDHD && ft_printf(F"TYPE  Type:"E" T_RDHD \'<<\'\n");
+		tmp->type[3] == T_RDAP && ft_printf(F"TYPE  Type:"E" T_RDAP \'>>\'\n");
+		ft_printf(O"*analize token:"E" %s*\n", tmp->arg);
 		tmp = tmp->next;
 	}
 }
