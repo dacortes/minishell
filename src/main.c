@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 16:09:12 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/27 10:12:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	main(int ac, char **av, char **env)
 		chk = ft_line(inp, &ln, sh->env);
 		if (chk != E_SNT)
 			chk = parse(&ln);
+		// if (chk != E_SNT)
+		// 	search_cmd(&ln, &get);
 		if (inp[0] && chk != E_SNT)
 		{
 			if (ln->argv[0] && ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:20:32 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 18:57:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/27 10:14:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ int	parse(t_line **ln)
 	t_line	*tmp;
 	t_token	*tk;
 
+	if (!*ln)
+		return (SUCCESS);
 	tmp = *ln;
+	ft_printf("Estoy aqui\n");
 	while (tmp)
 	{
 		tk = tmp->tk;

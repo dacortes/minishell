@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 18:55:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/27 09:51:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct s_line
 
 typedef struct s_get
 {
-	/* data */
+	char	*cmd;
 }	t_get;
 
 typedef struct s_env

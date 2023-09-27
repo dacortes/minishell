@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:09:06 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 15:47:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/27 10:09:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,15 @@ int	search_cmd(t_line **ln, t_get *g)
 		ft_printf(Y"line\n"E);
 		while (tk)
 		{
-			ft_printf(Y"token: "E"%s\n"E, tk->arg);
-
+			if ((tk->type[3] >= 3 && tk->type[3] <= 6) || tk->type[3] == T_FD
+				|| tk->type[3] == T_CMD)
+				tk = tk->next;
+			else
+			{
+				ft_printf(C"search_cmd *%s*\n"E, tk->arg);
+				tk->type[3] = T_CMD;
+				tk = tmp->tk;
+			}
 			tk = tk->next;
 		}
 		tmp = tmp->next;
