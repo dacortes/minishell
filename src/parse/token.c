@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:56:02 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 18:56:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:55:47 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	clear_tk(t_token **tk)
 	return (SUCCESS);
 }
 
-t_token	*token_last(t_token *tk)
+static t_token	*token_last(t_token *tk)
 {
 	if (!tk)
 		return (NULL);
@@ -70,7 +70,7 @@ t_token	*token_last(t_token *tk)
 	return (tk);
 }
 
-void	add_back(t_token **tk, t_token *new)
+static void	add_back(t_token **tk, t_token *new)
 {
 	t_token	*tmp;
 

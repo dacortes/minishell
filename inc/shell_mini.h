@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/27 11:11:03 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:04:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct s_line
 typedef struct s_get
 {
 	char	**arg;
+	int		fd[2];
+	struct s_get *next;
 }	t_get;
 
 typedef struct s_env
@@ -151,7 +153,11 @@ int		pwd(void);
 int		unset(int *size, t_env **env, char *key);
 
 /* get/get_cmmd.c */
-int		search_cmd(t_line **ln, t_get *g);
+int		search_cmd(t_line **ln, t_get **g);
+int		get_init(t_line **ln, t_get **g);
+/* get/get.c */
+int		add_get(t_get **g, char **arg, int len);
+
 /* parse/analize.c */
 int		identify(t_token **tk);
 int		analize_space(char *inp, int count);
