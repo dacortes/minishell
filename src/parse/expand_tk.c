@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 10:39:43 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 11:54:44 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:14:10 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,15 @@ static void	loop_val(t_aux *a, t_env *env, t_token **tk)
 	}
 }
 
+static void	magic_tk(t_aux *a, t_token **tmp, t_env *env)
+{
+	a->e = ft_strdup_exit((*tmp)->arg);
+	a->tmp = a->e;
+	loop_val(a, env, tmp);
+	if (a->e)
+		free(a->e);
+}
+
 int	expand_tk(t_token **tk, t_env *env)
 {
 	t_token	*tmp;
@@ -70,10 +79,11 @@ int	expand_tk(t_token **tk, t_env *env)
 				;
 			else
 			{
-				a.e = ft_strdup_exit(tmp->arg);
-				a.tmp = a.e;
-				loop_val(&a, env, &tmp);
-				free(a.e);
+				if ((tmp->type[3] == 5) && tmp->next
+					&& !(tmp->next->type[3] >= 3 && tmp->next->type[3] <= 6))
+					tmp->next->type[3] = T_FD;
+				if (tmp->type[3] != T_FD)
+					magic_tk(&a, &tmp, env);
 			}
 		}
 		tmp = tmp->next;

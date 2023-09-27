@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:20:32 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/27 10:14:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:16:32 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	parse(t_line **ln)
 	if (!*ln)
 		return (SUCCESS);
 	tmp = *ln;
-	ft_printf("Estoy aqui\n");
 	while (tmp)
 	{
 		tk = tmp->tk;
@@ -28,7 +27,15 @@ int	parse(t_line **ln)
 		{
 			if (tk->type[3] >= 3 && tk->type[3] <= 6 && !tk->next)
 				return (msg_error(E_SNT, E_SNT, "`newline\'"));
-			if (tk->type[3] >= 3 && tk->type[3] <= 6 && tk->next)
+			if ((tk->type[3] == 3 || tk->type[3] == 4) && tk->next
+				&& (tk->next->type[3] == 3 ||  tk->next->type[3] == 4)
+				&& tk->next->next && (tk->next->next->type[3] == 3
+				|| tk->next->next->type[3] == 4) && tk->next->next->next
+				&& (tk->next->next->next->type[3] == 3 
+				|| tk->next->next->next->type[3] == 4))
+				return (msg_error(E_SNT, E_SNT, "`<>\'"));
+			if ((tk->type[3] >= 3 && tk->type[3] <= 6) && tk->next
+				&& !(tk->next->type[3] >= 3 && tk->next->type[3] <= 6))
 				tk->next->type[3] = T_FD;
 			tk = tk->next;
 		}
