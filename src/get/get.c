@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 18:14:21 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/28 18:49:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,11 @@ int	tk_to_array(t_token **tk, t_get **g, int len)
 		{
 			if ((*tk)->type[3] == 5)
 			{
-				ft_printf("holi\n");
 				char *inp = "";
 				while (inp && (*tk)->next && (*tk)->next->arg
 					&& ft_strncmp((*tk)->next->arg, inp, ft_strlen((*tk)->next->arg)))
 				{
-					ft_printf(O"ᐅ "E);
-					inp = get_next_line(0);
+					inp = readline(O"ᐅ "E);
 					free (inp);
 				}
 			}
