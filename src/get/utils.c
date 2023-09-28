@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:24:00 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 15:24:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:08:34 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,26 @@ int	len_no_rd(t_token *tk)
 		iter = iter->next;
 	}
 	return (num);
+}
+
+void	show_arg(t_get *g)
+{
+	t_get	*iter;
+	int		num;
+	int		i;
+
+	iter = g;
+	num = 1;
+		ft_printf(F"["E"%d"F"] COMMAND\n"E, num);
+	while (iter)
+	{
+		if (iter->arg)
+		{
+			i = -1;
+			while (iter->arg[++i])
+				ft_printf(F"["E"%d"F"]"O" *argument:"E" %s\n", i, iter->arg[i]);
+		}
+		num++;
+		iter = iter->next;
+	}
 }

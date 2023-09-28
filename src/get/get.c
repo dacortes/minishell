@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 15:23:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:34:30 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,37 @@ int	add_get(t_get **g, char **arg, int len)
 	return (SUCCESS);
 }
 
+int	tk_to_array(t_token *tk, t_get **g, int len)
+{
+	char	**arg;
+	int		i;
+
+	i = 0;
+	arg = ft_calloc(sizeof(char *), len + 1);
+	if (!arg)
+		exit (msg_error(E_MEM, 1, NULL));
+	while (tk)
+	{
+		if ((tk->arg[3] >= 3 && tk->arg[3] <= 6)
+		|| tk->arg[3] == T_FD)
+		{
+			if (tk->next)
+				tk = tk->next;
+		}
+		else
+			arg[i++] = ft_strdup_exit(tk->arg);
+		tk = tk->next;
+	}
+	add_get(g, arg, len);
+	clear_dptr((void **)arg);
+	return (SUCCESS);
+}
+
 int	get_init(t_line **ln, t_get **g)
 {
 	t_line	*tmp;
 	t_token	*tk;
-	char	**arg;
 	int		rdr;
-	int		i;
 
 	if (!*ln)
 		return (SUCCESS);
@@ -74,27 +98,9 @@ int	get_init(t_line **ln, t_get **g)
 	{
 		tk = tmp->tk;
 		rdr = len_no_rd(tk);
-		while (tk)
-		{
-			if ((tk->type[3] >= 3 && tk->type[3] <= 6)
-			|| tk->type[3] == T_FD)
-			{
-				if (tk->next)
-					tk = tk->next;
-			}
-			else
-			{
-				arg = ft_calloc(sizeof(char *), (tmp->argc - rdr) + 1);
-				if (!arg)
-					exit (msg_error(E_MEM, 1, NULL));
-				i = 0;
-				arg[i] = ft_strdup_exit(tk->arg);
-				add_get(g, arg, (tmp->argc - rdr));
-				clear_dptr((void **)arg);
-			}
-			tk = tk->next;
-		}
+		tk_to_array(tk, g, (tmp->argc - rdr));
 		tmp = tmp->next;
 	}
+	show_arg(*g);
 	return (SUCCESS);
 }
