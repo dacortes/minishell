@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 15:54:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/28 18:09:41 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../lib/libft/libft.h"
 # include "../lib/libft/ft_printf.h"
+# include "../lib/libft/get_next_line.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>

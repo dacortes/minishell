@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 16:34:30 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/28 18:14:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	add_get(t_get **g, char **arg, int len)
 	return (SUCCESS);
 }
 
-int	tk_to_array(t_token *tk, t_get **g, int len)
+int	tk_to_array(t_token **tk, t_get **g, int len)
 {
 	char	**arg;
 	int		i;
@@ -65,17 +65,29 @@ int	tk_to_array(t_token *tk, t_get **g, int len)
 	arg = ft_calloc(sizeof(char *), len + 1);
 	if (!arg)
 		exit (msg_error(E_MEM, 1, NULL));
-	while (tk)
+	while (*tk)
 	{
-		if ((tk->arg[3] >= 3 && tk->arg[3] <= 6)
-		|| tk->arg[3] == T_FD)
+		if (((*tk)->type[3] >= 3 && (*tk)->type[3] <= 6)
+		|| (*tk)->type[3] == T_FD)
 		{
-			if (tk->next)
-				tk = tk->next;
+			if ((*tk)->type[3] == 5)
+			{
+				ft_printf("holi\n");
+				char *inp = "";
+				while (inp && (*tk)->next && (*tk)->next->arg
+					&& ft_strncmp((*tk)->next->arg, inp, ft_strlen((*tk)->next->arg)))
+				{
+					ft_printf(O"ᐅ "E);
+					inp = get_next_line(0);
+					free (inp);
+				}
+			}
+			if ((*tk)->next)
+				*tk = (*tk)->next;
 		}
 		else
-			arg[i++] = ft_strdup_exit(tk->arg);
-		tk = tk->next;
+			arg[i++] = ft_strdup_exit((*tk)->arg);
+		*tk = (*tk)->next;
 	}
 	add_get(g, arg, len);
 	clear_dptr((void **)arg);
@@ -98,7 +110,7 @@ int	get_init(t_line **ln, t_get **g)
 	{
 		tk = tmp->tk;
 		rdr = len_no_rd(tk);
-		tk_to_array(tk, g, (tmp->argc - rdr));
+		tk_to_array(&tk, g, (tmp->argc - rdr));
 		tmp = tmp->next;
 	}
 	show_arg(*g);
