@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/27 17:35:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:59:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int	main(int ac, char **av, char **env)
 		if (inp[0] != '\0')
 			add_history(inp);
 		clear_ln(&ln);
+		clear_get(&g);
 		free(inp);
 	}
 	return (SUCCESS);

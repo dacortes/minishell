@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/27 17:04:45 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:03:53 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_aux
 /* 
 	************ Token arrays ***************
 	type[0] = is_quotes, type[1] = is_expand
-	type[2] = num_space,  type[3] = type_rdct
+	type[2] = num_space, type[3] = type_rdct
 */
 typedef struct s_token
 {
@@ -109,9 +109,9 @@ typedef struct s_line
 
 typedef struct s_get
 {
-	char	**arg;
-	int		fd[2];
-	struct s_get *next;
+	char			**arg;
+	int				fd[2];
+	struct s_get	*next;
 }	t_get;
 
 typedef struct s_env
@@ -156,6 +156,7 @@ int		unset(int *size, t_env **env, char *key);
 int		search_cmd(t_line **ln, t_get **g);
 int		get_init(t_line **ln, t_get **g);
 /* get/get.c */
+int		clear_get(t_get **g);
 int		add_get(t_get **g, char **arg, int len);
 
 /* parse/analize.c */
