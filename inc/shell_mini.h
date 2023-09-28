@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 15:03:53 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:25:46 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,11 +154,13 @@ int		unset(int *size, t_env **env, char *key);
 
 /* get/get_cmmd.c */
 int		search_cmd(t_line **ln, t_get **g);
-int		get_init(t_line **ln, t_get **g);
 /* get/get.c */
 int		clear_get(t_get **g);
 int		add_get(t_get **g, char **arg, int len);
-
+int		get_init(t_line **ln, t_get **g);
+/*get/utils.c*/
+int	clear_dptr(void **ptr);
+int	len_no_rd(t_token *tk);
 /* parse/analize.c */
 int		identify(t_token **tk);
 int		analize_space(char *inp, int count);

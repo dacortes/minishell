@@ -1,36 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_cmd.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/26 11:09:06 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 15:24:28 by dacortes         ###   ########.fr       */
+/*   Created: 2023/09/28 15:24:00 by dacortes          #+#    #+#             */
+/*   Updated: 2023/09/28 15:24:43 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-int	search_hrdoc()
+int	clear_dptr(void **ptr)
 {
+	int	i;
+
+	i = 0;
+	if (ptr)
+	{
+		while (ptr[i])
+			free(ptr[i++]);
+		if (ptr)
+			free(ptr);
+	}
 	return (SUCCESS);
 }
 
-int	search_cmd(t_line **ln, t_get **g)
+int	len_no_rd(t_token *tk)
 {
-	(void)ln;
-	(void)g;
-	// t_line	*tmp;
-	// t_token	*tk;
-	return (SUCCESS);
-}
+	t_token *iter;
+	int		num;
 
-/* executer */
-int	get_cmd(t_line **ln, t_env *env, t_get *g)
-{
-	(void)ln;
-	(void)env;
-	(void)g;
-	return (SUCCESS);
+	num = 0;
+	iter = tk;
+	while (iter)
+	{
+		if ((iter->type[3] >= 3 && iter->type[3] <= 6)
+		|| iter->type[3] == T_FD)
+			num++;
+		iter = iter->next;
+	}
+	return (num);
 }
