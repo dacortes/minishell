@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 18:49:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/29 17:31:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	clear_get(t_get **g)
 		clear_dptr((void **)rm->arg);
 		tmp = rm;
 		rm = rm->next;
-		free(tmp);
+		if (tmp)
+			free(tmp);
 	}
 	*g = NULL;
 	return (SUCCESS);
@@ -70,16 +71,7 @@ int	tk_to_array(t_token **tk, t_get **g, int len)
 		if (((*tk)->type[3] >= 3 && (*tk)->type[3] <= 6)
 		|| (*tk)->type[3] == T_FD)
 		{
-			if ((*tk)->type[3] == 5)
-			{
-				char *inp = "";
-				while (inp && (*tk)->next && (*tk)->next->arg
-					&& ft_strncmp((*tk)->next->arg, inp, ft_strlen((*tk)->next->arg)))
-				{
-					inp = readline(O"ᐅ "E);
-					free (inp);
-				}
-			}
+			is_heredoc(tk);
 			if ((*tk)->next)
 				*tk = (*tk)->next;
 		}
@@ -111,6 +103,6 @@ int	get_init(t_line **ln, t_get **g)
 		tk_to_array(&tk, g, (tmp->argc - rdr));
 		tmp = tmp->next;
 	}
-	show_arg(*g);
+	// show_arg(*g);
 	return (SUCCESS);
 }

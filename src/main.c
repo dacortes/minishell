@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 14:59:57 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/29 17:33:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,40 +92,29 @@ int	main(int ac, char **av, char **env)
 	char	*inp;
 	int		chk;
 
-	inp = NULL;
 	(void)ac;
 	(void)av;
+	g = NULL;
+	inp = NULL;
 	mini_init(&sh, env);
 	while (TRUE)
 	{
 		ln = NULL;
+
 		prompt(&sh, &inp);
 		if (!inp)
 			exit (0);
 		chk = ft_line(inp, &ln, sh->env);
 		if (chk != E_SNT)
 			chk = parse(&ln);
+		
 		if (chk != E_SNT)
 			get_init(&ln, &g);
-		if (inp[0] && chk != E_SNT)
-		{
-			if (ln->argv[0] && ft_strncmp(ln->argv[0], "unset", ft_strlen(ln->argv[0])) == 0)
-				unset(&sh->size, &sh->env, inp);
-			else if (ln->argv[0] && ft_strncmp(ln->argv[0], "pwd", ft_strlen(ln->argv[0])) == 0)
-				pwd();
-			else if (ln->argv[0] && ft_strncmp(ln->argv[0], "env", ft_strlen(ln->argv[0])) == 0)
-				_env(sh->env);
-			else if (ln->argv[0] && ft_strncmp(ln->argv[0], "cd", ft_strlen(ln->argv[0])) == 0)
-				ft_cd(ln, &sh);
-			else if (ln->argv[0] && ft_strncmp(ln->argv[0], "exit", ft_strlen(ln->argv[0])) == 0)
-				ft_exit(&ln, sh, ln->argv, ln->argc);
-			else if (ln->argv[0] && ft_strncmp(ln->argv[0], "echo", ft_strlen(ln->argv[0])) == 0)
-				ft_echo(ln->argv, ln->argc);
-		}
+		is_built_ins(&sh, &ln, &g, &chk);
 		if (inp[0] != '\0')
 			add_history(inp);
-		clear_ln(&ln);
 		clear_get(&g);
+		clear_ln(&ln);
 		free(inp);
 	}
 	return (SUCCESS);

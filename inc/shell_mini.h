@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 18:09:41 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:51:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "../lib/libft/libft.h"
 # include "../lib/libft/ft_printf.h"
-# include "../lib/libft/get_next_line.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>
@@ -136,15 +135,17 @@ typedef struct s_mini
 
 /* src/built-ins/cd.c */
 int		cd(char *path, t_mini **sh);
-int		ft_cd(t_line *ln, t_mini **sh);
+int		ft_cd(t_mini **sh, t_get *g, int n_cmd);
 /* src/built-ins/echo.c */
 int		ft_echo(char **argv, int argc);
 /* src/built-ins/env.c */
 void	_env(t_env *env);
 int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
+/* src/built-ins/execute.c */
+int		is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
 /* src/built-ins/exit.c */
-int		ft_exit(t_line **ln, t_mini *sh, char **argv, int argc);
+int		ft_exit(t_mini *sh, t_line **ln, t_get **g, int n_cmd);
 /* src/built-ins/export.c */
 void	show_export(t_env *env);
 int		_export(t_mini *sh, char *inp);
@@ -159,10 +160,13 @@ int		search_cmd(t_line **ln, t_get **g);
 int		clear_get(t_get **g);
 int		add_get(t_get **g, char **arg, int len);
 int		get_init(t_line **ln, t_get **g);
-/*get/utils.c*/
+/* get/heredoc.c */
+int		is_heredoc(t_token **tk);
+/* get/utils.c*/
 int		clear_dptr(void **ptr);
 int		len_no_rd(t_token *tk);
 void	show_arg(t_get *g);
+
 /* parse/analize.c */
 int		identify(t_token **tk);
 int		analize_space(char *inp, int count);
