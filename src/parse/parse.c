@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:20:32 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 15:28:42 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:19:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ int	parse(t_line **ln)
 		}
 		tmp = tmp->next;
 	}
-	//show_tokens(*ln);
+	show_tokens(*ln);
 	return (SUCCESS);
 }
