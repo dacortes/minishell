@@ -6,13 +6,12 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 14:26:33 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/18 16:20:58 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:47:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-/* falta decirle a los tokes si tienen espacio antes */
 static int	check_echo(char *argv)
 {
 	int	i;
@@ -28,6 +27,17 @@ static int	check_echo(char *argv)
 			return (TRUE);
 	}
 	return (FALSE);
+}
+
+static void	printf_arg(char **argv, int i)
+{
+	while (argv[i])
+	{
+		ft_printf("%s", argv[i]);
+		if (argv[i + 1])
+			ft_printf(" ");
+		i++;
+	}
 }
 
 int	ft_echo(char **argv, int argc)
@@ -52,8 +62,7 @@ int	ft_echo(char **argv, int argc)
 		}
 		a.key = check_echo(argv[a.j - 1]);
 		a.i = a.j;
-		while (argv[a.i])
-			ft_printf("%s", argv[a.i++]);
+		printf_arg(argv, a.i);
 		a.key == FALSE && ft_printf("\n");
 	}
 	return (SUCCESS);
