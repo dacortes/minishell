@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/29 16:51:45 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 12:19:33 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ typedef struct s_token
 typedef struct s_line
 {
 	int				argc;
-	char			**argv;
 	char			*line;
 	t_token			*tk;
 	struct s_line	*next;
@@ -188,7 +187,6 @@ int		clear_tk(t_token **tk);
 int		add_token(t_token **tk, char *arg, int *type, int *count);
 /* parse/utils.c */
 int		clear_ln(t_line **ln);
-char	**convert_to_argv(t_line *ln);
 int		add_line(t_line **ln, t_token *tk, char	*line);
 /* */
 int		clear(t_mini *sh);
