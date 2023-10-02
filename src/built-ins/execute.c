@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/29 17:56:00 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 12:32:53 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 			if (n_cmd >= 2)
 			{
 				while ((*g)->arg[i])
-					_export(*sh, (*g)->arg[i++]);
+					(_export(*sh, (*g)->arg[i++])) && (*chk = 1);
 			}
 			else
 				show_export((*sh)->env);

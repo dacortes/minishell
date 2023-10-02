@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/29 17:33:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 12:39:43 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	msg_error(int e, int exit_, char *cm)
 {
 	e == E_NSF && fd_printf(2, "mini: %s: No such file or directory\n", cm);
 	e == E_MEM && fd_printf(2, "mini: error trying to allocate memory\n", cm);
-	e == E_EXP && fd_printf(2, "mini: export: not an identifier:%s\n", cm);
+	e == E_EXP && fd_printf(2, "mini: export: `%s\': not a valid identifier\n" \
+		, cm);
 	e == E_CNF && fd_printf(2, "mini: %s: command not found\n", cm);
 	e == EX && fd_printf(2, "mini: exit: %s: numeric argument required\n", cm);
 	e == E_ARG && fd_printf(2, "mini: %s: too many arguments\n", cm);
@@ -83,7 +84,8 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
-/* hay que construir los argumentos con un join ya se implemento la funcion de saber si hay espacios*/
+/* hay que construir los argumentos con un join ya se implemento
+la funcion de saber si hay espacios*/
 int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;
@@ -94,20 +96,19 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	chk = 0;
 	g = NULL;
 	inp = NULL;
 	mini_init(&sh, env);
 	while (TRUE)
 	{
 		ln = NULL;
-
 		prompt(&sh, &inp);
 		if (!inp)
 			exit (0);
 		chk = ft_line(inp, &ln, sh->env);
 		if (chk != E_SNT)
 			chk = parse(&ln);
-		
 		if (chk != E_SNT)
 			get_init(&ln, &g);
 		is_built_ins(&sh, &ln, &g, &chk);
