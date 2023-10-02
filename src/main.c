@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 12:39:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:51:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
-/* hay que construir los argumentos con un join ya se implemento
-la funcion de saber si hay espacios*/
 int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;
@@ -93,10 +91,12 @@ int	main(int ac, char **av, char **env)
 	t_get	*g;
 	char	*inp;
 	int		chk;
+	int		pipe;
 
 	(void)ac;
 	(void)av;
 	chk = 0;
+	pipe = 0;
 	g = NULL;
 	inp = NULL;
 	mini_init(&sh, env);
@@ -106,12 +106,30 @@ int	main(int ac, char **av, char **env)
 		prompt(&sh, &inp);
 		if (!inp)
 			exit (0);
-		chk = ft_line(inp, &ln, sh->env);
+		chk = ft_line(inp, &ln, sh->env, &pipe);
 		if (chk != E_SNT)
 			chk = parse(&ln);
 		if (chk != E_SNT)
 			get_init(&ln, &g);
-		is_built_ins(&sh, &ln, &g, &chk);
+		/* antes de ejecutar validar los pipes */
+		if (!pipe)
+		{
+			if (is_built_ins(&sh, &ln, &g, &chk) == ERROR)
+				ft_printf(R"not buit-ins\n"E);
+		}
+		else
+		{
+			t_get *iter;
+
+			iter = g;
+			while (iter)
+			{
+				if (is_built_ins(&sh, &ln, &iter, &chk) == ERROR)
+					ft_printf(R"not buit-ins\n"E);
+				iter = iter->next;
+			}
+		}
+		pipe = 0;
 		if (inp[0] != '\0')
 			add_history(inp);
 		clear_get(&g);

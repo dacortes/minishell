@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 12:19:19 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:03:17 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,19 @@ int	err_pipes(int pipe, t_line *ln)
 	return (SUCCESS);
 }
 
-int	ft_line(char *inp, t_line **ln, t_env *env)
+int	ft_line(char *inp, t_line **ln, t_env *env, int *pipe)
 {
 	t_aux	a;
-	int		pipe;
 
-	pipe = 0;
 	ft_bzero(&a, sizeof(t_aux));
 	while (inp[a.i])
 	{
 		if (continue_ln(ln, &a, env, inp) == E_SNT)
 			return (E_SNT);
 		if (inp[a.i] == '|')
-			pipe++;
+			(*pipe)++;
 		if (inp[a.i])
 			a.i++;
 	}
-	return (err_pipes(pipe, *ln));
+	return (err_pipes(*pipe, *ln));
 }

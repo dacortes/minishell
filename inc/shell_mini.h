@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 12:49:26 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:03:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int		copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env);
 /* parse/expand_tk */
 int		expand_tk(t_token **tk, t_env *env);
 /* parse/line.c */
-int		ft_line(char *inp, t_line **ln, t_env *env);
+int		ft_line(char *inp, t_line **ln, t_env *env, int *pipe);
 /*  parse/parse.c */
 int		parse(t_line **ln);
 /* parse/token.c test */

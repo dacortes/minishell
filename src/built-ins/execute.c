@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 15:06:00 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:48:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,24 @@ int	are_the_others(t_mini **sh, t_get **g, int n_cmd)
 				(unset(&(*sh)->size, &(*sh)->env, (*g)->arg[i++]));
 		}
 	}
+	else
+		return (ERROR);
+	return (SUCCESS);
+}
+/* la funcion debe hacer un minus para los cmd cd, env, pwd*/
+static int	ft_is(char *cmd)
+{
+	if (!(ft_strncmp(cmd, "cd", -1) == 0)
+		&& !(ft_strncmp(cmd, "CD", -1) == 0)
+		&& !(ft_strncmp(cmd, "echo", -1) == 0)
+		&& !(ft_strncmp(cmd, "env", -1) == 0)
+		&& !(ft_strncmp(cmd, "ENV", -1) == 0)
+		&& !(ft_strncmp(cmd, "exit", -1) == 0)
+		&& !(ft_strncmp(cmd, "export", -1) == 0)
+		&& !(ft_strncmp(cmd, "pwd", -1) == 0)
+		&& !(ft_strncmp(cmd, "PWD", -1) == 0)
+		&& !(ft_strncmp(cmd, "unset", -1) == 0))
+		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -67,13 +85,16 @@ int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 
 	if (!*ln || !*g)
 		return (SUCCESS);
+	if (g && *g && (*g)->arg && ft_is((*g)->arg[0]) != ERROR)
+		n_cmd = ft_double_ptr_len((void **)(*g)->arg);
+	else
+		return (ERROR);
 	i = 1;
-	n_cmd = ft_double_ptr_len((void **)(*g)->arg);
 	if (*chk != E_SNT && *g && (*g)->arg[0] && (*g)->arg[0][0] != '\0')
 	{
 		*chk = its_not_the_others(sh, ln, g, n_cmd);
 		are_the_others(sh, g, n_cmd);
-		return (TRUE);
+		ft_printf(F"aja%d\n"E, n_cmd);
 	}
-	return (ERROR);
+	return (TRUE);
 }
