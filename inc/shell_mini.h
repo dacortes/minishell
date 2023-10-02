@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 12:19:33 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 12:49:26 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int		ft_cd(t_mini **sh, t_get *g, int n_cmd);
 /* src/built-ins/echo.c */
 int		ft_echo(char **argv, int argc);
 /* src/built-ins/env.c */
-void	_env(t_env *env);
+int		_env(t_env *env, int n_cmd);
 int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
 /* src/built-ins/execute.c */

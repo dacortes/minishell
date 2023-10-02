@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:14 by dacortes          #+#    #+#             */
-/*   Updated: 2023/08/25 14:06:45 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 12:49:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	init_env(t_mini *sh, char **env)
 	return (SUCCESS);
 }
 
-void	_env(t_env *env)
+/*void	_env(t_env *env)
 {
 	t_env	*tmp;
 
@@ -65,4 +65,22 @@ void	_env(t_env *env)
 			ft_printf("%s=\n", tmp->key);
 		tmp = tmp->next;
 	}
+}*/
+
+int	_env(t_env *env, int n_cmd)
+{
+	t_env	*tmp;
+
+	if (n_cmd > 1)
+		return (msg_error(E_ARG, 1, "env"));
+	tmp = env;
+	while (tmp)
+	{
+		if (tmp->eql && tmp->val)
+			ft_printf("%s=%s\n", tmp->key, tmp->val);
+		else if (tmp->eql && !tmp->key)
+			ft_printf("%s=\n", tmp->key);
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
 }

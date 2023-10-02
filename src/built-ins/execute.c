@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 12:32:53 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/02 12:51:17 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 	{
 		if (ft_strncmp((*g)->arg[0], "cd", -1) == 0)
 			ft_cd(sh, *g, n_cmd);
-		if (ft_strncmp((*g)->arg[0], "exit", -1) == 0)
-			ft_exit(*sh, ln, g, n_cmd);
 		if ((ft_strncmp((*g)->arg[0], "env", -1) == 0)
 			|| (ft_strncmp((*g)->arg[0], "ENV", -1) == 0))
-			_env((*sh)->env);
+			(_env((*sh)->env, n_cmd)) && (*chk = 1);
+		if (ft_strncmp((*g)->arg[0], "exit", -1) == 0)
+			ft_exit(*sh, ln, g, n_cmd);
 		if ((ft_strncmp((*g)->arg[0], "export", -1) == 0))
 		{
 			if (n_cmd >= 2)
@@ -42,5 +42,5 @@ int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 		}
 		return (TRUE);
 	}
-	return (ERROR);
+	return (SUCCESS);
 }
