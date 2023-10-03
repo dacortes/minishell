@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/03 15:21:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:53:22 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,12 +182,14 @@ int	main(int ac, char **av, char **env)
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt != E_SNT) && (ex.stt = parse(&ln));
 		(ex.stt != E_SNT) && (ex.stt = get_init(&ln, &g));
+		(ex.stt != E_SNT) && get_path(&ex, g, search_env(sh->env, "PATH", VAL));
 		ex.env = env_to_array(sh);
-		split_path(&ex, search_env(sh->env, "PATH", VAL));
 		if (ex.stt != E_SNT && !ex.pipe)
 		{
 			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
+			{
 				ft_printf(R"not buit-ins\n"E);
+			}
 		}
 		else if (ex.stt != E_SNT && ex.pipe)
 		{
@@ -197,13 +199,15 @@ int	main(int ac, char **av, char **env)
 			while (iter)
 			{
 				if (is_built_ins(&sh, &ln, &iter, &ex.stt) == ERROR)
-				{
 					ft_printf(R"not buit-ins\n"E);
-				}
 				iter = iter->next;
 			}
 		}
 		ex.pipe = 0;
+		//free del cmd hay que hacerlo mejor
+		if (ex.cmd && *ex.cmd)
+			free(ex.cmd);
+		clear_dptr((void **)ex.pht);
 		clear_dptr((void **)ex.env);
 		if (ex.inp[0] != '\0')
 			add_history(ex.inp);

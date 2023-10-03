@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/03 15:20:44 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:38:49 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ typedef struct s_exe
 	int		stt;
 	int		pipe;
 	char	*inp;
+	char	*cmd;
+	char	*arg;
 	char	**env;
 	char	**pht;
 }	t_exe;
@@ -167,7 +169,7 @@ int		unset(int *size, t_env **env, char *key);
 /* get/get_cmmd.c */
 int		search_cmd(t_line **ln, t_get **g);
 /* get/get_path.c */
-int		split_path(t_exe **ex, char *path);
+int		get_path(t_exe *ex, t_get *g, char *path);
 /* get/get.c */
 int		clear_get(t_get **g);
 int		add_get(t_get **g, char **arg, int len);
