@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:14 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/03 12:00:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:13:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ char	**env_to_array(t_mini *sh)
 		if (iter->eql)
 		{
 			a.tmp = ft_addend_char(iter->key, '=');
+			if (!a.tmp)
+				exit (msg_error(E_MEM, 1, NULL));
 			if (iter->val)
 				a.arr[a.i] = ft_strjoin(a.tmp, iter->val);
 			if (a.tmp && *a.tmp)

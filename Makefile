@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/10/03 11:51:40 by dacortes         ###   ########.fr        #
+#    Updated: 2023/10/03 12:20:06 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ PROGRESS_BAR :=
 ################################################################################
 SRC = built-ins/cd.c built-ins/echo.c built-ins/env.c built-ins/execute.c\
 	built-ins/exit.c built-ins/export.c built-ins/pwd.c built-ins/unset.c\
-	get/get_cmd.c get/get.c get/heredoc.c get/utils.c\
+	get/get_cmd.c get/get_path.c get/get.c get/heredoc.c get/utils.c\
 	parse/analyze.c parse/copy.c parse/expand_tk.c parse/line.c parse/parse.c\
 	parse/token.c parse/utils.c\
 	utils.c main.c
