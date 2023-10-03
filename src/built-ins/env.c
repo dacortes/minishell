@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:14 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 12:49:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:00:07 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,33 @@ int	init_env(t_mini *sh, char **env)
 	return (SUCCESS);
 }
 
-/*void	_env(t_env *env)
+char	**env_to_array(t_mini *sh)
 {
-	t_env	*tmp;
+	t_env	*iter;
+	t_aux	a;
 
-	tmp = env;
-	while (tmp)
+	ft_bzero(&a, sizeof(t_aux));
+	a.arr = ft_calloc(sizeof(char *), sh->size + 1);
+	if (!a.arr)
+		exit (msg_error(E_MEM, 1, NULL));
+	iter = sh->env;
+	while (iter)
 	{
-		if (tmp->eql && tmp->val)
-			ft_printf("%s=%s\n", tmp->key, tmp->val);
-		else if (tmp->eql && !tmp->key)
-			ft_printf("%s=\n", tmp->key);
-		tmp = tmp->next;
+		if (iter->eql)
+		{
+			a.tmp = ft_addend_char(iter->key, '=');
+			if (iter->val)
+				a.arr[a.i] = ft_strjoin(a.tmp, iter->val);
+			if (a.tmp && *a.tmp)
+				free (a.tmp);
+		}
+		else
+			a.arr[a.i] = ft_strdup(iter->key);
+		a.i++;
+		iter = iter->next;
 	}
-}*/
+	return (a.arr);
+}
 
 int	_env(t_env *env, int n_cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 18:51:44 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:03:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int ac, char **av, char **env)
 	t_line	*ln;
 	t_get	*g;
 	char	*inp;
+	char	**my_env;
 	int		chk;
 	int		pipe;
 
@@ -111,6 +112,7 @@ int	main(int ac, char **av, char **env)
 			chk = parse(&ln);
 		if (chk != E_SNT)
 			get_init(&ln, &g);
+		my_env = env_to_array(sh);
 		/* antes de ejecutar validar los pipes */
 		if (!pipe)
 		{
@@ -125,10 +127,13 @@ int	main(int ac, char **av, char **env)
 			while (iter)
 			{
 				if (is_built_ins(&sh, &ln, &iter, &chk) == ERROR)
+				{
 					ft_printf(R"not buit-ins\n"E);
+				}
 				iter = iter->next;
 			}
 		}
+		clear_dptr((void **)my_env);
 		pipe = 0;
 		if (inp[0] != '\0')
 			add_history(inp);

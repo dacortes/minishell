@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 18:54:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:01:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	are_the_others(t_mini **sh, t_get **g, int n_cmd)
 		return (ERROR);
 	return (SUCCESS);
 }
+
 /* la funcion debe hacer un minus para los cmd cd, env, pwd*/
 static int	ft_is(char *cmd)
 {
