@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/03 16:54:30 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/03 18:47:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	get_path(t_exe *ex, t_get *g, char *path)
 		if (access(ex->cmd, 0) == SUCCESS)
 		{
 			ft_printf(G"%s\n"E, ex->cmd);
-			// free(ex->cmd);
 			free(a.tmp);
 			return (TRUE);
 		}
