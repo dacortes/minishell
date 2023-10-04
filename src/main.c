@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/04 11:28:52 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:14:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,10 @@ int	main(int ac, char **av, char **env)
 			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
 			{
 				ft_printf(R"not buit-ins\n"E);
-				get_path(&ex, g, search_env(sh->env, "PATH", VAL));
-				if (ex.cmd && *ex.cmd)
+				ex.stt = get_path(&ex, g, search_env(sh->env, "PATH", VAL));
+				if (ex.stt != E_CNF && ex.cmd && *ex.cmd)
 					free(ex.cmd);
-				clear_dptr((void **)ex.pht);
+				ex.stt != E_CNF && clear_dptr((void **)ex.pth);
 			}
 		}
 		else if (ex.stt != E_SNT && ex.pipe)
@@ -122,13 +122,13 @@ int	main(int ac, char **av, char **env)
 			iter = g;
 			while (iter && num <= ex.pipe)
 			{
-				ft_printf("estoy aqui\n");
 				if (is_built_ins(&sh, &ln, &iter, &ex.stt) == ERROR)
 					ft_printf(R"not buit-ins\n"E);
 				num++;
 				iter = iter->next;
 			}
 		}
+		ft_printf(B"status :%d\n"E, ex.stt);
 		ex.pipe = 0;
 		clear_dptr((void **)ex.env);
 		if (ex.inp[0] != '\0')

@@ -6,42 +6,69 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/04 10:22:49 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:20:41 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
+static int	search_path(t_exe *ex, t_get *g, t_aux *a)
+{
+	while (ex->pth[a->i])
+	{
+		a->tmp = ft_addend_char(ex->pth[a->i], '/');
+		if (!a->tmp)
+			exit (msg_error(E_MEM, 1, NULL));
+		ex->cmd = ft_strjoin(a->tmp, g->arg[0]);
+		if (!ex->cmd)
+			exit (msg_error(E_MEM, 1, NULL));
+		if (access(ex->cmd, 0) == SUCCESS)
+		{
+			ft_printf(G"%s\n"E, ex->cmd);
+			free(a->tmp);
+			return (SUCCESS);
+		}
+		free(ex->cmd);
+		free(a->tmp);
+		a->i++;
+	}
+	return (ERROR);
+}
+
+static int	is_path(t_exe *ex, t_get *g)
+{
+	if (!g)
+		return (FALSE);
+	if (g && g->arg && g->arg[0][0] == '/')
+	{
+		if (access(g->arg[0], 0) == SUCCESS)
+		{
+			ex->pth = NULL;
+			ex->cmd = ft_strdup_exit(g->arg[0]);
+			ft_printf(O"%s\n"E, ex->cmd);
+			return (SUCCESS);
+		}
+		return (msg_error(E_NSF, E_CNF, g->arg[0]));
+	}
+	return (ERROR);
+}
+
 int	get_path(t_exe *ex, t_get *g, char *path)
 {
-	t_aux a;
+	t_aux	a;
 
 	if (!g)
 		return (FALSE);
 	ft_bzero(&a, sizeof(t_aux));
-	ex->pht = ft_split(path, ':');
-	if (!ex->pht)
+	a.k = is_path(ex, g);
+	if (a.k == E_CNF || a.k == SUCCESS)
+		return (((a.k == E_CNF) * E_CNF) + ((a.k == 0) * 0));
+	ex->pth = ft_split(path, ':');
+	if (!ex->pth)
 		exit (msg_error(E_MEM, 1, NULL));
-	while (ex->pht[a.i])
-	{
-		a.tmp = ft_addend_char(ex->pht[a.i], '/');
-		if (!a.tmp)
-			exit (msg_error(E_MEM, 1, NULL));
-		ex->cmd = ft_strjoin(a.tmp, g->arg[0]);
-		if (!ex->cmd)
-			exit (msg_error(E_MEM, 1, NULL));
-		ft_printf("%s\n", ex->cmd);
-		if (access(ex->cmd, 0) == SUCCESS)
-		{
-			ft_printf(G"%s\n"E, ex->cmd);
-			free(a.tmp);
-			return (TRUE);
-		}
-		free(ex->cmd);
-		free(a.tmp);
-		a.i++;
-	}
+	if (search_path(ex, g, &a) == SUCCESS)
+		return (SUCCESS);
 	ex->cmd = ft_strdup_exit(g->arg[0]);
 	ft_printf(F"%s\n"E, ex->cmd);
-	return (FALSE);
+	return (SUCCESS);
 }

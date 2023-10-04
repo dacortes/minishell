@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/03 15:38:49 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:13:58 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ typedef struct s_exe
 	char	*cmd;
 	char	*arg;
 	char	**env;
-	char	**pht;
+	char	**pth;
 }	t_exe;
 
 typedef struct s_env
