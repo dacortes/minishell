@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/03 18:54:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/04 11:28:52 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,32 +101,35 @@ int	main(int ac, char **av, char **env)
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt != E_SNT) && (ex.stt = parse(&ln));
 		(ex.stt != E_SNT) && (ex.stt = get_init(&ln, &g));
-		(ex.stt != E_SNT) && (ex.stt = get_path(&ex, g, search_env(sh->env, "PATH", VAL)));
 		ex.env = env_to_array(sh);
 		if (ex.stt != E_SNT && !ex.pipe)
 		{
 			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
 			{
 				ft_printf(R"not buit-ins\n"E);
+				get_path(&ex, g, search_env(sh->env, "PATH", VAL));
+				if (ex.cmd && *ex.cmd)
+					free(ex.cmd);
+				clear_dptr((void **)ex.pht);
 			}
 		}
 		else if (ex.stt != E_SNT && ex.pipe)
 		{
-			t_get *iter;
+			t_get	*iter;
+			int		num;
 
+			num = 0;
 			iter = g;
-			while (iter)
+			while (iter && num <= ex.pipe)
 			{
+				ft_printf("estoy aqui\n");
 				if (is_built_ins(&sh, &ln, &iter, &ex.stt) == ERROR)
 					ft_printf(R"not buit-ins\n"E);
+				num++;
 				iter = iter->next;
 			}
 		}
 		ex.pipe = 0;
-		//free del cmd hay que hacerlo mejor
-		if (ex.cmd && *ex.cmd)
-			free(ex.cmd);
-		clear_dptr((void **)ex.pht);
 		clear_dptr((void **)ex.env);
 		if (ex.inp[0] != '\0')
 			add_history(ex.inp);
