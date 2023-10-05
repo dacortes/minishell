@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 16:41:03 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:07:12 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,22 +114,29 @@ int	main(int ac, char **av, char **env)
 	{
 		ln = NULL;
 		prompt(&sh, &ex.inp);
+		if (ex.inp == NULL)
+			break ;
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g));
 		show_arg(g);
 		ex.env = env_to_array(sh);
-		if (ln)
-		{
 		if (ex.stt == 0 && !ex.pipe)
 		{
-			ft_printf("%s\n", ex.inp);
 			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
 			{
 				if (get_path(&ex, g, search_env(sh->env, "PATH", VAL)) == ERROR)
 				{
 					if (ex.stt == 0)
-						is_bin(&ex);
+					{
+						ex.stt = is_bin(&ex);
+						if (ex.cmd && *ex.cmd)
+						{
+							free(ex.cmd);
+							ex.cmd = NULL;
+						}
+						clear_dptr((void **)ex.pth);
+					}
 					if (ex.stt == 0 && ex.cmd && *ex.cmd)
 					{
 						free(ex.cmd);
@@ -160,7 +167,6 @@ int	main(int ac, char **av, char **env)
 				iter = iter->next;
 			}
 		}
-		}
 		ft_printf(B"status :%d\n"E, ex.stt);
 		ex.pipe = 0;
 		clear_dptr((void **)ex.env);
@@ -168,7 +174,7 @@ int	main(int ac, char **av, char **env)
 			add_history(ex.inp);
 		clear_get(&g);
 		clear_ln(&ln);
-		free(ex.inp);
+		free(ex.inp);		
 	}
 	return (SUCCESS);
 }

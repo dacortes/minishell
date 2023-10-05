@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 16:32:12 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:45:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,6 @@ static int	search_path(t_exe *ex, t_get *g, t_aux *a)
 	return (ERROR);
 }
 
-// static int	is_path(t_exe *ex, t_get *g)
-// {
-// 	if (!g)
-// 		return (FALSE);
-// 	if (g && g->arg && (g->arg[0][0] == '/'
-// 		|| (g->arg[0][0] == '.' && g->arg[0][1] == '/')))
-// 	{
-// 		if (access(g->arg[0], 0) == SUCCESS)
-// 		{
-// 			ex->pth = NULL;
-// 			ft_printf(F"%s\n"E, g->arg[0]);
-// 			ex->cmd = ft_strdup_exit(g->arg[0]);
-// 			return (SUCCESS);
-// 		}
-// 		return (msg_error(E_NSF, E_CNF, g->arg[0]));
-// 	}
-// 	return (ERROR);
-// }
-
 static int is_path(t_exe *ex, t_get *g)
 {
 	struct stat path_stat;
@@ -74,10 +55,7 @@ static int is_path(t_exe *ex, t_get *g)
 				return (SUCCESS);
             } 
 			else if (S_ISDIR(path_stat.st_mode))
-			{
-				ft_printf("estoy aqui\n");
 				return (msg_error(E_ISD, 126, g->arg[0]));
-			}
         }
         return (msg_error(E_NSF, E_CNF, g->arg[0]));
     }
