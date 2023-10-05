@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 16:33:37 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:51:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,10 @@ int		pwd(void);
 /* src/built-ins/unset.c*/
 int		unset(int *size, t_env **env, char *key);
 
+/* execute/clear */
+int		clear(t_mini *sh);
+int		is_null(t_mini **sh, t_line **ln, t_get **g, char *inp);
+int		clear_pross(t_line **ln, t_get **g, t_exe ex);
 /* get/get_cmmd.c */
 int		search_cmd(t_line **ln, t_get **g);
 /* get/get_path.c */

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 17:19:45 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:59:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,6 @@ int	msg_error(int e, int exit_, char *cm)
 	if (e == E_PRR)
 		perror("mini");
 	return (exit_);
-}
-
-int	clear(t_mini *sh)
-{
-	t_env	*rm;
-	t_env	*tmp;
-
-	rm = sh->env;
-	while (rm)
-	{
-		tmp = rm;
-		if (rm->key)
-			free(rm->key);
-		if (rm->val)
-			free(rm->val);
-		rm = rm->next;
-		free(tmp);
-	}
-	if (sh->dir)
-		free(sh->dir);
-	if (sh->old)
-		free(sh->old);
-	free(sh);
-	return (SUCCESS);
 }
 
 int	mini_init(t_mini **sh, t_get **g, t_exe *ex, char **env)
@@ -114,13 +90,7 @@ int	main(int ac, char **av, char **env)
 	{
 		ln = NULL;
 		prompt(&sh, &ex.inp);
-		if (ex.inp == NULL)
-		{
-			clear(sh);
-			clear_get(&g);
-			clear_ln(&ln);
-			break ;
-		}
+		is_null(&sh, &ln, &g, ex.inp);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g));
@@ -174,12 +144,7 @@ int	main(int ac, char **av, char **env)
 		}
 		ft_printf(B"status :%d\n"E, ex.stt);
 		ex.pipe = 0;
-		clear_dptr((void **)ex.env);
-		if (ex.inp && ex.inp[0] != '\0')
-			add_history(ex.inp);
-		clear_get(&g);
-		clear_ln(&ln);
-		free(ex.inp);		
+		clear_pross(&ln, &g, ex);
 	}
 	return (SUCCESS);
 }
