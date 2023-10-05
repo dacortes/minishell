@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 11:13:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:16:41 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	search_path(t_exe *ex, t_get *g, t_aux *a)
 			exit (msg_error(E_MEM, 1, NULL));
 		if (access(ex->cmd, 0) == SUCCESS)
 		{
+			ft_printf(F"%s\n"E, ex->cmd);
 			free(a->tmp);
 			return (SUCCESS);
 		}
@@ -38,7 +39,8 @@ static int	is_path(t_exe *ex, t_get *g)
 {
 	if (!g)
 		return (FALSE);
-	if (g && g->arg && g->arg[0][0] == '/')
+	if (g && g->arg && (g->arg[0][0] == '/'
+		|| (g->arg[0][0] == '.' && g->arg[0][1] == '/')))
 	{
 		if (access(g->arg[0], 0) == SUCCESS)
 		{
@@ -63,12 +65,13 @@ int	get_path(t_exe *ex, t_get *g, char *path)
 	ft_bzero(&a, sizeof(t_aux));
 	a.k = is_path(ex, g);
 	if (a.k == E_CNF || a.k == SUCCESS)
-		return (((a.k == E_CNF) * E_CNF) + ((a.k == 0) * 0));
+		return ((ex->stt = ((a.k == E_CNF) * E_CNF) + ((a.k == 0) * 0)));
 	ex->pth = ft_split(path, ':');
 	if (!ex->pth)
 		exit (msg_error(E_MEM, 1, NULL));
 	if (search_path(ex, g, &a) == SUCCESS)
-		return (SUCCESS);
+		return ((ex->stt = SUCCESS));
 	ex->cmd = ft_strdup_exit(g->arg[0]);
-	return (SUCCESS);
+	ft_printf(F"%s\n"E, ex->cmd);
+	return (ERROR);
 }

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 09:40:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:52:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ void	show_arg(t_get *g);
 void	get_add_back(t_get **g, t_get *new);
 /* get/utils2.c */
 int		count_tk(t_token *tk);
+int		is_bin(t_exe *ex);
 /* parse/analize.c */
 int		identify(t_token **tk);
 int		analize_space(char *inp, int count);

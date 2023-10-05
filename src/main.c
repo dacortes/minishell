@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 11:08:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:08:30 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	msg_error(int e, int exit_, char *cm)
 	e == E_EXP && fd_printf(2, "mini: export: `%s\': not a valid identifier\n" \
 		, cm);
 	e == E_CNF && fd_printf(2, "mini: %s: command not found\n", cm);
+	e == E_PRM && fd_printf(2, "mini: %s: Permission denied\n", cm);
 	e == EX && fd_printf(2, "mini: exit: %s: numeric argument required\n", cm);
 	e == E_ARG && fd_printf(2, "mini: %s: too many arguments\n", cm);
 	e == E_SNT && fd_printf(2, "mini: syntax error near unexpected token %s\n", \
@@ -119,11 +120,21 @@ int	main(int ac, char **av, char **env)
 		ex.env = env_to_array(sh);
 		if (ex.stt != E_SNT && !ex.pipe)
 		{
-			print_line(ln);
 			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
 			{
 				ft_printf(R"not buit-ins\n"E);
-				ex.stt = get_path(&ex, g, search_env(sh->env, "PATH", VAL));
+				if (get_path(&ex, g, search_env(sh->env, "PATH", VAL)) == ERROR)
+				{
+					ft_printf("%s\n", ex.cmd);
+					ft_printf("%d\n", is_bin(&ex));
+					if (ex.stt != E_CNF && ex.cmd && *ex.cmd)
+					{
+						free(ex.cmd);
+						ex.cmd = NULL;
+					}
+					ex.stt != E_CNF && clear_dptr((void **)ex.pth);
+					ft_printf(R"not command\n"E);
+				}
 				if (ex.stt != E_CNF && ex.cmd && *ex.cmd)
 				{
 					free(ex.cmd);
