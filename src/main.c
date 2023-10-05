@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 17:07:12 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 17:19:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,12 @@ int	main(int ac, char **av, char **env)
 		ln = NULL;
 		prompt(&sh, &ex.inp);
 		if (ex.inp == NULL)
+		{
+			clear(sh);
+			clear_get(&g);
+			clear_ln(&ln);
 			break ;
+		}
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g));
