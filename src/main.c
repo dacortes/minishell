@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 14:08:30 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:41:03 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ int	msg_error(int e, int exit_, char *cm)
 	e == E_MEM && fd_printf(2, "mini: error trying to allocate memory\n", cm);
 	e == E_EXP && fd_printf(2, "mini: export: `%s\': not a valid identifier\n" \
 		, cm);
-	e == E_CNF && fd_printf(2, "mini: %s: command not found\n", cm);
+	e == E_ISD && fd_printf(2, "mini: %s: is a directory\n", cm);
 	e == E_PRM && fd_printf(2, "mini: %s: Permission denied\n", cm);
+	e == E_CNF && fd_printf(2, "mini: %s: command not found\n", cm);
 	e == EX && fd_printf(2, "mini: exit: %s: numeric argument required\n", cm);
 	e == E_ARG && fd_printf(2, "mini: %s: too many arguments\n", cm);
 	e == E_SNT && fd_printf(2, "mini: syntax error near unexpected token %s\n", \
-		cm);
+		cm); 
 	if (e == E_PRR)
 		perror("mini");
 	return (exit_);
@@ -114,36 +115,37 @@ int	main(int ac, char **av, char **env)
 		ln = NULL;
 		prompt(&sh, &ex.inp);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
-		(ex.stt != E_SNT) && (ex.stt = parse(&ln));
-		(ex.stt != E_SNT) && (ex.stt = get_init(&ln, &g));
+		(ex.stt == 0) && (ex.stt = parse(&ln));
+		(ex.stt == 0) && (ex.stt = get_init(&ln, &g));
 		show_arg(g);
 		ex.env = env_to_array(sh);
-		if (ex.stt != E_SNT && !ex.pipe)
+		if (ln)
 		{
+		if (ex.stt == 0 && !ex.pipe)
+		{
+			ft_printf("%s\n", ex.inp);
 			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
 			{
-				ft_printf(R"not buit-ins\n"E);
 				if (get_path(&ex, g, search_env(sh->env, "PATH", VAL)) == ERROR)
 				{
-					ft_printf("%s\n", ex.cmd);
-					ft_printf("%d\n", is_bin(&ex));
-					if (ex.stt != E_CNF && ex.cmd && *ex.cmd)
+					if (ex.stt == 0)
+						is_bin(&ex);
+					if (ex.stt == 0 && ex.cmd && *ex.cmd)
 					{
 						free(ex.cmd);
 						ex.cmd = NULL;
 					}
-					ex.stt != E_CNF && clear_dptr((void **)ex.pth);
-					ft_printf(R"not command\n"E);
+					ex.stt == 0 && clear_dptr((void **)ex.pth);
 				}
-				if (ex.stt != E_CNF && ex.cmd && *ex.cmd)
+				if (ex.stt == 0 && ex.cmd && *ex.cmd)
 				{
 					free(ex.cmd);
 					ex.cmd = NULL;
 				}
-				ex.stt != E_CNF && clear_dptr((void **)ex.pth);
+				ex.stt == 0 && clear_dptr((void **)ex.pth);
 			}
 		}
-		else if (ex.stt != E_SNT && ex.pipe)
+		else if (ex.stt == 0 && ex.pipe)
 		{
 			t_get	*iter;
 			int		num;
@@ -158,10 +160,11 @@ int	main(int ac, char **av, char **env)
 				iter = iter->next;
 			}
 		}
+		}
 		ft_printf(B"status :%d\n"E, ex.stt);
 		ex.pipe = 0;
 		clear_dptr((void **)ex.env);
-		if (ex.inp[0] != '\0')
+		if (ex.inp && ex.inp[0] != '\0')
 			add_history(ex.inp);
 		clear_get(&g);
 		clear_ln(&ln);

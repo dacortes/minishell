@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 11:52:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:33:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../lib/libft/ft_printf.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/stat.h>
 # include <stdio.h>
 # include <limits.h>
 # include <errno.h>
@@ -46,6 +47,7 @@
 # define KEY 1
 # define VAL 2
 /* Error */
+# define E_ISD -3
 # define E_SPC -2
 # define E_ARG 1
 # define E_MEM 2
@@ -53,7 +55,7 @@
 # define E_PRR 4
 # define E_PNF 5
 # define E_EXP 6
-# define E_PRM 126
+# define E_PRM 126 
 # define E_CNF 127
 # define E_SNT 258
 # define EX 255
