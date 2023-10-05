@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 16:45:19 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:28:39 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	search_path(t_exe *ex, t_get *g, t_aux *a)
 			exit (msg_error(E_MEM, 1, NULL));
 		if (access(ex->cmd, 0) == SUCCESS)
 		{
-			ft_printf(F"%s\n"E, ex->cmd);
 			free(a->tmp);
 			return (SUCCESS);
 		}
@@ -50,7 +49,6 @@ static int is_path(t_exe *ex, t_get *g)
 			if (S_ISREG(path_stat.st_mode))
 			{
 				ex->pth = NULL;
-				ft_printf(O"%s\n"E, g->arg[0]);
 				ex->cmd = ft_strdup_exit(g->arg[0]);
 				return (SUCCESS);
             } 
@@ -73,8 +71,8 @@ int	get_path(t_exe *ex, t_get *g, char *path)
 	}
 	ft_bzero(&a, sizeof(t_aux));
 	a.k = is_path(ex, g);
-	if (a.k == E_CNF || a.k == E_ISD || a.k == FALSE)
-		return ((ex->stt = ((a.k == E_CNF) * E_CNF) + ((a.k == E_ISD) * E_ISD)
+	if (a.k == E_CNF || a.k == 126 || a.k == FALSE)
+		return ((ex->stt = ((a.k == E_CNF) * E_CNF) + ((a.k == 126) * 126)
 			+ ((a.k == 0) * 0)));
 	ex->pth = ft_split(path, ':');
 	if (!ex->pth)
@@ -82,6 +80,5 @@ int	get_path(t_exe *ex, t_get *g, char *path)
 	if (search_path(ex, g, &a) == SUCCESS)
 		return ((ex->stt = SUCCESS));
 	ex->cmd = ft_strdup_exit(g->arg[0]);
-	ft_printf(F"%s\n"E, ex->cmd);
 	return (ERROR);
 }

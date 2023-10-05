@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 17:51:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:17:28 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,9 @@ int		unset(int *size, t_env **env, char *key);
 /* execute/clear */
 int		clear(t_mini *sh);
 int		is_null(t_mini **sh, t_line **ln, t_get **g, char *inp);
+int		clear_cmd(t_exe ex, int stt);
 int		clear_pross(t_line **ln, t_get **g, t_exe ex);
+
 /* get/get_cmmd.c */
 int		search_cmd(t_line **ln, t_get **g);
 /* get/get_path.c */
@@ -189,6 +191,7 @@ void	get_add_back(t_get **g, t_get *new);
 /* get/utils2.c */
 int		count_tk(t_token *tk);
 int		is_bin(t_exe *ex);
+
 /* parse/analize.c */
 int		identify(t_token **tk);
 int		analize_space(char *inp, int count);

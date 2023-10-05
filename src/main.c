@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 17:59:15 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:20:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,26 +105,11 @@ int	main(int ac, char **av, char **env)
 					if (ex.stt == 0)
 					{
 						ex.stt = is_bin(&ex);
-						if (ex.cmd && *ex.cmd)
-						{
-							free(ex.cmd);
-							ex.cmd = NULL;
-						}
-						clear_dptr((void **)ex.pth);
+						clear_cmd(ex, 1);
 					}
-					if (ex.stt == 0 && ex.cmd && *ex.cmd)
-					{
-						free(ex.cmd);
-						ex.cmd = NULL;
-					}
-					ex.stt == 0 && clear_dptr((void **)ex.pth);
+					clear_cmd(ex, 2);
 				}
-				if (ex.stt == 0 && ex.cmd && *ex.cmd)
-				{
-					free(ex.cmd);
-					ex.cmd = NULL;
-				}
-				ex.stt == 0 && clear_dptr((void **)ex.pth);
+				clear_cmd(ex, 2);
 			}
 		}
 		else if (ex.stt == 0 && ex.pipe)
