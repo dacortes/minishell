@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/29 12:49:36 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/04 14:52:13 by dacortes         ###   ########.fr       */
+/*   Created: 2023/10/05 09:38:12 by dacortes          #+#    #+#             */
+/*   Updated: 2023/10/05 09:39:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-int	is_heredoc(t_token **tk)
+int	count_tk(t_token *tk)
 {
-	char	*inp;
+	t_token	*iter;
+	int		num;
 
-	inp = "";
-	if ((*tk)->type[3] == 5)
+	num = 0;
+	if (!tk)
+		return (num);
+	iter = tk;
+	while (iter)
 	{
-		while (inp && (*tk)->next && (*tk)->next->arg)
-		{
-			inp = readline(O"> "E);
-			if (ft_strncmp((*tk)->next->arg, inp, -1) == 0)
-			{
-				free (inp);
-				break ;
-			}
-			free (inp);
-		}
+		num++;
+		iter = iter->next;
 	}
-	return (SUCCESS);
+	return (num);
 }

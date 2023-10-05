@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 14:52:48 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/04 12:40:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/04 18:56:34 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	continue_cnt(t_line **ln, t_aux **a, t_token *tk, char *inp)
 		exit (msg_error(E_MEM, 1, NULL));
 	(*a)->k = (*a)->i + 1;
 	add_line(ln, tk, tmp);
-	(*ln)->argc = (*a)->c;
 	free (tmp);
 }
 

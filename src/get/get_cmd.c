@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/26 11:09:06 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/28 15:24:28 by dacortes         ###   ########.fr       */
+/*   Created: 2023/10/04 13:24:54 by dacortes          #+#    #+#             */
+/*   Updated: 2023/10/04 13:25:11 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	search_cmd(t_line **ln, t_get **g)
 }
 
 /* executer */
-int	get_cmd(t_line **ln, t_env *env, t_get *g)
+int	get_arg(t_line **ln, t_env *env, t_get *g)
 {
 	(void)ln;
 	(void)env;

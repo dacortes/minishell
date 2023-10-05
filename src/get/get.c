@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 11:31:21 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:45:30 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	add_get(t_get **g, char **arg, int len)
 
 	i = 0;
 	j = 0;
+
 	new = ft_calloc(sizeof(t_get), 1);
 	if (!new)
 		exit (msg_error(E_MEM, 1, NULL));
@@ -47,19 +48,13 @@ int	add_get(t_get **g, char **arg, int len)
 	while (arg[i])
 		new->arg[j++] = ft_strdup_exit(arg[i++]);
 	new->next = NULL;
-	if (!(*g))
-		*g = new;
-	else
-	{
-		new->next = *g;
-		*g = new;
-	}
+	get_add_back(g, new);
 	return (SUCCESS);
 }
 
 int	can_be_joined(t_token **tk, char **arg, int *i)
 {
-	if (!(*tk)->type[2])
+	if (*tk && !(*tk)->type[2])
 	{
 		if ((*tk)->next && !((*tk)->next->type[3] >= 3
 				&& (*tk)->next->type[3] <= 6) && (*tk)->next->type[3] != T_FD)
@@ -71,6 +66,7 @@ int	can_be_joined(t_token **tk, char **arg, int *i)
 				*tk = (*tk)->next;
 		}
 		else
+
 			arg[*i] = ft_strdup_exit((*tk)->arg);
 	}
 	else
@@ -115,16 +111,12 @@ int	get_init(t_line **ln, t_get **g)
 	if (!*ln)
 		return (SUCCESS);
 	tmp = *ln;
-	*g = ft_calloc(sizeof(t_get), 1);
-	if (!*g)
-		exit (msg_error(E_MEM, 1, NULL));
 	while (tmp)
 	{
 		tk = tmp->tk;
 		rdr = len_no_rd(tk);
-		tk_to_array(&tk, g, (tmp->argc - rdr));
+		tk_to_array(&tk, g, (count_tk(tk) - rdr));
 		tmp = tmp->next;
 	}
-	show_arg(*g);
 	return (SUCCESS);
 }

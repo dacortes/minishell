@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/04 13:14:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/04 18:57:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,20 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
+void print_line(t_line *ln)
+{
+	t_line	*iter;
+
+	if (!ln)
+		return;
+	iter = ln;
+	while (iter)
+	{
+		show_tokens(iter);
+		iter = iter->next;
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;
@@ -94,13 +108,15 @@ int	main(int ac, char **av, char **env)
 	if (ac > 1)
 		exit (TRUE);
 	mini_init(&sh, &g, &ex, env);
-	while (TRUE)
+	while (TRUE) 
 	{
 		ln = NULL;
 		prompt(&sh, &ex.inp);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
+		print_line(ln);
 		(ex.stt != E_SNT) && (ex.stt = parse(&ln));
 		(ex.stt != E_SNT) && (ex.stt = get_init(&ln, &g));
+		show_arg(g);
 		ex.env = env_to_array(sh);
 		if (ex.stt != E_SNT && !ex.pipe)
 		{

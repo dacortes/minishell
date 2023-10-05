@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:24:00 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/29 17:32:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:43:17 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	clear_dptr(void **ptr)
 		while (ptr[i])
 			free(ptr[i++]);
 		if (ptr)
+		{
 			free(ptr);
+			ptr = NULL;
+		}
 	}
 	return (SUCCESS);
 }
@@ -63,7 +66,34 @@ void	show_arg(t_get *g)
 				ft_printf(F"["E"%d"F"]"O" *argument:"E" %s\n", i, iter->arg[i]);
 			}
 		}
+		else
+			ft_printf(F"["E"%d"F"] COMMAND\n"E, num);
 		num++;
 		iter = iter->next;
+	}
+}
+
+static t_get	*get_last(t_get *g)
+{
+	if (!g)
+		return (NULL);
+	while (g->next)
+		g = g->next;
+	return (g);
+}
+
+void	get_add_back(t_get **g, t_get *new)
+{
+	t_get	*tmp;
+
+	if (g)
+	{
+		if (!*g)
+			*g = new;
+		else
+		{
+			tmp = get_last(*g);
+			tmp->next = new;
+		}
 	}
 }

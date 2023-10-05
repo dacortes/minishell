@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/03 12:01:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:43:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 
 	if (!*ln || !*g)
 		return (SUCCESS);
-	if (g && *g && (*g)->arg && ft_is((*g)->arg[0]) != ERROR)
+	if (g && *g && (*g)->arg && (*g)->arg[0]
+		&& ft_is((*g)->arg[0]) != ERROR)
 		n_cmd = ft_double_ptr_len((void **)(*g)->arg);
 	else
 		return (ERROR);

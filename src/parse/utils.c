@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:55:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/02 12:20:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/04 17:22:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,51 @@ int	clear_ln(t_line **ln)
 	*ln = NULL;
 	return (SUCCESS);
 }
+static t_line	*line_last(t_line *ln)
+{
+	if (!ln)
+		return (NULL);
+	while (ln->next)
+		ln = ln->next;
+	return (ln);
+}
+
+void	add_back(t_line **ln, t_line *new)
+{
+	t_line	*tmp;
+
+	if (ln)
+	{
+		if (!*ln)
+			*ln = new;
+		else
+		{
+			tmp = line_last(*(ln));
+			tmp->next = new;
+		}
+	}
+}
+// int	add_line(t_line **ln, t_token *tk, char	*line)
+// {
+// 	t_line	*new;
+
+// 	new = ft_calloc(sizeof(t_line), 1);
+// 	if (!new)
+// 		exit (msg_error(E_MEM, 1, NULL));
+// 	new->tk = tk;
+// 	new->line = ft_strdup(line);
+// 	if (!line)
+// 		exit (msg_error(E_MEM, 1, NULL));
+// 	new->next = NULL;
+// 	if (!(*ln))
+// 		*ln = new;
+// 	else
+// 	{
+// 		new->next = *ln;
+// 		*ln = new;
+// 	}
+// 	return (SUCCESS);
+// }
 
 int	add_line(t_line **ln, t_token *tk, char	*line)
 {
@@ -45,12 +90,6 @@ int	add_line(t_line **ln, t_token *tk, char	*line)
 	if (!line)
 		exit (msg_error(E_MEM, 1, NULL));
 	new->next = NULL;
-	if (!(*ln))
-		*ln = new;
-	else
-	{
-		new->next = *ln;
-		*ln = new;
-	}
+	add_back(ln, new);
 	return (SUCCESS);
 }
