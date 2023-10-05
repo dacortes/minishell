@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 09:48:00 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:08:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,16 @@ int	main(int ac, char **av, char **env)
 		ex.env = env_to_array(sh);
 		if (ex.stt != E_SNT && !ex.pipe)
 		{
+			print_line(ln);
 			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
 			{
 				ft_printf(R"not buit-ins\n"E);
 				ex.stt = get_path(&ex, g, search_env(sh->env, "PATH", VAL));
 				if (ex.stt != E_CNF && ex.cmd && *ex.cmd)
+				{
 					free(ex.cmd);
+					ex.cmd = NULL;
+				}
 				ex.stt != E_CNF && clear_dptr((void **)ex.pth);
 			}
 		}

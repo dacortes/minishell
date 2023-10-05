@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 09:58:00 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:13:48 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int	get_path(t_exe *ex, t_get *g, char *path)
 	t_aux	a;
 
 	if (!g || !g->arg || !*g->arg)
+	{
+		ex->pth = NULL;
 		return (SUCCESS);
+	}
 	ft_bzero(&a, sizeof(t_aux));
 	a.k = is_path(ex, g);
 	if (a.k == E_CNF || a.k == SUCCESS)
