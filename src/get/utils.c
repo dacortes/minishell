@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:24:00 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 09:43:17 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:58:32 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	clear_dptr(void **ptr)
 
 int	len_no_rd(t_token *tk)
 {
-	t_token *iter;
+	t_token	*iter;
 	int		num;
 
 	num = 0;
@@ -40,7 +40,7 @@ int	len_no_rd(t_token *tk)
 	while (iter)
 	{
 		if ((iter->type[3] >= 3 && iter->type[3] <= 6)
-		|| iter->type[3] == T_FD)
+			|| iter->type[3] == T_FD)
 			num++;
 		iter = iter->next;
 	}

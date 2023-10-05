@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:14 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/03 12:13:37 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:55:49 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,22 @@ int	init_env(t_mini *sh, char **env)
 	return (SUCCESS);
 }
 
+static void	copy_array(t_env *iter, t_aux *a)
+{
+	if (iter->eql)
+	{
+		a->tmp = ft_addend_char(iter->key, '=');
+		if (!a->tmp)
+			exit (msg_error(E_MEM, 1, NULL));
+		if (iter->val)
+			a->arr[a->i] = ft_strjoin(a->tmp, iter->val);
+		if (a->tmp && *a->tmp)
+			free (a->tmp);
+	}
+	else
+		a->arr[a->i] = ft_strdup(iter->key);
+}
+
 char	**env_to_array(t_mini *sh)
 {
 	t_env	*iter;
@@ -64,18 +80,7 @@ char	**env_to_array(t_mini *sh)
 	iter = sh->env;
 	while (iter)
 	{
-		if (iter->eql)
-		{
-			a.tmp = ft_addend_char(iter->key, '=');
-			if (!a.tmp)
-				exit (msg_error(E_MEM, 1, NULL));
-			if (iter->val)
-				a.arr[a.i] = ft_strjoin(a.tmp, iter->val);
-			if (a.tmp && *a.tmp)
-				free (a.tmp);
-		}
-		else
-			a.arr[a.i] = ft_strdup(iter->key);
+		copy_array(iter, &a);
 		a.i++;
 		iter = iter->next;
 	}

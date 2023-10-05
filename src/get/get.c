@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 09:45:30 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:56:26 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	add_get(t_get **g, char **arg, int len)
 
 	i = 0;
 	j = 0;
-
 	new = ft_calloc(sizeof(t_get), 1);
 	if (!new)
 		exit (msg_error(E_MEM, 1, NULL));
@@ -66,7 +65,6 @@ int	can_be_joined(t_token **tk, char **arg, int *i)
 				*tk = (*tk)->next;
 		}
 		else
-
 			arg[*i] = ft_strdup_exit((*tk)->arg);
 	}
 	else

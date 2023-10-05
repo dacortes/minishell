@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/04 14:46:56 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:58:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static int	search_path(t_exe *ex, t_get *g, t_aux *a)
 			exit (msg_error(E_MEM, 1, NULL));
 		if (access(ex->cmd, 0) == SUCCESS)
 		{
-			ft_printf(G"%s\n"E, ex->cmd);//quitar cuando se termine
 			free(a->tmp);
 			return (SUCCESS);
 		}
@@ -45,7 +44,6 @@ static int	is_path(t_exe *ex, t_get *g)
 		{
 			ex->pth = NULL;
 			ex->cmd = ft_strdup_exit(g->arg[0]);
-			ft_printf(O"%s\n"E, ex->cmd);//quitar cuando se termine
 			return (SUCCESS);
 		}
 		return (msg_error(E_NSF, E_CNF, g->arg[0]));
@@ -69,6 +67,5 @@ int	get_path(t_exe *ex, t_get *g, char *path)
 	if (search_path(ex, g, &a) == SUCCESS)
 		return (SUCCESS);
 	ex->cmd = ft_strdup_exit(g->arg[0]);
-	ft_printf(F"%s\n"E, ex->cmd);//quitar cuando se termine
 	return (SUCCESS);
 }

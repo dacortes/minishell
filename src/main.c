@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/04 18:57:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/05 09:48:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ int	main(int ac, char **av, char **env)
 		ln = NULL;
 		prompt(&sh, &ex.inp);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
-		print_line(ln);
 		(ex.stt != E_SNT) && (ex.stt = parse(&ln));
 		(ex.stt != E_SNT) && (ex.stt = get_init(&ln, &g));
 		show_arg(g);
