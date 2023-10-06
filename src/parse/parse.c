@@ -6,19 +6,19 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 15:20:32 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/06 16:45:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:49:26 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-static int double_redic(t_token *tk)
+static int	double_redic(t_token *tk)
 {
 	if ((tk->type[3] == 3 || tk->type[3] == 4) && tk->next
-		&& (tk->next->type[3] == 3 ||  tk->next->type[3] == 4)
-		&& tk->next->next && (tk->next->next->type[3] == 3
-		|| tk->next->next->type[3] == 4) && tk->next->next->next
-		&& (tk->next->next->next->type[3] == 3 
+		&& (tk->next->type[3] == 3 || tk->next->type[3] == 4) \
+		&& tk->next->next && (tk->next->next->type[3] == 3 \
+		|| tk->next->next->type[3] == 4) && tk->next->next->next \
+		&& (tk->next->next->next->type[3] == 3 \
 		|| tk->next->next->next->type[3] == 4))
 		return (TRUE);
 	return (FALSE);
