@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 18:35:12 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/06 15:31:07 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,11 @@ int	main(int ac, char **av, char **env)
 		{
 			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
 			{
-				if (get_path(&ex, g, search_env(sh->env, "PATH", VAL)) == ERROR)
+				int stt;
+				pid_t pid;
+
+				stt = get_path(&ex, g, search_env(sh->env, "PATH", VAL));
+				if ( stt == ERROR)
 				{
 					if (ex.stt == 0)
 					{
@@ -108,6 +112,15 @@ int	main(int ac, char **av, char **env)
 						clear_cmd(ex, 1);
 					}
 					clear_cmd(ex, 2);
+				}
+				else
+				{
+					pid = fork();
+					int s = 0;
+					if (pid == 0)
+						s = execve(ex.cmd, g->arg, ex.env);
+					waitpid(pid, &ex.stt, 0);
+					ex.stt = WEXITSTATUS(ex.stt);
 				}
 				clear_cmd(ex, 2);
 			}
