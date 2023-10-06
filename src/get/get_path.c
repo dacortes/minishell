@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/06 13:36:09 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:38:12 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ static int	search_path(t_exe *ex, t_get *g, t_aux *a)
 	return (ERROR);
 }
 
-static int is_path(t_exe *ex, t_get *g)
+static int	is_path(t_exe *ex, t_get *g)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
-    if (!g)
-        return (FALSE);
-    if (g->arg && (g->arg[0][0] == '/'
+	if (!g)
+		return (FALSE);
+	if (g->arg && (g->arg[0][0] == '/'
 		|| (g->arg[0][0] == '.' && g->arg[0][1] == '/')
 		|| (ft_strnstr(g->arg[0], "../", ft_strlen(g->arg[0])))))
 	{
@@ -51,13 +51,13 @@ static int is_path(t_exe *ex, t_get *g)
 				ex->pth = NULL;
 				ex->cmd = ft_strdup_exit(g->arg[0]);
 				return (SUCCESS);
-            } 
+			}
 			else if (S_ISDIR(path_stat.st_mode))
 				return (msg_error(E_ISD, 126, g->arg[0]));
-        }
-        return (msg_error(E_NSF, E_CNF, g->arg[0]));
-    }
-    return (ERROR);
+		}
+		return (msg_error(E_NSF, E_CNF, g->arg[0]));
+	}
+	return (ERROR);
 }
 
 int	get_path(t_exe *ex, t_get *g, char *path)

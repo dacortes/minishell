@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/10/06 12:00:25 by dacortes         ###   ########.fr        #
+#    Updated: 2023/10/06 15:38:25 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME = minishell
 CC = gcc
 RM = rm -rf
 LIBC = ar -rcs
-FLAGS = -Wall -Wextra -Werror  -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror  -g #-fsanitize=address
 ################################################################################
 #  Bar                                                                         #
 ################################################################################

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:20:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 18:16:20 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:39:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	clear_cmd(t_exe ex, int stt)
 		{
 			free(ex.cmd);
 			ex.cmd = NULL;
-			}
+		}
 		clear_dptr((void **)ex.pth);
 	}
 	else if (stt == 2)
