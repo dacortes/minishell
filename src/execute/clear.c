@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:20:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/06 18:18:23 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/09 10:39:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	clear_cmd(t_exe ex, int stt)
 	}
 	else if (stt == 2)
 	{
-		ft_printf(R"%p\n"E, ex.cmd);
 		if (ex.stt == 0 && ex.cmd && *ex.cmd)
 		{
 			free(ex.cmd);

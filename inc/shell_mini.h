@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 18:17:28 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:28:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,20 @@ typedef struct s_line
 	struct s_line	*next;
 }	t_line;
 
+typedef struct s_rdc
+{
+	char			*fl;
+	int				rd;
+	int				fd[2];
+	int				tp[2];
+	struct t_rdc	*next;
+}	t_rdc;
+
 typedef struct s_get
 {
 	char			**arg;
 	int				fd[2];
+	t_rdc			*rd;
 	struct s_get	*next;
 }	t_get;
 
