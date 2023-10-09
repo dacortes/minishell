@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/09 10:23:06 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/09 10:39:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ int	main(int ac, char **av, char **env)
 					pid = fork();
 					int s = 0;
 					if (pid == 0)
+					{
 						s = execve(ex.cmd, g->arg, ex.env);
+						exit (TRUE);
+					}
 					waitpid(pid, &ex.stt, 0);
 					ex.stt = WEXITSTATUS(ex.stt);
 				}
