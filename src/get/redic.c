@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:57:38 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/09 15:11:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:20:01 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	add_rdc(t_rdc **rdc, int rd, char *fl)
 	new = ft_calloc(sizeof(t_rdc), 1);
 	if (!new)
 		exit (msg_error(E_MEM, 1, NULL));
+	new->rd = rd;
 	new->fl = ft_strdup_exit(fl);
 	new->next = NULL;
 	rdc_add_back(rdc, new);

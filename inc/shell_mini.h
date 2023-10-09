@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/09 14:28:05 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:19:32 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_rdc
 	int				rd;
 	int				fd[2];
 	int				tp[2];
-	struct t_rdc	*next;
+	struct s_rdc	*next;
 }	t_rdc;
 
 typedef struct s_get
