@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/06 15:31:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/09 10:23:06 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	main(int ac, char **av, char **env)
 				{
 					if (ex.stt == 0)
 					{
-						ex.stt = is_bin(&ex);
+						stt = is_bin(&ex);
 						clear_cmd(ex, 1);
 					}
 					clear_cmd(ex, 2);
@@ -122,7 +122,7 @@ int	main(int ac, char **av, char **env)
 					waitpid(pid, &ex.stt, 0);
 					ex.stt = WEXITSTATUS(ex.stt);
 				}
-				clear_cmd(ex, 2);
+				(stt == 0) && clear_cmd(ex, 2);
 			}
 		}
 		else if (ex.stt == 0 && ex.pipe)
