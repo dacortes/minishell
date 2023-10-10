@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/10 15:14:00 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:43:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	main(int ac, char **av, char **env)
 	{
 		ln = NULL;
 		prompt(&sh, &ex.inp);
+		printf("checking null %p\n", ex.inp);
 		is_null(&sh, &ln, &g, ex.inp);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
@@ -142,6 +143,7 @@ int	main(int ac, char **av, char **env)
 				iter = iter->next;
 			}
 		}
+		ft_printf(B"%s\n"E, ex.inp);
 		ft_printf(B"status :%d\n"E, ex.stt);
 		ex.pipe = 0;
 		clear_pross(&ln, &g, ex);

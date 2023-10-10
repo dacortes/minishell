@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/10 15:40:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/10 18:34:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,13 +192,8 @@ int		get_path(t_exe *ex, t_get *g, char *path);
 int		clear_get(t_get **g);
 int		add_get(t_get **g, char **arg, int len);
 int		get_init(t_line **ln, t_get **g);
-/* get/type/redic.c */
-int		add_rdc(t_rdc **rdc, int rd, char *fl);
 /* get/type_rdc.c */
-int		clear_rdc(t_rdc **rdc);
-int		is_heredoc(t_token **tk);
-void	show_rdc(t_rdc *rdc, int md);
-t_rdc	*is_redirention(t_token **tk);
+int		test_rdc(int *fd, t_token **tk); // test
 /* get/utils.c*/
 int		clear_dptr(void **ptr);
 int		len_no_rd(t_token *tk);
