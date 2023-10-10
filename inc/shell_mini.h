@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/09 15:19:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:40:07 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <limits.h>
 # include <errno.h>
 // ================================= MACROS ================================= //
 /* Utils */
+# define INP	0
+# define OUT	1
 # define DQU	34
 # define QUO	39
 # define NOT	"\0"
@@ -113,8 +116,8 @@ typedef struct s_rdc
 	char			*fl;
 	int				rd;
 	int				fd[2];
-	int				tp[2];
 	struct s_rdc	*next;
+	struct s_rdc	*prev;
 }	t_rdc;
 
 typedef struct s_get
@@ -183,16 +186,19 @@ int		is_null(t_mini **sh, t_line **ln, t_get **g, char *inp);
 int		clear_cmd(t_exe ex, int stt);
 int		clear_pross(t_line **ln, t_get **g, t_exe ex);
 
-/* get/get_cmmd.c */
-int		search_cmd(t_line **ln, t_get **g);
 /* get/get_path.c */
 int		get_path(t_exe *ex, t_get *g, char *path);
 /* get/get.c */
 int		clear_get(t_get **g);
 int		add_get(t_get **g, char **arg, int len);
 int		get_init(t_line **ln, t_get **g);
-/* get/heredoc.c */
+/* get/type/redic.c */
+int		add_rdc(t_rdc **rdc, int rd, char *fl);
+/* get/type_rdc.c */
+int		clear_rdc(t_rdc **rdc);
 int		is_heredoc(t_token **tk);
+void	show_rdc(t_rdc *rdc, int md);
+t_rdc	*is_redirention(t_token **tk);
 /* get/utils.c*/
 int		clear_dptr(void **ptr);
 int		len_no_rd(t_token *tk);

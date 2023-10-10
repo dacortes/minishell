@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:57:38 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/09 15:20:01 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:35:49 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,15 @@ void	rdc_add_back(t_rdc **rdc, t_rdc *new)
 	if (rdc)
 	{
 		if (!*rdc)
+		{
 			*rdc = new;
+			new->prev = NULL;
+		}
 		else
 		{
 			tmp = rdc_last(*rdc);
 			tmp->next = new;
+			new->prev = tmp;
 		}
 	}
 }

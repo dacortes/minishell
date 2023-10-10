@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/09 14:29:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:45:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ int	can_be_joined(t_token **tk, char **arg, int *i)
 	return (SUCCESS);
 }
 
+/* test */
 int	tk_to_array(t_token **tk, t_get **g, int len)
 {
+	t_rdc	*rdc = NULL;
 	char	**arg;
 	int		i;
 
@@ -87,7 +89,7 @@ int	tk_to_array(t_token **tk, t_get **g, int len)
 		if (((*tk)->type[3] >= 3 && (*tk)->type[3] <= 6)
 			|| (*tk)->type[3] == T_FD)
 		{
-			is_heredoc(tk);
+			rdc = is_redirention(tk);
 			if ((*tk)->next)
 				*tk = (*tk)->next;
 		}
@@ -95,6 +97,8 @@ int	tk_to_array(t_token **tk, t_get **g, int len)
 			can_be_joined(tk, arg, &i);
 		*tk = (*tk)->next;
 	}
+	show_rdc(rdc, 1);
+	clear_rdc(&rdc);
 	add_get(g, arg, len);
 	clear_dptr((void **)arg);
 	return (SUCCESS);
