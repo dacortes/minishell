@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/11 11:18:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:24:48 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ typedef struct s_get
 typedef struct s_exe
 {
 	int		stt;
+	int		fd[2];
 	int		pipe;
 	char	*inp;
 	char	*cmd;

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/11 11:16:15 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:07:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,20 @@ int	main(int ac, char **av, char **env)
 				else if (!stt && !ex.stt && ex.cmd)
 				{
 					pid = fork();
-					if (pid == 0)
+					if (!pid)
 					{
+						if (g->fd[0] >= 0)
+						{
+							if (dup2(g->fd[0], STDIN_FILENO) == ERROR)
+								exit (1);
+							close(g->fd[0]);
+						}
+						if (g->fd[1] >= 0)
+						{
+							if (dup2(g->fd[1], STDOUT_FILENO) == ERROR)
+								exit (1);
+							close(g->fd[1]);
+						}
 						(ex.stt == 0) && execve(ex.cmd, g->arg, ex.env);
 						exit (127);
 					}
