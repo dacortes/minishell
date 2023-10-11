@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:49:36 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/11 16:09:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/11 18:49:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	is_heredoc(t_token **tk, int *fd, int *stt)
 	pid_t	hd;
 	int		tb[2];
 
+	(fd[0] >= 0) && close(fd[0]);
+	(fd[1] >= 0) && close(fd[1]);
 	if (pipe(tb) == ERROR)
 		return (msg_error(E_PRR, 1, "heredoc"));
 	hd = fork();
@@ -132,7 +134,7 @@ int	is_append(t_token **tk, int *fd, int *stt)
 
 int	test_rdc(t_token **tk, int *fd, int *stt)
 {
-	is_heredoc(tk, fd, stt);
+	is_heredoc(tk, fd, stt); // no funciona
 	is_append(tk, fd, stt);
 	is_stdinp(tk, fd, stt);
 	is_stdout(tk, fd, stt);
