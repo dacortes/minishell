@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/10 18:32:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:18:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,14 @@ int	can_be_joined(t_token **tk, char **arg, int *i)
 }
 
 /* test */
-int	tk_to_array(t_token **tk, t_get **g, int len)
+int	tk_to_array(t_token **tk, t_get **g, int len, int *stt)
 {
-	int		fds[2];
+	int		fd[2];
 	char	**arg;
 	int		i;
 
-	fds[0] = -2;
-	fds[1] = -2;
+	fd[0] = -2;
+	fd[1] = -2;
 	i = 0;
 	arg = ft_calloc(sizeof(char *), len + 1);
 	if (!arg)
@@ -91,7 +91,8 @@ int	tk_to_array(t_token **tk, t_get **g, int len)
 		if (((*tk)->type[3] >= 3 && (*tk)->type[3] <= 6)
 			|| (*tk)->type[3] == T_FD)
 		{
-			test_rdc(fds, tk);
+			test_rdc(tk, fd, stt);
+			ft_printf(Y"%d\n"E, stt);
 			if ((*tk)->next)
 				*tk = (*tk)->next;
 		}
@@ -99,18 +100,16 @@ int	tk_to_array(t_token **tk, t_get **g, int len)
 			can_be_joined(tk, arg, &i);
 		*tk = (*tk)->next;
 	}
-	// show_rdc(rdc, 2);
-	// clear_rdc(&rdc);
-	if (fds[0] == -2)
-		fds[0] = 0;
-	if (fds[1] == -2)
-		fds[1] = 1;
+	// (fd[0] == -2) && (fd[0] = 0);
+	// (fd[1] == -2) && (fd[1] = 1);
+	ft_printf(B"%d\n"E, fd[0]);
+	ft_printf(B"%d\n"E, fd[1]);
 	add_get(g, arg, len);
 	clear_dptr((void **)arg);
-	return (SUCCESS);
+	return (*stt);
 }
 
-int	get_init(t_line **ln, t_get **g)
+int	get_init(t_line **ln, t_get **g, int *stt)
 {
 	t_line	*tmp;
 	t_token	*tk;
@@ -123,8 +122,8 @@ int	get_init(t_line **ln, t_get **g)
 	{
 		tk = tmp->tk;
 		rdr = len_no_rd(tk);
-		tk_to_array(&tk, g, (count_tk(tk) - rdr));
+		tk_to_array(&tk, g, (count_tk(tk) - rdr), stt);
 		tmp = tmp->next;
 	}
-	return (SUCCESS);
+	return (*stt);
 }

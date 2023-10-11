@@ -6,13 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:49:36 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/10 18:33:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:36:02 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-int	ps_open(t_token **tk, int type, int *fd)
+int	parse_open(t_token **tk, int type, int *fd)
 {
 	char *file;
 
@@ -35,21 +35,59 @@ int	ps_open(t_token **tk, int type, int *fd)
 		if (fd[0] == ERROR)
 			return (1);
 	}
-	return (ERROR);
+	return (SUCCESS);
 }
 
-int	test_rdc(int *fd, t_token **tk)
+int	is_heredoc(t_token **tk)
 {
-	ft_printf("%d\n", fd[0]);
-	ft_printf("%d\n", fd[1]);
-	/* < */
+	char	*inp;
+
+	inp = "";
+	if ((*tk)->type[3] == T_RDHD)
+	{
+		while (inp && (*tk)->next && (*tk)->next->arg)
+		{
+			inp = readline(O"> "E);
+			if (ft_strncmp((*tk)->next->arg, inp, -1) == 0)
+			{
+				free (inp);
+				break ;
+			}
+			free (inp);
+		}
+	}
+	return (SUCCESS);
+}
+
+int is_stdinp(t_token **tk, int *fd, int *stt)
+{
 	if ((*tk)->type[3] == T_SIR)
 	{
-		if (fd[0] >= 0)
-			close(fd[0]);
-		ps_open(tk, INP, fd);
+		(fd[0] >= 0) && close(fd[0]);
+		(fd[1] >= 0) && close(fd[1]);
+		(*stt == 0) && (*stt = parse_open(tk, INP, fd));
 		ft_printf(R"%d\n"E, fd[0]);
 		ft_printf(R"%d\n"E, fd[1]);
 	}
-	return (SUCCESS);
+	return (*stt);
+}
+
+int	is_stdout(t_token **tk, int *fd, int *stt)
+{
+	if ((*tk)->type[3] == T_SOR)
+	{
+		(fd[0] >= 0) && close(fd[0]);
+		(fd[1] >= 0) && close(fd[1]);
+		parse_open(tk, OUT, fd);
+		ft_printf(R"%d\n"E, fd[0]);
+		ft_printf(R"%d\n"E, fd[1]);
+	}
+	return (*stt);
+}
+
+int	test_rdc(t_token **tk, int *fd, int *stt)
+{
+	is_stdinp(tk, fd, stt);
+	is_stdout(tk, fd, stt);
+	return (*stt);
 }

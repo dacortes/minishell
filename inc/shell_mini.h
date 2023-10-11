@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/10 18:34:00 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/11 11:18:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,9 +191,9 @@ int		get_path(t_exe *ex, t_get *g, char *path);
 /* get/get.c */
 int		clear_get(t_get **g);
 int		add_get(t_get **g, char **arg, int len);
-int		get_init(t_line **ln, t_get **g);
+int		get_init(t_line **ln, t_get **g, int *stt);
 /* get/type_rdc.c */
-int		test_rdc(int *fd, t_token **tk); // test
+int		test_rdc(t_token **tk, int *fd, int *stt); // test
 /* get/utils.c*/
 int		clear_dptr(void **ptr);
 int		len_no_rd(t_token *tk);
