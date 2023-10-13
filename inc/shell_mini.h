@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/11 15:24:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/13 10:54:33 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,49 +181,51 @@ int		pwd(void);
 /* src/built-ins/unset.c*/
 int		unset(int *size, t_env **env, char *key);
 
-/* execute/clear */
+/* src/execute/clear */
 int		clear(t_mini *sh);
 int		is_null(t_mini **sh, t_line **ln, t_get **g, char *inp);
 int		clear_cmd(t_exe ex, int stt);
 int		clear_pross(t_line **ln, t_get **g, t_exe ex);
+/* src/execute/no_pipe.c */
+int		no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex);
 
-/* get/get_path.c */
+/* src/get/get_path.c */
 int		get_path(t_exe *ex, t_get *g, char *path);
-/* get/get.c */
+/* scr/get/get.c */
 int		clear_get(t_get **g);
 int		add_get(t_get **g, char **arg, int len);
 int		get_init(t_line **ln, t_get **g, int *stt);
-/* get/type_rdc.c */
+/* src/get/type_rdc.c */
 int		test_rdc(t_token **tk, int *fd, int *stt); // test
-/* get/utils.c*/
+/* src/get/utils.c*/
 int		clear_dptr(void **ptr);
 int		len_no_rd(t_token *tk);
 void	show_arg(t_get *g);
 void	get_add_back(t_get **g, t_get *new);
-/* get/utils2.c */
+/* src/get/utils2.c */
 int		count_tk(t_token *tk);
 int		is_bin(t_exe *ex);
 
-/* parse/analize.c */
+/* src/parse/analize.c */
 int		identify(t_token **tk);
 int		analize_space(char *inp, int count);
 int		error_unexpected(int rep, char cut, char **fr);
 int		type_expand(char *inp, t_aux *a, t_token **tk, int type);
-/* parse/copy.c */
+/* src/parse/copy.c */
 int		copy_unquo(char	*inp, t_aux *a, t_token **tk);
 int		copy_redic(char *inp, t_aux *a, t_token **tk, char rdc);
 int		copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env);
-/* parse/expand_tk */
+/* src/parse/expand_tk */
 int		expand_tk(t_token **tk, t_env *env);
-/* parse/line.c */
+/* src/parse/line.c */
 int		ft_line(char *inp, t_line **ln, t_env *env, int *pipe);
-/*  parse/parse.c */
+/*  src/parse/parse.c */
 int		parse(t_line **ln);
-/* parse/token.c test */
+/* src/parse/token.c test */
 void	show_tokens(t_line *ln);
 int		clear_tk(t_token **tk);
 int		add_token(t_token **tk, char *arg, int *type, int *count);
-/* parse/utils.c */
+/* src/parse/utils.c */
 int		clear_ln(t_line **ln);
 int		add_line(t_line **ln, t_token *tk, char	*line);
 /* */

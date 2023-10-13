@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/11 17:07:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:54:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,65 +96,22 @@ int	main(int ac, char **av, char **env)
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
 		show_arg(g);
 		ex.env = env_to_array(sh);
-		if (ex.stt == 0 && !ex.pipe)
-		{
-			if (is_built_ins(&sh, &ln, &g, &ex.stt) == ERROR)
-			{
-				int stt;
-				pid_t pid;
+		no_pipe(&sh, &ln, &g, &ex);
+		// else if (ex.stt == 0 && ex.pipe)
+		// {
+		// 	t_get	*iter;
+		// 	int		num;
 
-				stt = get_path(&ex, g, search_env(sh->env, "PATH", VAL));
-				if ( stt == ERROR)
-				{
-					if (ex.stt == 0)
-					{
-						stt = is_bin(&ex);
-						clear_cmd(ex, 1);
-					}
-					clear_cmd(ex, 2);
-				}
-				else if (!stt && !ex.stt && ex.cmd)
-				{
-					pid = fork();
-					if (!pid)
-					{
-						if (g->fd[0] >= 0)
-						{
-							if (dup2(g->fd[0], STDIN_FILENO) == ERROR)
-								exit (1);
-							close(g->fd[0]);
-						}
-						if (g->fd[1] >= 0)
-						{
-							if (dup2(g->fd[1], STDOUT_FILENO) == ERROR)
-								exit (1);
-							close(g->fd[1]);
-						}
-						(ex.stt == 0) && execve(ex.cmd, g->arg, ex.env);
-						exit (127);
-					}
-					waitpid(pid, &ex.stt, 0);
-					ex.stt = WEXITSTATUS(ex.stt);
-				}
-				(stt == 0) && clear_cmd(ex, 2);
-			}
-		}
-		else if (ex.stt == 0 && ex.pipe)
-		{
-			t_get	*iter;
-			int		num;
-
-			num = 0;
-			iter = g;
-			while (iter && num <= ex.pipe)
-			{
-				if (is_built_ins(&sh, &ln, &iter, &ex.stt) == ERROR)
-					ft_printf(R"not buit-ins\n"E);
-				num++;
-				iter = iter->next;
-			}
-		}
-		ft_printf(B"%s\n"E, ex.inp);
+		// 	num = 0;
+		// 	iter = g;
+		// 	while (iter && num <= ex.pipe)
+		// 	{
+		// 		if (is_built_ins(&sh, &ln, &iter, &ex.stt) == ERROR)
+		// 			ft_printf(R"not buit-ins\n"E);
+		// 		num++;
+		// 		iter = iter->next;
+		// 	}
+		// }
 		ft_printf(B"status :%d\n"E, ex.stt);
 		ex.pipe = 0;
 		clear_pross(&ln, &g, ex);
