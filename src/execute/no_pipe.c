@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/13 11:52:56 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:23:26 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,34 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	stt = 0;
 	if (!ex->stt && !ex->pipe)
 	{
-		if (is_built_ins(sh, ln, g, &ex->stt) == ERROR)
+		stt = 0;
+		if (!stt)
+		{
+			int	fd[2];
+			
+			fd[0] = dup(STDIN_FILENO);
+    		fd[1] = dup(STDOUT_FILENO);
+			if ((*g)->fd[0] >= 0)
+			{
+				if (dup2((*g)->fd[0], STDIN_FILENO) == ERROR)
+            		return (1);
+        		close((*g)->fd[0]);
+			}
+		    if ((*g)->fd[1] >= 0)
+    		{
+        		if (dup2((*g)->fd[1], STDOUT_FILENO) == ERROR)
+					return (1);
+				close((*g)->fd[1]);
+    		}
+			stt = is_built_ins(sh, ln, g, &ex->stt);
+			if (dup2(fd[0], STDIN_FILENO) == ERROR)
+				return (1);
+			if (dup2(fd[1], STDOUT_FILENO) == ERROR)
+				return (1);
+			close(fd[0]);
+    		close(fd[1]);
+		}
+		if (stt == ERROR)
 		{
 			stt = get_path(ex, *g, search_env((*sh)->env, "PATH", VAL));
 			if (stt == ERROR)
