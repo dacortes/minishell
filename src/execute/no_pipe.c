@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/13 14:23:26 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/21 16:45:46 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static	int child(t_get **g, t_exe *ex)
 	pid_t	pid;
 
 	pid = fork();
-	if (!pid)
+	if (g && *g && !pid)
 	{
 		if ((*g)->fd[0] >= 0)
 		{
@@ -46,8 +46,8 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	stt = 0;
 	if (!ex->stt && !ex->pipe)
 	{
-		stt = 0;
-		if (!stt)
+		stt = is_built_ins(sh, ln, g, &ex->stt);
+		if (g && *g && !stt && ex->cmd)
 		{
 			int	fd[2];
 			
@@ -56,16 +56,16 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 			if ((*g)->fd[0] >= 0)
 			{
 				if (dup2((*g)->fd[0], STDIN_FILENO) == ERROR)
-            		return (1);
+            		return (ft_printf(R"error STDIN_FILENO\n"E));
         		close((*g)->fd[0]);
 			}
 		    if ((*g)->fd[1] >= 0)
     		{
         		if (dup2((*g)->fd[1], STDOUT_FILENO) == ERROR)
-					return (1);
+					return (ft_printf(B"error STDOUT_FILENO\n"E));
 				close((*g)->fd[1]);
     		}
-			stt = is_built_ins(sh, ln, g, &ex->stt);
+			exe_buitl_ins(sh, ln, g, &ex->stt);
 			if (dup2(fd[0], STDIN_FILENO) == ERROR)
 				return (1);
 			if (dup2(fd[1], STDOUT_FILENO) == ERROR)
@@ -86,7 +86,7 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 				clear_cmd(*ex, 2);
 			}
 		}
-		if (!stt && !ex->stt && ex->cmd)
+		if (!stt && g && *g && !ex->stt && ex->cmd)
 		{
 			child(g, ex);
 			(stt == 0) && clear_cmd(*ex, 2);

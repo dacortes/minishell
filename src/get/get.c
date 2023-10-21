@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/11 15:13:33 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/21 16:43:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,10 @@ int	get_init(t_line **ln, t_get **g, int *stt)
 	int		rdr;
 
 	if (!*ln)
+	{
+		clear_get(g);
 		return (SUCCESS);
+	}
 	tmp = *ln;
 	while (tmp)
 	{

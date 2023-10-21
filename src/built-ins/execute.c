@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/13 12:19:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/13 15:49:39 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,9 @@ static int	ft_is(char *cmd)
 
 int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 {
+	(void)sh;
+	(void)chk;
 	int	n_cmd;
-	int	i;
 
 	if (!*ln || !*g)
 		return (SUCCESS);
@@ -91,7 +92,14 @@ int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 		n_cmd = ft_double_ptr_len((void **)(*g)->arg);
 	else
 		return (ERROR);
-	i = 1;
+	return (SUCCESS);
+}
+
+int	exe_buitl_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
+{
+	int	n_cmd;
+
+	n_cmd = ft_double_ptr_len((void **)(*g)->arg);
 	if (*chk != E_SNT && *g && (*g)->arg[0] && (*g)->arg[0][0] != '\0')
 	{
 		*chk = its_not_the_others(sh, ln, g, n_cmd);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/13 10:54:33 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:40:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
 /* src/built-ins/execute.c */
 int		is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
+int		exe_buitl_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
 /* src/built-ins/exit.c */
 int		ft_exit(t_mini *sh, t_line **ln, t_get **g, int n_cmd);
 /* src/built-ins/export.c */
