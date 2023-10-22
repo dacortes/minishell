@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/10/13 15:29:51 by dacortes         ###   ########.fr        #
+#    Updated: 2023/10/22 12:23:13 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@
 NAME = minishell
 CC = gcc
 RM = rm -rf
-LIBC = ar -rcs
 FLAGS = -Wall -Wextra -Werror  -g -fsanitize=address
 ################################################################################
 #  Bar                                                                         #
@@ -71,7 +70,6 @@ italic = \033[3m
 #Rules
 all: conf dir $(NAME)
 -include $(DEP)
-CK = .hola
 conf:
 	@if [ ! -f $(READL)config.status ]; then\
 		cd $(READL) && ./configure &> /dev/null; \
