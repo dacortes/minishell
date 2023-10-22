@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/21 16:45:46 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/22 12:43:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,13 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 			}
 		    if ((*g)->fd[1] >= 0)
     		{
-        		if (dup2((*g)->fd[1], STDOUT_FILENO) == ERROR)
+				pid_t *tmp = NULL;
+
+				*tmp = (*g)->fd[1];
+				((*g)->fd[1] >= 0) && (*tmp = (*g)->fd[1]);
+        		if (dup2(*tmp, STDOUT_FILENO) == ERROR)
 					return (ft_printf(B"error STDOUT_FILENO\n"E));
-				close((*g)->fd[1]);
+				close(*tmp);
     		}
 			exe_buitl_ins(sh, ln, g, &ex->stt);
 			if (dup2(fd[0], STDIN_FILENO) == ERROR)
