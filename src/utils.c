@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:25:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 10:43:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 19:44:06 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,18 @@ char	*ft_strndup(const char *src, size_t n)
 	if (dst)
 		ft_memcpy(dst, src, len);
 	return (dst);
+}
+
+char	*ft_strjoin_max(char **need)
+{
+	char	*join = NULL;
+	int		i = 0;
+	int		c = 0;
+
+	if (!need || !*need)
+		return (NULL);
+	while (need[i])
+		c += ft_strlen(need[i++]);
+	ft_printf("%d\n", c);
+	return (join);
 }

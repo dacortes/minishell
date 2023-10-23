@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:18 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/06 17:01:49 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:42:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ static void	loop_ext(t_mini *sh, t_line **ln, t_get **g)
 	free_err(err);
 }
 
+/* arreglar  ------ + - si el siguien no es un num */
 int	ft_exit(t_mini *sh, t_line **ln, t_get **g, int n_cmd)
 {
+	ft_printf("exit\n");
 	if (n_cmd == 1)
 	{
 		clear_ln(ln);

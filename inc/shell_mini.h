@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 16:46:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 19:19:58 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,9 +256,10 @@ int		add_line(t_line **ln, t_token *tk, char	*line);
 /* */
 int		clear(t_mini *sh);
 int		msg_error(int e, int exit_, char *cm);
-/* scr/utils.c */
+/* src/utils.c */
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
 char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
 char	*ft_strndup(const char *src, size_t n);
+char	*ft_strjoin_max(char **need);
 #endif
