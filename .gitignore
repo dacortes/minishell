@@ -5,6 +5,7 @@
 *.vscode
 *.test
 *.txt
+*.sh
 obj
 minishell
 minishell.*
