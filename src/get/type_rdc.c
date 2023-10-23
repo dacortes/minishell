@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:49:36 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/13 12:42:47 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 10:55:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int is_stdinp(t_token **tk, int *fd, int *stt)
 	if ((*tk)->type[3] == T_SIR)
 	{
 		(fd[0] >= 0) && close(fd[0]);
-		(fd[1] >= 0) && close(fd[1]);
 		(*stt == 0) && (*stt = parse_open(tk, INP, fd));
 	}
 	return (*stt);
@@ -105,10 +104,8 @@ int	is_stdout(t_token **tk, int *fd, int *stt)
 {
 	if ((*tk)->type[3] == T_SOR)
 	{
-		(fd[0] >= 0) && close(fd[0]);
 		(fd[1] >= 0) && close(fd[1]);
 		parse_open(tk, OUT, fd);
-		ft_printf("%d %s\n", fd[1], (*tk)->next->arg);
 	}
 	return (*stt);
 }
@@ -133,7 +130,7 @@ int	is_append(t_token **tk, int *fd, int *stt)
 
 int	test_rdc(t_token **tk, int *fd, int *stt)
 {
-	is_heredoc(tk, fd, stt); // no funciona
+	// is_heredoc(tk, fd, stt); // no funciona
 	is_append(tk, fd, stt);
 	is_stdinp(tk, fd, stt);
 	is_stdout(tk, fd, stt);

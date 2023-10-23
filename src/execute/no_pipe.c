@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/22 12:43:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 10:37:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,20 @@ static	int child(t_get **g, t_exe *ex)
 
 	pid = fork();
 	if (g && *g && !pid)
-	{
+	{	
 		if ((*g)->fd[0] >= 0)
 		{
 			if (dup2((*g)->fd[0], STDIN_FILENO) == ERROR)
 				exit (1);
-			close((*g)->fd[0]);
+			if (close((*g)->fd[0]) == ERROR)
+				ft_printf("palito fd[0]\n");
 		}
 		if ((*g)->fd[1] >= 0)
 		{
 			if (dup2((*g)->fd[1], STDOUT_FILENO) == ERROR)
 				exit (1);
-			close((*g)->fd[1]);
+			if (close((*g)->fd[1]) == ERROR)
+				ft_printf("palito fd[1]\n");
 		}
 		(ex->stt == 0) && execve(ex->cmd, (*g)->arg, ex->env);
 		exit (127);
@@ -47,7 +49,7 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	if (!ex->stt && !ex->pipe)
 	{
 		stt = is_built_ins(sh, ln, g, &ex->stt);
-		if (g && *g && !stt && ex->cmd)
+		if (g && *g && !stt)
 		{
 			int	fd[2];
 			
@@ -61,13 +63,9 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 			}
 		    if ((*g)->fd[1] >= 0)
     		{
-				pid_t *tmp = NULL;
-
-				*tmp = (*g)->fd[1];
-				((*g)->fd[1] >= 0) && (*tmp = (*g)->fd[1]);
-        		if (dup2(*tmp, STDOUT_FILENO) == ERROR)
-					return (ft_printf(B"error STDOUT_FILENO\n"E));
-				close(*tmp);
+				if (dup2((*g)->fd[1], STDOUT_FILENO) == ERROR)
+					return (ft_printf(R"error STDOUT_FILENO\n"E));
+				close((*g)->fd[1]);
     		}
 			exe_buitl_ins(sh, ln, g, &ex->stt);
 			if (dup2(fd[0], STDIN_FILENO) == ERROR)
