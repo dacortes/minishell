@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/13 14:40:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:34:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <errno.h>
 // ================================= MACROS ================================= //
 /* Utils */
+# define FTH	0
+# define CHD	1
 # define INP	0
 # define OUT	1
 # define DQU	34
@@ -58,6 +60,7 @@
 # define E_PRR 4
 # define E_PNF 5
 # define E_EXP 6
+# define E_BADINT 7
 # define E_PRM 126 
 # define E_CNF 127
 # define E_SNT 258
@@ -187,6 +190,7 @@ int		clear(t_mini *sh);
 int		is_null(t_mini **sh, t_line **ln, t_get **g, char *inp);
 int		clear_cmd(t_exe ex, int stt);
 int		clear_pross(t_line **ln, t_get **g, t_exe ex);
+int		clear_open(int *fd);
 /* src/execute/no_pipe.c */
 int		no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex);
 

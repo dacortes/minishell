@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:20:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/10 12:20:02 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 11:27:39 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,20 @@ int	clear_pross(t_line **ln, t_get **g, t_exe ex)
 	clear_ln(ln);
 	if (ex.inp)
 		free(ex.inp);
+	return (SUCCESS);
+}
+
+int	clear_open(int *fd)
+{
+	if (fd[0] >= 0)
+	{
+		if (close(fd[0]) == ERROR)
+			return (msg_error(E_PRR, 0, "close:"));
+	}
+	if (fd[1] >= 0)
+	{
+		if (close(fd[1]) == ERROR)
+			return (msg_error(E_PRR, 0, "close:"));
+	}
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/21 16:15:53 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 14:20:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	get_path(t_exe *ex, t_get *g, char *path)
 	a.k = is_path(ex, g);
 	if (a.k == E_CNF || a.k == 126 || a.k == FALSE)
 		return ((ex->stt = ((a.k == E_CNF) * E_CNF) + ((a.k == 126) * 126)
-				+ ((a.k == 0) * 0)));
+				+ ((a.k == 0) * 0 + ERROR)));
 	ex->pth = ft_split(path, ':');
 	if (!ex->pth)
 		exit (msg_error(E_MEM, 1, NULL));
