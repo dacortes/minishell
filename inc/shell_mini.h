@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 15:47:19 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:46:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
 /* src/built-ins/execute.c */
 int		is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
-int		exe_buitl_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
+int		exe_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
 /* src/built-ins/exit.c */
 int		ft_exit(t_mini *sh, t_line **ln, t_get **g, int n_cmd);
 /* src/built-ins/export.c */
@@ -210,6 +210,9 @@ int		clear_pross(t_line **ln, t_get **g, t_exe ex);
 int		clear_open(int *fd);
 /* src/execute/no_pipe.c */
 int		no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex);
+/* src/execute/redirection.c */
+int		rdc_stdinp(t_get **g, int mode);
+int		rdc_stdout(t_get **g, int mode);
 
 /* src/get/get_path.c */
 int		get_path(t_exe *ex, t_get *g, char *path);

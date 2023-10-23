@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/13 15:49:39 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:46:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 	return (SUCCESS);
 }
 
-int	exe_buitl_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
+int	exe_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 {
 	int	n_cmd;
 
