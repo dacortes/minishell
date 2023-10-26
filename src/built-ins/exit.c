@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:18 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 17:42:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 09:54:11 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,23 @@ static void	loop_ext(t_mini *sh, t_line **ln, t_get **g)
 	char	**argv;
 	char	*err;
 	int		i;
+	int		cl;
 
 	i = 0;
 	argv = (*g)->arg;
 	err = ft_strdup_exit(argv[1]);
+	if (argv[1][0] && (argv[1][0] == '-' || argv[1][0] == '+') \
+		&& (!argv[1][1]))
+		exit (msg_error(EX, 255, err) + free_err(err));
+	else if (argv[1][0] && (argv[1][0] == '-' || argv[1][0] == '+') \
+		&& argv[1][1] && !ft_isdigit(argv[1][1]))
+		exit (msg_error(EX, 255, err) + free_err(err));
 	while (argv[1][i])
 	{
 		if (!ft_isdigit(argv[1][i]) && argv[1][i] != '-' \
 			&& argv[1][i] != '+')
 		{
-			clear_ln(ln);
-			clear_get(g);
-			clear(sh);
+			cl = clear_ln(ln) + clear_get(g) + clear(sh);
 			exit (msg_error(EX, 255, err) + free_err(err));
 		}
 		i++;
@@ -46,7 +51,6 @@ static void	loop_ext(t_mini *sh, t_line **ln, t_get **g)
 	free_err(err);
 }
 
-/* arreglar  ------ + - si el siguien no es un num */
 int	ft_exit(t_mini *sh, t_line **ln, t_get **g, int n_cmd)
 {
 	ft_printf("exit\n");
