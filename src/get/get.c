@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 10:56:15 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:40:48 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,34 +73,30 @@ int	can_be_joined(t_token **tk, char **arg, int *i)
 	return (SUCCESS);
 }
 
-/* test */
 int	tk_to_array(t_token **tk, t_get **g, int len, int *stt)
 {
+	t_aux	a;
 	int		fd[2];
-	char	**arg;
-	int		i;
 
 	fd[0] = -2;
 	fd[1] = -2;
-	i = 0;
-	arg = ft_calloc(sizeof(char *), len + 1);
-	if (!arg)
+	ft_bzero(&a, sizeof(t_aux));
+	a.arr = ft_calloc(sizeof(char *), len + 1);
+	if (!a.arr)
 		exit (msg_error(E_MEM, 1, NULL));
 	while (*tk)
 	{
-		if (((*tk)->type[3] >= 3 && (*tk)->type[3] <= 6)
-			|| (*tk)->type[3] == T_FD)
+		if (((*tk)->type[3] >= 3 && (*tk)->type[3] <= 6) || (*tk)->type[3] == 7)
 		{
-			test_rdc(tk, fd, stt);
+			open_rdc(tk, fd, stt);
 			if ((*tk)->next)
 				*tk = (*tk)->next;
 		}
 		else
-			can_be_joined(tk, arg, &i);
+			can_be_joined(tk, a.arr, &a.i);
 		*tk = (*tk)->next;
 	}
-	add_get(g, arg, len);
-	clear_dptr((void **)arg);
+	a.c = add_get(g, a.arr, len) + clear_dptr((void **)a.arr);
 	(*g)->fd[0] = fd[0];
 	(*g)->fd[1] = fd[1];
 	return (*stt);
