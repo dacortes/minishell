@@ -4,9 +4,9 @@ Minishell es un intérprete de comandos minimalista basado en Bash, uno de los s
 
 ## Principales librerías usadas:
 
-### <a href="https://github.com/dacortes/libft" target="_blank">libft.</a>
+### ` •  `<a href="https://github.com/dacortes/libft" target="_blank">libft.</a>
 
-### <a href="https://github.com/dacortes/minishell/tree/master/lib/readline" target="_blank">readline.</a>
+### ` •  `<a href="https://github.com/dacortes/minishell/tree/master/lib/readline" target="_blank">readline.</a>
 
 ## Compilación:
 En este proyecto, se descargó e incluyó la librería readline. Para compilarla, se utilizaron las siguientes variables, flags, comandos y reglas en el Makefile del proyecto:
