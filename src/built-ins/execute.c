@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 16:46:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:13:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,8 @@ static int	ft_is(char *cmd)
 	return (SUCCESS);
 }
 
-int	is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
+int	is_built_ins(t_line **ln, t_get **g)
 {
-	(void)sh;
-	(void)chk;
 	int	n_cmd;
 
 	if (!*ln || !*g)

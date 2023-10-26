@@ -6,13 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:18 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/26 09:54:11 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:07:41 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-static int free_err(char *err)
+static int	free_err(char *err)
 {
 	if (err)
 	{

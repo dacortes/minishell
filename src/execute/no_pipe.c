@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 16:56:01 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:43:52 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	rdc_bin(t_get **g, t_exe *ex, int *stt)
 		child(g, ex);
 		(ex->stt != 0) && (ex->stt = msg_error(E_BADINT, E_PRM, ex->cmd));
 	}
-	clear_cmd(*ex, 1);
+	clear_cmd(ex, 1);
 	return (SUCCESS);
 }
 
@@ -67,7 +67,7 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	stt = 0;
 	if (!ex->stt && !ex->pipe)
 	{
-		stt = is_built_ins(sh, ln, g, &ex->stt);
+		stt = is_built_ins(ln, g);
 		if (g && *g && !stt)
 			rdc_built_ins(sh, ln, g, ex);
 		if (stt == ERROR)
@@ -79,7 +79,7 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 		if (!stt && g && *g && !ex->stt && ex->cmd)
 		{
 			child(g, ex);
-			(stt == 0) && clear_cmd(*ex, 2);
+			(stt == 0) && clear_cmd(ex, 1);
 		}
 	}
 	return (SUCCESS);

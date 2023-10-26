@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:20:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 11:27:39 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:42:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,25 @@ int	is_null(t_mini **sh, t_line **ln, t_get **g, char *inp)
 	return (SUCCESS);
 }
 
-int	clear_cmd(t_exe ex, int stt)
+int	clear_cmd(t_exe *ex, int stt)
 {
 	if (stt == 1)
 	{
-		if (ex.cmd && *ex.cmd)
+		if (ex->cmd && *ex->cmd)
 		{
-			free(ex.cmd);
-			ex.cmd = NULL;
+			free(ex->cmd);
+			ex->cmd = NULL;
 		}
-		clear_dptr((void **)ex.pth);
+		clear_dptr((void **)ex->pth);
 	}
 	else if (stt == 2)
 	{
-		if (ex.stt == 0 && ex.cmd && *ex.cmd)
+		if (ex->stt == 0 && ex->cmd && *ex->cmd)
 		{
-			free(ex.cmd);
-			ex.cmd = NULL;
+			free(ex->cmd);
+			ex->cmd = NULL;
 		}
-		ex.stt == 0 && clear_dptr((void **)ex.pth);
+		ex->stt == 0 && clear_dptr((void **)ex->pth);
 	}
 	return (SUCCESS);
 }

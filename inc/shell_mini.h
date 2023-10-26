@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 19:19:58 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:42:46 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int		_env(t_env *env, int n_cmd);
 int		init_env(t_mini *sh, char **env);
 int		add_key(t_mini *sh, char *key, char *val, int eql);
 /* src/built-ins/execute.c */
-int		is_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
+int		is_built_ins(t_line **ln, t_get **g);
 int		exe_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
 /* src/built-ins/exit.c */
 int		ft_exit(t_mini *sh, t_line **ln, t_get **g, int n_cmd);
@@ -205,7 +205,7 @@ int		unset(int *size, t_env **env, char *key);
 /* src/execute/clear */
 int		clear(t_mini *sh);
 int		is_null(t_mini **sh, t_line **ln, t_get **g, char *inp);
-int		clear_cmd(t_exe ex, int stt);
+int		clear_cmd(t_exe *ex, int stt);
 int		clear_pross(t_line **ln, t_get **g, t_exe ex);
 int		clear_open(int *fd);
 /* src/execute/no_pipe.c */
