@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:49:36 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 10:55:50 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 10:51:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	is_append(t_token **tk, int *fd, int *stt)
 	file = (*tk)->next->arg;
 	if ((*tk)->type[3] == T_RDAP)
 	{
-		(fd[0] >= 0) && close(fd[0]);
 		(fd[1] >= 0) && close(fd[1]);
 		if (!access(file, F_OK) && access(file, W_OK))
 			return (msg_error(E_PRM, 1, file));
