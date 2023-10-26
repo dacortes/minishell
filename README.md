@@ -28,6 +28,12 @@ conf:
 ```
 Si el archivo config.status no existe, el condicional ejecuta el script <b>./configure</b> este script prepara el entorno para la compilación. Configura las opciones, detecta dependencias del sistema, ajusta rutas y realiza otras tareas esenciales para asegurarse de que el código se compile correctamente en el entorno del usuario.
 
+Luego, para garantizar que este archivo no se incluya en el repositorio, añadimos su nombre de archivo al archivo .gitignore.
+```c
+#line 12
+config.status
+```
+
 Finalmente, cuando se completa el proceso de configuración y se crea el archivo config.status.
 
 Para compilar correctamente los objetos, es necesario informar al sistema que la biblioteca readline está disponible. Para hacer esto, creamos una macro llamada <b>READLINE_LIBRARY</b> con un valor de 1 usando el flag <b>-D READLINE_LIBRARY=1</b>.
