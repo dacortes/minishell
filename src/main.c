@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 19:54:23 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 09:36:33 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	mini_init(t_mini **sh, t_get **g, t_exe *ex, char **env)
 int	prompt(t_mini **sh, char **input)
 {
 	char	*need[9];
+	char	*join;
 
 	(*sh)->user = search_env((*sh)->env, "USER", VAL);
 	need[0] = F;
@@ -61,25 +62,17 @@ int	prompt(t_mini **sh, char **input)
 	need[2] = "➜";
 	need[3] = C;
 	need[5] = O;
-	need[6] = " ᐅ ";
+	need[6] = " 🗂 ᐅ ";
 	need[7] = E;
 	need[8] = NULL;
-	int	i = 0;
 	if (!(*sh)->dir[1])
-	{
 		need[4] = ft_strrchr((*sh)->dir, '/');
-		ft_printf(F"%s➜ "C"%s 🗂 ", (*sh)->user, ft_strrchr((*sh)->dir, '/'));
-	}
 	else
-	{
 		need[4] = &ft_strrchr((*sh)->dir, '/')[1];
-		ft_printf(F"%s➜ "C"%s 🗂 ", (*sh)->user, \
-			&ft_strrchr((*sh)->dir, '/')[1]);
-	}
-	while (need[i])
-		ft_printf("%s", need[i++]);
-	*input = readline(O" ᐅ "E);
-	ft_strjoin_max(need);
+	join = ft_strjoin_max(need);
+	*input = readline(join);
+	if (join)
+		free(join);
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:25:54 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 19:44:06 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 09:20:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,22 @@ char	*ft_strndup(const char *src, size_t n)
 
 char	*ft_strjoin_max(char **need)
 {
-	char	*join = NULL;
-	int		i = 0;
-	int		c = 0;
+	char	*join;
+	int		iter = 0;
+	int		len = 0;
 
 	if (!need || !*need)
 		return (NULL);
-	while (need[i])
-		c += ft_strlen(need[i++]);
-	ft_printf("%d\n", c);
+	while (need[iter])
+		len += ft_strlen(need[iter++]);
+	join = ft_calloc(len + 1, sizeof(char));
+	if (!join)
+		exit (msg_error(E_MEM, E_EXIT, NULL));
+	iter = 0;
+	while (need[iter])
+	{
+		ft_strlcat(join, need[iter], len + ft_strlen(need[iter]) + 1);
+		iter++;
+	}
 	return (join);
 }
