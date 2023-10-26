@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 12:49:36 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/26 10:51:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:49:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,40 +53,43 @@ int read_heredoc(t_token **tk, int *fd)
 				free (inp);
 				break ;
 			}
+			else
+				fd_printf(fd[1], "%s\n", inp);
 			free (inp);
 		}
 	}
-	if (fd[0] == ERROR || fd[1] == ERROR)
-	{
-		close(fd[0]);
-		close(fd[1]);
-	}
+	close(fd[0]);
+	close(fd[1]);
 	exit (SUCCESS);
 }
 
 int	is_heredoc(t_token **tk, int *fd, int *stt)
 {
 	pid_t	hd;
-	int		tb[2];
 
-	if (pipe(tb) == ERROR)
-		return (msg_error(E_PRR, 1, "heredoc"));
-	hd = fork();
-	if (hd == ERROR)
-		exit (msg_error(E_PRR, -1, "heredoc"));
-	if (!hd)
-		read_heredoc(tk, tb);
-	if (fd[0] == ERROR || fd[1] == ERROR)
+	(void)fd;
+	if ((*tk)->type[3] == T_RDHD)
 	{
-		close(fd[0]);
+		if (pipe(fd) == ERROR)
+			return (msg_error(E_PRR, 1, "heredoc"));
+		hd = fork();
+		if (hd == ERROR)
+			exit (msg_error(E_PRR, -1, "heredoc"));
+		if (!hd)
+		{
+			if (fd[0] >= 0)
+				close(fd[0]);
+			read_heredoc(tk, fd);
+		}
+		if (waitpid(hd, stt, 0) == ERROR)
+		{
+			close(fd[0]);
+			return (ERROR);
+		}
 		close(fd[1]);
+		fd[1] = -2;
+		*stt = WEXITSTATUS(*stt);
 	}
-	if (waitpid(hd, stt, 0) == ERROR)
-	{
-		close(fd[0]);
-		close(fd[1]);
-	}
-	*stt = WEXITSTATUS(*stt);
 	return (*stt);
 }
 
@@ -129,7 +132,7 @@ int	is_append(t_token **tk, int *fd, int *stt)
 
 int	test_rdc(t_token **tk, int *fd, int *stt)
 {
-	// is_heredoc(tk, fd, stt); // no funciona
+	is_heredoc(tk, fd, stt);
 	is_append(tk, fd, stt);
 	is_stdinp(tk, fd, stt);
 	is_stdout(tk, fd, stt);
