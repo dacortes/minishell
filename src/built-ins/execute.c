@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/26 10:13:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:10:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	its_not_the_others(t_mini **sh, t_line **ln, t_get **g, int n_cmd)
 	{
 		if (n_cmd >= 2)
 		{
+			a.i = 1;
 			while ((*g)->arg[a.i])
 				(_export(*sh, (*g)->arg[a.i++])) && (a.c = 1);
 		}

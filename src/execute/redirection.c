@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:31:56 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/26 15:46:37 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/27 11:40:03 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	rdc_stdinp(t_get **g, int mode)
 				return (1);
 		}
 	}
+	(*g)->fd[0] = -2;
 	return (SUCCESS);
 }
 
@@ -53,5 +54,6 @@ int	rdc_stdout(t_get **g, int mode)
 				return (1);
 		}
 	}
+	(*g)->fd[1] = -2;
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/26 16:46:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:27:03 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,27 +129,17 @@ typedef struct s_line
 	struct s_line	*next;
 }	t_line;
 
-typedef struct s_rdc
-{
-	char			*fl;
-	int				rd;
-	int				fd[2];
-	struct s_rdc	*next;
-	struct s_rdc	*prev;
-}	t_rdc;
-
 typedef struct s_get
 {
 	char			**arg;
 	int				fd[2];
-	t_rdc			*rd;
+	int				tb[2];
 	struct s_get	*next;
 }	t_get;
 
 typedef struct s_exe
 {
 	int		stt;
-	int		fd[2];
 	int		pipe;
 	char	*inp;
 	char	*cmd;
@@ -220,7 +210,7 @@ int		get_path(t_exe *ex, t_get *g, char *path);
 int		clear_get(t_get **g);
 /* src/get/heredoc.c */
 int		is_heredoc(t_token **tk, int *fd, int *stt);
-int		add_get(t_get **g, char **arg, int len);
+int		add_get(t_get **g, char **arg, int len, int *fd);
 int		get_init(t_line **ln, t_get **g, int *stt);
 /* src/get/type_rdc.c */
 int		open_rdc(t_token **tk, int *fd, int *stt); // test

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/26 15:47:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:27:09 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static int	rdc_built_ins(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 		return (1);
 	close(fd[0]);
 	close(fd[1]);
+	fd[0] = -2;
+	fd[1] = -2;
 	return (SUCCESS);
 }
 

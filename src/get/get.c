@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/26 16:40:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:13:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ int	clear_get(t_get **g)
 	rm = *g;
 	while (rm)
 	{
+		if (rm->fd[0] >= 0)
+			close(rm->fd[0]);
+		if (rm->fd[1] >= 0)
+			close(rm->fd[1]);
 		clear_dptr((void **)rm->arg);
 		tmp = rm;
 		rm = rm->next;
@@ -30,7 +34,7 @@ int	clear_get(t_get **g)
 	return (SUCCESS);
 }
 
-int	add_get(t_get **g, char **arg, int len)
+int	add_get(t_get **g, char **arg, int len, int *fd)
 {
 	t_get	*new;
 	int		i;
@@ -46,6 +50,8 @@ int	add_get(t_get **g, char **arg, int len)
 		exit (msg_error(E_MEM, 1, NULL));
 	while (arg[i])
 		new->arg[j++] = ft_strdup_exit(arg[i++]);
+	new->fd[0] = fd[0];
+	new->fd[1] = fd[1];
 	new->next = NULL;
 	get_add_back(g, new);
 	return (SUCCESS);
@@ -96,9 +102,7 @@ int	tk_to_array(t_token **tk, t_get **g, int len, int *stt)
 			can_be_joined(tk, a.arr, &a.i);
 		*tk = (*tk)->next;
 	}
-	a.c = add_get(g, a.arr, len) + clear_dptr((void **)a.arr);
-	(*g)->fd[0] = fd[0];
-	(*g)->fd[1] = fd[1];
+	a.c = add_get(g, a.arr, len, fd) + clear_dptr((void **)a.arr);
 	return (*stt);
 }
 
