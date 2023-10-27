@@ -40,6 +40,22 @@ Para compilar correctamente los objetos, es necesario informar al sistema que la
 ```make
 $(CC) -MMD $(FLAGS) -c -D READLINE_LIBRARY=1 $< -o $@ $(INC) #line 87
 ```
+## Bugs:
+Cuando el proceso de compilación se interrumpe y se fuerza a finalizar mediante el makefile, se genera un archivo config.status incorrecto. Esto resulta en un error de compilación al intentar compilar nuevamente.
+### Solución:
+Ejecuta nuevamente el script configure en el directorio del proyecto. Esto generará un nuevo archivo config.status basado en la configuración actual del proyecto.
+```bash
+cd lib/readline
+#ejecutas el configure
+./configure
+```
+Ahora, puedes volver a compilar el proyecto utilizando el makefile. Esto debería generar los archivos de salida correctamente.
+```bash
+cd ../../ && make
+```
+### Comprobación Adicional:
+
+Si el problema persiste, verifica si hay otros archivos generados que podrían estar causando conflictos (por ejemplo, archivos de configuración antigua). Elimina esos archivos y vuelve a ejecutar el script configure y make según sea necesario.
 
 ## Nota:
 Este script está desarrollado utilizando GNU Bash, versión 3.2.57, y se ejecuta en sistemas operativos Darwin Kernel, versión 19.6.0.
