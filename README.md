@@ -45,7 +45,7 @@ Por último, agregamos el flag –ltermcap en nuestra regla para compilar el pro
 El flag -ltermcap en el comando de compilación indica al compilador que debe vincular el programa con la biblioteca termcap. Esta biblioteca proporciona funcionalidades para el control avanzado de la terminal, permitiendo que el programa interactúe con el terminal de manera más sofisticada, incluyendo el manejo de teclas especiales, el posicionamiento del cursor y otras características avanzadas de la terminal. La opción -ltermcap indica que se debe utilizar esta biblioteca durante el proceso de enlace para asegurar que el programa pueda utilizar estas funcionalidades de la terminal.
 
 ## Bugs:
-Cuando el proceso de compilación se interrumpe y se fuerza a finalizar mediante el makefile, se genera un archivo config.status incorrecto. Esto resulta en un error de compilación al intentar compilar nuevamente.
+Cuando el proceso de compilación se interrumpe y se fuerza a finalizar mediante el makefile, se genera un archivo config.status incorrecto. Esto resulta en un error de compilación al intentar compilar nuevamente, esto también pasa si se cambia el nombre del directorio que contiene el proyecto.
 ### Solución:
 Ejecuta nuevamente el script configure en el directorio del proyecto. Esto generará un nuevo archivo config.status basado en la configuración actual del proyecto.
 ```bash
