@@ -1,3 +1,11 @@
 ### Planteamiento del proyecto:
 <div style="text-align: justify">
+En Bash, la tokenización se realiza dividiendo la entrada en "tokens", que son unidades individuales como palabras o operadores. Estos tokens se separan mediante delimitadores que se pasan como argumentos al shell. Los delimitadores comunes incluyen espacios en blanco, comillas simples <b>(')</b>, comillas dobles <b>(")</b>, y varios operadores como <b>|, >, <,</b> entre otros. Cuando Bash recibe una línea de comandos, la divide en tokens usando estos delimitadores. Cada token individual se considera como una unidad básica de procesamiento y se utiliza para interpretar y ejecutar el comando correspondiente.
+
+Esta tokenización es fundamental para entender y ejecutar comandos en el shell. Cada token captura una parte significativa del comando, ya sea un operador, un argumento o una estructura de control. Bash utiliza estos tokens para entender la estructura del comando y ejecutar las acciones correspondientes según las reglas de la línea de comandos.
+
+En resumen, la tokenización en Bash implica dividir una línea de comandos en unidades lógicas (tokens) utilizando delimitadores específicos, lo que permite una interpretación precisa y una ejecución adecuada de los comandos ingresados por el usuario.
+
+## Tokens:
+En nuestro caso, los delimitadores que determinan unidades individuales de la entrada son espacios, comillas dobles ("), comillas simples ('), <, >, y |. Para manejar esta entrada, utilizamos la librería readline, que nos permite leer la línea de comandos del usuario y almacenarla en una variable. Posteriormente, esta entrada almacenada se pasa a un proceso de tokenización. Durante la tokenización, la entrada se divide en tokens, unidades lógicas, utilizando estos delimitadores específicos. Cada token captura una parte esencial del comando, lo que nos permite interpretar y ejecutar las acciones correspondientes de manera precisa en nuestro programa. Esta tokenización es fundamental para comprender la estructura del comando ingresado por el usuario y ejecutar las operaciones de manera adecuada.
 </div>
