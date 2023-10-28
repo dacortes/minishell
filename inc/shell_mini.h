@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/27 12:27:03 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/28 09:39:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,9 +197,10 @@ int		clear(t_mini *sh);
 int		is_null(t_mini **sh, t_line **ln, t_get **g, char *inp);
 int		clear_cmd(t_exe *ex, int stt);
 int		clear_pross(t_line **ln, t_get **g, t_exe ex);
-int		clear_open(int *fd);
 /* src/execute/no_pipe.c */
 int		no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex);
+/* src/execute/pipe.c */
+int		create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex);
 /* src/execute/redirection.c */
 int		rdc_stdinp(t_get **g, int mode);
 int		rdc_stdout(t_get **g, int mode);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/23 14:20:20 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:25:28 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	search_path(t_exe *ex, t_get *g, t_aux *a)
 	return (ERROR);
 }
 
+/* tiene que hacer /bin/ls ejemplo */
 static int	is_path(t_exe *ex, t_get *g)
 {
 	struct stat	path_stat;

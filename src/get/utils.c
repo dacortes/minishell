@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 15:24:00 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/11 15:34:22 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/28 08:34:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	show_arg(t_get *g)
 			{
 				(i == 0) && ft_printf(F"["E"%d"F"] COMMAND\n"E, num);
 				ft_printf(F"["E"%d"F"]"O" *argument:"E" %s\n", i, iter->arg[i]);
-				ft_printf("fd[0]"O" %d\n"E, iter->fd[0]);
-				ft_printf("fd[1]"O" %d\n"E, iter->fd[1]);
+				ft_printf("fd0="O"%d"E"fd1="O"%d\n"E, iter->fd[0], iter->fd[1]);
+				ft_printf("tb0="O"%d"E"tb1="O"%d\n"E, iter->tb[0], iter->tb[1]);
 			}
 		}
 		else

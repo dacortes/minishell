@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 17:02:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/27 12:13:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/28 14:23:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int	clear_get(t_get **g)
 		if (rm->fd[0] >= 0)
 			close(rm->fd[0]);
 		if (rm->fd[1] >= 0)
+			close(rm->fd[1]);
+		if (rm->tb[0] >= 0)
+			close(rm->fd[0]);
+		if (rm->tb[1] >= 0)
 			close(rm->fd[1]);
 		clear_dptr((void **)rm->arg);
 		tmp = rm;
@@ -52,6 +56,8 @@ int	add_get(t_get **g, char **arg, int len, int *fd)
 		new->arg[j++] = ft_strdup_exit(arg[i++]);
 	new->fd[0] = fd[0];
 	new->fd[1] = fd[1];
+	new->tb[0] = -2;
+	new->tb[1] = -2;
 	new->next = NULL;
 	get_add_back(g, new);
 	return (SUCCESS);
