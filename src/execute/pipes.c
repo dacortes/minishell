@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/28 14:57:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/28 15:45:28 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,41 @@ int	init_pipes(t_get **g, t_exe *e)
 	return (SUCCESS);
 }
 
+// int	wait_pids(t_exe *ex, pid_t **chds)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (i <= ex->pipe)
+// 		waitpid(*chds[a.c], &ex->stt, 0);
+	
+// 	return (SUCCESS);
+// }
+
+// int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
+// {
+// 	pid_t	*chds;
+// 	t_aux	a;
+// 	t_get	*iter;
+
+// 	chds = ft_calloc(ex->pipe + 1, sizeof(pid_t));
+// 	if (!chds)
+// 		exit (msg_error(E_MEM, E_EXIT, NULL));
+// 	ft_bzero(&a, sizeof(t_aux));
+// 	init_pipes(g, ex);
+// 	iter = *g;
+// 	while (iter && a.i <= ex->pipe)
+// 	{
+
+// 		a.i++;
+// 		iter = iter->next;
+// 	}
+// 	while(a.c <= ex->pipe)
+// 		waitpid(chds[a.c++], NULL, 0);
+// 	waitpid(chds[a.c], &ex->stt, 0);
+// 	ex->stt = WEXITSTATUS(ex->stt);
+// 	return (SUCCESS);
+// }
 int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 {
 	pid_t	*chds;
@@ -47,6 +82,7 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	while (a.i <= ex->pipe)
 	{
 		chds[a.i] = fork();
+		(chds[a.i] > 0) && ft_printf("%d\n", chds[a.i]);
 		if (chds[a.i] == 0)
 		{
 			/* 
@@ -55,6 +91,7 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 			*/
 			if (a.i == 0)
 			{
+				// ft_printf("%d\n", chds[a.i]);
 				close(iter->tb[0]);
 				close(iter->next->tb[0]);
 				close(iter->next->tb[1]);
@@ -63,9 +100,11 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 				ex->stt = get_path(ex, iter, search_env((*sh)->env, "PATH", VAL));
 				ex->stt = execve(ex->cmd, iter->arg, ex->env);
 				printf("Error 1: %d\n", ex->stt);
+				exit (1);
 			}
 			else if (a.i == 1)
 			{
+				// ft_printf("%d\n", chds[a.i]);
 				close(iter->tb[1]);
 				close(iter->next->tb[0]);
 				close(iter->next->tb[1]);
@@ -74,18 +113,18 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 				ex->stt = get_path(ex, iter->next, search_env((*sh)->env, "PATH", VAL));
 				ex->stt = execve(ex->cmd, iter->next->arg, ex->env);
 				printf("Error 2: %d\n", ex->stt);
+				exit (1);
 			}
 		}
 		a.i++;
 		// iter = iter->next;
 	}
-	/*  cerrar todos los tb */
-	close(iter->tb[0]);
-	close(iter->tb[1]);
-	close(iter->next->tb[0]);
-	close(iter->next->tb[1]);
 	while (a.c <= ex->pipe)
-		waitpid(chds[a.c++], NULL, 0);
+	{
+		waitpid(chds[a.c++], &ex->stt, 0);
+		ex->stt = WEXITSTATUS(ex->stt);
+	}
+	ft_printf("Error status : %d\n", ex->stt);
 	free(chds);
 	return (SUCCESS);
 }
