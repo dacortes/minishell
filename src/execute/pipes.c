@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/30 16:09:15 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:39:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void init_pipes(int *fds, int n_pipes)
 
 void clear_pipes(int *fds, int n_pipes)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
 	while (i < n_pipes * 2)
 		close(fds[i++]);
 }
@@ -59,8 +61,7 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
         }
 
         a.i++;
-        if (*g && (*g)->next)
-            (*g) = (*g)->next;
+        (*g && (*g)->next) && ((*g) = (*g)->next);
     }
     clear_pipes(fds, ex->pipe);
     while (a.c <= ex->pipe)
