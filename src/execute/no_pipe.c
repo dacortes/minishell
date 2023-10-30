@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/28 15:08:21 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/10/29 14:30:36 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,3 +86,4 @@ int	no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	}
 	return (SUCCESS);
 }
+
