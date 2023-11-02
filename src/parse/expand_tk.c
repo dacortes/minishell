@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 10:39:43 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/27 15:14:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/02 10:02:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	expand_tk(t_token **tk, t_env *env)
 		if (tmp->type[1] == T_EXP)
 		{
 			if (ft_strlen(tmp->arg) == 1 && tmp->arg[0] == '$')
-				;
+				ft_printf("soy el ultimo comando\n");
 			else
 			{
 				if ((tmp->type[3] == 5) && tmp->next

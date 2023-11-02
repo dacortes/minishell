@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/29 12:09:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/02 10:04:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	main(int ac, char **av, char **env)
 		// 		iter = iter->next;
 		// 	}
 		// }
-		//ft_printf(B"status :%d\n"E, ex.stt);
+		ft_printf(B"status :%d\n"E, ex.stt);
 		ex.pipe = 0;
 		clear_pross(&ln, &g, ex);
 	}
