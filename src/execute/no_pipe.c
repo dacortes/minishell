@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/30 18:14:30 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/02 08:51:10 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	rdc_built_ins(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 static int	rdc_bin(t_get **g, t_exe *ex, int *stt)
 {
 	*stt = is_bin(ex);
-	if (!stt)
+	if (!*stt)
 	{
 		ex->stt = *stt;
 		child(g, ex);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 09:38:12 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/21 16:35:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/02 08:56:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ int	is_bin(t_exe *ex)
 {
 	if (!ex || !ex->cmd || !ex->cmd)
 		return (SUCCESS);
-	if ((ex->cmd[0] == '.' && ex->cmd[1] != '/'))
-		return ((ex->stt = msg_error(E_CNF, E_CNF, ex->cmd)));
-	else if (!(ex->cmd[0] == '.' && ex->cmd[1] == '/'))
-		return ((ex->stt = msg_error(E_CNF, E_CNF, ex->cmd)));
 	if (ft_strchr(ex->cmd, '/') && access(ex->cmd, F_OK))
 		return ((ex->stt = msg_error(E_CNF, E_CNF, ex->cmd)));
 	else if (ft_strchr(ex->cmd, '/') && access(ex->cmd, X_OK))

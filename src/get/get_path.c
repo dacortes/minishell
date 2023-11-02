@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 11:47:13 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/27 17:25:28 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/02 08:56:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,15 @@ static int	search_path(t_exe *ex, t_get *g, t_aux *a)
 	return (ERROR);
 }
 
-/* tiene que hacer /bin/ls ejemplo */
 static int	is_path(t_exe *ex, t_get *g)
 {
 	struct stat	path_stat;
 
 	if (!g)
-		return (FALSE);
-	if (g->arg && (g->arg[0][0] == '/'
-		|| (g->arg[0][0] == '.' && g->arg[0][1] == '/')
-		|| (ft_strnstr(g->arg[0], "../", ft_strlen(g->arg[0])))))
+		return (SUCCESS);
+	if (g->arg && ((ft_strnstr(g->arg[0], "/", ft_strlen(g->arg[0])))
+			|| (g->arg[0][0] == '.' && g->arg[0][1] == '/')
+			|| (ft_strnstr(g->arg[0], "../", ft_strlen(g->arg[0])))))
 	{
 		if (stat(g->arg[0], &path_stat) == 0)
 		{
@@ -72,7 +71,7 @@ int	get_path(t_exe *ex, t_get *g, char *path)
 	}
 	ft_bzero(&a, sizeof(t_aux));
 	a.k = is_path(ex, g);
-	if (a.k == E_CNF || a.k == 126 || a.k == FALSE)
+	if (a.k == E_CNF || a.k == 126)
 		return ((ex->stt = ((a.k == E_CNF) * E_CNF) + ((a.k == 126) * 126)
 				+ ((a.k == 0) * 0 + ERROR)));
 	ex->pth = ft_split(path, ':');
