@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/03 10:13:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:30:23 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,9 @@ int		_export(t_mini *sh, char *inp);
 int		pwd(void);
 /* src/built-ins/unset.c*/
 int		unset(int *size, t_env **env, char *key);
+/* src/built-ins/utils.c */
+char	*str_lower(char *str, char *low);
+int		magic_export(t_mini **sh, t_get **g, t_aux a, int n_cmd);
 
 /* src/execute/clear */
 int		clear(t_mini *sh);
