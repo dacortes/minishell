@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/02 11:13:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/03 14:40:20 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,35 @@
 int	its_not_the_others(t_mini **sh, t_line **ln, t_get **g, int n_cmd)
 {
 	t_aux	a;
+	char	*low;
 
+	low = ft_calloc(ft_strlen((*g)->arg[0]) + 1, sizeof(char));
+	if (!low)
+		exit (msg_error(E_MEM, E_MEM, NULL));
 	ft_bzero(&a, sizeof(t_aux));
-	if (ft_strncmp((*g)->arg[0], "cd", -1) == 0
-		|| (ft_strncmp((*g)->arg[0], "CD", -1) == 0))
+	if (ft_strncmp(str_lower((*g)->arg[0], low), "cd", -1) == 0)
 		a.c = ft_cd(sh, *g, n_cmd);
-	if (ft_strncmp((*g)->arg[0], "echo", -1) == 0
-		|| (ft_strncmp((*g)->arg[0], "ECHO", -1) == 0))
+	if (ft_strncmp(str_lower((*g)->arg[0], low), "echo", -1) == 0)
 		ft_echo((*g)->arg, n_cmd);
-	if ((ft_strncmp((*g)->arg[0], "env", -1) == 0)
-		|| (ft_strncmp((*g)->arg[0], "ENV", -1) == 0))
+	if ((ft_strncmp(str_lower((*g)->arg[0], low), "env", -1) == 0))
 		(_env((*sh)->env, n_cmd)) && (a.c = 1);
 	if (ft_strncmp((*g)->arg[0], "exit", -1) == 0)
 		a.c = ft_exit(*sh, ln, g, n_cmd);
-	if ((ft_strncmp((*g)->arg[0], "export", -1) == 0))
-	{
-		if (n_cmd >= 2)
-		{
-			a.i = 1;
-			while ((*g)->arg[a.i])
-				(_export(*sh, (*g)->arg[a.i++])) && (a.c = 1);
-		}
-		else
-			show_export((*sh)->env);
-	}
+	a.c = magic_export(sh, g, a, n_cmd);
+	free(low);
 	return (a.c);
 }
 
 int	are_the_others(t_mini **sh, t_get **g, int n_cmd)
 {
-	int	i;
+	char	*low;
+	int		i;
 
 	i = 0;
-	if ((ft_strncmp((*g)->arg[0], "pwd", -1) == 0)
-		|| (ft_strncmp((*g)->arg[0], "PWD", -1) == 0))
+	low = ft_calloc(ft_strlen((*g)->arg[0]) + 1, sizeof(char));
+	if (!low)
+		exit (msg_error(E_MEM, E_MEM, NULL));
+	if ((ft_strncmp(str_lower((*g)->arg[0], low), "pwd", -1) == 0))
 		pwd();
 	if ((ft_strncmp((*g)->arg[0], "unset", -1) == 0))
 	{
@@ -59,24 +54,33 @@ int	are_the_others(t_mini **sh, t_get **g, int n_cmd)
 		}
 	}
 	else
+	{
+		free(low);
 		return (ERROR);
+	}
+	free(low);
 	return (SUCCESS);
 }
 
-/* la funcion debe hacer un minus para los cmd cd, env, pwd*/
 static int	ft_is(char *cmd)
 {
-	if (!(ft_strncmp(cmd, "cd", -1) == 0)
-		&& !(ft_strncmp(cmd, "CD", -1) == 0)
+	char	*low;
+
+	low = ft_calloc(ft_strlen(cmd) + 1, sizeof(char));
+	if (!low)
+		exit (msg_error(E_MEM, E_MEM, NULL));
+	if (!(ft_strncmp(str_lower(cmd, low), "cd", -1) == 0)
 		&& !(ft_strncmp(cmd, "echo", -1) == 0)
-		&& !(ft_strncmp(cmd, "env", -1) == 0)
-		&& !(ft_strncmp(cmd, "ENV", -1) == 0)
+		&& !(ft_strncmp(str_lower(cmd, low), "env", -1) == 0)
 		&& !(ft_strncmp(cmd, "exit", -1) == 0)
 		&& !(ft_strncmp(cmd, "export", -1) == 0)
-		&& !(ft_strncmp(cmd, "pwd", -1) == 0)
-		&& !(ft_strncmp(cmd, "PWD", -1) == 0)
+		&& !(ft_strncmp(str_lower(cmd, low), "pwd", -1) == 0)
 		&& !(ft_strncmp(cmd, "unset", -1) == 0))
+	{
+		free(low);
 		return (ERROR);
+	}
+	free(low);
 	return (SUCCESS);
 }
 
