@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 11:55:21 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/02 14:17:23 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/03 09:43:00 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,35 +71,5 @@ int	add_line(t_line **ln, t_token *tk, char	*line)
 		exit (msg_error(E_MEM, 1, NULL));
 	new->next = NULL;
 	add_back(ln, new);
-	return (SUCCESS);
-}
-
-static void	loop_val(t_aux *a, int get, t_token **tk)
-{
-	// int	start;
-	// int	end;
-
-	a->tmp = ft_strchr(a->tmp, '$');
-	if (a->tmp)
-	{
-		a->_val = ft_itoa(get);
-		if (!a->_val)
-			exit (msg_error(E_MEM, E_EXIT, NULL));
-		if ((*tk)->arg)
-			free((*tk)->arg);
-		(*tk)->arg = ft_strdup_exit(a->_val);
-		if (a->_val)
-			free(a->_val);
-		a->tmp = ft_strchr(a->tmp, '$');
-	}
-}
-
-int	epd_question_mark(t_aux *a, t_token **tmp, int get)
-{
-	a->e = ft_strdup_exit((*tmp)->arg);
-	a->tmp = a->e;
-	loop_val(a, get, tmp);
-	if (a->e)
-		free(a->e);
 	return (SUCCESS);
 }
