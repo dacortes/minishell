@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/28 09:39:35 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:26:35 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,4 +255,8 @@ char	*ft_strdup_exit(const char *s1);
 char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
 char	*ft_strndup(const char *src, size_t n);
 char	*ft_strjoin_max(char **need);
+
+/* tets expands*/
+int		epd_question_mark(t_aux *a, t_token **tmp, int get);
+int		gett_stt(int flag, int val);
 #endif

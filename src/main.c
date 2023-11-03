@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/29 12:09:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:26:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,15 @@ void print_line(t_line *ln)
 	}
 }
 
+int gett_stt(int flag, int val)
+{
+	static int	var;
+
+	if (flag == TRUE)
+		var = val;
+	return (var);	
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;
@@ -109,6 +118,7 @@ int	main(int ac, char **av, char **env)
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
+		// show_tokens(ln);
 		//show_arg(g);
 		ex.env = env_to_array(sh);
 		if (!ex.pipe)
@@ -130,7 +140,7 @@ int	main(int ac, char **av, char **env)
 		// 		iter = iter->next;
 		// 	}
 		// }
-		//ft_printf(B"status :%d\n"E, ex.stt);
+		gett_stt(TRUE , ex.stt);
 		ex.pipe = 0;
 		clear_pross(&ln, &g, ex);
 	}
