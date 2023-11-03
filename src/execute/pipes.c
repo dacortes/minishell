@@ -6,12 +6,34 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/30 18:28:42 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/03 12:13:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../inc/shell_mini.h"
 
+/*
+	ls | ls | ls  | ls | ls|a
+	error: muestra todo en la estandar outpu
+	dacortes➜minishell 🗂 ᐅ Makefile
+	mini: Makefile: command not found
+	dacortes➜minishell 🗂 ᐅ README.md
+	mini: README.md: command not found
+	dacortes➜minishell 🗂 ᐅ a.test
+	mini: a.test: command not found
+	dacortes➜minishell 🗂 ᐅ h.test
+	mini: h.test: command not found
+	dacortes➜minishell 🗂 ᐅ inc
+	mini: inc: command not found
+	dacortes➜minishell 🗂 ᐅ lib
+	mini: lib: command not found
+	dacortes➜minishell 🗂 ᐅ minishell
+	mini: minishell: command not found
+	dacortes➜minishell 🗂 ᐅ p.test
+	mini: p.test: command not found
+	dacortes➜minishell 🗂 ᐅ src
+	mini: src: command not found
+*/
 void init_pipes(int *fds, int n_pipes)
 {
 	int	i;
@@ -33,46 +55,6 @@ void clear_pipes(int *fds, int n_pipes)
 	while (i < n_pipes * 2)
 		close(fds[i++]);
 }
-
-// int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
-// {
-//     (void)ln;
-//     int		fds[ex->pipe * 2];
-//     pid_t	chds[ex->pipe + 1];
-//     t_aux	a;
-
-//     init_pipes(fds, ex->pipe);
-//     ft_bzero(&a, sizeof(t_aux));
-//     while (a.i <= ex->pipe)
-//     {
-//         chds[a.i] = fork();
-//         if (chds[a.i] == ERROR)
-//             exit(msg_error(E_PRR, 1, "fork"));
-//         if (!chds[a.i])
-//         {
-//             if (a.i < ex->pipe)
-//                 dup2(fds[a.i * 2 + 1], STDOUT_FILENO);
-//             if (a.i > 0)
-//                 dup2(fds[(a.i - 1) * 2], STDIN_FILENO);
-//             clear_pipes(fds, ex->pipe);
-//             ex->stt = get_path(ex, *g, search_env((*sh)->env, "PATH", VAL));
-//             ex->stt = execve(ex->cmd, (*g)->arg, ex->env);
-//             exit(127);
-//         }
-
-//         a.i++;
-//         (*g && (*g)->next) && ((*g) = (*g)->next);
-//     }
-//     clear_pipes(fds, ex->pipe);
-//     while (a.c <= ex->pipe)
-//     {
-//         waitpid(chds[a.c], &ex->stt, 0);
-// 		 ex->stt = WEXITSTATUS(ex->stt);
-//         a.c++;
-//     }
-// 	ft_printf(B"stt error: %d\n"E, ex->stt);
-//     return SUCCESS;
-// }
 
 static int	rdc_built_ins(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 {
@@ -103,35 +85,13 @@ static int	rdc_bin(t_get **g, t_exe *ex, int *stt)
 		rdc_stdinp(g, CHD);
 		rdc_stdout(g, CHD);
 		(ex->stt == 0) && (ex->stt = execve(ex->cmd, (*g)->arg, ex->env));
-		exit (127);
-		(ex->stt != 0) && (ex->stt = msg_error(E_BADINT, E_PRM, ex->cmd));
+		perror("mini");
+        exit(EXIT_FAILURE);
 	}
 	clear_cmd(ex, 1);
 	return (SUCCESS);
 }
 
-/*
-	ls | ls | ls  | ls | ls|a
-	error: muestra todo en la estandar outpu
-	dacortes➜minishell 🗂 ᐅ Makefile
-	mini: Makefile: command not found
-	dacortes➜minishell 🗂 ᐅ README.md
-	mini: README.md: command not found
-	dacortes➜minishell 🗂 ᐅ a.test
-	mini: a.test: command not found
-	dacortes➜minishell 🗂 ᐅ h.test
-	mini: h.test: command not found
-	dacortes➜minishell 🗂 ᐅ inc
-	mini: inc: command not found
-	dacortes➜minishell 🗂 ᐅ lib
-	mini: lib: command not found
-	dacortes➜minishell 🗂 ᐅ minishell
-	mini: minishell: command not found
-	dacortes➜minishell 🗂 ᐅ p.test
-	mini: p.test: command not found
-	dacortes➜minishell 🗂 ᐅ src
-	mini: src: command not found
-*/
 int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 {
 	int		fds[ex->pipe * 2];
@@ -148,10 +108,10 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 		if (!chds[a.i])
 		{
 			int stt = 0;
-			if (a.i < ex->pipe)
-				dup2(fds[a.i * 2 + 1], STDOUT_FILENO);
 			if (a.i > 0)
 				dup2(fds[(a.i - 1) * 2], STDIN_FILENO);
+			if (a.i < ex->pipe)
+				dup2(fds[a.i * 2 + 1], STDOUT_FILENO);
 			clear_pipes(fds, ex->pipe);
 			ex->stt = is_built_ins(ln, g);
 			if (g && *g && !ex->stt)
@@ -167,7 +127,8 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 				rdc_stdinp(g, CHD);
 				rdc_stdout(g, CHD);
 				(ex->stt == 0) && (ex->stt = execve(ex->cmd, (*g)->arg, ex->env));
-				exit (127);
+				perror("mini");
+            	exit(EXIT_FAILURE);
 			}
 		}
 		a.i++;
@@ -177,9 +138,8 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	while (a.c <= ex->pipe)
 	{
 		waitpid(chds[a.c], &ex->stt, 0);
-		 ex->stt = WEXITSTATUS(ex->stt);
+		ex->stt = WEXITSTATUS(ex->stt);
 		a.c++;
 	}
-	ft_printf(B"stt error: %d\n"E, ex->stt);
-	return SUCCESS;
+	return (SUCCESS);
 }
