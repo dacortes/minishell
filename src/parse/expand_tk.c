@@ -6,13 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/13 10:39:43 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/03 10:13:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/04 12:55:28 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-static void	swap_val(t_aux *a, int start, int end)
+void	swap_val(t_aux *a, int start, int end)
 {
 	char	*expd;
 
