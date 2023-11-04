@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/03 14:30:23 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/04 12:55:51 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,7 @@ void	get_add_back(t_get **g, t_get *new);
 /* src/get/utils2.c */
 int		count_tk(t_token *tk);
 int		is_bin(t_exe *ex);
+t_env	*get_env(int flag, t_env *env);
 
 /* src/parse/analize.c */
 int		identify(t_token **tk);
@@ -237,6 +238,7 @@ int		copy_unquo(char	*inp, t_aux *a, t_token **tk);
 int		copy_redic(char *inp, t_aux *a, t_token **tk, char rdc);
 int		copy_quotes(char *inp, t_aux *a, t_token **tk, t_env *env);
 /* src/parse/expand_tk */
+void	swap_val(t_aux *a, int start, int end);
 int		expand_tk(t_token **tk, t_env *env);
 /* src/parse/line.c */
 int		ft_line(char *inp, t_line **ln, t_env *env, int *pipe);

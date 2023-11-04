@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/03 10:13:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/04 12:28:59 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,34 +112,18 @@ int	main(int ac, char **av, char **env)
 	mini_init(&sh, &g, &ex, env);
 	while (TRUE) 
 	{
+		get_env(TRUE, sh->env);
 		ln = NULL;
 		prompt(&sh, &ex.inp);
 		is_null(&sh, &ln, &g, ex.inp);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
-		// show_tokens(ln);
-		//show_arg(g);
 		ex.env = env_to_array(sh);
 		if (!ex.pipe)
 			no_pipe(&sh, &ln, &g, &ex);
 		if (!ex.stt && ex.pipe)
 			create_childs(&sh, &ln, &g, &ex);
-		// else if (ex.stt == 0 && ex.pipe)
-		// {
-		// 	t_get	*iter;
-		// 	int		num;
-
-		// 	num = 0;
-		// 	iter = g;
-		// 	while (iter && num <= ex.pipe)
-		// 	{
-		// 		if (is_built_ins(&sh, &ln, &iter, &ex.stt) == ERROR)
-		// 			ft_printf(R"not buit-ins\n"E);
-		// 		num++;
-		// 		iter = iter->next;
-		// 	}
-		// }
 		get_stt(TRUE , ex.stt);
 		ex.pipe = 0;
 		clear_pross(&ln, &g, ex);
