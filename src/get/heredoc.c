@@ -6,20 +6,25 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:41:37 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/04 13:04:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/04 14:38:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
+static void	init_aux(t_aux *a, char *inp)
+{
+	ft_bzero(a, sizeof(t_aux));
+	a->e = ft_strdup_exit(inp);
+	a->tmp = a->e;
+	a->tmp = ft_strchr(a->tmp, '$');
+}
+
 static char	*expand_hdoc(char *inp)
 {
 	t_aux	a;
 
-	ft_bzero(&a, sizeof(t_aux));
-	a.e = ft_strdup_exit(inp);
-	a.tmp = a.e;
-	a.tmp = ft_strchr(a.tmp, '$');
+	init_aux(&a, inp);
 	while (a.tmp)
 	{
 		a.i = a.tmp - a.e;
@@ -36,8 +41,7 @@ static char	*expand_hdoc(char *inp)
 		free(a._key);
 		swap_val(&a, a.i, a.j);
 		free(a._val);
-		if (inp)
-			free(inp);
+		free(inp);
 		inp = ft_strdup_exit(a.e);
 		a.tmp = ft_strchr(a.tmp, '$');
 	}
