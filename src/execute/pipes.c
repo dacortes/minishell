@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/05 12:57:12 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/05 13:08:48 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,12 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 			exit(msg_error(E_PRR, 1, "fork"));
 		if (!chd)
 		{
+			if (i > 0)
+			{
+				close(fds[1]);
+				dup2(fds[0], STDIN_FILENO);
+				close(fds[0]);
+			}
 			if (i < ex->pipe)
 			{
 				close(fds[0]);
@@ -187,6 +193,7 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 			}
 			if (!stt && g && *g && !ex->stt && ex->cmd)
 			{
+				ft_printf("%s\n", ex->cmd);
 				rdc_stdinp(g, FTH);
 				rdc_stdout(g, FTH);
 				(ex->stt == 0) && (ex->stt = execve(ex->cmd, (*g)->arg, ex->env));
