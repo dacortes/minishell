@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/03 12:13:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/05 12:57:12 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,27 @@
 	dacortes➜minishell 🗂 ᐅ src
 	mini: src: command not found
 */
-void init_pipes(int *fds, int n_pipes)
-{
-	int	i;
+// void init_pipes(int *fds, int n_pipes)
+// {
+// 	int	i;
 
- 	i = 0;
-	while (i < n_pipes)
-	{
-		if (pipe(fds + i * 2) == ERROR)
-			exit(msg_error(E_PRR, 1, "pipes"));
-		i++;
-	}
-}
+//  	i = 0;
+// 	while (i < n_pipes)
+// 	{
+// 		if (pipe(fds + i * 2) == ERROR)
+// 			exit(msg_error(E_PRR, 1, "pipes"));
+// 		i++;
+// 	}
+// }
 
-void clear_pipes(int *fds, int n_pipes)
-{
-	int i;
+// void clear_pipes(int *fds, int n_pipes)
+// {
+// 	int i;
 
-	i = 0;
-	while (i < n_pipes * 2)
-		close(fds[i++]);
-}
+// 	i = 0;
+// 	while (i < n_pipes * 2)
+// 		close(fds[i++]);
+// }
 
 static int	rdc_built_ins(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 {
@@ -82,37 +82,100 @@ static int	rdc_bin(t_get **g, t_exe *ex, int *stt)
 	if (!stt)
 	{
 		ex->stt = *stt;
-		rdc_stdinp(g, CHD);
-		rdc_stdout(g, CHD);
+		rdc_stdinp(g, FTH);
+		rdc_stdout(g, FTH);
 		(ex->stt == 0) && (ex->stt = execve(ex->cmd, (*g)->arg, ex->env));
 		perror("mini");
         exit(EXIT_FAILURE);
 	}
 	clear_cmd(ex, 1);
-	return (SUCCESS);
+	exit (SUCCESS);
 }
 
-int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
-{
-	int		fds[ex->pipe * 2];
-	pid_t	chds[ex->pipe + 1];
-	t_aux	a;
+// int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
+// {
+// 	int		fds[ex->pipe * 2];
+// 	pid_t	chds[ex->pipe + 1];
+// 	t_aux	a;
 
-	init_pipes(fds, ex->pipe);
-	ft_bzero(&a, sizeof(t_aux));
-	while (a.i <= ex->pipe)
+// 	init_pipes(fds, ex->pipe);
+// 	ft_bzero(&a, sizeof(t_aux));
+// 	while (a.i <= ex->pipe)
+// 	{
+// 		chds[a.i] = fork();
+// 		if (chds[a.i] == ERROR)
+// 			exit(msg_error(E_PRR, 1, "fork"));
+// 		if (!chds[a.i])
+// 		{
+// 			int stt = 0;
+// 			if (a.i > 0)
+// 				dup2(fds[(a.i - 1) * 2], STDIN_FILENO);
+// 			if (a.i < ex->pipe)
+// 				dup2(fds[a.i * 2 + 1], STDOUT_FILENO);
+// 			clear_pipes(fds, ex->pipe);
+// 			ex->stt = is_built_ins(ln, g);
+// 			if (g && *g && !ex->stt)
+// 				rdc_built_ins(sh, ln, g, ex);
+// 			if (ex->stt == ERROR)
+// 			{
+// 				ex->stt = get_path(ex, *g, search_env((*sh)->env, "PATH", VAL));
+// 				if (ex->stt == ERROR)
+// 					rdc_bin(g, ex, &stt);
+// 			}
+// 			if (!stt && g && *g && !ex->stt && ex->cmd)
+// 			{
+// 				rdc_stdinp(g, CHD);
+// 				rdc_stdout(g, CHD);
+// 				(ex->stt == 0) && (ex->stt = execve(ex->cmd, (*g)->arg, ex->env));
+// 				perror("mini");
+//             	exit(EXIT_FAILURE);
+// 			}
+// 		}
+// 		a.i++;
+// 		(*g && (*g)->next) && ((*g) = (*g)->next);
+// 	}
+// 	clear_pipes(fds, ex->pipe);
+// 	while (a.c <= ex->pipe)
+// 	{
+// 		waitpid(chds[a.c], &ex->stt, 0);
+// 		ex->stt = WEXITSTATUS(ex->stt);
+// 		a.c++;
+// 	}
+// 	return (SUCCESS);
+// }
+
+int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
+{
+	int		fds[2];
+	int		tmp[2];
+	pid_t 	chds[ex->pipe + 1];
+	pid_t	chd;
+	int		i;
+
+	tmp[0] = dup(STDIN_FILENO);
+	tmp[1] = dup(STDOUT_FILENO);
+	i = 0;
+	while(i <= ex->pipe)
 	{
-		chds[a.i] = fork();
-		if (chds[a.i] == ERROR)
-			exit(msg_error(E_PRR, 1, "fork"));
-		if (!chds[a.i])
+		if (i < ex->pipe)
 		{
+			if (pipe(fds) == ERROR)
+				exit(msg_error(E_PRR, 1, "fork"));
+		}
+		chd = fork();
+		chds[i] = chd;
+		if (chd == ERROR)
+			exit(msg_error(E_PRR, 1, "fork"));
+		if (!chd)
+		{
+			if (i < ex->pipe)
+			{
+				close(fds[0]);
+				if (dup2(fds[1], STDOUT_FILENO) == ERROR)
+					return (1);
+				close(fds[1]);
+			}
 			int stt = 0;
-			if (a.i > 0)
-				dup2(fds[(a.i - 1) * 2], STDIN_FILENO);
-			if (a.i < ex->pipe)
-				dup2(fds[a.i * 2 + 1], STDOUT_FILENO);
-			clear_pipes(fds, ex->pipe);
 			ex->stt = is_built_ins(ln, g);
 			if (g && *g && !ex->stt)
 				rdc_built_ins(sh, ln, g, ex);
@@ -124,22 +187,28 @@ int create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 			}
 			if (!stt && g && *g && !ex->stt && ex->cmd)
 			{
-				rdc_stdinp(g, CHD);
-				rdc_stdout(g, CHD);
+				rdc_stdinp(g, FTH);
+				rdc_stdout(g, FTH);
 				(ex->stt == 0) && (ex->stt = execve(ex->cmd, (*g)->arg, ex->env));
-				perror("mini");
-            	exit(EXIT_FAILURE);
+            	exit(127);
 			}
 		}
-		a.i++;
+		i++;
 		(*g && (*g)->next) && ((*g) = (*g)->next);
 	}
-	clear_pipes(fds, ex->pipe);
-	while (a.c <= ex->pipe)
+	close(fds[1]);
+	dup2(fds[0], STDIN_FILENO);
+	close(fds[0]);
+	dup2(tmp[0], STDIN_FILENO);
+	dup2(tmp[1], STDOUT_FILENO);
+	close(tmp[0]);
+	close(tmp[1]);
+	i = 0;
+	while (i <= ex->pipe)
 	{
-		waitpid(chds[a.c], &ex->stt, 0);
+		waitpid(chds[i], &ex->stt, 0);
 		ex->stt = WEXITSTATUS(ex->stt);
-		a.c++;
+		i++;
 	}
 	return (SUCCESS);
 }
