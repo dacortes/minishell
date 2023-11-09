@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/07 08:37:42 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/09 08:52:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,35 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 				exit(msg_error(E_PRR, 1, "fork"));
 		}
 		chd = fork();
+		// ft_printf("%d\n", chd);
 		chds[i] = chd;
 		if (chd == ERROR)
 			exit(msg_error(E_PRR, 1, "fork"));
 		if (!chd)
 		{
-			if (i > 0 && i < ex->pipe)
+			if (i == 0) 
 			{
+				ft_printf("soy la primer pipe\n");
+				close(fds[0]);
+                dup2(fds[1], STDOUT_FILENO);
+                close(fds[1]);
+            }
+			else if (i > 0 && i < ex->pipe)
+			{
+				ft_printf("estoy aqui\n");
+				close(fds[0]);
+				dup2(fds[1], STDOUT_FILENO);
+				close(fds[1]);
 				dup2(fds[0], STDIN_FILENO);
 				close(fds[0]);
 			}
-			if (i < ex->pipe)
+			else if (i == ex->pipe)
 			{
-				close(fds[0]);
-				if (dup2(fds[1], STDOUT_FILENO) == ERROR)
-					return (1);
+				ft_printf("soy la ultima pipe\n");
 				close(fds[1]);
-			}
+                dup2(fds[0], STDIN_FILENO);
+                close(fds[0]);
+            }
 			int stt = 0;
 			ex->stt = is_built_ins(ln, g);
 			if (g && *g && !ex->stt)
@@ -108,15 +120,20 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	close(fds[1]);
 	dup2(fds[0], STDIN_FILENO);
 	close(fds[0]);
+	
 	dup2(tmp[0], STDIN_FILENO);
-	dup2(tmp[1], STDOUT_FILENO);
 	close(tmp[0]);
+	dup2(tmp[1], STDOUT_FILENO);
 	close(tmp[1]);
 	i = 0;
-	while (i <= ex->pipe)
+	ft_printf("num pipes : %d\n", ex->pipe);
+	while (i <= (ex->pipe))
 	{
+		/* el waipid retorna el pid del procesoo que espero  */
+		// ft_printf("%d\n", waitpid(chds[i], &ex->stt, 0));
 		waitpid(chds[i], &ex->stt, 0);
-		ex->stt = WEXITSTATUS(ex->stt);
+		if (i == ex->pipe)
+			ex->stt = WEXITSTATUS(ex->stt);
 		i++;
 	}
 	return (SUCCESS);
