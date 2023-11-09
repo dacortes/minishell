@@ -6,12 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/09 08:52:16 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/09 14:28:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../../inc/shell_mini.h"
 
+/* error < hola.sh | < hola.sh */
 static int	rdc_built_ins(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 {
 	int	fd[2];
@@ -75,23 +76,20 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 		{
 			if (i == 0) 
 			{
-				ft_printf("soy la primer pipe\n");
+				ft_printf("soy la primer pipe iter=%i\n", i);
 				close(fds[0]);
                 dup2(fds[1], STDOUT_FILENO);
                 close(fds[1]);
             }
 			else if (i > 0 && i < ex->pipe)
 			{
-				ft_printf("estoy aqui\n");
 				close(fds[0]);
 				dup2(fds[1], STDOUT_FILENO);
 				close(fds[1]);
-				dup2(fds[0], STDIN_FILENO);
-				close(fds[0]);
 			}
 			else if (i == ex->pipe)
 			{
-				ft_printf("soy la ultima pipe\n");
+				ft_printf("soy la ultima pipe iter=%i\n", i);
 				close(fds[1]);
                 dup2(fds[0], STDIN_FILENO);
                 close(fds[0]);
@@ -126,12 +124,13 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	dup2(tmp[1], STDOUT_FILENO);
 	close(tmp[1]);
 	i = 0;
-	ft_printf("num pipes : %d\n", ex->pipe);
+	//ft_printf("num pipes : %d\n", ex->pipe);
 	while (i <= (ex->pipe))
 	{
 		/* el waipid retorna el pid del procesoo que espero  */
 		// ft_printf("%d\n", waitpid(chds[i], &ex->stt, 0));
 		waitpid(chds[i], &ex->stt, 0);
+		// waitpid(-1, &ex->stt, 0);
 		if (i == ex->pipe)
 			ex->stt = WEXITSTATUS(ex->stt);
 		i++;
