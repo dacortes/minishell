@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/09 14:28:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:35:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,43 +56,31 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 	pid_t 	chds[ex->pipe + 1];
 	pid_t	chd;
 	int		i;
+	int		stt_chd;
 
 	tmp[0] = dup(STDIN_FILENO);
 	tmp[1] = dup(STDOUT_FILENO);
 	i = 0;
+	stt_chd = 0;
 	while(i <= ex->pipe)
 	{
-		if (i < ex->pipe)
-		{
-			if (pipe(fds) == ERROR)
-				exit(msg_error(E_PRR, 1, "fork"));
-		}
+			if (i < ex->pipe)
+			{
+				if (pipe(fds) == ERROR)
+					exit(msg_error(E_PRR, 1, "fork"));
+			}
 		chd = fork();
-		// ft_printf("%d\n", chd);
+		stt_chd = chd;
 		chds[i] = chd;
 		if (chd == ERROR)
 			exit(msg_error(E_PRR, 1, "fork"));
 		if (!chd)
 		{
-			if (i == 0) 
+			if (i < ex->pipe) 
 			{
-				ft_printf("soy la primer pipe iter=%i\n", i);
 				close(fds[0]);
                 dup2(fds[1], STDOUT_FILENO);
                 close(fds[1]);
-            }
-			else if (i > 0 && i < ex->pipe)
-			{
-				close(fds[0]);
-				dup2(fds[1], STDOUT_FILENO);
-				close(fds[1]);
-			}
-			else if (i == ex->pipe)
-			{
-				ft_printf("soy la ultima pipe iter=%i\n", i);
-				close(fds[1]);
-                dup2(fds[0], STDIN_FILENO);
-                close(fds[0]);
             }
 			int stt = 0;
 			ex->stt = is_built_ins(ln, g);
@@ -111,29 +99,36 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 				(ex->stt == 0) && (ex->stt = execve(ex->cmd, (*g)->arg, ex->env));
             	exit(127);
 			}
+			exit (0);
 		}
 		i++;
 		(*g && (*g)->next) && ((*g) = (*g)->next);
+		close(fds[1]);
+		dup2(fds[0], STDIN_FILENO);
+		close(fds[0]);
 	}
-	close(fds[1]);
-	dup2(fds[0], STDIN_FILENO);
-	close(fds[0]);
-	
 	dup2(tmp[0], STDIN_FILENO);
 	close(tmp[0]);
 	dup2(tmp[1], STDOUT_FILENO);
 	close(tmp[1]);
 	i = 0;
-	//ft_printf("num pipes : %d\n", ex->pipe);
 	while (i <= (ex->pipe))
 	{
 		/* el waipid retorna el pid del procesoo que espero  */
-		// ft_printf("%d\n", waitpid(chds[i], &ex->stt, 0));
-		waitpid(chds[i], &ex->stt, 0);
-		// waitpid(-1, &ex->stt, 0);
-		if (i == ex->pipe)
+		ft_printf("%d\n", waitpid(chds[i], &ex->stt, 0));
+		ft_printf(R"%d\n"E, stt_chd);
+		if (waitpid(chds[i], &ex->stt, 0) == stt_chd)
+		{
+			ft_printf("%d\n", stt_chd);
 			ex->stt = WEXITSTATUS(ex->stt);
+		}
 		i++;
 	}
 	return (SUCCESS);
 }
+/* errors */
+/*bash: unset: `1a': not a valid identifier
+cd ""
+cd ''
+echo ""''""''""''
+echo ''""""a*/
