@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/04 12:28:59 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/05 11:32:23 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ int	main(int ac, char **av, char **env)
 		if (!ex.pipe)
 			no_pipe(&sh, &ln, &g, &ex);
 		if (!ex.stt && ex.pipe)
-			create_childs(&sh, &ln, &g, &ex);
+			pipes(&sh, &ln, &g, &ex);
+		// 	create_childs(&sh, &ln, &g, &ex);
 		get_stt(TRUE , ex.stt);
 		ex.pipe = 0;
 		clear_pross(&ln, &g, ex);

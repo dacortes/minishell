@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/04 12:55:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/09 09:17:30 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # include "../lib/libft/libft.h"
 # include "../lib/libft/ft_printf.h"
+# include "../lib/libft/get_next_line.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
@@ -26,6 +27,7 @@
 # include <stdio.h>
 # include <limits.h>
 # include <errno.h>
+# include <signal.h>
 
 /******************************************************************************/
 /*                            MACROS                                          */
@@ -203,7 +205,8 @@ int		clear_pross(t_line **ln, t_get **g, t_exe ex);
 /* src/execute/no_pipe.c */
 int		no_pipe(t_mini **sh, t_line **ln, t_get **g, t_exe *ex);
 /* src/execute/pipe.c */
-int		create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex);
+int		pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex);
+// int		create_childs(t_mini **sh, t_line **ln, t_get **g, t_exe *ex); ***
 /* src/execute/redirection.c */
 int		rdc_stdinp(t_get **g, int mode);
 int		rdc_stdout(t_get **g, int mode);
@@ -262,6 +265,5 @@ char	*ft_strndup(const char *src, size_t n);
 char	*ft_strjoin_max(char **need);
 
 /* tets expands*/
-int		epd_question_mark(t_aux *a, t_token **tmp, int get);
 int		get_stt(int flag, int val);
 #endif
