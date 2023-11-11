@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 17:48:26 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 10:03:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/11 13:02:49 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	pp_rdc_bin(t_get **g, t_exe *ex, int *stt)
 {
 	*stt = is_bin(ex);
-	if (!stt)
+	if (!*stt)
 	{
 		ex->stt = *stt;
 		rdc_stdinp(g, FTH);
@@ -25,6 +25,8 @@ int	pp_rdc_bin(t_get **g, t_exe *ex, int *stt)
 		exit(EXIT_FAILURE);
 	}
 	clear_cmd(ex, 1);
+	if (*stt != SUCCESS)
+		exit (*stt);
 	exit (SUCCESS);
 }
 
