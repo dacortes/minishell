@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 14:52:39 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/11 15:13:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,18 @@ int	main(int ac, char **av, char **env)
 	if (ac > 1)
 		exit (TRUE);
 	mini_init(&sh, &g, &ex, env);
-	while (TRUE) 
+	while (TRUE)
 	{
 		get_env(TRUE, sh->env);
 		ln = NULL;
-		prompt(&sh, &ex.inp);
-		is_null(&sh, &ln, &g, ex.inp);
+		ex.stt = prompt(&sh, &ex.inp) + is_null(&sh, &ln, &g, ex.inp);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
 		ex.env = env_to_array(sh);
-		if (!ex.pipe)
-			no_pipe(&sh, &ln, &g, &ex);
-		if (!ex.stt && ex.pipe)
-			pipes(&sh, &ln, &g, &ex);
-		get_stt(TRUE , ex.stt);
+		(!ex.pipe) && (no_pipe(&sh, &ln, &g, &ex));
+		(!ex.stt && ex.pipe) && (pipes(&sh, &ln, &g, &ex));
+		get_stt(TRUE, ex.stt);
 		ex.pipe = 0;
 		clear_pross(&ln, &g, ex);
 	}
