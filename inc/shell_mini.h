@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 14:56:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/11 15:36:30 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ typedef struct s_get
 	struct s_get	*next;
 }	t_get;
 
-typedef	struct t_pipex
+typedef struct t_pipex
 {
 	int		tmp[2];
 	int		fds[2];
@@ -176,6 +176,8 @@ typedef struct s_mini
 	t_env	*env;
 }	t_mini;
 
+/* global varible */
+int	sig;
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
