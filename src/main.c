@@ -6,31 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/05 11:32:23 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/11 15:13:19 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/shell_mini.h"
-
-int	msg_error(int e, int exit_, char *cm)
-{
-	e == E_NSF && fd_printf(2, "mini: %s: No such file or directory\n", cm);
-	e == E_MEM && fd_printf(2, "mini: error trying to allocate memory\n", cm);
-	e == E_EXP && fd_printf(2, "mini: export: `%s\': not a valid identifier\n" \
-		, cm);
-	e == E_ISD && fd_printf(2, "mini: %s: is a directory\n", cm);
-	e == E_PRM && fd_printf(2, "mini: %s: Permission denied\n", cm);
-	e == E_CNF && fd_printf(2, "mini: %s: command not found\n", cm);
-	e == EX && fd_printf(2, "mini: exit: %s: numeric argument required\n", cm);
-	e == E_ARG && fd_printf(2, "mini: %s: too many arguments\n", cm);
-	e == E_SNT && fd_printf(2, "mini: syntax error near unexpected token %s\n", \
-		cm);
-	e == E_BADINT && fd_printf(2, "mini: %s: bad interpreter: No such file"\
-		"or directory\n", cm);
-	if (e == E_PRR)
-		perror("mini");
-	return (exit_);
-}
 
 int	mini_init(t_mini **sh, t_get **g, t_exe *ex, char **env)
 {
@@ -76,29 +56,6 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
-void print_line(t_line *ln)
-{
-	t_line	*iter;
-
-	if (!ln)
-		return;
-	iter = ln;
-	while (iter)
-	{
-		show_tokens(iter);
-		iter = iter->next;
-	}
-}
-
-int get_stt(int flag, int val)
-{
-	static int	var;
-
-	if (flag == TRUE)
-		var = val;
-	return (var);	
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;
@@ -110,22 +67,18 @@ int	main(int ac, char **av, char **env)
 	if (ac > 1)
 		exit (TRUE);
 	mini_init(&sh, &g, &ex, env);
-	while (TRUE) 
+	while (TRUE)
 	{
 		get_env(TRUE, sh->env);
 		ln = NULL;
-		prompt(&sh, &ex.inp);
-		is_null(&sh, &ln, &g, ex.inp);
+		ex.stt = prompt(&sh, &ex.inp) + is_null(&sh, &ln, &g, ex.inp);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
 		ex.env = env_to_array(sh);
-		if (!ex.pipe)
-			no_pipe(&sh, &ln, &g, &ex);
-		if (!ex.stt && ex.pipe)
-			pipes(&sh, &ln, &g, &ex);
-		// 	create_childs(&sh, &ln, &g, &ex);
-		get_stt(TRUE , ex.stt);
+		(!ex.pipe) && (no_pipe(&sh, &ln, &g, &ex));
+		(!ex.stt && ex.pipe) && (pipes(&sh, &ln, &g, &ex));
+		get_stt(TRUE, ex.stt);
 		ex.pipe = 0;
 		clear_pross(&ln, &g, ex);
 	}

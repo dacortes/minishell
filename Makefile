@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/11/09 15:21:11 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/11 14:57:23 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,11 +29,12 @@ SRC = built-ins/cd.c built-ins/echo.c built-ins/env.c built-ins/execute.c\
 	built-ins/exit.c built-ins/export.c built-ins/pwd.c built-ins/unset.c\
 	built-ins/utils.c\
 	execute/clear.c execute/no_pipe.c execute/pipes.c execute/redirection.c\
+	execute/utils.c\
 	get/get_path.c get/get.c get/heredoc.c get/type_rdc.c get/utils.c\
 	get/utils2.c\
 	parse/analyze.c parse/copy.c parse/expand_tk.c parse/line.c parse/parse.c\
 	parse/token.c parse/utils.c\
-	utils.c main.c
+	utils.c utils2.c main.c
 LIBFT = ./lib/libft/
 READL = ./lib/readline/
 L_SRC = ./src
