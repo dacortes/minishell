@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/11/11 10:01:09 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/11 14:57:23 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC = built-ins/cd.c built-ins/echo.c built-ins/env.c built-ins/execute.c\
 	get/utils2.c\
 	parse/analyze.c parse/copy.c parse/expand_tk.c parse/line.c parse/parse.c\
 	parse/token.c parse/utils.c\
-	utils.c main.c
+	utils.c utils2.c main.c
 LIBFT = ./lib/libft/
 READL = ./lib/readline/
 L_SRC = ./src

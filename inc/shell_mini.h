@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 09:25:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/11 14:56:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,9 +265,7 @@ int		add_token(t_token **tk, char *arg, int *type, int *count);
 /* src/parse/utils.c */
 int		clear_ln(t_line **ln);
 int		add_line(t_line **ln, t_token *tk, char	*line);
-/* */
-int		clear(t_mini *sh);
-int		msg_error(int e, int exit_, char *cm);
+
 /* src/utils.c */
 char	*search_env(t_env *env, char *key, int type);
 char	*ft_strdup_exit(const char *s1);
@@ -275,6 +273,8 @@ char	*ft_strrep(const char *inp, size_t start, size_t end, char *rep);
 char	*ft_strndup(const char *src, size_t n);
 char	*ft_strjoin_max(char **need);
 
-/* tets expands*/
+/* src/utils2.c */
+void	print_line(t_line *ln);
 int		get_stt(int flag, int val);
+int		msg_error(int e, int exit_, char *cm);
 #endif

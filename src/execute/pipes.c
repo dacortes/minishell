@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 12:58:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/11 13:07:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ int	restore_and_waitpid(t_pipex *p, t_exe *ex)
 	while (p->i <= ex->pipe)
 	{
 		if (waitpid(p->chds[p->i], &ex->stt, 0) == p->last)
-		{
 			ex->stt = WEXITSTATUS(ex->stt);
-		}
 		p->i++;
 	}
 	free (p->chds);
