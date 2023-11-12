@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 15:22:05 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/11 18:54:26 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
+void	ft_sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+		fd_printf(1, "\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_mini	*sh;
@@ -69,9 +80,13 @@ int	main(int ac, char **av, char **env)
 	mini_init(&sh, &g, &ex, env);
 	while (TRUE)
 	{
-		get_env(TRUE, sh->env);
+		sig = 0;
+		signal(SIGINT, ft_sigint);
+		signal(SIGQUIT, SIG_IGN);
 		ln = NULL;
+		get_env(TRUE, sh->env);
 		ex.stt = prompt(&sh, &ex.inp) + is_null(&sh, &ln, &g, ex.inp);
+		signal(SIGINT, SIG_IGN);
 		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
 		(ex.stt == 0) && (ex.stt = parse(&ln));
 		(ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
