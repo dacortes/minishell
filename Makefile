@@ -6,7 +6,7 @@
 #    By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/30 11:37:38 by dacortes          #+#    #+#              #
-#    Updated: 2023/11/11 14:57:23 by dacortes         ###   ########.fr        #
+#    Updated: 2023/11/11 17:23:21 by dacortes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ READL = ./lib/readline/
 L_SRC = ./src
 L_LIB = ./lib/libft/libft.a
 L_RDL = ./lib/readline/libreadline.a
-L_HIT = 
+L_HIT = ./lib/readline/libhistory.a 
 INC		=	-I ./inc/\
 			-I ./lib/libft/\
 			-I ./lib/readline/
@@ -96,7 +96,7 @@ $(D_OBJ)/%.o:$(L_SRC)/%.c Makefile
 		echo "$(B) All done$(E)"; \
 	fi
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_RDL) $(L_HIT) -ltermcap -o $(NAME) $(INC)
+	$(CC) $(FLAGS) $(OBJ) $(L_LIB) $(L_RDL) $(L_HIT) -ltermcap -lreadline -o $(NAME) $(INC)
 	echo "\n\n✅ ==== $(B)$(ligth)Project minishell compiled!$(E) ==== ✅"
 ################################################################################
 #                               CLEAN                                          #

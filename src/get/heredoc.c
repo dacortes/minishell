@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:41:37 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/04 14:38:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/11 18:33:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,20 @@ static char	*expand_hdoc(char *inp)
 	free(a.e);
 	return (inp);
 }
-
+void	handle_siginth(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		exit(1);
+	}
+}
 static int	read_heredoc(t_token **tk, int *fd)
 {
 	char	*inp;
 
 	inp = "";
+	signal(SIGINT, handle_siginth);
 	if ((*tk)->type[3] == T_RDHD)
 	{
 		while (inp && (*tk)->next && (*tk)->next->arg)
