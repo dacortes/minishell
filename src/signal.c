@@ -6,7 +6,7 @@
 /*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:21:06 by fcespede          #+#    #+#             */
-/*   Updated: 2023/11/12 18:30:19 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:54:03 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_sigint(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		get_stt(TRUE, 1);
 	}
 }
 

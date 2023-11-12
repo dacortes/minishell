@@ -6,7 +6,7 @@
 /*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/12 18:38:54 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:54:45 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ int	main(int ac, char **av, char **env)
 	term_init();
 	while (TRUE)
 	{
-		sig = 0;
 		ln = NULL;
 		signal(SIGINT, ft_sigint);
 		signal(SIGQUIT, SIG_IGN);
+		ex.stt = get_stt(FALSE, 0);
 		init_exec(&sh, &ln, &g, &ex);
 		// get_env(TRUE, sh->env);
 		// ex.stt = prompt(&sh, &ex.inp) + is_null(&sh, &ln, &g, ex.inp);
