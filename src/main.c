@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 18:54:26 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:38:54 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,20 @@ int	prompt(t_mini **sh, char **input)
 	return (SUCCESS);
 }
 
-void	ft_sigint(int sig)
+void	init_exec(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 {
-	if (sig == SIGINT)
-	{
-		fd_printf(1, "\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
+	get_env(TRUE, (*sh)->env);
+	ex->stt = prompt(sh, &ex->inp) + is_null(sh, ln, g, ex->inp);
+	signal(SIGINT, SIG_IGN);
+	ex->stt = ft_line(ex->inp, ln, (*sh)->env, &ex->pipe);
+	(ex->stt == 0) && (ex->stt = parse(ln));
+	(ex->stt == 0) && (ex->stt = get_init(ln, g, &ex->stt));
+	ex->env = env_to_array(*sh);
+	(!ex->pipe) && (no_pipe(sh, ln, g, ex));
+	(!ex->stt && ex->pipe) && (pipes(sh, ln, g, ex));
+	get_stt(TRUE, ex->stt);
+	ex->pipe = 0;
+	clear_pross(ln, g, *ex);
 }
 
 int	main(int ac, char **av, char **env)
@@ -78,24 +83,26 @@ int	main(int ac, char **av, char **env)
 	if (ac > 1)
 		exit (TRUE);
 	mini_init(&sh, &g, &ex, env);
+	term_init();
 	while (TRUE)
 	{
 		sig = 0;
+		ln = NULL;
 		signal(SIGINT, ft_sigint);
 		signal(SIGQUIT, SIG_IGN);
-		ln = NULL;
-		get_env(TRUE, sh->env);
-		ex.stt = prompt(&sh, &ex.inp) + is_null(&sh, &ln, &g, ex.inp);
-		signal(SIGINT, SIG_IGN);
-		ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
-		(ex.stt == 0) && (ex.stt = parse(&ln));
-		(ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
-		ex.env = env_to_array(sh);
-		(!ex.pipe) && (no_pipe(&sh, &ln, &g, &ex));
-		(!ex.stt && ex.pipe) && (pipes(&sh, &ln, &g, &ex));
-		get_stt(TRUE, ex.stt);
-		ex.pipe = 0;
-		clear_pross(&ln, &g, ex);
+		init_exec(&sh, &ln, &g, &ex);
+		// get_env(TRUE, sh->env);
+		// ex.stt = prompt(&sh, &ex.inp) + is_null(&sh, &ln, &g, ex.inp);
+		// signal(SIGINT, SIG_IGN);
+		// ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
+		// (ex.stt == 0) && (ex.stt = parse(&ln));
+		// (ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
+		// ex.env = env_to_array(sh);
+		// (!ex.pipe) && (no_pipe(&sh, &ln, &g, &ex));
+		// (!ex.stt && ex.pipe) && (pipes(&sh, &ln, &g, &ex));
+		// get_stt(TRUE, ex.stt);
+		// ex.pipe = 0;
+		// clear_pross(&ln, &g, ex);
 	}
 	return (SUCCESS);
 }

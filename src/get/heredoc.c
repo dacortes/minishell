@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:41:37 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 18:33:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/12 15:23:11 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,7 @@ static char	*expand_hdoc(char *inp)
 	free(a.e);
 	return (inp);
 }
-void	handle_siginth(int sig)
-{
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		exit(1);
-	}
-}
+
 static int	read_heredoc(t_token **tk, int *fd)
 {
 	char	*inp;

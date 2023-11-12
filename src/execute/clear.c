@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:20:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/27 11:41:15 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/12 15:25:58 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	is_null(t_mini **sh, t_line **ln, t_get **g, char *inp)
 {
 	if (!inp)
 	{
+		fd_printf(2, "exit\n");
+		clear_history();
 		clear(*sh);
 		clear_get(g);
 		clear_ln(ln);

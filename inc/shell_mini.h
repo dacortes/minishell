@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 17:47:03 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:30:26 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <termios.h>
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
@@ -279,4 +280,12 @@ char	*ft_strjoin_max(char **need);
 void	print_line(t_line *ln);
 int		get_stt(int flag, int val);
 int		msg_error(int e, int exit_, char *cm);
+
+/* src/signal.c */
+
+void	term_init(void);
+void	ft_sigint(int sig);
+void	handle_siginth(int sig);
+void	handle_signaled(int *status, int signal);
+
 #endif

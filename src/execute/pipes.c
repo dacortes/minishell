@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 13:07:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:18:45 by fcespede         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ int	restore_and_waitpid(t_pipex *p, t_exe *ex)
 	while (p->i <= ex->pipe)
 	{
 		if (waitpid(p->chds[p->i], &ex->stt, 0) == p->last)
-			ex->stt = WEXITSTATUS(ex->stt);
+		{
+			if (WIFSIGNALED(ex->stt))
+				handle_signaled(&ex->stt, ex->stt);
+			else
+				ex->stt = WEXITSTATUS(ex->stt);
+		}
 		p->i++;
 	}
 	free (p->chds);
@@ -95,8 +100,9 @@ int	pipes(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 			exit (msg_error(E_PRR, 1, "fork"));
 		if (!p.chds[p.i])
 		{
-			if (p.i < ex->pipe)
-				ft_dup2(p.fds[0], p.fds[1], STDOUT_FILENO);
+			signal(SIGINT, exit);
+			signal(SIGQUIT, exit);
+			(p.i < ex->pipe) && ft_dup2(p.fds[0], p.fds[1], STDOUT_FILENO);
 			ft_execute(sh, ln, g, ex);
 		}
 		p.i++;
