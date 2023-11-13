@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/12 18:18:45 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:15:12 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
-
-/* errors */
-/*bash: unset: `1a': not a valid identifier
-cd ""
-cd ''
-echo ""''""''""''
-echo ''""""a*/
 
 int	ft_execute(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 {

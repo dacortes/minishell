@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 10:34:40 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/12 18:22:20 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:43:23 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	rdc_bin(t_get **g, t_exe *ex, int *stt)
 	{
 		ex->stt = *stt;
 		child(g, ex);
-		(ex->stt != 0) && (ex->stt = msg_error(E_BADINT, E_PRM, ex->cmd));
 	}
 	clear_cmd(ex, 1);
 	return (SUCCESS);

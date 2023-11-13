@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:40:11 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/12 18:54:45 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:16:42 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,6 @@ int	main(int ac, char **av, char **env)
 		signal(SIGQUIT, SIG_IGN);
 		ex.stt = get_stt(FALSE, 0);
 		init_exec(&sh, &ln, &g, &ex);
-		// get_env(TRUE, sh->env);
-		// ex.stt = prompt(&sh, &ex.inp) + is_null(&sh, &ln, &g, ex.inp);
-		// signal(SIGINT, SIG_IGN);
-		// ex.stt = ft_line(ex.inp, &ln, sh->env, &ex.pipe);
-		// (ex.stt == 0) && (ex.stt = parse(&ln));
-		// (ex.stt == 0) && (ex.stt = get_init(&ln, &g, &ex.stt));
-		// ex.env = env_to_array(sh);
-		// (!ex.pipe) && (no_pipe(&sh, &ln, &g, &ex));
-		// (!ex.stt && ex.pipe) && (pipes(&sh, &ln, &g, &ex));
-		// get_stt(TRUE, ex.stt);
-		// ex.pipe = 0;
-		// clear_pross(&ln, &g, ex);
 	}
 	return (SUCCESS);
 }

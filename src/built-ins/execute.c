@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/03 14:40:20 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:03:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,23 @@ int	its_not_the_others(t_mini **sh, t_line **ln, t_get **g, int n_cmd)
 int	are_the_others(t_mini **sh, t_get **g, int n_cmd)
 {
 	char	*low;
-	int		i;
+	int		stt;
 
-	i = 0;
+	stt = 0;
 	low = ft_calloc(ft_strlen((*g)->arg[0]) + 1, sizeof(char));
 	if (!low)
 		exit (msg_error(E_MEM, E_MEM, NULL));
 	if ((ft_strncmp(str_lower((*g)->arg[0], low), "pwd", -1) == 0))
 		pwd();
 	if ((ft_strncmp((*g)->arg[0], "unset", -1) == 0))
-	{
-		if (n_cmd >= 2)
-		{
-			while ((*g)->arg[i])
-				(unset(&(*sh)->size, &(*sh)->env, (*g)->arg[i++]));
-		}
-	}
+		stt = magic_unset(sh, g, n_cmd);
 	else
 	{
 		free(low);
-		return (ERROR);
+		return (SUCCESS);
 	}
 	free(low);
-	return (SUCCESS);
+	return (stt);
 }
 
 static int	ft_is(char *cmd)
@@ -106,7 +100,7 @@ int	exe_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 	if (*chk != E_SNT && *g && (*g)->arg[0] && (*g)->arg[0][0] != '\0')
 	{
 		*chk = its_not_the_others(sh, ln, g, n_cmd);
-		are_the_others(sh, g, n_cmd);
+		*chk = are_the_others(sh, g, n_cmd);
 	}
 	return (SUCCESS);
 }
