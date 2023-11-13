@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:09 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/13 11:05:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:45:15 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ int	cd(char *path, t_mini **sh)
 	replace((*sh)->env, "PWD", dir);
 	if (ft_strncmp(dir, (*sh)->dir, PATH_MAX) != 0)
 	{
+		char *find = search_env((*sh)->env, "OLDPWD", KEY);
+
+		if (find && find[0] == '\0')
+		{
+			ft_printf("estoy aqui");
+			_export(*sh, "OLDPWD=");
+		}
 		replace((*sh)->env, "OLDPWD", (*sh)->dir);
 		free((*sh)->old);
 		(*sh)->old = ft_strdup_exit((*sh)->dir);
