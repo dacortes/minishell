@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:09 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/13 09:20:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:05:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	replace(t_env *env, char *key, char *val)
 	return (FALSE);
 }
 
+/* agregar el oldpwd */
 int	cd(char *path, t_mini **sh)
 {
 	char	dir[PATH_MAX];

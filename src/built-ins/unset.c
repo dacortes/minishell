@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:04:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/13 09:09:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 10:54:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	unset(int *size, t_env **env, char *key)
 		prev = rm;
 		rm = rm->next;
 	}
-	return (TRUE);
+	return (SUCCESS);
 }
 
 int	magic_unset(t_mini **sh, t_get **g, int n_cmd)
