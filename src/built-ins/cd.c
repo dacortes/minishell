@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:09 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/13 15:15:59 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 16:06:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	cd(char *path, t_mini **sh)
 	else if (chdir(path) != 0)
 	{
 		if (access(path, R_OK | W_OK | X_OK))
-			return (msg_error(E_PRM, TRUE, path));
+			return (msg_error(E_NSF, TRUE, "cd"));
 		return (msg_error(E_NSF, E_EXIT, "cd"));
 	}
 	if (getcwd(dir, sizeof(dir)) == NULL)

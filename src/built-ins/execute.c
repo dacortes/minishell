@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 15:37:44 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/13 11:03:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:57:45 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,16 @@ int	is_built_ins(t_line **ln, t_get **g)
 int	exe_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk)
 {
 	int	n_cmd;
+	int	aux_stt;
 
+	aux_stt = 0;
 	n_cmd = ft_double_ptr_len((void **)(*g)->arg);
 	if (*chk != E_SNT && *g && (*g)->arg[0] && (*g)->arg[0][0] != '\0')
 	{
 		*chk = its_not_the_others(sh, ln, g, n_cmd);
+		(*chk == 1) && (aux_stt = 1);
 		*chk = are_the_others(sh, g, n_cmd);
+		(aux_stt) && (*chk = 1);
 	}
 	return (SUCCESS);
 }
