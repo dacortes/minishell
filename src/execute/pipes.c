@@ -6,21 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 11:42:15 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/13 09:45:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:15:12 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
-
-/*
-echo ""''""''""''
-echo ''""""a
-"" bash: : command not found
-'' bash: : command not found
-OLDPWD set cd
-error code UNset export
-error code en general!!!!!
-*/
 
 int	ft_execute(t_mini **sh, t_line **ln, t_get **g, t_exe *ex)
 {

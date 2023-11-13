@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:09 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/13 11:45:15 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:15:59 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,21 @@ int	replace(t_env *env, char *key, char *val)
 	return (FALSE);
 }
 
-/* agregar el oldpwd */
+int	act_oldpwd(t_mini **sh, char *dir)
+{
+	char	*find;
+
+	find = search_env((*sh)->env, "OLDPWD", KEY);
+	if (find && find[0] == '\0')
+		_export(*sh, "OLDPWD=");
+	replace((*sh)->env, "OLDPWD", (*sh)->dir);
+	free((*sh)->old);
+	(*sh)->old = ft_strdup_exit((*sh)->dir);
+	free((*sh)->dir);
+	(*sh)->dir = ft_strdup_exit(dir);
+	return (SUCCESS);
+}
+
 int	cd(char *path, t_mini **sh)
 {
 	char	dir[PATH_MAX];
@@ -50,20 +64,7 @@ int	cd(char *path, t_mini **sh)
 		return (msg_error(E_PRR, E_EXIT, "getcwd"));
 	replace((*sh)->env, "PWD", dir);
 	if (ft_strncmp(dir, (*sh)->dir, PATH_MAX) != 0)
-	{
-		char *find = search_env((*sh)->env, "OLDPWD", KEY);
-
-		if (find && find[0] == '\0')
-		{
-			ft_printf("estoy aqui");
-			_export(*sh, "OLDPWD=");
-		}
-		replace((*sh)->env, "OLDPWD", (*sh)->dir);
-		free((*sh)->old);
-		(*sh)->old = ft_strdup_exit((*sh)->dir);
-		free((*sh)->dir);
-		(*sh)->dir = ft_strdup_exit(dir);
-	}
+		act_oldpwd(sh, dir);
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 14:51:17 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/11 14:55:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 15:25:36 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	msg_error(int e, int exit_, char *cm)
 	e == E_ARG && fd_printf(2, "mini: %s: too many arguments\n", cm);
 	e == E_SNT && fd_printf(2, "mini: syntax error near unexpected token %s\n", \
 		cm);
-	e == E_BADINT && fd_printf(2, "mini: %s: bad interpreter: No such file"\
+	e == E_BADINT && fd_printf(2, "mini: %s: bad interpreter: No such file "\
 		"or directory\n", cm);
 	if (e == E_PRR)
 		perror("mini");
