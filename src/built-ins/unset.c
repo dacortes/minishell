@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:04:55 by dacortes          #+#    #+#             */
-/*   Updated: 2023/09/26 11:42:08 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:09:38 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	unset(int *size, t_env **env, char *key)
 	prev = NULL;
 	while (rm)
 	{
+		if (check_key(key))
+			return (msg_error(E_EXP, 1, key));
 		if (ft_strncmp(rm->key, key, ft_strlen(key)) == 0)
 		{
 			if (prev)
@@ -36,5 +38,20 @@ int	unset(int *size, t_env **env, char *key)
 		prev = rm;
 		rm = rm->next;
 	}
-	return (ERROR);
+	return (TRUE);
+}
+
+int	magic_unset(t_mini **sh, t_get **g, int n_cmd)
+{
+	int	stt;
+	int	i;
+
+	i = 0;
+	stt = 0;
+	if (n_cmd >= 2)
+	{
+		while ((*g)->arg[i])
+			(unset(&(*sh)->size, &(*sh)->env, (*g)->arg[i++])) && (stt = 1);
+	}
+	return (stt);
 }

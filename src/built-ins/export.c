@@ -6,13 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:24 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/02 11:13:22 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 08:47:46 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/shell_mini.h"
 
-static int	check_key(char *inp)
+int	check_key(char *inp)
 {
 	int	i;
 

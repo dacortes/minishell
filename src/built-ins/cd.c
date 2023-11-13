@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:05:09 by dacortes          #+#    #+#             */
-/*   Updated: 2023/10/05 16:29:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:20:29 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ int	ft_cd(t_mini **sh, t_get *g, int n_cmd)
 	int	stt;
 
 	stt = SUCCESS;
-	if (n_cmd >= 2)
+	if (n_cmd >= 2 && g->arg[1][0] != '\0')
 		stt = cd(g->arg[1], sh);
-	else
+	else if (n_cmd == 1)
 		stt = cd("", sh);
 	return (stt);
 }

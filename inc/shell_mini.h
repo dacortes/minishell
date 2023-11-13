@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_mini.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fcespede <fcespede@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:34:53 by dacortes          #+#    #+#             */
-/*   Updated: 2023/11/12 18:47:12 by fcespede         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:25:18 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,12 +197,14 @@ int		exe_built_ins(t_mini **sh, t_line **ln, t_get **g, int *chk);
 /* src/built-ins/exit.c */
 int		ft_exit(t_mini *sh, t_line **ln, t_get **g, int n_cmd);
 /* src/built-ins/export.c */
+int		check_key(char *inp);
 void	show_export(t_env *env);
 int		_export(t_mini *sh, char *inp);
 /* src/built-ins/pwd.c */
 int		pwd(void);
 /* src/built-ins/unset.c*/
 int		unset(int *size, t_env **env, char *key);
+int		magic_unset(t_mini **sh, t_get **g, int n_cmd);
 /* src/built-ins/utils.c */
 char	*str_lower(char *str, char *low);
 int		magic_export(t_mini **sh, t_get **g, t_aux a, int n_cmd);
@@ -280,7 +282,6 @@ int		get_stt(int flag, int val);
 int		msg_error(int e, int exit_, char *cm);
 
 /* src/signal.c */
-
 void	term_init(void);
 void	ft_sigint(int sig);
 void	handle_siginth(int sig);
