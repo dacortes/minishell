@@ -14,6 +14,8 @@ DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.d))
 INCLUDES = $(addprefix -I, inc)
 SOURCES = main.c
 
+LIBFT = ./lib/libft/
+
 ################################################################################
 #                               BOLD COLORS                                    #
 ################################################################################
@@ -38,10 +40,14 @@ italic = \033[3m
 #                               MAKE RULES                                     #
 ################################################################################
 
-all: dir progress
+all: libft dir progress
 
-print:
-	@echo $(DIRECTORIES_UTILS) 
+libft:
+	@if [ ! -d "./lib/libft" ]; then \
+        git clone https://github.com/tu-usuario/libft.git ./lib; \
+    else \
+        echo "$(YELLOW)$(ligth)[ Warnig ]$(END) libft: already exists and is not an empty directory."; \
+    fi
 $(NAME): $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) -o $(NAME)
 	@echo "\n✅ ==== $(BLUE)$(ligth)Project $(NAME) compiled!$(END) ==== ✅"
@@ -84,6 +90,6 @@ endef
 -include $(DEPENDENCIES)
 
 re: fclean all
-.PHONY: all clean progress fclean
+.PHONY: all clean progress fclean libft
 COMPILED_FILES=0
 .SILENT:
