@@ -1,4 +1,4 @@
-# include <minishell.h>
+# include <minish.h>
 
 int main(int argc, char **argv, char **env)
 {

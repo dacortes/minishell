@@ -11,10 +11,12 @@ DIRECTORIES_UTILS = obj
 DIRECTORI_SOURCE = src
 OBJECTS = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.o))
 DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.d))
-INCLUDES = $(addprefix -I, inc)
+INCLUDES = $(addprefix -I, inc) \
+		   $(addprefix -I, lib/libft)
 SOURCES = main.c
 
 LIBFT = ./lib/libft/
+LIB_LIBFT = $(LIBFT)libft.a
 
 ################################################################################
 #                               BOLD COLORS                                    #
@@ -42,6 +44,8 @@ italic = \033[3m
 
 all: libft dir progress
 
+print:
+	@echo $(INCLUDES)
 libft:
 	@if [ ! -d "./lib/libft" ]; then \
         git clone https://github.com/tu-usuario/libft.git ./lib; \
@@ -49,7 +53,7 @@ libft:
         echo "$(YELLOW)$(ligth)[ Warnig ]$(END) libft: already exists and is not an empty directory."; \
     fi
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LIB_LIBFT) -o $(NAME)
 	@echo "\n✅ ==== $(BLUE)$(ligth)Project $(NAME) compiled!$(END) ==== ✅"
 
 $(DIRECTORIES_UTILS)/%.o:$(DIRECTORI_SOURCE)/%.c
@@ -58,6 +62,7 @@ $(DIRECTORIES_UTILS)/%.o:$(DIRECTORI_SOURCE)/%.c
 	@$(call progress,$<)
 
 dir:
+	make -C $(LIBFT) --no-print-directory
 	-mkdir -p $(DIRECTORIES_UTILS)
 progress: $(OBJECTS) $(NAME)
 
@@ -66,11 +71,13 @@ progress: $(OBJECTS) $(NAME)
 ################################################################################
 
 clean:
+	make clean -C $(LIBFT) --no-print-directory
 	$(RMV) $(OBJECTS) $(DIRECTORIES_UTILS) $(NAME)
 	echo "✅ ==== $(PURPLE)$(ligth)$(NAME) object files cleaned!$(END) ==== ✅"
 
 fclean: clean
 	$(RMV) $(NAME)
+	make fclean -C $(LIBFT) --no-print-directory
 	echo "✅ ==== $(PURPLE)$(ligth)$(NAME) executable files and name cleaned!$(END) ==== ✅"
 
 define progress
