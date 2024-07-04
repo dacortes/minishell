@@ -47,11 +47,15 @@ all: libft dir progress
 print:
 	@echo $(INCLUDES)
 libft:
-	@if [ ! -d "./lib/libft" ]; then \
-        git clone https://github.com/tu-usuario/libft.git ./lib; \
+	@if [ ! -d "./lib/libft/.git" ]; then \
+        git clone git@github.com:dacortes/minishell.git ./lib/; \
+        git submodule update --init --recursive; \
+    elif [ -d "./lib/libft/.git" ]; then \
+        echo "$(YELLOW)$(ligth)[ Warnig ]$(END) libft: already exists and is a valid git repository."; \
     else \
         echo "$(YELLOW)$(ligth)[ Warnig ]$(END) libft: already exists and is not an empty directory."; \
     fi
+
 $(NAME): $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LIB_LIBFT) -o $(NAME)
 	@echo "\n✅ ==== $(BLUE)$(ligth)Project $(NAME) compiled!$(END) ==== ✅"
