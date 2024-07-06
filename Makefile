@@ -3,7 +3,7 @@
 ################################################################################
 
 RMV = rm -rf
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 NAME = minishell 
 TOTAL_FILES = $(words $(SOURCES))
 
@@ -13,7 +13,7 @@ OBJECTS = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.o))
 DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.d))
 INCLUDES = $(addprefix -I, inc) \
 		   $(addprefix -I, lib/libft)
-SOURCES = main.c
+SOURCES = built-ins/env.c utils/handler_list.c main.c
 
 LIBFT = ./lib/libft/
 LIB_LIBFT = $(LIBFT)libft.a
@@ -57,7 +57,7 @@ libft:
     fi
 
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LIB_LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LIB_LIBFT) -ltermcap -lreadline -o $(NAME)
 	@echo "\n✅ ==== $(BLUE)$(ligth)Project $(NAME) compiled!$(END) ==== ✅"
 
 $(DIRECTORIES_UTILS)/%.o:$(DIRECTORI_SOURCE)/%.c
@@ -68,6 +68,8 @@ $(DIRECTORIES_UTILS)/%.o:$(DIRECTORI_SOURCE)/%.c
 dir:
 	make -C $(LIBFT) --no-print-directory
 	-mkdir -p $(DIRECTORIES_UTILS)
+	-mkdir -p $(DIRECTORIES_UTILS)/built-ins
+	-mkdir -p $(DIRECTORIES_UTILS)/utils
 progress: $(OBJECTS) $(NAME)
 
 ################################################################################
