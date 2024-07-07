@@ -3,7 +3,7 @@
 ################################################################################
 
 RMV = rm -rf
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 NAME = minishell 
 TOTAL_FILES = $(words $(SOURCES))
 
@@ -13,7 +13,7 @@ OBJECTS = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.o))
 DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.d))
 INCLUDES = $(addprefix -I, inc) \
 		   $(addprefix -I, lib/libft)
-SOURCES = built-ins/env.c utils/handler_list.c main.c
+SOURCES = built-ins/env.c parsing/parsing.c utils/handler_list.c main.c
 
 LIBFT = ./lib/libft/
 LIB_LIBFT = $(LIBFT)libft.a
@@ -70,6 +70,7 @@ dir:
 	-mkdir -p $(DIRECTORIES_UTILS)
 	-mkdir -p $(DIRECTORIES_UTILS)/built-ins
 	-mkdir -p $(DIRECTORIES_UTILS)/utils
+	-mkdir -p $(DIRECTORIES_UTILS)/parsing
 progress: $(OBJECTS) $(NAME)
 
 ################################################################################

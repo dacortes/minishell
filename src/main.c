@@ -8,21 +8,25 @@ int mini_rush_plus(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	t_env *foo = init_env(env);
-	if  (!foo)
+	t_minishell	mini;
+
+	mini.env = init_env(env);
+	if  (!mini.env)
 		printf("toy aqui");
-	t_env *iter = foo;
-	int i = 1;
-	while (iter && iter->next)
+	while ("The stupid evaluator is testing")
 	{
-		ft_printf("env #[%d] ----- \n", i);
-		ft_printf("key: %d %s\n", i, iter->key);
-		// ft_printf("value: %s\n", i, iter->value);
-		// ft_printf("eql: %c\n", i, iter->eql);
-		iter = iter->next;
-		i++;
+		mini.get_line.read_line = readline("patata: ");
+		if  (parsing(&mini) == 1)
+			ft_printf("Error: line\n");
+		if (mini.get_line.read_line )
+			free(mini.get_line.read_line );
+		if (mini.get_line.read_line[0] == '\0')
+		{
+			free(mini.get_line.read_line);
+			break ; 
+		}
 	}
-	
+	clear_env(&mini.env);
 	return (EXIT_SUCCESS);
 }
 

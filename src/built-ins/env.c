@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/06 19:32:51 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/07 11:58:55 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,21 @@ static t_env	*init_basic_env(void)
 	return (result);
 }
 
+
+int	clear_env(t_env **env)
+{
+	t_env	*clear;
+
+	while (*env)
+	{
+		clear = *env;
+		*env = (*env)->next;
+		ft_free(&clear->key, &clear->value);
+		free(clear);
+	}
+	return (EXIT_SUCCESS);
+}
+
 t_env	*init_env(char **env)
 {
 	t_env	*result;
@@ -56,21 +71,16 @@ t_env	*init_env(char **env)
 		if (pos ==  -1)
 		{
 			new->key = ft_cutdel(env[i], 0, '\0', &tmp); //PROTEGER
-			ft_printf("------------> %s\n", new->key);
-			new->value = ft_strdup(""); //PROTEGER TMB
+			new->value = ft_cutdel(env[i], ft_strchrpos(env[i], '='), '\0', &tmp);
 			new->eql = FALSE;
 		}
 		else
 		{
-			// new->key = ft_cutdel(env[i], 0, '=', &tmp); //PROTEGER ESTO TMB
-			new->key = ft_strdup(env[i]);
-			ft_printf("+++++++++++++> %s\n", new->key);
-			// new->value = ft_cutdel(env[i], ft_strchrpos(env[i], '='), '\0', &tmp); //NO SE TE OLVIDE PROTEGER ESTA
-			// ft_printf("+++++++++++++> %s\n", new->value);
+			new->key = ft_cutdel(env[i], 0, '=', &tmp); //PROTEGER ESTO TMB
+			new->value = ft_cutdel(env[i], ft_strchrpos(env[i], '=') + 1, '\0', &tmp); //NO SE TE OLVIDE PROTEGER ESTA
 			new->eql = TRUE;
 		}
 		add_back((void **)&result, new, sizeof(t_env));
 	}
-	ft_printf("lllllllllllllllol   %p\n", result);
 	return (result);
 }
