@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/07 18:25:24 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:32:02 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	basic_checker(char *line, int end)
 			}
 			if (count[0] != 0)
 				return(EXIT_FAILURE);
-			if (analyse_line(&line[i], count[1]))
+			if (basic_checker(&line[i], count[1]))
 				return (EXIT_FAILURE);
 			i = tmp;
 		}
@@ -126,7 +126,16 @@ int pre_token(char *line, int end)
 			int count[2] = {1, -2};
 			i++;
 			tmp = i;
-			new->type = ;
+
+
+			int iter = i;
+			// while (line[iter] && (line[iter] == '&' || line[iter] == '|' || line[iter] == '<' || line[iter] == '>'))
+			// 	iter++;
+			while (line[iter] && ft_strchr("&|<>", line[iter]))
+				iter++;
+			printf("%s\n", &line[ft_strchrpos(&line[iter], '(') + 1]);//logica de buscar el siguiente meta caracter
+			// new->content = ft_cutdel(line, iter, , &i);
+			printf("%s\n", new->content);
 			while (line[tmp] && tmp <= end)
 			{
 				if (line[tmp] == '(')
@@ -142,7 +151,7 @@ int pre_token(char *line, int end)
 			}
 			if (count[0] != 0)
 				return(EXIT_FAILURE);
-			if (analyse_line(&line[i], count[1]))
+			if (pre_token(&line[i], count[1]))
 				return (EXIT_FAILURE);
 			i = tmp;
 		}
