@@ -6,68 +6,64 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/07 19:32:02 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/08 17:56:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <minishell.h>
+#include <stdarg.h>
 
-int recursive_check(t_minishell *mini, char *line, int *iter, int *count)
-{
-	if (line[*iter] == '(')
-	{
-		int	pos = *iter;
-		int	check = 0;
-		while (line[pos] && line[pos] == '(')
-		{
-			if  (check >= 1)
-				return (EXIT_FAILURE);
-			pos++;
-			check++;
-		}
-		(*iter)++;
-		while (line[*iter] && line[*iter] != '(' && line[*iter] != ')')//guardar el  str
-			(*iter)++;
-		(*count)++;
-		recursive_check(mini, line, iter, count);
-	}
-	else if(line[*iter] == ')')
-	{
-		(*iter)++;
-		while (line[*iter] && line[*iter] != '(' && line[*iter] != ')')
-			(*iter)++;
-		(*count)--;
-		recursive_check(mini, line, iter, count);
-	}
-	if (*count != 0)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
+// int	metacharacters(t_token **token, char *line, int del, int *pos)
+// {
+// 	if (line[*pos] == del)
+// 	{
+// 		++(*pos);
+// 		while (!token && line[*pos] && line[*pos] != del)
+// 			++(*pos);
+		
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
 
 int	basic_checker(char *line, int end)
 {
-	int i = -1;
+	int i = 0;
 	int	tmp = 0;
 
-	while (line[++i] && i <= end)
+	if (!line[0])
+		return (EXIT_SUCCESS);
+	while (line[i] && i <= end)
 	{
-		/* "=34 '=39 */
-		if (line[i] == 34)
+		while(line[i] == ' ')
+			i++;
+		if (line[i] == DOUBLE_QUOTES)
 		{
-			while (line[++i] != '\0' && line[i] != 34 && i <= end)
-				;
-			if (line[i] == '\0')
+			i++;
+			while (line[i] && line[i] != 34 && i <= end)
+				i++;
+			if (line[i] != 34)
+				return (EXIT_FAILURE);
+			i++;
+			if (basic_checker(&line[i], end - i))
 				return (EXIT_FAILURE);
 		}
-		else if (line[i] == 39)
+		else if (line[i] == 39) /* 39 == '*/
 		{
-			while (line[++i] != '\0' && line[i] != 39 && i <= end)
-				;
-			if (line[i] == '\0')
+			i++;
+			while (line[i] && line[i] != 39 && i <= end)
+				i++;
+			if (line[i] != 39)
 				return (EXIT_FAILURE);
+			i++;
+			if (basic_checker(&line[i], end - i))
+			{
+				printf("40\n");
+				return (EXIT_FAILURE);
+			}
 		}
 		else if (line[i] == '(' || line[i] == ')')
 		{
+			
 			if  (line[i] == ')')
 				return (EXIT_FAILURE);
 			int count[2] = {1, -2};
@@ -93,73 +89,16 @@ int	basic_checker(char *line, int end)
 				return (EXIT_FAILURE);
 			i = tmp;
 		}
-		else if (line[i] == ' ')
+		else
 			i++;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int pre_token(char *line, int end)
-{
-	int i = -1;
-	int	tmp = 0;
-	t_token	*token;
-	t_token	*new;
-
-	token = NULL;
-	while (line[++i] && i <= end)
-	{
-		new = ft_calloc(sizeof(t_token), 1);
-		/* "=34 '=39 */
-		if (line[i] == 34)
-		{
-			while (line[++i] != '\0' && line[i] != 34 && i <= end)
-				;
-		}
-		else if (line[i] == 39)
-		{
-			while (line[++i] != '\0' && line[i] != 39 && i <= end)
-				;
-		}
-		else if (line[i] == '(' || line[i] == ')')
-		{
-			int count[2] = {1, -2};
-			i++;
-			tmp = i;
-
-
-			int iter = i;
-			// while (line[iter] && (line[iter] == '&' || line[iter] == '|' || line[iter] == '<' || line[iter] == '>'))
-			// 	iter++;
-			while (line[iter] && ft_strchr("&|<>", line[iter]))
-				iter++;
-			printf("%s\n", &line[ft_strchrpos(&line[iter], '(') + 1]);//logica de buscar el siguiente meta caracter
-			// new->content = ft_cutdel(line, iter, , &i);
-			printf("%s\n", new->content);
-			while (line[tmp] && tmp <= end)
-			{
-				if (line[tmp] == '(')
-					count[0]++;
-				else if (line[tmp] == ')')
-
-					count[0]--;
-				if(count[0] == 0 && count[1] == -1)
-				{
-					count[1] =  end - tmp - 1;
-				}
-				tmp++;
-			}
-			if (count[0] != 0)
-				return(EXIT_FAILURE);
-			if (pre_token(&line[i], count[1]))
-				return (EXIT_FAILURE);
-			i = tmp;
-		}
-		else if (line[i] == ' ')
-			i++;
-	}
-	return (EXIT_SUCCESS);
-}
+// int pre_token(t_token **token, char *line, int end)
+// {
+// 	return (EXIT_SUCCESS);
+// }
 
 int parsing(t_minishell *mini)
 {
@@ -170,7 +109,7 @@ int parsing(t_minishell *mini)
 	len = ft_strlen(line);
 	if (basic_checker(line, ft_strlen(line)))
 		return (EXIT_FAILURE);
-	if (pre_token(line, len))
-		return (EXIT_FAILURE);
+	// if (pre_token(line, len))
+	// 	return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

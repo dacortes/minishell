@@ -17,7 +17,9 @@ int mini_rush_plus(int argc, char **argv, char **env)
 	{
 		mini.get_line.read_line = readline("patata: ");
 		if  (parsing(&mini) == 1)
+		{
 			ft_printf("Error: line\n");
+		}
 		if (mini.get_line.read_line )
 			free(mini.get_line.read_line );
 		if (mini.get_line.read_line[0] == '\0')
