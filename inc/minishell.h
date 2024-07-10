@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/10 16:48:30 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:01:46 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,19 @@
 # define FALSE  0
 # define ERROR  -1
 
+/* error messages */
+# define MINI "\033[1;31mmini rush plus\033[m"
+
 typedef struct s_command_lines t_command_lines;
 typedef struct s_minishell t_minishell;
 typedef struct s_get_line t_get_line;
 typedef struct s_token t_token;
 typedef struct s_env t_env;
+
+enum error_code
+{
+    SYNTAX,
+};
 
 enum tokens_types
 {
@@ -114,11 +122,12 @@ struct s_minishell
 /* built-ins/env.c */
 t_env	*init_env(char **env);
 int		clear_env(t_env **env);
-/* utils/handler.list.c */
-void	add_back(void **list, void *new, size_t size);
 /* utils/clear_list.c */
 int     clear_token(t_token **token);
-
+/* utils/handler.list.c */
+void	add_back(void **list, void *new, size_t size);
+/* utils/printf_list.c */
+int	printf_token(t_token *token);
 /*  parsing/parsing.c */
 int		parsing(t_minishell *mini);
 #endif

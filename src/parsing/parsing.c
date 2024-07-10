@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/10 16:53:22 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:53:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	init_token(t_token **token, char *content, int del)
 	new->type = del;
 	new->next = NULL;
 	add_back((void **)token, new, sizeof(t_token));
-	// add_back_token(token, new);
 	return (EXIT_SUCCESS);
 }
 
@@ -106,13 +105,6 @@ int parsing(t_minishell *mini)
 	len = ft_strlen(line);
 	if (basic_checker(&mini->token, line, ft_strlen(line)))
 		return (EXIT_FAILURE);
-	t_token *iter = mini->token;
-	if (!iter)
-		printf("holi\n");
-	while (iter)
-	{
-		printf("content *%s*\n", iter->content);
-		iter = iter->next;
-	}
+	printf_token(mini->token);
 	return (EXIT_SUCCESS);
 }
