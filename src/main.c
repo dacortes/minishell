@@ -20,15 +20,21 @@ int mini_rush_plus(int argc, char **argv, char **env)
 		{
 			ft_printf("Error: line\n");
 		}
-		if (mini.get_line.read_line )
-			free(mini.get_line.read_line );
-		if (mini.get_line.read_line[0] == '\0')
+		if (mini.get_line.read_line)
 		{
+			clear_token(&mini.token);
+			free(mini.get_line.read_line );
+			mini.get_line.read_line = NULL;
+		}
+		if (mini.get_line.read_line && mini.get_line.read_line[0] == '\0')
+		{
+			clear_token(&mini.token);
 			free(mini.get_line.read_line);
 			break ; 
 		}
 	}
 	clear_env(&mini.env);
+	clear_token(&mini.token);
 	return (EXIT_SUCCESS);
 }
 
