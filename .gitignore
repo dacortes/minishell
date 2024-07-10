@@ -9,5 +9,4 @@
 *.sh
 obj
 minishell
-minishell.*
 config.status
