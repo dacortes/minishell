@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:51:07 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/06 18:41:05 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:05:12 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@ void	*get_last(void *list, size_t size)
     }
 	if (size == sizeof(t_token))
 	{
-        list = (t_token *)list;
-        while (((t_token *)list)->next)
-            list = ((t_token *)list)->next;
+		list = (t_token *)list;
+        while ((t_token *)list && ((t_token *)list)->next)
+		{
+			if (((t_token *)list)->next)
+            	list = ((t_token *)list)->next;
+		}
+		return (list);
     }
 	return (list);
 }
