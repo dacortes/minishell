@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/10 17:53:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:14:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ int	init_token(t_token **token, char *content, int del)
 	return (EXIT_SUCCESS);
 }
 
-int	metacharacters(t_token **token, char *line, int del, int *pos)
+int	metacharacters(t_token **token, char *line, char *del, int *pos)
 {
-	int	end;
+	int		end;
 	
 	if (line[*pos])
 		(*pos)++;
-	end = ft_strchrpos(&line[*pos], del);
+	end = ft_strchrpos(&line[*pos], del[0]);
 	if (end == ERROR)
-		return (EXIT_FAILURE);
-	init_token(token, ft_strndup(&line[*pos], end), del);
+		return (error_msg(SYNTAX, 2, del));
+	init_token(token, ft_strndup(&line[*pos], end), del[0]);
 	(*pos) += end;
-	if (line[*pos] == del)
+	if (line[*pos] == del[0])
 		++(*pos);
 	return (EXIT_SUCCESS);
 }
@@ -61,7 +61,7 @@ int	basic_checker(t_token **token, char *line, int end)
 			i++;
 		if (line[i] == DOUBLE_QUOTES || line[i] == SIMP_QUOTES)
 		{
-			if (metacharacters(token, line, line[i], &i))
+			if (metacharacters(token, line, &line[i], &i))
 				return (EXIT_FAILURE);
 		}
 		else if (line[i] == '(' || line[i] == ')')
@@ -103,7 +103,7 @@ int parsing(t_minishell *mini)
 	if (!line)
 		exit (EXIT_SUCCESS);
 	len = ft_strlen(line);
-	if (basic_checker(&mini->token, line, ft_strlen(line)))
+	if (basic_checker(&mini->token, line, len))
 		return (EXIT_FAILURE);
 	printf_token(mini->token);
 	return (EXIT_SUCCESS);
