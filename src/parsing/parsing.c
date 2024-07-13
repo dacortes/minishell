@@ -3,16 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/11 13:14:04 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/13 13:07:27 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	init_token(t_token **token, char *content, int del)
+int	set_space(char *str)
+{
+	int	i;
+	int	space;
+
+	i = 1;
+	space = 0;
+	if (!str || !str[0])
+		return (space);
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+	{
+		--i;
+		++space;
+	}
+	return (space);
+}
+
+int	init_token(t_token **token, char *content, int del, int space)
 {
 	t_token	*new;
 
@@ -26,6 +43,7 @@ int	init_token(t_token **token, char *content, int del)
 	new->is_quote += (del == DOUBLE_QUOTES) * DOUBLE_QUOTES;
 	/* arreglar el type */
 	new->type = del;
+	new->has_space = space;
 	new->next = NULL;
 	add_back((void **)token, new, sizeof(t_token));
 	return (EXIT_SUCCESS);
@@ -34,13 +52,17 @@ int	init_token(t_token **token, char *content, int del)
 int	metacharacters(t_token **token, char *line, char *del, int *pos)
 {
 	int		end;
-	
+	int		space;
+
+	space = 0;
 	if (line[*pos])
 		(*pos)++;
 	end = ft_strchrpos(&line[*pos], del[0]);
 	if (end == ERROR)
 		return (error_msg(SYNTAX, 2, del));
-	init_token(token, ft_strndup(&line[*pos], end), del[0]);
+	if (*pos >= 2 && line[(*pos) - 2])
+		space = set_space(&line[(*pos) - 2]);
+	init_token(token, ft_strndup(&line[*pos], end), del[0], space);
 	(*pos) += end;
 	if (line[*pos] == del[0])
 		++(*pos);
@@ -61,6 +83,7 @@ int	basic_checker(t_token **token, char *line, int end)
 			i++;
 		if (line[i] == DOUBLE_QUOTES || line[i] == SIMP_QUOTES)
 		{
+			ft_printf("--------->%d\n", i);
 			if (metacharacters(token, line, &line[i], &i))
 				return (EXIT_FAILURE);
 		}

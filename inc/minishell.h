@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/11 13:08:06 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/13 12:07:01 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,10 @@ struct s_command_lines
 
 struct s_token
 {
-    short type;
-	short is_quote;
-    char *content;
+    short   type;
+	short   is_quote;
+    char    *content;
+    int     has_space;
     t_token *next;
 };
 

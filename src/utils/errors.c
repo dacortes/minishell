@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:55:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/11 13:39:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/13 12:19:42 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 char	*error_normalization(char *input)
 {
+	char *result;
+
+	result = input;
 	if (!input)
 		return (NULL);
 	if ((input[0] == DOUBLE_QUOTES) || (input[0] == SIMP_QUOTES))
-		return (input);
-	if ((input[0] == 40))
-		input[0] = 41;
-	return (input);
+		return (result);
+	if (input[0] == '(')
+		result = ")\0";
+	return (result);
 }
 
 int	error_msg(int error, int code_exit, char *input)
