@@ -16,10 +16,7 @@ int mini_rush_plus(int argc, char **argv, char **env)
 	while ("The stupid evaluator is testing")
 	{
 		mini.get_line.read_line = readline("patata: ");
-		if  (parsing(&mini) == 1)
-		{
-			ft_printf("Error: line\n");
-		}
+		mini.status = parsing(&mini);
 		if (mini.get_line.read_line)
 		{
 			clear_token(&mini.token);
@@ -32,6 +29,7 @@ int mini_rush_plus(int argc, char **argv, char **env)
 			free(mini.get_line.read_line);
 			break ; 
 		}
+		ft_printf("%sstatus:%s %d\n", BLUE, END, mini.status);
 	}
 	clear_env(&mini.env);
 	clear_token(&mini.token);

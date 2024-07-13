@@ -6,28 +6,35 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/13 13:07:27 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:21:34 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	set_space(char *str)
+int	set_space(char *line, int *pos, char *del)
 {
 	int	i;
 	int	space;
 
-	i = 1;
+	i = *pos;
 	space = 0;
-	if (!str || !str[0])
+	if (!line || !line[0])
 		return (space);
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+	if (*pos >= 1)
 	{
-		--i;
-		++space;
+		i -= (del[0] == ' ') * 1;
+		i -= (del[0] != ' ') * 2;
+		while (i >= 0 && line[i] && (line[i] == ' ' || line[i] == '\t'))
+		{
+			--i;
+			++space;
+		}
 	}
 	return (space);
 }
+
+
 
 int	init_token(t_token **token, char *content, int del, int space)
 {
@@ -55,16 +62,17 @@ int	metacharacters(t_token **token, char *line, char *del, int *pos)
 	int		space;
 
 	space = 0;
-	if (line[*pos])
+	if (line[*pos] && del[0] != ' ')
 		(*pos)++;
 	end = ft_strchrpos(&line[*pos], del[0]);
-	if (end == ERROR)
+	if (end == ERROR && del[0] != ' ')
 		return (error_msg(SYNTAX, 2, del));
-	if (*pos >= 2 && line[(*pos) - 2])
-		space = set_space(&line[(*pos) - 2]);
+	space = set_space(line, pos, del);
+	if (end == ERROR)
+		end = ft_strlen(&line[*pos]);
 	init_token(token, ft_strndup(&line[*pos], end), del[0], space);
 	(*pos) += end;
-	if (line[*pos] == del[0])
+	if (del[0] != ' ' && line[*pos] == del[0])
 		++(*pos);
 	return (EXIT_SUCCESS);
 }
@@ -73,6 +81,7 @@ int	basic_checker(t_token **token, char *line, int end)
 {
 	int i = 0;
 	int	tmp = 0;
+	int	status = 0;
 
 	*token = NULL;
 	if (!end || !line[0])
@@ -83,9 +92,9 @@ int	basic_checker(t_token **token, char *line, int end)
 			i++;
 		if (line[i] == DOUBLE_QUOTES || line[i] == SIMP_QUOTES)
 		{
-			ft_printf("--------->%d\n", i);
-			if (metacharacters(token, line, &line[i], &i))
-				return (EXIT_FAILURE);
+			status = metacharacters(token, line, &line[i], &i);
+			if (status)
+				return (status);
 		}
 		else if (line[i] == '(' || line[i] == ')')
 		{
@@ -112,7 +121,11 @@ int	basic_checker(t_token **token, char *line, int end)
 			i = tmp;
 		}
 		else
-			i++;
+		{
+			status = metacharacters(token, line, " ", &i);
+			if (status)
+				return (status);
+		}
 	}
 	return (EXIT_SUCCESS);
 }
