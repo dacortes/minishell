@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/13 12:07:01 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/14 09:31:48 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 /* error messages */
 # define MINI "\033[1;31mmini rush plus: \033[m"
 # define ERR_SYNTAX "syntax error near unexpected token"
+
 typedef struct s_command_lines t_command_lines;
 typedef struct s_minishell t_minishell;
 typedef struct s_get_line t_get_line;
@@ -59,7 +60,7 @@ typedef struct s_env t_env;
 
 enum error_code
 {
-    SYNTAX,
+    SYNTAX=1,
 };
 
 enum tokens_types

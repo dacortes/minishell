@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/13 12:25:56 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/14 09:29:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	printf_token(t_token *token)
 			quote = "\033[1;34mtrue\033[m";
 		}
 		ft_printf("%s Is quote:%s %s\n", TUR, END, quote);
-		ft_printf("%s has space:%s %d\n", TUR, END, iter->has_space);
-		/* imprimir el type normalizado */
+		ft_printf("%s Has space:%s %d\n", TUR, END, iter->has_space);
+		ft_printf("%s Type:%s %c\n", TUR, END, iter->type);
 		iter = iter->next;
 	}
 	ft_printf("");

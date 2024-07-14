@@ -16,7 +16,7 @@ int mini_rush_plus(int argc, char **argv, char **env)
 	while ("The stupid evaluator is testing")
 	{
 		mini.get_line.read_line = readline("patata: ");
-		mini.status = parsing(&mini);
+		parsing(&mini);
 		if (mini.get_line.read_line)
 		{
 			clear_token(&mini.token);
