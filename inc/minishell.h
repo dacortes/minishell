@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/14 09:31:48 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/14 10:28:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 
 /* error messages */
 # define MINI "\033[1;31mmini rush plus: \033[m"
+# define ERR_MALLOC "error trying to allocate memory"
 # define ERR_SYNTAX "syntax error near unexpected token"
 
 typedef struct s_command_lines t_command_lines;
@@ -60,7 +61,8 @@ typedef struct s_env t_env;
 
 enum error_code
 {
-    SYNTAX=1,
+    MALLOC=1,
+    SYNTAX,
 };
 
 enum tokens_types
@@ -110,6 +112,7 @@ struct s_env // array to array char **
 struct s_minishell
 {
 	int				status;
+    int             num_pipes;
 	t_get_line		get_line;
 	t_env			*env;
     t_token         *token;

@@ -6,11 +6,11 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/14 09:29:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/14 10:37:42 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <minishell.h>
+#include <minishell.h>
 
 int	printf_token(t_token *token)
 {
@@ -18,10 +18,10 @@ int	printf_token(t_token *token)
 	char	*quote;
 
 	iter = token;
-	quote = "\033[1;34mfalse\033[m";
 	ft_printf("%sPrint Tokens%s\n", ORANGE, END);
 	while (iter)
 	{
+		quote = "\033[1;34mfalse\033[m";
 		ft_printf("%sContent: *%s%s%s*%s\n", TUR, END, iter->content, TUR, END);
 		if (iter->is_quote == SIMP_QUOTES || iter->is_quote == DOUBLE_QUOTES)
 		{
@@ -33,6 +33,5 @@ int	printf_token(t_token *token)
 		ft_printf("%s Type:%s %c\n", TUR, END, iter->type);
 		iter = iter->next;
 	}
-	ft_printf("");
 	return (EXIT_SUCCESS);
 }

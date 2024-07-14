@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:55:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/14 09:28:10 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/14 10:28:32 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*error_normalization(char *input)
 
 int	error_msg(int error, int code_exit, char *input)
 {
+	error & MALLOC && fd_printf(2, "%s%s `%s'\n", MINI, ERR_MALLOC, input);
 	error & SYNTAX && fd_printf(2, "%s%s `%s'\n", MINI, ERR_SYNTAX, input);
 	return (code_exit);
 }

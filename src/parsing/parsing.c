@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/14 09:21:23 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/14 10:35:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,17 @@ int	set_space(char *line, int *pos, char *del)
 	return (space);
 }
 
-
-
 int	init_token(t_token **token, char *content, int del, int space)
 {
 	t_token	*new;
 
 	new = ft_calloc(sizeof(t_token), 1);
 	if (!new)
-		exit (EXIT_FAILURE);
+		exit (error_msg(MALLOC, 1, "valiable: new"));
 	new->content = content;
 	if (!new->content)
 		exit (EXIT_FAILURE);
+	new->is_quote = 0;
 	new->is_quote += (del == SIMP_QUOTES) * SIMP_QUOTES;
 	new->is_quote += (del == DOUBLE_QUOTES) * DOUBLE_QUOTES;
 	/* arreglar el type */
@@ -130,6 +129,19 @@ int	basic_checker(t_token **token, char *line, int end)
 	return (EXIT_SUCCESS);
 }
 
+int	check_tokens(t_token **token)
+{
+	t_token	*iter;
+
+	iter = *token;
+	while (iter)
+	{
+		if (iter->content)
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int parsing(t_minishell *mini)
 {
 	char	*line;
@@ -142,6 +154,7 @@ int parsing(t_minishell *mini)
 	mini->status = basic_checker(&mini->token, line, len);
 	if (mini->status)
 		return (mini->status);
+	mini->status = check_tokens(&mini->token);
 	printf_token(mini->token);
 	return (EXIT_SUCCESS);
 }
