@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/14 10:35:54 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:40:46 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,31 @@ int	set_space(char *line, int *pos, char *del)
 	return (space);
 }
 
-int	init_token(t_token **token, char *content, int del, int space)
+short	get_type(char *flag, char *content)
+{
+	if (ft_strlen(flag) == 3 && flag[0] != SIMP_QUOTES)
+	{
+		if (ft_strlen(content) == 1 && content[0] == '|')
+			return (PIPE);
+		else if (ft_strlen(content) == 1 && content[0] == '<')
+			return (R_IN);
+		else if (ft_strlen(content) == 1 && content[0] == '>')
+			return (R_OUT);
+		else if (ft_strlen(content) == 2 && !ft_strncmp("<<", content, 2))
+			return (R_HER);
+		else if (ft_strlen(content) == 2 && !ft_strncmp(">>", content, 2))
+			return (R_APP);
+		else if (ft_strlen(content) == 2 && !ft_strncmp("||", content, 2))
+			return (OR);
+		else if (ft_strlen(content) == 2 && !ft_strncmp("&&", content, 2))
+			return(AND);
+		else
+			return (EXPAN);
+	}
+	return (ARG);
+}
+
+int	init_token(t_token **token, char *content, char *del, int space)
 {
 	t_token	*new;
 
@@ -45,10 +69,9 @@ int	init_token(t_token **token, char *content, int del, int space)
 	if (!new->content)
 		exit (EXIT_FAILURE);
 	new->is_quote = 0;
-	new->is_quote += (del == SIMP_QUOTES) * SIMP_QUOTES;
-	new->is_quote += (del == DOUBLE_QUOTES) * DOUBLE_QUOTES;
-	/* arreglar el type */
-	new->type = del;
+	new->is_quote += (del[0] == SIMP_QUOTES) * SIMP_QUOTES;
+	new->is_quote += (del[0] == DOUBLE_QUOTES) * DOUBLE_QUOTES;
+	new->type = get_type(del, new->content);
 	new->has_space = space;
 	new->next = NULL;
 	add_back((void **)token, new, sizeof(t_token));
@@ -69,7 +92,7 @@ int	metacharacters(t_token **token, char *line, char *del, int *pos)
 	space = set_space(line, pos, del);
 	if (end == ERROR)
 		end = ft_strlen(&line[*pos]);
-	init_token(token, ft_strndup(&line[*pos], end), del[0], space);
+	init_token(token, ft_strndup(&line[*pos], end), del, space);
 	(*pos) += end;
 	if (del[0] != ' ' && line[*pos] == del[0])
 		++(*pos);
@@ -92,6 +115,18 @@ int	basic_checker(t_token **token, char *line, int end)
 		if (line[i] == DOUBLE_QUOTES || line[i] == SIMP_QUOTES)
 		{
 			status = metacharacters(token, line, &line[i], &i);
+			if (status)
+				return (status);
+		}
+		else if (line[i] == '&' || line[i] == '|')
+		{
+			status =  metacharacters(token, line, " &|", &i);
+			if (status)
+				return (status);
+		}
+		else if (line[i] == '<' || line[i] == '>')
+		{
+			status =  metacharacters(token, line, " <>", &i);
 			if (status)
 				return (status);
 		}
@@ -119,7 +154,7 @@ int	basic_checker(t_token **token, char *line, int end)
 				return (2);
 			i = tmp;
 		}
-		else
+		else if (line[i])
 		{
 			status = metacharacters(token, line, " ", &i);
 			if (status)
@@ -136,7 +171,10 @@ int	check_tokens(t_token **token)
 	iter = *token;
 	while (iter)
 	{
-		if (iter->content)
+		if (iter->content && ft_strlen(iter->content) == 2)
+		{
+			ft_printf("soy una patata: %s\n", iter->content);
+		}
 		iter = iter->next;
 	}
 	return (EXIT_SUCCESS);
@@ -154,7 +192,7 @@ int parsing(t_minishell *mini)
 	mini->status = basic_checker(&mini->token, line, len);
 	if (mini->status)
 		return (mini->status);
-	mini->status = check_tokens(&mini->token);
+	// mini->status = check_tokens(&mini->token);
 	printf_token(mini->token);
 	return (EXIT_SUCCESS);
 }
