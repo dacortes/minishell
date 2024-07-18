@@ -14,7 +14,7 @@ DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.d))
 INCLUDES = $(addprefix -I, inc) \
 		   $(addprefix -I, lib/libft)
 SOURCES = built-ins/env.c \
-		  parsing/parsing.c \
+		  parsing/add_token_type.c parsing/utils.c parsing/parsing.c \
 		  utils/clear_list.c utils/errors.c utils/handler_list.c\
 		  utils/printf_list.c\
 		  main.c

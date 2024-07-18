@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/16 14:30:45 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:32:04 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,23 @@ enum tokens_types
 
 struct s_get_line
 {
-    char *read_line;
-    char **split_line;
+    char	*read_line;
+    char	**split_line;
 };
 
 struct s_command_lines
 {
-    short    pre;
-    char    *line;
-    t_token *token;
+    short	pre;
+    char	*line;
+    t_token	*token;
 };
 
 struct s_token
 {
-    short   type;
-	short   is_quote;
-    char    *content;
-    int     has_space;
+    short	type;
+	short	is_quote;
+    char	*content;
+    int		has_space;
     t_token *next;
 };
 
@@ -106,16 +106,16 @@ struct s_env // array to array char **
 	char	*key;
 	char	*value;
 	short	eql;
-    t_env *next;
+    t_env	*next;
 };
 
 struct s_minishell
 {
 	int				status;
-    int             num_pipes;
+    int				num_pipes;
 	t_get_line		get_line;
 	t_env			*env;
-    t_token         *token;
+    t_token			*token;
 	t_command_lines	*cmd_lines;
 };
 
@@ -125,20 +125,31 @@ struct s_minishell
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
-/* built-ins/env.c */
+/*	built-ins/env.c				*/
 t_env	*init_env(char **env);
 int		clear_env(t_env **env);
-/* utils/clear_list.c */
-int     clear_token(t_token **token);
+/*	utils/clear_list.c			*/
+int		clear_token(t_token **token);
 
-/* utils/errors.c */
+/*	utils/errors.c				*/
 char	*error_normalization(char *input);
 int	    error_msg(int error, int code_exit, char *input);
 
-/* utils/handler.list.c */
+/*	utils/handler.list.c		*/
 void	add_back(void **list, void *new, size_t size);
-/* utils/printf_list.c */
-int	    printf_token(t_token *token);
-/*  parsing/parsing.c */
+/*	utils/printf_list.c			*/
+int		printf_token(t_token *token);
+
+/*	parsing/add_token_type.c	*/
+int	init_token(t_token **token, char *content, char *del, int space);
+int	metacharacters(t_token **token, char *line, char *del, int *pos);
+int	not_metacharacters(t_token **token, char *line, char *del, int *pos);
+/*	parsing/parsing.c			*/
 int		parsing(t_minishell *mini);
+/*	parsing/utils.c				*/
+int		is_metacharacters(char c);
+short	get_type(char *flag, char *content);
+int		set_space(char *line, int *pos, char *del);
+int		get_end_not_metacharacters(char *str);
+int		get_end_token(char *str, char *del, int *pos, int size_del);
 #endif
