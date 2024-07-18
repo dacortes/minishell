@@ -6,15 +6,15 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:55:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/14 10:28:32 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:11:21 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <minishell.h>
+#include <minishell.h>
 
 char	*error_normalization(char *input)
 {
-	char *result;
+	char	*result;
 
 	result = input;
 	if (!input)
@@ -32,4 +32,3 @@ int	error_msg(int error, int code_exit, char *input)
 	error & SYNTAX && fd_printf(2, "%s%s `%s'\n", MINI, ERR_SYNTAX, input);
 	return (code_exit);
 }
-

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/18 14:32:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:24:36 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,12 @@ struct s_env // array to array char **
 
 struct s_minishell
 {
-	int				status;
-    int				num_pipes;
-	t_get_line		get_line;
-	t_env			*env;
-    t_token			*token;
-	t_command_lines	*cmd_lines;
+	int				status;//se usa
+    int				num_pipes;//-------
+	t_get_line		get_line;//se usa
+	t_env			*env;//se usa
+    t_token			*token;//se usa
+	t_command_lines	*cmd_lines;//-------
 };
 
 

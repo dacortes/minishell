@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/18 14:32:17 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:47:53 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	init_token(t_token **token, char *content, char *del, int space)
 {
 	t_token	*new;
 
+	if (!content)
+		exit (error_msg(MALLOC, 1, "init_token: content"));
 	new = ft_calloc(sizeof(t_token), 1);
 	if (!new)
-		exit (error_msg(MALLOC, 1, "valiable: new"));
+		exit (error_msg(MALLOC, 1, "init_token: new"));
 	new->content = content;
-	if (!new->content)
-		exit (EXIT_FAILURE);
 	new->is_quote = 0;
 	new->is_quote += (del[0] == SIMP_QUOTES) * SIMP_QUOTES;
 	new->is_quote += (del[0] == DOUBLE_QUOTES) * DOUBLE_QUOTES;

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/16 17:31:43 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:07:25 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*printf_type(short type)
 {
-	char *result;
+	char	*result;
 
 	result = "no type";
 	if (type == OR)
