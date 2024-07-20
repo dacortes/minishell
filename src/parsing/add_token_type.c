@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 12:20:29 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:01:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	init_token(t_token **token, char *content, char *del, int space)
 	new->type = get_type(del, new->content);
 	new->has_space = space;
 	new->next = NULL;
-	add_back((void **)token, new, sizeof(t_token));
+	// add_back((void **)token, new, sizeof(t_token));
+	add_back((void **)token, new, T_TOKEN);
 	return (EXIT_SUCCESS);
 }
 

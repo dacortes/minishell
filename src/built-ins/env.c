@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 14:48:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:18:14 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	add_variable_env(t_env **env, char *key, char *value, short eql)
 	new->value = value;
 	new->eql = eql;
 	new->next = NULL;
-	add_back((void **)env, new, sizeof(t_env));
+	// add_back((void **)env, new, sizeof(t_env));
+	add_back((void **)env, new, T_ENV);
 	return (EXIT_SUCCESS);
 }
 
@@ -40,20 +41,6 @@ static t_env	*init_basic_env(void)
 	add_variable_env(&result, ft_strdup("PWD"), ft_strdup("agregar el path actual"), TRUE);
 	add_variable_env(&result, ft_strdup("SHLVL"), ft_strdup("1"), TRUE);
 	return (result);
-}
-
-int	clear_env(t_env **env)
-{
-	t_env	*clear;
-
-	while (*env)
-	{
-		clear = *env;
-		*env = (*env)->next;
-		ft_free(&clear->key, &clear->value);
-		free(clear);
-	}
-	return (EXIT_SUCCESS);
 }
 
 int add_env(t_env **env, char *line)

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 14:50:04 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:22:13 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,12 @@ enum tokens_types
     S_SHELL,
 };
 
+typedef enum data_type
+{
+    T_TOKEN,
+    T_ENV,
+} data_type;
+
 struct s_get_line
 {
     char	*read_line;
@@ -91,13 +97,16 @@ struct s_get_line
 
 struct s_command_lines
 {
-    short	pre;
-    char	*line;
-    t_token	*token;
+    int     status;
+    char    **command_line;
+    t_command_lines *next;
 };
+void    *funt1(void);
+void    funt2(void);
 
 struct s_token
 {
+    char    id[0];
     short	type;
 	short	is_quote;
     char	*content;
@@ -107,6 +116,7 @@ struct s_token
 
 struct s_env // array to array char **
 {
+    char    id[1];
 	char	*key;
 	char	*value;
 	short	eql;
@@ -123,32 +133,32 @@ struct s_minishell
 	t_command_lines	*cmd_lines;//-------
 };
 
-
-
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
 /*	built-ins/env.c				*/
 t_env	*init_env(char **env);
-int		clear_env(t_env **env);
 int		_env(t_env *env, int num_commands);
 
 
 /*  built-ins/unset.c */
-int     _unset(t_env **env, char *key);
+int		_unset(t_env **env, char *key);
 
 
 
 /*	utils/clear_list.c			*/
+int		clear_env(t_env **env);
 int		clear_token(t_token **token);
+int		clear_command_lines(t_command_lines **command_line);
 
 /*	utils/errors.c				*/
 char	*error_normalization(char *input);
 int	    error_msg(int error, int code_exit, char *input);
 
 /*	utils/handler.list.c		*/
-void	add_back(void **list, void *new, size_t size);
+// void	add_back(void **list, void *new, size_t size);
+void	add_back(void **list, void *new, data_type size);
 /*	utils/printf_list.c			*/
 int		printf_env(t_env *env);
 int		printf_token(t_token *token);
@@ -165,4 +175,7 @@ short	get_type(char *flag, char *content);
 int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
+
+t_token	*cast_token(void *list);
+t_env	*cast_env(void *list);
 #endif
