@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 11:50:28 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:48:40 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,7 @@ int	add_variable_env(t_env **env, char *key, char *value, short eql)
 	return (EXIT_SUCCESS);
 }
 
-// static t_env	*init_basic_env(void)
-// {
-// 	t_env	*result;
-// 	t_env	*new;
-
-// 	result = NULL;
-// 	new = ft_calloc(sizeof(t_env), 1);
-// 	if (!new)
-// 		exit(-1);
-// 	new->key = ft_strdup("PWD");
-// 	new->value = ft_strdup("funcion que verifique el path actual");
-// 	new->eql = TRUE;
-// 	add_back((void **)&result, new, sizeof(t_env));
-// 	new = ft_calloc(sizeof(t_env), 1);
-// 	if (!new)
-// 		exit (error_msg(MALLOC, 1, "init_basic_env: new"));
-// 	new->key = ft_strdup("SHLVL");
-// 	new->value = ft_strdup("1");
-// 	new->eql = TRUE;
-// 	add_back((void **)&result, new, sizeof(t_env));
-// 	return (result);
-// }
-
+//enlazar con la funcion que busca el path
 static t_env	*init_basic_env(void)
 {
 	t_env	*result;
@@ -78,23 +56,29 @@ int	clear_env(t_env **env)
 	return (EXIT_SUCCESS);
 }
 
-// int add_env(t_env **env, char *line)
-// {
-// 	t_env	*new;
-// 	int		pos;
+int add_env(t_env **env, char *line)
+{
+	t_env	*new;
+	int		pos;
+	int		tmp;
 
-// 	new = ft_calloc(sizeof(t_env), 1);
-// 	if (!new)
-// 		exit (error_msg(MALLOC, 1, "init_env: new"));
-// 	pos = ft_strchrpos(line, '=');
-// 	return (EXIT_SUCCESS);
-// }
+	new = ft_calloc(sizeof(t_env), 1);
+	if (!new)
+		exit (error_msg(MALLOC, 1, "init_env: new"));
+	tmp = 0;
+	pos = ft_strchrpos(line, '=');
+	if (pos == NOT_FOUND)
+		add_variable_env(env, ft_cutdel(line, 0, '\0', &tmp), \
+			ft_cutdel(line, ft_strchrpos(line, '='), '\0', &tmp), FALSE);
+	else
+		add_variable_env(env, ft_cutdel(line, 0, '=', &tmp), \
+		ft_cutdel(line, ft_strchrpos(line, '=') + 1, '\0', &tmp), TRUE);
+	return (EXIT_SUCCESS);
+}
 
 t_env	*init_env(char **env)
 {
 	t_env	*result;
-	t_env	*new;
-	int		pos;
 	int		i;
 
 	if (!env || !*env)
@@ -102,20 +86,24 @@ t_env	*init_env(char **env)
 	i = -1;
 	result = NULL;
 	while (env[++i])
-	{
-		new = ft_calloc(sizeof(t_env), 1);
-		if (!new)
-			exit (error_msg(MALLOC, 1, "init_env: new"));
-		int tmp = 0;
-		pos = ft_strchrpos(env[i], '=');
-		if (pos ==  ERROR)
-			add_variable_env(&result, ft_cutdel(env[i], 0, '\0', &tmp), \
-				ft_cutdel(env[i], ft_strchrpos(env[i], '='), '\0', &tmp), \
-				FALSE);
-		else
-			add_variable_env(&result, ft_cutdel(env[i], 0, '=', &tmp), \
-				ft_cutdel(env[i], ft_strchrpos(env[i], '=') + 1, '\0', &tmp), \
-				TRUE);
-	}
+		add_env(&result, env[i]);
 	return (result);
+}
+
+int	_env(t_env *env, int num_commands)
+{
+	t_env	*iter;
+
+	if (num_commands > 1)
+		return (error_msg(ARGUMENT, 1, "env"));
+	iter = env;
+	while (iter)
+	{
+		if (iter->eql && iter->value)
+			ft_printf("%s=%s\n", iter->key, iter->value);
+		else if (iter->eql && !iter->key)
+			ft_printf("%s=\n", iter->key);
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
 }
