@@ -11,8 +11,7 @@ int mini_rush_plus(int argc, char **argv, char **env)
 	t_minishell	mini;
 
 	mini.env = init_env(env);
-	if  (!mini.env)
-		printf("toy aqui");
+	// printf_env(mini.env);
 	while ("The stupid evaluator is testing")
 	{
 		mini.get_line.read_line = readline("patata: ");

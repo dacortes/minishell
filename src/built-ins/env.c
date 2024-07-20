@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/18 17:59:07 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/20 11:50:28 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,18 @@ int	clear_env(t_env **env)
 	return (EXIT_SUCCESS);
 }
 
+// int add_env(t_env **env, char *line)
+// {
+// 	t_env	*new;
+// 	int		pos;
+
+// 	new = ft_calloc(sizeof(t_env), 1);
+// 	if (!new)
+// 		exit (error_msg(MALLOC, 1, "init_env: new"));
+// 	pos = ft_strchrpos(line, '=');
+// 	return (EXIT_SUCCESS);
+// }
+
 t_env	*init_env(char **env)
 {
 	t_env	*result;
@@ -85,7 +97,7 @@ t_env	*init_env(char **env)
 	int		pos;
 	int		i;
 
-	if (!env)
+	if (!env || !*env)
 		return (init_basic_env());
 	i = -1;
 	result = NULL;
@@ -96,27 +108,14 @@ t_env	*init_env(char **env)
 			exit (error_msg(MALLOC, 1, "init_env: new"));
 		int tmp = 0;
 		pos = ft_strchrpos(env[i], '=');
-		if (pos ==  -1)
-		{
-			new->key = ft_cutdel(env[i], 0, '\0', &tmp);
-			if (!new->key)
-				exit (error_msg(MALLOC, 1, "init_env: key"));
-			new->value = ft_cutdel(env[i], ft_strchrpos(env[i], '='), '\0', &tmp);
-			if (!new->value)
-				exit (error_msg(MALLOC, 1, "init_env: value"));
-			new->eql = FALSE;
-		}
+		if (pos ==  ERROR)
+			add_variable_env(&result, ft_cutdel(env[i], 0, '\0', &tmp), \
+				ft_cutdel(env[i], ft_strchrpos(env[i], '='), '\0', &tmp), \
+				FALSE);
 		else
-		{
-			new->key = ft_cutdel(env[i], 0, '=', &tmp);
-			if (!new->key)
-				exit (error_msg(MALLOC, 1, "init_env: key"));
-			new->value = ft_cutdel(env[i], ft_strchrpos(env[i], '=') + 1, '\0', &tmp);
-			if (!new->value)
-				exit (error_msg(MALLOC, 1, "init_env: value"));
-			new->eql = TRUE;
-		}
-		add_back((void **)&result, new, sizeof(t_env));
+			add_variable_env(&result, ft_cutdel(env[i], 0, '=', &tmp), \
+				ft_cutdel(env[i], ft_strchrpos(env[i], '=') + 1, '\0', &tmp), \
+				TRUE);
 	}
 	return (result);
 }

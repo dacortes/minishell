@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/18 15:24:36 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/20 10:58:54 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,13 @@ int	    error_msg(int error, int code_exit, char *input);
 /*	utils/handler.list.c		*/
 void	add_back(void **list, void *new, size_t size);
 /*	utils/printf_list.c			*/
+int     printf_env(t_env *env);
 int		printf_token(t_token *token);
 
 /*	parsing/add_token_type.c	*/
-int	init_token(t_token **token, char *content, char *del, int space);
-int	metacharacters(t_token **token, char *line, char *del, int *pos);
-int	not_metacharacters(t_token **token, char *line, char *del, int *pos);
+int	    init_token(t_token **token, char *content, char *del, int space);
+int	    metacharacters(t_token **token, char *line, char *del, int *pos);
+int	    not_metacharacters(t_token **token, char *line, char *del, int *pos);
 /*	parsing/parsing.c			*/
 int		parsing(t_minishell *mini);
 /*	parsing/utils.c				*/

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/18 15:07:25 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/20 10:59:03 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ char	*printf_type(short type)
 		result = "Expansion";
 	return (result);
 }
+
+int	printf_env(t_env *env)
+{
+	t_env	*iter;
+
+	iter = env;
+	ft_printf("%sPrint Tokens%s\n", ORANGE, END);
+	while (iter)
+	{
+		ft_printf("%skey: *%s%s%s*%s\n", TUR, END, iter->key, TUR, END);
+		ft_printf("%svalue: *%s%s%s*%s\n", TUR, END, iter->value, TUR, END);
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
 
 int	printf_token(t_token *token)
 {
