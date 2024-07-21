@@ -15,8 +15,8 @@ int mini_rush_plus(int argc, char **argv, char **env)
 	{
 		_env(mini.env, 1);
 		// _unset(&mini.env, "SHLVL");
-		ft_printf("--------------------------------------------\n");
-		_env(mini.env, 1);
+		// ft_printf("--------------------------------------------\n");
+		// _env(mini.env, 1);
 		mini.get_line.read_line = readline("patata: ");
 		parsing(&mini);
 		if (mini.get_line.read_line)
@@ -28,6 +28,7 @@ int mini_rush_plus(int argc, char **argv, char **env)
 		if (mini.get_line.read_line && mini.get_line.read_line[0] == '\0')
 		{
 			clear_token(&mini.token);
+			clear_env(&mini.env);
 			free(mini.get_line.read_line);
 			break ; 
 		}

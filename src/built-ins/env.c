@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/21 11:19:31 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/21 09:58:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int add_env(t_env **env, char *line)
 	new = ft_calloc(sizeof(t_env), 1);
 	if (!new)
 		exit (error_msg(MALLOC, 1, "init_env: new"));
+	ft_printf("************* add env pointer %p\n", new);
 	tmp = 0;
 	pos = ft_strchrpos(line, '=');
 	if (pos == NOT_FOUND)
