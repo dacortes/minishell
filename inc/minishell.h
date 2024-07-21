@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 17:22:13 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:19:11 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ int		_env(t_env *env, int num_commands);
 int		_unset(t_env **env, char *key);
 
 
-
 /*	utils/clear_list.c			*/
 int		clear_env(t_env **env);
 int		clear_token(t_token **token);
@@ -157,7 +156,6 @@ char	*error_normalization(char *input);
 int	    error_msg(int error, int code_exit, char *input);
 
 /*	utils/handler.list.c		*/
-// void	add_back(void **list, void *new, size_t size);
 void	add_back(void **list, void *new, data_type size);
 /*	utils/printf_list.c			*/
 int		printf_env(t_env *env);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 17:18:14 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:19:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	add_variable_env(t_env **env, char *key, char *value, short eql)
 	new->value = value;
 	new->eql = eql;
 	new->next = NULL;
-	// add_back((void **)env, new, sizeof(t_env));
 	add_back((void **)env, new, T_ENV);
 	return (EXIT_SUCCESS);
 }
