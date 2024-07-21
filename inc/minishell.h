@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/21 11:19:11 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:35:57 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ struct s_command_lines
     char    **command_line;
     t_command_lines *next;
 };
-void    *funt1(void);
-void    funt2(void);
 
 struct s_token
 {

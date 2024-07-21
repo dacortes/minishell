@@ -11,13 +11,12 @@ int mini_rush_plus(int argc, char **argv, char **env)
 	t_minishell	mini;
 
 	mini.env = init_env(env);
-	//printf_env(mini.env);
 	while ("The stupid evaluator is testing")
 	{
 		_env(mini.env, 1);
 		// _unset(&mini.env, "SHLVL");
-		// ft_printf("--------------------------------------------\n");
-		// _env(mini.env, 1);
+		ft_printf("--------------------------------------------\n");
+		_env(mini.env, 1);
 		mini.get_line.read_line = readline("patata: ");
 		parsing(&mini);
 		if (mini.get_line.read_line)
