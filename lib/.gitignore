@@ -1,0 +1,12 @@
+.DS_Store
+._*
+*.o
+*.a
+*.vscode
+*.test
+*.txt
+*.sh
+obj
+minishell
+minishell.*
+config.status
