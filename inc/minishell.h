@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/21 10:18:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/21 15:21:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 
 # include <libft.h>
 # include <ft_printf.h>
+# include <linux/limits.h>
 # include <get_next_line.h>
 # include <readline/readline.h>
-# include <readline/readline.h>
+# include <readline/history.h>
 
 /******************************************************************************/
 /*                            COLORS                                          */
@@ -67,6 +68,7 @@ enum error_code
     MALLOC=1,
     SYNTAX,
     ARGUMENT,
+    PERROR,
 };
 
 enum tokens_types
@@ -136,6 +138,9 @@ struct s_minishell
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
+/*	built-ins/cd.c				*/
+char	*get_pwd(void);
+
 /*	built-ins/env.c				*/
 t_env	*init_env(char **env);
 int		_env(t_env *env, int num_commands);
@@ -155,6 +160,8 @@ char	*error_normalization(char *input);
 int	    error_msg(int error, int code_exit, char *input);
 
 /*	utils/handler.list.c		*/
+t_token	*cast_token(void *list);
+t_env	*cast_env(void *list);
 void	add_back(void **list, void *new, data_type size);
 /*	utils/printf_list.c			*/
 int		printf_env(t_env *env);
@@ -172,7 +179,4 @@ short	get_type(char *flag, char *content);
 int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
-
-t_token	*cast_token(void *list);
-t_env	*cast_env(void *list);
 #endif

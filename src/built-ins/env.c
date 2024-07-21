@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/21 10:24:48 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/21 15:38:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ int	add_variable_env(t_env **env, char *key, char *value, short eql)
 	return (EXIT_SUCCESS);
 }
 
-//enlazar con la funcion que busca el path
 static t_env	*init_basic_env(void)
 {
 	t_env	*result;
 
 	result = NULL;
-	add_variable_env(&result, ft_strdup("PWD"), ft_strdup("agregar el path actual"), TRUE);
+	add_variable_env(&result, ft_strdup("PWD"), get_pwd(), TRUE);
 	add_variable_env(&result, ft_strdup("SHLVL"), ft_strdup("1"), TRUE);
 	return (result);
 }
 
+//hacer lo de la shell lv
 int add_env(t_env **env, char *line)
 {
 	int		pos;
