@@ -3,84 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/07 11:58:55 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:38:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <minishell.h>
+#include <minishell.h>
+
+int	add_variable_env(t_env **env, char *key, char *value, short eql)
+{
+	t_env	*new;
+
+	if (!key)
+		exit (error_msg(MALLOC, 1, "add_variable_env: key"));
+	if (!value)
+		exit (error_msg(MALLOC, 1, "add_variable_env: value"));
+	new = ft_calloc(sizeof(t_env), 1);
+	if (!new)
+		exit (error_msg(MALLOC, 1, "add_variable_env: new"));
+	new->key = key;
+	new->value = value;
+	new->eql = eql;
+	new->next = NULL;
+	add_back((void **)env, new, T_ENV);
+	return (EXIT_SUCCESS);
+}
 
 static t_env	*init_basic_env(void)
 {
 	t_env	*result;
-	t_env	*new;
 
 	result = NULL;
-	new = ft_calloc(sizeof(t_env), 1);
-	if (!new)
-		exit(-1);
-	new->key = ft_strdup("PWD");
-	new->value = ft_strdup("funcion que verifique el path actual");
-	new->eql = TRUE;
-	add_back((void **)&result, new, sizeof(t_env));
-	new = ft_calloc(sizeof(t_env), 1);
-	if (!new)
-		exit(-1);//code status
-	new->key = ft_strdup("SHLVL");
-	new->value = ft_strdup("1");
-	new->eql = TRUE;
-	add_back((void **)&result, new, sizeof(t_env));
+	add_variable_env(&result, ft_strdup("PWD"), get_pwd(), TRUE);
+	add_variable_env(&result, ft_strdup("SHLVL"), ft_strdup("1"), TRUE);
 	return (result);
 }
 
-
-int	clear_env(t_env **env)
+//hacer lo de la shell lv
+int add_env(t_env **env, char *line)
 {
-	t_env	*clear;
+	int		pos;
+	int		tmp;
 
-	while (*env)
-	{
-		clear = *env;
-		*env = (*env)->next;
-		ft_free(&clear->key, &clear->value);
-		free(clear);
-	}
+	tmp = 0;
+	pos = ft_strchrpos(line, '=');
+	if (pos == NOT_FOUND)
+		add_variable_env(env, ft_cutdel(line, 0, '\0', &tmp), \
+			ft_cutdel(line, ft_strchrpos(line, '='), '\0', &tmp), FALSE);
+	else
+		add_variable_env(env, ft_cutdel(line, 0, '=', &tmp), \
+		ft_cutdel(line, ft_strchrpos(line, '=') + 1, '\0', &tmp), TRUE);
 	return (EXIT_SUCCESS);
 }
 
 t_env	*init_env(char **env)
 {
 	t_env	*result;
-	t_env	*new;
-	int		pos;
 	int		i;
 
-	if (!env)
+	if (!env || !*env)
 		return (init_basic_env());
 	i = -1;
 	result = NULL;
 	while (env[++i])
-	{
-		new = ft_calloc(sizeof(t_env), 1);
-		if (!new)
-			exit (-1);
-		int tmp = 0;
-		pos = ft_strchrpos(env[i], '=');
-		if (pos ==  -1)
-		{
-			new->key = ft_cutdel(env[i], 0, '\0', &tmp); //PROTEGER
-			new->value = ft_cutdel(env[i], ft_strchrpos(env[i], '='), '\0', &tmp);
-			new->eql = FALSE;
-		}
-		else
-		{
-			new->key = ft_cutdel(env[i], 0, '=', &tmp); //PROTEGER ESTO TMB
-			new->value = ft_cutdel(env[i], ft_strchrpos(env[i], '=') + 1, '\0', &tmp); //NO SE TE OLVIDE PROTEGER ESTA
-			new->eql = TRUE;
-		}
-		add_back((void **)&result, new, sizeof(t_env));
-	}
+		add_env(&result, env[i]);
 	return (result);
+}
+
+int	_env(t_env *env, int num_commands)
+{
+	t_env	*iter;
+
+	if (num_commands > 1)
+		return (error_msg(ARGUMENT, 1, "env"));
+	iter = env;
+	while (iter)
+	{
+		if (iter->eql && iter->value)
+			ft_printf("%s=%s\n", iter->key, iter->value);
+		else if (iter->eql && !iter->key)
+			ft_printf("%s=\n", iter->key);
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/10 16:48:30 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:21:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 
 # include <libft.h>
 # include <ft_printf.h>
+# include <linux/limits.h>
 # include <get_next_line.h>
 # include <readline/readline.h>
-# include <readline/readline.h>
+# include <readline/history.h>
 
 /******************************************************************************/
 /*                            COLORS                                          */
@@ -43,15 +44,32 @@
 
 # define DOUBLE_QUOTES  34
 # define SIMP_QUOTES    39
-# define TRUE   1
-# define FALSE  0
-# define ERROR  -1
+
+# define TRUE       1
+# define FALSE      0
+# define ERROR      -1
+# define FOUND      0
+# define NOT_FOUND  -1
+
+/* error messages */
+# define MINI "\033[1;31mmini rush plus: \033[m"
+# define ERR_MALLOC "error trying to allocate memory"
+# define ERR_SYNTAX "syntax error near unexpected token"
+# define ERR_ARGUMENT "too many arguments"
 
 typedef struct s_command_lines t_command_lines;
 typedef struct s_minishell t_minishell;
 typedef struct s_get_line t_get_line;
 typedef struct s_token t_token;
 typedef struct s_env t_env;
+
+enum error_code
+{
+    MALLOC=1,
+    SYNTAX,
+    ARGUMENT,
+    PERROR,
+};
 
 enum tokens_types
 {
@@ -65,60 +83,100 @@ enum tokens_types
     R_HER,
     EXPAN,
     S_SHELL,
+    SYN_ERROR,
 };
+
+typedef enum data_type
+{
+    T_TOKEN,
+    T_ENV,
+} data_type;
 
 struct s_get_line
 {
-    char *read_line;
-    char **split_line;
+    char	*read_line;
+    char	**split_line;
 };
 
 struct s_command_lines
 {
-    short    pre;
-    char    *line;
-    t_token *token;
+    int     status;
+    char    **command_line;
+    t_command_lines *next;
 };
 
 struct s_token
 {
-    short type;
-	short is_quote;
-    char *content;
+    char    id[0];
+    short	type;
+	short	is_quote;
+    char	*content;
+    int		has_space;
     t_token *next;
 };
 
 struct s_env // array to array char **
 {
+    char    id[1];
 	char	*key;
 	char	*value;
 	short	eql;
-    t_env *next;
+    t_env	*next;
 };
 
 struct s_minishell
 {
-	int				status;
-	t_get_line		get_line;
-	t_env			*env;
-    t_token         *token;
-	t_command_lines	*cmd_lines;
+	int				status;//se usa
+    int				num_pipes;//-------
+	t_get_line		get_line;//se usa
+	t_env			*env;//se usa
+    t_token			*token;//se usa
+	t_command_lines	*cmd_lines;//-------
 };
-
-
 
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
-/* built-ins/env.c */
-t_env	*init_env(char **env);
-int		clear_env(t_env **env);
-/* utils/handler.list.c */
-void	add_back(void **list, void *new, size_t size);
-/* utils/clear_list.c */
-int     clear_token(t_token **token);
+/*	built-ins/cd.c				*/
+char	*get_pwd(void);
 
-/*  parsing/parsing.c */
+/*	built-ins/env.c				*/
+t_env	*init_env(char **env);
+int		_env(t_env *env, int num_commands);
+
+
+/*  built-ins/unset.c */
+int		_unset(t_env **env, char *key);
+
+
+/*	utils/clear_list.c			*/
+int		clear_env(t_env **env);
+int		clear_token(t_token **token);
+int		clear_command_lines(t_command_lines **command_line);
+
+/*	utils/errors.c				*/
+char	*error_normalization(char *input);
+int	    error_msg(int error, int code_exit, char *input);
+
+/*	utils/handler.list.c		*/
+t_token	*cast_token(void *list);
+t_env	*cast_env(void *list);
+void	add_back(void **list, void *new, data_type size);
+/*	utils/printf_list.c			*/
+int		printf_env(t_env *env);
+int		printf_token(t_token *token);
+
+/*	parsing/add_token_type.c	*/
+int		init_token(t_token **token, char *content, char *del, int space);
+int		metacharacters(t_token **token, char *line, char *del, int *pos);
+int		not_metacharacters(t_token **token, char *line, char *del, int *pos);
+/*	parsing/parsing.c			*/
 int		parsing(t_minishell *mini);
+/*	parsing/utils.c				*/
+int		is_metacharacters(char c);
+short	get_type(char *flag, char *content);
+int		set_space(char *line, int *pos, char *del);
+int		get_end_not_metacharacters(char *str);
+int		get_end_token(char *str, char *del, int *pos, int size_del);
 #endif
