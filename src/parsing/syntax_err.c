@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/21 19:33:17 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:37:49 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char *get_token_cont(int flag)
 	return (NULL);
 }
 
-int get_prevarg(t_token *start, t_token *end, int target)
+int get_prev_arg(t_token *start, t_token *end, int target)
 {
 	if (start && end)
 	{
@@ -56,11 +56,11 @@ int	syntax_error(t_token **token)
 
 	heardoc_flag = 0;
 	tmp = *token;
-	while(tmp)
+	while (tmp)
 	{
 		if (tmp->type == OR || tmp->type == PIPE || tmp->type == AND)
 		{
-			if (!get_prev_arg(*token, tmp))
+			if (!get_prev_arg(*token, tmp, ))
 				return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
 		}
 		else if (tmp->type >= R_IN && tmp->type <= R_HER)
