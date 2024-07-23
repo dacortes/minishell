@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/22 16:37:49 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:26:40 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char *get_token_cont(int flag)
 {
 	if (flag == AND)
 		return ("&&");
+	else if (flag == OR)
+		return ("||");
 	else if (flag == ARG)
 		return ("cmd");
 	else if (flag == PIPE)
@@ -35,43 +37,35 @@ char *get_token_cont(int flag)
 	return (NULL);
 }
 
-int get_prev_arg(t_token *start, t_token *end, int target)
+int check_prev_arg(t_token *list, int target)
 {
-	if (start && end)
+	if (list && list->type & target)
 	{
-		while(start != end)
-		{
-			if (start->type == target)
-				return (1);
-			start = start->next;
-		}
+			return (TRUE);
 	}
-	return (0);
+	return (FALSE);
 }
 
 int	syntax_error(t_token **token)
 {
 	t_token *tmp;
-	int		heardoc_flag;
 
-	heardoc_flag = 0;
 	tmp = *token;
-	while (tmp)
-	{
+	while (tmp && tmp->next)
+	{	
 		if (tmp->type == OR || tmp->type == PIPE || tmp->type == AND)
 		{
-			if (!get_prev_arg(*token, tmp, ))
+			if (!check_prev_arg(tmp, ARG | EXPAN | S_SHELL)) 
 				return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
 		}
 		else if (tmp->type >= R_IN && tmp->type <= R_HER)
 		{
-			if (tmp->next && tmp->next->type != ARG || tmp->next->type != EXPAN)
+			if (tmp->next && !(tmp->next->type & (EXPAN | ARG)))
 				return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
 		}
 		tmp = tmp->next;
 	}
-}
-
-int main()
-{
+	if (tmp && !check_prev_arg(tmp, ARG | EXPAN | S_SHELL))
+		return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
+	return (EXIT_SUCCESS);
 }

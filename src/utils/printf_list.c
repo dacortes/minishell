@@ -6,13 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 10:59:03 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:20:44 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*printf_type(short type)
+char	*printf_type(int type)
 {
 	char	*result;
 
@@ -73,6 +73,8 @@ int	printf_token(t_token *token)
 		ft_printf("%s Is quote:%s %s\n", TUR, END, quote);
 		ft_printf("%s Has space:%s %d\n", TUR, END, iter->has_space);
 		ft_printf("%s Type:%s %s\n", TUR, END, printf_type(iter->type));
+		if (iter->prev)
+			ft_printf("%s PREV:%s %s\n", TUR, END, iter->prev->content);
 		iter = iter->next;
 	}
 	return (EXIT_SUCCESS);

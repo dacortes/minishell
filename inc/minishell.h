@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/21 15:21:23 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/23 15:52:01 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,25 @@ typedef struct s_env t_env;
 
 enum error_code
 {
-    MALLOC=1,
-    SYNTAX,
-    ARGUMENT,
-    PERROR,
+    MALLOC = 1,
+    SYNTAX = 2,
+    ARGUMENT = 4,
+    PERROR = 8,
 };
 
 enum tokens_types
 {
-    OR,
-    AND,
-	ARG,
-    PIPE,
-    R_IN,
-    R_OUT,
-    R_APP,
-    R_HER,
-    EXPAN,
-    S_SHELL,
-    SYN_ERROR,
+    OR = 1,
+    AND = 2,
+	ARG = 4,
+    PIPE = 8,
+    R_IN = 16,
+    R_OUT = 32,
+    R_APP = 64,
+    R_HER = 128,
+    EXPAN = 256,
+    S_SHELL = 512,
+    SYN_ERROR = 1024,
 };
 
 typedef enum data_type
@@ -105,16 +105,6 @@ struct s_command_lines
     t_command_lines *next;
 };
 
-struct s_token
-{
-    char    id[0];
-    short	type;
-	short	is_quote;
-    char	*content;
-    int		has_space;
-    t_token *next;
-};
-
 struct s_env // array to array char **
 {
     char    id[1];
@@ -126,12 +116,24 @@ struct s_env // array to array char **
 
 struct s_minishell
 {
-	int				status;//se usa
-    int				num_pipes;//-------
-	t_get_line		get_line;//se usa
-	t_env			*env;//se usa
-    t_token			*token;//se usa
-	t_command_lines	*cmd_lines;//-------
+	int				status;
+    int				num_pipes;
+	t_get_line		get_line;
+	t_env			*env;
+    t_token			*token;
+	t_command_lines	*cmd_lines;
+};
+
+struct s_token
+{
+    char				id[0];
+    int					type;
+	short				is_quote;
+    char				*content;
+    int					has_space;
+	t_minishell			subs;
+    t_token			 	*next;
+	t_token				*prev;
 };
 
 /******************************************************************************/
@@ -163,9 +165,12 @@ int	    error_msg(int error, int code_exit, char *input);
 t_token	*cast_token(void *list);
 t_env	*cast_env(void *list);
 void	add_back(void **list, void *new, data_type size);
+void	add_prev(void **list);
+
 /*	utils/printf_list.c			*/
 int		printf_env(t_env *env);
 int		printf_token(t_token *token);
+char	*printf_type(int type);
 
 /*	parsing/add_token_type.c	*/
 int		init_token(t_token **token, char *content, char *del, int space);
@@ -179,4 +184,8 @@ short	get_type(char *flag, char *content);
 int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
+/*	parsing/syntax_err.c		*/
+char	*get_token_cont(int flag);
+int		check_prev_arg(t_token *list, int target);
+int		syntax_error(t_token **token);
 #endif

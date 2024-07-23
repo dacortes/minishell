@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 12:04:47 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:31:54 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ int	basic_checker(t_token **token, char *line, int end)
 				tmp++;
 			}
 			if (count[0] != 0)
-				return(error_msg(SYNTAX, 2, error_normalization("(")));
+				return(error_msg(SYNTAX, 2, error_normalization("(")));	
 			if (basic_checker(token, &line[i], count[1]))
 				return (2);
+			
 			i = tmp;
 		}
 		else if (line[i])
@@ -105,6 +106,14 @@ int parsing(t_minishell *mini)
 		exit (EXIT_SUCCESS);
 	len = ft_strlen(line);
 	mini->status = basic_checker(&mini->token, line, len);
+	if (mini->status)
+		return (mini->status);
+	if (mini->token)
+		add_prev((void **)&mini->token);
+	mini->status = syntax_error(&mini->token);
+	if (mini->status)
+		return (mini->status);
+	mini->status = get_subshell(mini);
 	if (mini->status)
 		return (mini->status);
 	// mini->status = check_tokens(&mini->token);

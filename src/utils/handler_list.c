@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:51:07 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/21 10:19:05 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/23 14:30:35 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,33 @@
 static const void *(*g_data_type[])(void *list) =\
 {(void *)cast_token, (void *)cast_env};
 
+void	add_prev(void **list)
+{
+	t_token	*tmp;
+	t_token	*prev;
+
+	tmp = (t_token *)*list;
+	prev = NULL;
+	while (tmp)
+	{
+		if (prev)
+			tmp->prev = prev;
+		prev = tmp;
+		tmp = tmp->next;
+	}
+}
+
 t_token	*cast_token(void *list)
 {
-	list = (t_token *)list;
-	while (((t_token *)list) && ((t_token *)list)->next)
+	t_token	*tmp_list;
+
+	tmp_list = (t_token *)list;
+	while (tmp_list && tmp_list->next)
 	{
-		if (((t_token *)list)->next)
-			list = ((t_token *)list)->next;
+		if (tmp_list->next)
+			tmp_list = tmp_list->next;
 	}
-	return (list);
+	return (tmp_list);
 }
 
 t_env	*cast_env(void *list)
@@ -52,7 +70,11 @@ void	add_back(void **list, void *new, data_type size)
 	if (list)
 	{
 		if (!*list)
+		{
 			*list = new;
+			if (size  == T_TOKEN)
+				((t_token *)(*list))->prev = NULL;
+		}
 		else
 		{
 			tmp = get_last(*list, size);

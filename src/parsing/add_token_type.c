@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/21 11:19:18 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:31:11 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,27 @@ int	init_token(t_token **token, char *content, char *del, int space)
 	return (EXIT_SUCCESS);
 }
 
+int	metacharacters_sub(t_token **token, char *line, char start, int end)
+{
+	init_token(token, ft_strndup(&line[start], end), "(", 0);
+	return (EXIT_SUCCESS);
+}
+
 int	metacharacters(t_token **token, char *line, char *del, int *pos)
 {
 	int		end;
 	int		len;
 	int		space;
+	char	delimiter[2];
 
 	space = 0;
-	len =  ft_strlen(del);
+	delimiter[0] = del[0];
+	len = ft_strlen(del);
 	if (line[*pos] && del[0] != ' ' && len > 1)
 		(*pos)++;
 	end = ft_strchrpos(&line[*pos], del[0]);
 	if (end == ERROR && del[0] != ' ')
-		return (error_msg(SYNTAX, 2, del));
+		return (error_msg(SYNTAX, 2, delimiter));
 	space = set_space(line, pos, del);
 	if (end == ERROR)
 		end = get_end_token(line, del, pos, len);
