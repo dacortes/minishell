@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_token_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 16:31:11 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:40:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	init_token(t_token **token, char *content, char *del, int space)
 	return (EXIT_SUCCESS);
 }
 
-int	metacharacters_sub(t_token **token, char *line, char start, int end)
-{
-	init_token(token, ft_strndup(&line[start], end), "(", 0);
-	return (EXIT_SUCCESS);
-}
+// int	metacharacters_sub(t_token **token, char *line, char start, int end)
+// {
+// 	init_token(token, ft_strndup(&line[start], end), "(", 0);
+// 	return (EXIT_SUCCESS);
+// }
 
 int	metacharacters(t_token **token, char *line, char *del, int *pos)
 {

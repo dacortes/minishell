@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 16:31:54 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:40:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ int parsing(t_minishell *mini)
 	mini->status = syntax_error(&mini->token);
 	if (mini->status)
 		return (mini->status);
-	mini->status = get_subshell(mini);
-	if (mini->status)
-		return (mini->status);
+	// mini->status = get_subshell(mini);
+	// if (mini->status)
+	// 	return (mini->status);
 	// mini->status = check_tokens(&mini->token);
 	printf_token(mini->token);
 	return (EXIT_SUCCESS);
