@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 08:54:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 09:00:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	check_subshell(t_token **token, char *line, int *pos, int end)
 			--count;
 		tmp++;
 	}
-	if (count != 0)
+	if (count != 0 || (line[tmp - 2] && line[tmp -2] == '('))
 		return(error_msg(SYNTAX, 2, error_normalization("(")));
 	size = tmp - *pos - 1;
 	metacharacters_sub(token, line, *pos + 1, size);

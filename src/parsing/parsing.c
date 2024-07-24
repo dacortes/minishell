@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 08:56:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 08:59:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ int	basic_checker(t_token **token, char *line, int end)
 				return (status);
 		}
 		else if (line[i] == '(')
-			check_subshell(token, line, &i, end);
+		{
+			status = check_subshell(token, line, &i, end);
+			if (status)
+				return (status);
+		}
 		else if (line[i] == ')')
             return(error_msg(SYNTAX, 2, error_normalization("(")));
 		else if (line[i])
