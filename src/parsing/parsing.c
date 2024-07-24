@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 14:40:52 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 08:17:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,24 @@ int	basic_checker(t_token **token, char *line, int end)
 		}
 		else if (line[i] == '(' || line[i] == ')')
 		{
-			
-			if  (line[i] == ')')
-				return (EXIT_FAILURE);
-			int count[2] = {1, -2};
-			i++;
-			tmp = i;
-			while (line[tmp] && tmp <= end)
+			int count = 1;
+            tmp = i + 1;
+            while (tmp < end && line[tmp] != '\0' && count > 0)
 			{
-				if (line[tmp] == '(')
-					count[0]++;
-				else if (line[tmp] == ')')
-					count[0]--;
-				if(count[0] == 0 && count[1] == -1)
-					count[1] =  end - tmp - 1;
-				tmp++;
-			}
-			if (count[0] != 0)
-				return(error_msg(SYNTAX, 2, error_normalization("(")));	
-			if (basic_checker(token, &line[i], count[1]))
-				return (2);
-			
-			i = tmp;
-		}
+                if (line[tmp] == '(')
+					++count;
+                if (line[tmp] == ')')
+					--count;
+                tmp++;
+            }
+            if (count != 0)
+               return(error_msg(SYNTAX, 2, error_normalization("(")));
+            int size = tmp - i - 1;
+            metacharacters_sub(token, line, i + 1, size);
+            i = tmp;
+        }
+		else if (line[i] == ')')
+            return(error_msg(SYNTAX, 2, error_normalization("(")));
 		else if (line[i])
 			status = not_metacharacters(token, line, " zz", &i);
 	}

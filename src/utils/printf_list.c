@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 14:20:44 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:18:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*printf_type(int type)
 		result = "Redirection her doc";
 	else if (type == EXPAN)
 		result = "Expansion";
+	else if (type == S_SHELL)
+		result = "Sub shell";
 	return (result);
 }
 

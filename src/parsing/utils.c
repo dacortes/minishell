@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:13:54 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 12:01:38 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:16:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	is_metacharacters(char c)
 
 short	get_type(char *flag, char *content)
 {
+	if (ft_strlen(flag) == 1 && flag[0] == ')')
+		return (S_SHELL);
 	if (ft_strlen(flag) == 3 && flag[0] != SIMP_QUOTES)
 	{
 		if (ft_strlen(content) == 1 && content[0] == '|')

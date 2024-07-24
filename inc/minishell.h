@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 15:52:01 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:03:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ char	*printf_type(int type);
 int		init_token(t_token **token, char *content, char *del, int space);
 int		metacharacters(t_token **token, char *line, char *del, int *pos);
 int		not_metacharacters(t_token **token, char *line, char *del, int *pos);
+int     metacharacters_sub(t_token **token, char *line, int start, int end);
 /*	parsing/parsing.c			*/
 int		parsing(t_minishell *mini);
 /*	parsing/utils.c				*/
