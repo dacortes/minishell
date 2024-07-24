@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 09:00:51 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 10:10:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	init_token(t_token **token, char *content, char *del, int space)
 	new->is_quote += (del[0] == SIMP_QUOTES) * SIMP_QUOTES;
 	new->is_quote += (del[0] == DOUBLE_QUOTES) * DOUBLE_QUOTES;
 	new->type = get_type(del, new->content);
+	if (ft_strchrpos(new->content, '*') != NOT_FOUND)
+		new->type = WILD_CARD;
 	new->has_space = space;
 	new->next = NULL;
 	add_back((void **)token, new, T_TOKEN);

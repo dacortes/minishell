@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 08:52:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 09:56:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,17 @@
 
 # define DOUBLE_QUOTES  34
 # define SIMP_QUOTES    39
+# define WILDCARD       42
 
 # define TRUE       1
 # define FALSE      0
 # define ERROR      -1
 # define FOUND      0
 # define NOT_FOUND  -1
+
+# define KEY    1
+# define VALUE  2
+
 
 /* error messages */
 # define MINI "\033[1;31mmini rush plus: \033[m"
@@ -84,6 +89,7 @@ enum tokens_types
     EXPAN = 256,
     S_SHELL = 512,
     SYN_ERROR = 1024,
+    WILD_CARD = 2048,
 };
 
 typedef enum data_type

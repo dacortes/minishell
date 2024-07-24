@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_err.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/23 15:26:40 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:13:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char *get_token_cont(int flag)
 		return ("$");
 	else if (flag == S_SHELL)
 		return (")");
+	else if (flag == WILD_CARD)
+		return ("*");
 	return (NULL);
 }
 
@@ -55,17 +57,17 @@ int	syntax_error(t_token **token)
 	{	
 		if (tmp->type == OR || tmp->type == PIPE || tmp->type == AND)
 		{
-			if (!check_prev_arg(tmp, ARG | EXPAN | S_SHELL)) 
+			if (!check_prev_arg(tmp, ARG | EXPAN | S_SHELL | WILD_CARD)) 
 				return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
 		}
 		else if (tmp->type >= R_IN && tmp->type <= R_HER)
 		{
-			if (tmp->next && !(tmp->next->type & (EXPAN | ARG)))
+			if (tmp->next && !(tmp->next->type & (EXPAN | ARG | WILD_CARD)))
 				return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
 		}
 		tmp = tmp->next;
 	}
-	if (tmp && !check_prev_arg(tmp, ARG | EXPAN | S_SHELL))
+	if (tmp && !check_prev_arg(tmp, ARG | EXPAN | S_SHELL | WILD_CARD))
 		return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
 	return (EXIT_SUCCESS);
 }

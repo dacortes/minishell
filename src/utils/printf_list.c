@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 15:18:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 10:14:40 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*printf_type(int type)
 		result = "Expansion";
 	else if (type == S_SHELL)
 		result = "Sub shell";
+	else if (type == WILD_CARD)
+		result = "Wild card";
 	return (result);
 }
 

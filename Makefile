@@ -3,7 +3,7 @@
 ################################################################################
 
 RMV = rm -rf
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 NAME = minishell 
 TOTAL_FILES = $(words $(SOURCES))
 
