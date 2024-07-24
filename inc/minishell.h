@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 15:03:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 08:52:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,8 @@ int		init_token(t_token **token, char *content, char *del, int space);
 int		metacharacters(t_token **token, char *line, char *del, int *pos);
 int		not_metacharacters(t_token **token, char *line, char *del, int *pos);
 int     metacharacters_sub(t_token **token, char *line, int start, int end);
+int     check_subshell(t_token **token, char *line, int *pos, int end);
+
 /*	parsing/parsing.c			*/
 int		parsing(t_minishell *mini);
 /*	parsing/utils.c				*/

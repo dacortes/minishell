@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 08:17:12 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 08:56:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	basic_checker(t_token **token, char *line, int end)
 {
 	int i = 0;
-	int	tmp = 0;
 	int	status = 0;
 
 	*token = NULL;
@@ -49,44 +48,12 @@ int	basic_checker(t_token **token, char *line, int end)
 			if (status)
 				return (status);
 		}
-		else if (line[i] == '(' || line[i] == ')')
-		{
-			int count = 1;
-            tmp = i + 1;
-            while (tmp < end && line[tmp] != '\0' && count > 0)
-			{
-                if (line[tmp] == '(')
-					++count;
-                if (line[tmp] == ')')
-					--count;
-                tmp++;
-            }
-            if (count != 0)
-               return(error_msg(SYNTAX, 2, error_normalization("(")));
-            int size = tmp - i - 1;
-            metacharacters_sub(token, line, i + 1, size);
-            i = tmp;
-        }
+		else if (line[i] == '(')
+			check_subshell(token, line, &i, end);
 		else if (line[i] == ')')
             return(error_msg(SYNTAX, 2, error_normalization("(")));
 		else if (line[i])
 			status = not_metacharacters(token, line, " zz", &i);
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	check_tokens(t_token **token)
-{
-	t_token	*iter;
-
-	iter = *token;
-	while (iter)
-	{
-		if (iter->content && ft_strlen(iter->content) == 2)
-		{
-			ft_printf("soy una patata: %s\n", iter->content);
-		}
-		iter = iter->next;
 	}
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 08:09:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 08:54:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,30 @@ int	metacharacters_sub(t_token **token, char *line, int start, int end)
 
 	space = set_space(line, &start, "(");
 	init_token(token, ft_strndup(&line[start], end - 1), ")", space);
+	return (EXIT_SUCCESS);
+}
+
+int	check_subshell(t_token **token, char *line, int *pos, int end)
+{
+	int	count;
+	int	size;
+	int	tmp;
+
+	count = 1;
+	tmp = *pos + 1;
+	while (tmp < end && line[tmp] && count > 0)
+	{
+		if (line[tmp] == '(')
+			++count;
+		if (line[tmp] == ')')
+			--count;
+		tmp++;
+	}
+	if (count != 0)
+		return(error_msg(SYNTAX, 2, error_normalization("(")));
+	size = tmp - *pos - 1;
+	metacharacters_sub(token, line, *pos + 1, size);
+	*pos = tmp;
 	return (EXIT_SUCCESS);
 }
 
