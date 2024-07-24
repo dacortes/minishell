@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 12:26:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 14:10:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ struct s_minishell
 {
 	int				status;
     int				num_pipes;
+    int             redir[2]; // para frank solo para el
+    int             base_redir[2]; //de frank
 	t_get_line		get_line;
 	t_env			*env;
     t_token			*token;
