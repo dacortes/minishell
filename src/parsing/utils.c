@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:13:54 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 10:04:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 11:24:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ short	get_type(char *flag, char *content)
 			return (OR);
 		else if (ft_strlen(content) == 2 && !ft_strncmp("&&", content, 2))
 			return (AND);
-		else
-			return (EXPAN);
 	}
 	return (ARG);
 }

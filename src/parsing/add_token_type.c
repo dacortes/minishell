@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 10:10:01 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 11:32:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,29 @@ int	init_token(t_token **token, char *content, char *del, int space)
 	new->is_quote += (del[0] == SIMP_QUOTES) * SIMP_QUOTES;
 	new->is_quote += (del[0] == DOUBLE_QUOTES) * DOUBLE_QUOTES;
 	new->type = get_type(del, new->content);
-	if (ft_strchrpos(new->content, '*') != NOT_FOUND)
+	if (ft_strchrpos(new->content, '*') != NOT_FOUND 
+		&& (del[0] != SIMP_QUOTES && del[0] != DOUBLE_QUOTES))
 		new->type = WILD_CARD;
+	if (ft_strchrpos(new->content, '$') != NOT_FOUND && del[0] != SIMP_QUOTES)
+		new->type = EXPAN;
 	new->has_space = space;
 	new->next = NULL;
 	add_back((void **)token, new, T_TOKEN);
+	if (ft_strlen(new->content) == 1 && new->content[0] == '&')
+		return(error_msg(SYNTAX, 2, "&"));
 	return (EXIT_SUCCESS);
 }
 
 int	metacharacters_sub(t_token **token, char *line, int start, int end)
 {
 	int	space;
+	int	status;
 
+	status = 0;
 	space = set_space(line, &start, "(");
-	init_token(token, ft_strndup(&line[start], end - 1), ")", space);
+	status = init_token(token, ft_strndup(&line[start], end - 1), ")", space);
+	if (status)
+		return (status);
 	return (EXIT_SUCCESS);
 }
 
@@ -73,6 +82,7 @@ int	metacharacters(t_token **token, char *line, char *del, int *pos)
 	int		len;
 	int		space;
 	char	delimiter[2];
+	int		status;
 
 	space = 0;
 	delimiter[0] = del[0];
@@ -85,10 +95,12 @@ int	metacharacters(t_token **token, char *line, char *del, int *pos)
 	space = set_space(line, pos, del);
 	if (end == ERROR)
 		end = get_end_token(line, del, pos, len);
-	init_token(token, ft_strndup(&line[*pos], end), del, space);
+	status = init_token(token, ft_strndup(&line[*pos], end), del, space);
 	(*pos) += end;
 	if (del[0] != ' ' && line[*pos] == del[0])
 		++(*pos);
+	if (status)
+		return (status);
 	return (EXIT_SUCCESS);
 }
 
