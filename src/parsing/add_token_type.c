@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 11:32:12 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 12:34:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	metacharacters(t_token **token, char *line, char *del, int *pos)
 	int		end;
 	int		len;
 	int		space;
-	char	delimiter[2];
+	char	delimiter[1];
 	int		status;
 
 	space = 0;

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/24 11:22:40 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 12:29:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ int	syntax_error(t_token **token)
 	{
 		if (tmp->type == OR || tmp->type == PIPE || tmp->type == AND)
 		{
-			ft_printf("estoy aqui\n");
-			if (!check_prev_arg(tmp, ARG | EXPAN | S_SHELL | WILD_CARD)) 
+			if (!check_prev_arg(tmp->prev, ARG | EXPAN | S_SHELL | WILD_CARD)) 
 				return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
 		}
 		else if (tmp->type >= R_IN && tmp->type <= R_HER)

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 09:56:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 12:26:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@
 
 # define KEY    1
 # define VALUE  2
+# define NOT    "\0"
 
 
 /* error messages */
@@ -157,6 +158,8 @@ int		_env(t_env *env, int num_commands);
 /*  built-ins/unset.c */
 int		_unset(t_env **env, char *key);
 
+/*  built-ins/utils.c */
+char	*search_env(t_env *env, char *key, int type);
 
 /*	utils/clear_list.c			*/
 int		clear_env(t_env **env);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:36:38 by codespace         #+#    #+#             */
-/*   Updated: 2024/07/24 09:37:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 12:12:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*search_env(t_env *env, char *key, int type)
 		while (search)
 		{
 			if (ft_strncmp(search->key, key, -1) == 0)
-				return (search->val);
+				return (search->value);
 			search = search->next;
 		}
 	}
