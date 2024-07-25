@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 10:14:40 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/24 18:13:45 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ int	printf_env(t_env *env)
 	return (EXIT_SUCCESS);
 }
 
-
-int	printf_token(t_token *token)
+int	printf_token(t_token *token, char *col)
 {
 	t_token	*iter;
 	char	*quote;
@@ -68,17 +67,38 @@ int	printf_token(t_token *token)
 	while (iter)
 	{
 		quote = "\033[1;34mfalse\033[m";
-		ft_printf("%sContent: *%s%s%s*%s\n", TUR, END, iter->content, TUR, END);
+		ft_printf("%sContent: *%s%s%s*%s\n", col, END, iter->content, TUR, END);
 		if (iter->is_quote == SIMP_QUOTES || iter->is_quote == DOUBLE_QUOTES)
 		{
-			ft_printf("%s Quote:%s %c\n", TUR, END, iter->is_quote);
+			ft_printf("%s Quote:%s %c\n", col, END, iter->is_quote);
 			quote = "\033[1;34mtrue\033[m";
 		}
-		ft_printf("%s Is quote:%s %s\n", TUR, END, quote);
-		ft_printf("%s Has space:%s %d\n", TUR, END, iter->has_space);
-		ft_printf("%s Type:%s %s\n", TUR, END, printf_type(iter->type));
+		ft_printf("%s Is quote:%s %s\n", col, END, quote);
+		ft_printf("%s Has space:%s %d\n", col, END, iter->has_space);
+		ft_printf("%s Type:%s %s\n", col, END, printf_type(iter->type));
 		if (iter->prev)
-			ft_printf("%s PREV:%s %s\n", TUR, END, iter->prev->content);
+			ft_printf("%s PREV:%s %s\n", col, END, iter->prev->content);
+		if (iter->type == S_SHELL)
+		{
+			ft_printf("%s--------SUBSHEL----------%s\n", ORANGE, END);
+			if (!ft_strncmp(col, TUR, 10))
+			{
+				printf_token(iter->subs.token, CYAN);
+			}
+			if (!ft_strncmp(col, CYAN, 10))
+			{
+				printf_token(iter->subs.token, GREEN);
+			}
+			if (!ft_strncmp(col, GREEN, 10))
+			{
+				printf_token(iter->subs.token, YELLOW);
+			}
+			if (!ft_strncmp(col, YELLOW, 10))
+			{
+				printf_token(iter->subs.token, TUR);
+			}
+			ft_printf("%s------------------------%s\n", ORANGE, END);
+		}
 		iter = iter->next;
 	}
 	return (EXIT_SUCCESS);

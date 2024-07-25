@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 11:14:10 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/25 19:09:03 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,33 @@ int	basic_checker(t_token **token, char *line, int end)
 	return (EXIT_SUCCESS);
 }
 
+int get_subshell(t_minishell *mini)
+{
+	t_token	*tmp;
+
+	tmp = mini->token;
+	while (tmp)
+	{
+		if (tmp->type == S_SHELL)
+		{
+			tmp->subs.get_line = tmp->content;
+			tmp->subs.env = mini->env;
+			tmp->subs.status = parsing(&tmp->subs);
+			if (tmp->subs.status)
+				return (tmp->subs.status);
+		}
+		tmp = tmp->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
+
 int parsing(t_minishell *mini)
 {
 	char	*line;
 	int		len;
 
-	line = mini->get_line.read_line;
+	line = mini->get_line;
 	if (!line)
 		exit (EXIT_SUCCESS);
 	len = ft_strlen(line);
@@ -79,10 +100,8 @@ int parsing(t_minishell *mini)
 	mini->status = syntax_error(&mini->token);
 	if (mini->status)
 		return (mini->status);
-	// mini->status = get_subshell(mini);
-	// if (mini->status)
-	// 	return (mini->status);
-	// mini->status = check_tokens(&mini->token);
-	printf_token(mini->token);
+	mini->status = get_subshell(mini);
+	if (mini->status)
+	 	return (mini->status);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:51:07 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 14:30:35 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/25 20:16:24 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_env	*cast_env(void *list)
 	return (list);
 }
 
-void	*get_last(void *list, data_type size)
+void	*get_last(void *list, t_data_type size)
 {
 	if (!list)
 		return (NULL);
@@ -63,7 +63,7 @@ void	*get_last(void *list, data_type size)
 	return (list);
 }
 
-void	add_back(void **list, void *new, data_type size)
+void	add_back(void **list, void *new, t_data_type size)
 {
 	void	*tmp;
 

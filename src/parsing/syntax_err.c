@@ -6,68 +6,75 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/24 14:01:11 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/25 19:02:57 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char *get_token_cont(int flag)
+int	syntax_command(t_token **token)
 {
-	if (flag == AND)
-		return ("&&");
-	else if (flag == OR)
-		return ("||");
-	else if (flag == ARG)
-		return ("cmd");
-	else if (flag == PIPE)
-		return ("|");
-	else if (flag == R_IN)
-		return ("<");
-	else if (flag == R_OUT)
-		return (">");
-	else if (flag == R_APP)
-		return (">>");
-	else if (flag == R_HER)
-		return ("<<");
-	else if (flag == EXPAN)
-		return ("$");
-	else if (flag == S_SHELL)
-		return (")");
-	else if (flag == WILD_CARD)
-		return ("*");
-	return (NULL);
-}
+	t_token	*tmp;
+	int		arg_count;
+	int		subs_count;
 
-int check_prev_arg(t_token *list, int target)
-{
-	if (list && list->type & target)
+
+	tmp = *token;
+	arg_count = 0;
+	subs_count = 0;
+	while (tmp && !(tmp->type == PIPE || tmp->type & L_OPERAND))
 	{
-			return (TRUE);
+		if (tmp->type & ARG && !(tmp->prev && tmp->prev->type & REDIR))
+		{
+			if (subs_count)
+			{
+				tmp->next->type = SYN_ERROR;
+				return (error_msg(SYNTAX, 1, ")"));
+			}
+			arg_count++;
+		}
+		else if (tmp->type == S_SHELL)
+		{
+			if (subs_count)
+			{
+				tmp->next->type = SYN_ERROR;
+				return (error_msg(SYNTAX, 1, ")"));
+			}
+			else if (arg_count)
+			{
+				tmp->next->type = SYN_ERROR;
+				return (error_msg(SYNTAX, 1, tmp->next->content));
+			}
+			subs_count++;
+		}
+		tmp = tmp->prev;
 	}
-	return (FALSE);
+	return (EXIT_SUCCESS);
 }
 
 int	syntax_error(t_token **token)
 {
 	t_token *tmp;
+	int		status;
 
 	tmp = *token;
 	while (tmp && tmp->next)
 	{
-		if (tmp->type == OR || tmp->type == PIPE || tmp->type == AND)
+		if (tmp->type == PIPE || tmp->type & L_OPERAND)
 		{
-			if (!check_prev_arg(tmp->prev, ARG | EXPAN | S_SHELL | WILD_CARD)) 
-				return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
+			status = syntax_command(&tmp->prev);
+			if (status) 
+				return (status);
 		}
-		else if (tmp->type >= R_IN && tmp->type <= R_HER)
+		else if (tmp->type & REDIR)
 		{
-			if (tmp->next && !(tmp->next->type & (EXPAN | ARG | WILD_CARD)))
-				return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
+			if (tmp->next && !(tmp->next->type & ARG))
+				return (error_msg(SYNTAX, 1, tmp->content));
 		}
 		tmp = tmp->next;
 	}
-	if (tmp && !check_prev_arg(tmp, ARG | EXPAN | S_SHELL | WILD_CARD))
-		return (error_msg(SYNTAX, 1, get_token_cont(tmp->type)));
+	status = syntax_command(&tmp);
+	if (status)
+		return (status);
 	return (EXIT_SUCCESS);
 }

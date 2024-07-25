@@ -10,6 +10,7 @@ int mini_rush_plus(int argc, char **argv, char **env)
 	(void)argv;
 	t_minishell	mini;
 
+	ft_bzero(&mini, sizeof(t_minishell));
 	mini.env = init_env(env);
 	while ("The stupid evaluator is testing")
 	{
@@ -17,19 +18,20 @@ int mini_rush_plus(int argc, char **argv, char **env)
 		// _unset(&mini.env, "SHLVL");
 		// ft_printf("--------------------------------------------\n");
 		// _env(mini.env, 1);
-		mini.get_line.read_line = readline("patata: ");
+		mini.get_line = readline("patata: ");
 		parsing(&mini);
-		if (mini.get_line.read_line)
+		printf_token(mini.token, TUR);
+		if (mini.get_line)
 		{
 			clear_token(&mini.token);
-			free(mini.get_line.read_line );
-			mini.get_line.read_line = NULL;
+			free(mini.get_line);
+			mini.get_line = NULL;
 		}
-		if (mini.get_line.read_line && mini.get_line.read_line[0] == '\0')
+		if (mini.get_line && mini.get_line[0] == '\0')
 		{
 			clear_token(&mini.token);
 			clear_env(&mini.env);
-			free(mini.get_line.read_line);
+			free(mini.get_line);
 			break ; 
 		}
 		ft_printf("%sstatus:%s %d\n", BLUE, END, mini.status);

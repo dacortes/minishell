@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 14:10:51 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/25 20:15:23 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,92 +56,87 @@
 # define VALUE  2
 # define NOT    "\0"
 
-
 /* error messages */
 # define MINI "\033[1;31mmini rush plus: \033[m"
 # define ERR_MALLOC "error trying to allocate memory"
 # define ERR_SYNTAX "syntax error near unexpected token"
 # define ERR_ARGUMENT "too many arguments"
 
-typedef struct s_command_lines t_command_lines;
-typedef struct s_minishell t_minishell;
-typedef struct s_get_line t_get_line;
-typedef struct s_token t_token;
-typedef struct s_env t_env;
+typedef struct s_command_lines	t_command_lines;
+typedef struct s_minishell		t_minishell;
+typedef struct s_get_line		t_get_line;
+typedef struct s_token			t_token;
+typedef struct s_env			t_env;
 
-enum error_code
+enum e_error_code
 {
-    MALLOC = 1,
-    SYNTAX = 2,
-    ARGUMENT = 4,
-    PERROR = 8,
+	MALLOC = 1,
+	SYNTAX = 1 << 1,
+	ARGUMENT = 1 << 2,
+	PERROR = 1 << 3,
 };
 
-enum tokens_types
+enum e_tokens_types
 {
-    OR = 1,
-    AND = 2,
-	ARG = 4,
-    PIPE = 8,
-    R_IN = 16,
-    R_OUT = 32,
-    R_APP = 64,
-    R_HER = 128,
-    EXPAN = 256,
-    S_SHELL = 512,
-    SYN_ERROR = 1024,
-    WILD_CARD = 2048,
+	L_OPERAND = 1,
+	OR = 1 << 1 | L_OPERAND,
+	AND = 1 << 2 | L_OPERAND,
+	ARG = 1 << 3,
+	PIPE = 1 << 4,
+	REDIR = 1 << 5,
+	R_IN = 1 << 6 | REDIR,
+	R_OUT = 1 << 7 | REDIR,
+	R_HER = 1 << 8 | REDIR | R_IN,
+	R_APP = 1 << 9 | REDIR | R_OUT,
+	EXPAN = 1 << 10 | ARG,
+	S_SHELL = 1 << 11,
+	SYN_ERROR = 1 << 12,
+	WILD_CARD = 1 << 13 | ARG,
 };
 
-typedef enum data_type
+typedef enum e_data_type
 {
-    T_TOKEN,
-    T_ENV,
-} data_type;
-
-struct s_get_line
-{
-    char	*read_line;
-    char	**split_line;
-};
+	T_TOKEN,
+	T_ENV,
+}	t_data_type;
 
 struct s_command_lines
 {
-    int     status;
-    char    **command_line;
-    t_command_lines *next;
+	int				status;
+	char			**command_line;
+	t_command_lines	*next;
 };
 
 struct s_env // array to array char **
 {
-    char    id[1];
+	char	id[1];
 	char	*key;
 	char	*value;
 	short	eql;
-    t_env	*next;
+	t_env	*next;
 };
 
 struct s_minishell
 {
 	int				status;
-    int				num_pipes;
-    int             redir[2]; // para frank solo para el
-    int             base_redir[2]; //de frank
-	t_get_line		get_line;
+	int				num_pipes;
+	int				redir[2]; // para frank solo para el
+	int				base_redir[2]; //de frank
+	char			*get_line;
 	t_env			*env;
-    t_token			*token;
+	t_token			*token;
 	t_command_lines	*cmd_lines;
 };
 
 struct s_token
 {
-    char				id[0];
-    int					type;
+	char				id[0];
+	int					type;
 	short				is_quote;
-    char				*content;
-    int					has_space;
+	char				*content;
+	int					has_space;
 	t_minishell			subs;
-    t_token			 	*next;
+	t_token				*next;
 	t_token				*prev;
 };
 
@@ -156,7 +151,6 @@ char	*get_pwd(void);
 t_env	*init_env(char **env);
 int		_env(t_env *env, int num_commands);
 
-
 /*  built-ins/unset.c */
 int		_unset(t_env **env, char *key);
 
@@ -170,25 +164,25 @@ int		clear_command_lines(t_command_lines **command_line);
 
 /*	utils/errors.c				*/
 char	*error_normalization(char *input);
-int	    error_msg(int error, int code_exit, char *input);
+int		error_msg(int error, int code_exit, char *input);
 
 /*	utils/handler.list.c		*/
 t_token	*cast_token(void *list);
 t_env	*cast_env(void *list);
-void	add_back(void **list, void *new, data_type size);
+void	add_back(void **list, void *new, t_data_type size);
 void	add_prev(void **list);
 
 /*	utils/printf_list.c			*/
 int		printf_env(t_env *env);
-int		printf_token(t_token *token);
+int		printf_token(t_token *token, char *col);
 char	*printf_type(int type);
 
 /*	parsing/add_token_type.c	*/
 int		init_token(t_token **token, char *content, char *del, int space);
 int		metacharacters(t_token **token, char *line, char *del, int *pos);
 int		not_metacharacters(t_token **token, char *line, char *del, int *pos);
-int     metacharacters_sub(t_token **token, char *line, int start, int end);
-int     check_subshell(t_token **token, char *line, int *pos, int end);
+int		metacharacters_sub(t_token **token, char *line, int start, int end);
+int		check_subshell(t_token **token, char *line, int *pos, int end);
 
 /*	parsing/parsing.c			*/
 int		parsing(t_minishell *mini);
@@ -199,7 +193,5 @@ int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
 /*	parsing/syntax_err.c		*/
-char	*get_token_cont(int flag);
-int		check_prev_arg(t_token *list, int target);
 int		syntax_error(t_token **token);
 #endif
