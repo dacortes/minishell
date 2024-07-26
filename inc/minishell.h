@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/25 20:15:23 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/26 10:20:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 /******************************************************************************/
 
 # include <libft.h>
+# include <sys/wait.h>
 # include <ft_printf.h>
+# include <sys/types.h>
 # include <linux/limits.h>
 # include <get_next_line.h>
 # include <readline/readline.h>
@@ -51,6 +53,7 @@
 # define ERROR      -1
 # define FOUND      0
 # define NOT_FOUND  -1
+# define CHILD		0
 
 # define KEY    1
 # define VALUE  2

@@ -14,11 +14,9 @@ int mini_rush_plus(int argc, char **argv, char **env)
 	mini.env = init_env(env);
 	while ("The stupid evaluator is testing")
 	{
-		// _env(mini.env, 1);
-		// _unset(&mini.env, "SHLVL");
-		// ft_printf("--------------------------------------------\n");
-		// _env(mini.env, 1);
 		mini.get_line = readline("patata: ");
+		if (mini.get_line && *mini.get_line)
+			add_history(mini.get_line);
 		parsing(&mini);
 		printf_token(mini.token, TUR);
 		if (mini.get_line)
