@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/26 10:20:56 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/27 09:31:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 /******************************************************************************/
 
 # include <libft.h>
+# include <fcntl.h>
+# include <unistd.h>
 # include <sys/wait.h>
 # include <ft_printf.h>
 # include <sys/types.h>
@@ -197,4 +199,13 @@ int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
 /*	parsing/syntax_err.c		*/
 int		syntax_error(t_token **token);
+
+/*	redirections/redir_heredoc.c	*/
+int		is_heredoc(t_token *current, pid_t *redir, int *status);
+/*	redirections/redir_in.c	*/
+int		is_stdinp(t_token *current, int *redir, int *status);
+/*	redirections/redir_out.c	*/
+int		is_stdout(t_token *current, int *redir, int	*status);
+/*	redirections/redirecctions.c	*/
+int		parse_open(t_token *current, int type, int *redir);
 #endif

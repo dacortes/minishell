@@ -2,8 +2,29 @@
 
 //char *path = getenv("lolasasddc,s knjwj"); // user // path
 
-/* crear funcion  que combiarte el t_env en char **env */
+int test_heredoc(t_minishell *mini)
+{
+	t_token	*iter = mini->token;
 
+	while (iter)
+	{
+		mini->status = is_heredoc(iter, mini->redir, &mini->status);
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* crear funcion  que combiarte el t_env en char **env */
 int mini_rush_plus(int argc, char **argv, char **env)
 {
 	(void)argc;
@@ -19,6 +40,7 @@ int mini_rush_plus(int argc, char **argv, char **env)
 			add_history(mini.get_line);
 		parsing(&mini);
 		printf_token(mini.token, TUR);
+		test_heredoc(&mini);
 		if (mini.get_line)
 		{
 			clear_token(&mini.token);
