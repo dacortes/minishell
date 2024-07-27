@@ -6,8 +6,10 @@ int test_heredoc(t_minishell *mini)
 {
 	t_token	*iter = mini->token;
 
-	while (iter)
+	while (iter && iter->type != SYN_ERROR && mini->status == 0)
 	{
+		mini->status = is_stdinp(iter, mini->redir, &mini->status);
+		mini->status = is_stdout(iter, mini->redir, &mini->status);
 		mini->status = is_heredoc(iter, mini->redir, &mini->status);
 		iter = iter->next;
 	}
@@ -39,13 +41,13 @@ int mini_rush_plus(int argc, char **argv, char **env)
 		if (mini.get_line && *mini.get_line)
 			add_history(mini.get_line);
 		parsing(&mini);
-		printf_token(mini.token, TUR);
 		test_heredoc(&mini);
+		printf_token(mini.token, TUR);
 		if (mini.get_line)
 		{
 			clear_token(&mini.token);
 			free(mini.get_line);
-			mini.get_line = NULL;
+		//	mini.get_line = NULL;
 		}
 		if (mini.get_line && mini.get_line[0] == '\0')
 		{

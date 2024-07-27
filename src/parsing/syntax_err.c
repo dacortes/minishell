@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/25 19:02:57 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/27 11:45:41 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	syntax_command(t_token **token)
 			if (subs_count)
 			{
 				tmp->next->type = SYN_ERROR;
-				return (error_msg(SYNTAX, 1, ")"));
+				return (error_msg(SYNTAX, 1, "("));
 			}
 			arg_count++;
 		}
@@ -38,7 +38,7 @@ int	syntax_command(t_token **token)
 			if (subs_count)
 			{
 				tmp->next->type = SYN_ERROR;
-				return (error_msg(SYNTAX, 1, ")"));
+				return (error_msg(SYNTAX, 1, "("));
 			}
 			else if (arg_count)
 			{
@@ -66,10 +66,12 @@ int	syntax_error(t_token **token)
 			if (status) 
 				return (status);
 		}
-		else if (tmp->type & REDIR)
+		else if (tmp->type & REDIR && (tmp->next && !(tmp->next->type & ARG)))
 		{
-			if (tmp->next && !(tmp->next->type & ARG))
-				return (error_msg(SYNTAX, 1, tmp->content));
+			tmp->type = SYN_ERROR;
+			if (tmp->next->type == S_SHELL)
+				return (error_msg(SYNTAX, 1, "("));
+			return (error_msg(SYNTAX, 1, tmp->content));
 		}
 		tmp = tmp->next;
 	}

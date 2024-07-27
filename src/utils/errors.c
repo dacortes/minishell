@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:55:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/21 15:18:22 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/27 12:01:32 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	error_msg(int error, int code_exit, char *input)
 	e = error & ARGUMENT && fd_printf(2, "%s%s `%s'\n", MINI, ERR_ARGUMENT, input);
 	if (error == PERROR)
 	{
-		perror(MINI);
-		fd_printf(2, "%s", input);
+		fd_printf(2, "%s%s: ", MINI, input);
+		perror("");
 	}
-	(void)e;
+	(void)e;/*QUITAR AL ENTREGAR*/
 	return (code_exit);
 }

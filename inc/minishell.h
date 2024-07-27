@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/27 09:31:16 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/27 15:07:47 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,3 +209,13 @@ int		is_stdout(t_token *current, int *redir, int	*status);
 /*	redirections/redirecctions.c	*/
 int		parse_open(t_token *current, int type, int *redir);
 #endif
+
+
+/*
+		Si encontramos $:    
+							- La variable existe entre caracteres alfanumericos y '_'
+							- El primer caracter ha de ser alfabetico y '_' (Si no es el caso, el token no se hace/expande, así que se mantiene el "$+contenido")
+							- La cadena para hasta no encontrar un caracter válido y, si no está separado por un " " entonces va pegado
+							- Aceptar "$?"
+
+*/
