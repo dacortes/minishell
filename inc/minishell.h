@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/27 15:07:47 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:52:22 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ struct s_token
 	char				*content;
 	int					has_space;
 	t_minishell			subs;
+	t_token				*expand;
 	t_token				*next;
 	t_token				*prev;
 };
