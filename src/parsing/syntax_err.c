@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/27 11:45:41 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:16:51 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	syntax_error(t_token **token)
 	int		status;
 
 	tmp = *token;
-	while (tmp && tmp->next)
+	while (tmp)
 	{
 		if (tmp->type == PIPE || tmp->type & L_OPERAND)
 		{
@@ -66,14 +66,18 @@ int	syntax_error(t_token **token)
 			if (status) 
 				return (status);
 		}
-		else if (tmp->type & REDIR && (tmp->next && !(tmp->next->type & ARG)))
+		else if (tmp->type & REDIR && ((tmp->next && !(tmp->next->type & ARG))
+			|| !tmp->next))
 		{
 			tmp->type = SYN_ERROR;
-			if (tmp->next->type == S_SHELL)
+			if (tmp->next && tmp->next->type == S_SHELL)
 				return (error_msg(SYNTAX, 1, "("));
 			return (error_msg(SYNTAX, 1, tmp->content));
 		}
-		tmp = tmp->next;
+		if (tmp->next)
+			tmp = tmp->next;
+		else
+			break;
 	}
 	status = syntax_command(&tmp);
 	if (status)

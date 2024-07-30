@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/27 16:36:00 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:47:42 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <minishell.h>
@@ -21,14 +21,22 @@ int test_heredoc(t_minishell *mini)
 	{
 		mini->status = is_stdinp(iter, mini->redir, &mini->status);
 		mini->status = is_stdout(iter, mini->redir, &mini->status);
-		mini->status = is_heredoc(iter, mini->redir, &mini->status);
 		iter = iter->next;
 	}
 	return (EXIT_SUCCESS);
 }
 
+int	do_heredocs(t_minishell *mini)
+{
+	t_token	*iter = mini->token;
 
-
+	while (iter && iter->type != SYN_ERROR)
+	{
+		mini->status = is_heredoc(iter, mini->redir, &mini->status);
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
+}
 
 
 
@@ -52,13 +60,15 @@ int mini_rush_plus(int argc, char **argv, char **env)
 		if (mini.get_line && *mini.get_line)
 			add_history(mini.get_line);
 		parsing(&mini);
-		test_heredoc(&mini);
 		printf_token(mini.token, TUR);
+		do_heredocs(mini);
+		if (!mini->status)
+			manager(mini);
 		if (mini.get_line)
 		{
 			clear_token(&mini.token);
 			free(mini.get_line);
-		//	mini.get_line = NULL;
+			mini.get_line = NULL;
 		}
 		if (mini.get_line && mini.get_line[0] == '\0')
 		{

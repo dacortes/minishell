@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 15:54:06 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/07/28 16:31:29 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,6 @@ int	clear_token(t_token **token)
 		clear = *token;
 		*token = (*token)->next;
 		ft_free(&clear->content, NULL);
-		free(clear);
-	}
-	return (EXIT_SUCCESS);
-}
-
-int	clear_command_lines(t_command_lines **command_line)
-{
-	t_command_lines	*clear;
-
-	while (*command_line)
-	{
-		clear = *command_line;
-		*command_line = (*command_line)->next;
-		clear->command_line = free_double_ptr(clear->command_line);
 		free(clear);
 	}
 	return (EXIT_SUCCESS);

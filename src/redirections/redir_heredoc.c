@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/27 08:43:46 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/30 16:14:53 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int	read_heredoc(t_token *token, pid_t *redir)
 		}
 		free(line);
 	}
-	close(redir[0]);
-	close(redir[0]);
+	close(redir[1]);
 	exit (EXIT_SUCCESS);
 }
 
@@ -47,10 +46,10 @@ int	is_heredoc(t_token *current, pid_t *redir, int *status)
 	if (current && current->type == R_HER)
 	{
 		if (pipe(redir))
-			exit (error_msg(PERROR, 1, "is_heredoc: init: pipe heredoc"));
+			exit (error_msg(PERROR, 1, "heredoc: init: pipe heredoc"));
 		heredoc = fork();
 		if (heredoc == ERROR)
-			exit (error_msg(PERROR, 1, "is_heredoc: init: child heredoc"));
+			exit (error_msg(PERROR, 1, "heredoc: init: child heredoc"));
 		if (heredoc == CHILD)
 		{
 			if (redir[0] >= 0)

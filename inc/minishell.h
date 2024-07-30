@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/28 12:52:22 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:13:44 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,14 @@
 # define ERR_SYNTAX "syntax error near unexpected token"
 # define ERR_ARGUMENT "too many arguments"
 
-typedef struct s_command_lines	t_command_lines;
 typedef struct s_minishell		t_minishell;
-typedef struct s_get_line		t_get_line;
 typedef struct s_token			t_token;
 typedef struct s_env			t_env;
+
+typedef int						t_heredoc_token;
+typedef t_minishell				t_subs_token;
+typedef t_token					*t_expand_token;
+typedef char					*t_basic_token;
 
 enum e_error_code
 {
@@ -105,13 +108,6 @@ typedef enum e_data_type
 	T_ENV,
 }	t_data_type;
 
-struct s_command_lines
-{
-	int				status;
-	char			**command_line;
-	t_command_lines	*next;
-};
-
 struct s_env // array to array char **
 {
 	char	id[1];
@@ -124,26 +120,23 @@ struct s_env // array to array char **
 struct s_minishell
 {
 	int				status;
-	int				num_pipes;
 	int				redir[2]; // para frank solo para el
 	int				base_redir[2]; //de frank
+	int				*redir_heredoc;
 	char			*get_line;
 	t_env			*env;
 	t_token			*token;
-	t_command_lines	*cmd_lines;
 };
 
 struct s_token
 {
-	char				id[0];
-	int					type;
-	short				is_quote;
-	char				*content;
-	int					has_space;
-	t_minishell			subs;
-	t_token				*expand;
-	t_token				*next;
-	t_token				*prev;
+	char		id[0];
+	int			type;
+	short		is_quote;
+	int			has_space;
+	void		*content;
+	t_token		*next;
+	t_token		*prev;
 };
 
 /******************************************************************************/
@@ -166,7 +159,6 @@ char	*search_env(t_env *env, char *key, int type);
 /*	utils/clear_list.c			*/
 int		clear_env(t_env **env);
 int		clear_token(t_token **token);
-int		clear_command_lines(t_command_lines **command_line);
 
 /*	utils/errors.c				*/
 char	*error_normalization(char *input);
