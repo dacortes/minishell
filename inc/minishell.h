@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 16:41:06 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/31 20:09:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ enum e_tokens_types
 	EXPAN = 1 << 10 | ARG,
 	S_SHELL = 1 << 11,
 	SYN_ERROR = 1 << 12,
-	WILD_CARD = 1 << 13 | ARG,
+	WILD_CARD = 1 << 13 | EXPAN,
 };
 
 typedef enum e_data_type
@@ -125,8 +125,8 @@ struct s_minishell
 
 union u_content
 {
-	t_minishell	*subs;
-	t_token		*expand;
+	t_minishell		*subs;
+	t_basic_list	*expand;
 	int			redir_here[2];
 };
 
@@ -158,15 +158,29 @@ struct s_basic_list
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
-int	iter_list(t_basic_list *node, void (*f)(t_type_list));
+int		iter_list_list_content(t_basic_list *node, void (*f)(void *));
 
+/*	built-ins/cd.c				*/
+char	*get_pwd(void);
 
+/*	built-ins/env.c				*/
 t_basic_list *init_env(char **env);
+int		_env(t_basic_list *list, int num_commands);
+
+/*  built-ins/utils.c */
+void	printf_env(void *content);
+char	*is_shlvl(char *key, char *value);
 
 
-int	_env(t_basic_list *list, int num_commands);
+
 
 int	error_msg(int error, int code_exit, char *input);
+
+
+/*	utils/clear_list.c			*/
+void 	free_env(void *content);
+void	free_token(void *content);
+void 	free_list(t_basic_list *node, void (*f)(void *));
 
 /*	utils/handler.list.c		*/
 void	add_prev(t_basic_list **list);

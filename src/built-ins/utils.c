@@ -6,34 +6,58 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:36:38 by codespace         #+#    #+#             */
-/*   Updated: 2024/07/24 12:12:29 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/31 19:32:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*search_env(t_env *env, char *key, int type)
+void printf_env(void *content)
 {
-	t_env	*search;
+	t_env	*env;
 
-	search = env;
-	if (type == KEY)
+	env = ((t_type_list *)content)->env;
+	if (!env)
+		return ;
+	if(env && env->eql && env->key && env->value)
+		ft_printf("%s=%s\n", env->key, env->value);
+	else if (env && env->eql && env->key && !*env->value)
+		ft_printf("%s=\n", env->key);
+}
+
+int	parsing_shlvl(char *value)
+{
+	int	size;
+
+	size = ft_strlen(value);
+	if (size == 0 || ((size > 10 && value[0] != '-')
+		&& (size > 10 && value[0] != '+')) || size > 11)
+		return (0);
+	if (value[0] != '-' && size == 10 &&
+		ft_strncmp(value, "2147483647", 10) > 0)
+		return (0);
+	if (value[0] == '-' && size == 11 &&
+		ft_strncmp(value, "-2147483648", 11) > 0)
+		return (0);
+	if (value[0] == '+' && size == 11 &&
+		ft_strncmp(value, "+2147483647", 11) > 0)
+		return (0);
+	return (ft_atoi(value));
+}
+
+char	*is_shlvl(char *key, char *value)
+{
+	int		shlvl;
+
+	shlvl = 0;
+	if (ft_strncmp(key, "SHLVL", -1) == FOUND)
 	{
-		while (search)
-		{
-			if (ft_strncmp(search->key, key, -1) == 0)
-				return (search->key);
-			search = search->next;
-		}
+		shlvl = parsing_shlvl(value);
+		if (shlvl < 0 || shlvl >= 1000)
+			shlvl = 0;
+		shlvl++;
+		free(value);
+		value = ft_itoa(shlvl);
 	}
-	else if (type == VALUE)
-	{
-		while (search)
-		{
-			if (ft_strncmp(search->key, key, -1) == 0)
-				return (search->value);
-			search = search->next;
-		}
-	}
-	return (NOT);
+	return (value);
 }

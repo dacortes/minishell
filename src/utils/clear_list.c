@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/28 16:31:29 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/31 20:15:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,55 @@ char	**free_double_ptr(char **ptr)
 	return (NULL);
 }
 
-int	clear_env(t_env **env)
+void free_env(void *content)
 {
-	t_env	*clear;
+    t_env *env;
 
-	while (*env)
+	env = ((t_type_list *)content)->env;
+    if (env)
 	{
-		clear = *env;
-		*env = (*env)->next;
-		ft_free(&clear->key, &clear->value);
-		free(clear);
-	}
-	return (EXIT_SUCCESS);
+        free(env->key);
+        free(env->value);
+        free(env);
+    }
 }
 
-int	clear_token(t_token **token)
+void free_minishell(t_minishell *mini)
 {
-	t_token	*clear;
+	free(mini->get_line);
+	free_list(mini->env, free_env);
+	free_list(mini->token, free_token);
+	free(mini);
+}
 
-	while (*token)
+void free_token(void *content)
+{
+	t_basic_list	*basic;
+	t_token			*token;
+
+	basic = ((t_basic_list *)content);
+	if (basic)
 	{
-		clear = *token;
-		*token = (*token)->next;
-		ft_free(&clear->content, NULL);
-		free(clear);
+		token = basic->list_content.token;
+		free(token->content);
+		if (token->type == S_SHELL)
+			free_minishell(token->token_content.subs);
+		else if (token->type & EXPAN)
+			free_list(token->token_content.expand, free_token);
 	}
-	return (EXIT_SUCCESS);
+}
+
+void free_list(t_basic_list *node, void (*f)(void *))
+{
+    t_basic_list *iter;
+    t_basic_list *tmp;
+
+    iter = node;
+    while (iter)
+	{
+        tmp = iter->next;
+        f(&(iter->list_content));
+        free(iter);
+        iter = tmp;
+    }
 }

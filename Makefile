@@ -13,7 +13,10 @@ OBJECTS = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.o))
 DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.d))
 INCLUDES = $(addprefix -I, inc) \
 		   $(addprefix -I, lib/libft)
-SOURCES =  built-ins/env.c utils/handler_list.c utils/errors.c main.c
+SOURCES = 	built-ins/cd.c built-ins/env.c built-ins/utils.c\
+			utils/clear_list.c utils/handler_list.c\
+			utils/errors.c\
+			main.c
 
 # built-ins/cd.c built-ins/env.c built-ins/unset.c \
 		  built-ins/pwd.c built-ins/utils.c \
