@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/27 13:02:55 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/31 21:39:33 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	basic_checker(t_token **token, char *line, int end)
+int	basic_checker(t_basic_list **token, char *line, int end)
 {
 	int i = 0;
 	int	status = 0;
@@ -48,40 +48,19 @@ int	basic_checker(t_token **token, char *line, int end)
 			if (status)
 				return (status);
 		}
-		else if (line[i] == '(')
-		{
-			status = check_subshell(token, line, &i, end);
-			if (status)
-				return (status);
-		}
-		else if (line[i] == ')')
-            return(error_msg(SYNTAX, 2, error_normalization("(")));
+		// else if (line[i] == '(')
+		// {
+		// 	status = check_subshell(token, line, &i, end);
+		// 	if (status)
+		// 		return (status);
+		// }
+		// else if (line[i] == ')')
+        //     return(error_msg(SYNTAX, 2, error_normalization("(")));
 		else if (line[i])
 			status = not_metacharacters(token, line, " zz", &i);
 	}
 	return (EXIT_SUCCESS);
 }
-
-int get_subshell(t_minishell *mini)
-{
-	t_token	*tmp;
-
-	tmp = mini->token;
-	while (tmp)
-	{
-		if (tmp->type == S_SHELL)
-		{
-			tmp->subs.get_line = tmp->content;
-			tmp->subs.env = mini->env;
-			tmp->subs.status = parsing(&tmp->subs);
-			if (tmp->subs.status)
-				return (tmp->subs.status);
-		}
-		tmp = tmp->next;
-	}
-	return (EXIT_SUCCESS);
-}
-
 
 int parsing(t_minishell *mini)
 {
@@ -96,12 +75,12 @@ int parsing(t_minishell *mini)
 	if (mini->status)
 		return (mini->status);
 	if (mini->token)
-		add_prev((void **)&mini->token);
-	mini->status = syntax_error(&mini->token);
-	if (mini->status)
-		return (mini->status);
-	mini->status = get_subshell(mini);
-	if (mini->status)
-	 	return (mini->status);
+		add_prev(&mini->token);
+	// mini->status = syntax_error(&mini->token);
+	// if (mini->status)
+	// 	return (mini->status);
+	// mini->status = get_subshell(mini);
+	// if (mini->status)
+	//  	return (mini->status);
 	return (EXIT_SUCCESS);
 }

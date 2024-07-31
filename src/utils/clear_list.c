@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 20:15:29 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/31 21:24:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@ void free_env(void *content)
     }
 }
 
-void free_minishell(t_minishell *mini)
+void free_minishell(t_minishell *mini, int flag)
 {
-	free(mini->get_line);
-	free_list(mini->env, free_env);
-	free_list(mini->token, free_token);
-	free(mini);
+	if (mini->get_line)
+		free(mini->get_line);
+	if (mini->env)
+		free_list(mini->env, free_env);
+	if (mini->token)
+		free_list(mini->token, free_token);
+	if (flag)
+		free(mini);
 }
 
 void free_token(void *content)
@@ -59,8 +63,8 @@ void free_token(void *content)
 		token = basic->list_content.token;
 		free(token->content);
 		if (token->type == S_SHELL)
-			free_minishell(token->token_content.subs);
-		else if (token->type & EXPAN)
+			free_minishell(token->token_content.subs, TRUE);
+		else if (token->type & WILD_CARD)
 			free_list(token->token_content.expand, free_token);
 	}
 }

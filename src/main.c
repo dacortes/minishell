@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/31 19:40:55 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/31 20:30:05 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,24 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 	ft_bzero(&mini, sizeof(t_minishell));
 	mini.env = init_env(env);
 	_env(mini.env, 1);
-	free_list(mini.env, free_env);
+	while ("The stupid evaluator is testing")
+	{
+		mini.get_line = readline("patata: ");
+		if (mini.get_line && *mini.get_line)
+			add_history(mini.get_line);
+		if (!mini.get_line)
+			break ;
+		if (mini.get_line)
+		{
+			// free_list(mini.token, free_token);
+			free(mini.get_line);
+			mini.get_line = NULL;
+		}
+	}
+	free_minishell(&mini, FALSE);
 	return (EXIT_SUCCESS);
 }
+
 int main(int argc, char **argv, char **env)
 {
 	return mini_rush_plus(argc, argv, env);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 20:09:46 by codespace        ###   ########.fr       */
+/*   Updated: 2024/07/31 21:39:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,14 +172,19 @@ void	printf_env(void *content);
 char	*is_shlvl(char *key, char *value);
 
 
-
+short	get_type(char *flag, char *content);
 
 int	error_msg(int error, int code_exit, char *input);
+
+int	metacharacters(t_basic_list **token, char *line, char *del, int *pos);
+
+
 
 
 /*	utils/clear_list.c			*/
 void 	free_env(void *content);
 void	free_token(void *content);
+void	free_minishell(t_minishell *mini, int flag);
 void 	free_list(t_basic_list *node, void (*f)(void *));
 
 /*	utils/handler.list.c		*/
