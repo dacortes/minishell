@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/30 16:13:44 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:41:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;
 typedef struct s_env			t_env;
 
-typedef int						t_heredoc_token;
-typedef t_minishell				t_subs_token;
-typedef t_token					*t_expand_token;
-typedef char					*t_basic_token;
+typedef	struct s_basic_list		t_basic_list;
+typedef union  u_content		t_content;
+typedef	union  u_type_list		t_type_list;
+
 
 enum e_error_code
 {
@@ -110,105 +110,65 @@ typedef enum e_data_type
 
 struct s_env // array to array char **
 {
-	char	id[1];
 	char	*key;
 	char	*value;
 	short	eql;
-	t_env	*next;
 };
 
 struct s_minishell
 {
 	int				status;
-	int				redir[2]; // para frank solo para el
-	int				base_redir[2]; //de frank
-	int				*redir_heredoc;
 	char			*get_line;
-	t_env			*env;
-	t_token			*token;
+	t_basic_list	*env;
+	t_basic_list	*token;
+};
+
+union u_content
+{
+	t_minishell	*subs;
+	t_token		*expand;
+	int			redir_here[2];
 };
 
 struct s_token
 {
-	char		id[0];
 	int			type;
 	short		is_quote;
 	int			has_space;
-	void		*content;
-	t_token		*next;
-	t_token		*prev;
+	char		*content;
+	t_content	token_content;
+};
+
+
+union u_type_list
+{
+	t_token	*token;
+	t_env	*env;
+};
+
+
+struct s_basic_list
+{
+	t_type_list		list_content;
+	t_basic_list	*next;
+	t_basic_list	*prev;
 };
 
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
-/*	built-ins/cd.c				*/
-char	*get_pwd(void);
+int	iter_list(t_basic_list *node, void (*f)(t_type_list));
 
-/*	built-ins/env.c				*/
-t_env	*init_env(char **env);
-int		_env(t_env *env, int num_commands);
 
-/*  built-ins/unset.c */
-int		_unset(t_env **env, char *key);
+t_basic_list *init_env(char **env);
 
-/*  built-ins/utils.c */
-char	*search_env(t_env *env, char *key, int type);
 
-/*	utils/clear_list.c			*/
-int		clear_env(t_env **env);
-int		clear_token(t_token **token);
+int	_env(t_basic_list *list, int num_commands);
 
-/*	utils/errors.c				*/
-char	*error_normalization(char *input);
-int		error_msg(int error, int code_exit, char *input);
+int	error_msg(int error, int code_exit, char *input);
 
 /*	utils/handler.list.c		*/
-t_token	*cast_token(void *list);
-t_env	*cast_env(void *list);
-void	add_back(void **list, void *new, t_data_type size);
-void	add_prev(void **list);
-
-/*	utils/printf_list.c			*/
-int		printf_env(t_env *env);
-int		printf_token(t_token *token, char *col);
-char	*printf_type(int type);
-
-/*	parsing/add_token_type.c	*/
-int		init_token(t_token **token, char *content, char *del, int space);
-int		metacharacters(t_token **token, char *line, char *del, int *pos);
-int		not_metacharacters(t_token **token, char *line, char *del, int *pos);
-int		metacharacters_sub(t_token **token, char *line, int start, int end);
-int		check_subshell(t_token **token, char *line, int *pos, int end);
-
-/*	parsing/parsing.c			*/
-int		parsing(t_minishell *mini);
-/*	parsing/utils.c				*/
-int		is_metacharacters(char c);
-short	get_type(char *flag, char *content);
-int		set_space(char *line, int *pos, char *del);
-int		get_end_not_metacharacters(char *str);
-int		get_end_token(char *str, char *del, int *pos, int size_del);
-/*	parsing/syntax_err.c		*/
-int		syntax_error(t_token **token);
-
-/*	redirections/redir_heredoc.c	*/
-int		is_heredoc(t_token *current, pid_t *redir, int *status);
-/*	redirections/redir_in.c	*/
-int		is_stdinp(t_token *current, int *redir, int *status);
-/*	redirections/redir_out.c	*/
-int		is_stdout(t_token *current, int *redir, int	*status);
-/*	redirections/redirecctions.c	*/
-int		parse_open(t_token *current, int type, int *redir);
+void	add_prev(t_basic_list **list);
+void	add_back(t_basic_list **list, t_basic_list *new);
 #endif
-
-
-/*
-		Si encontramos $:    
-							- La variable existe entre caracteres alfanumericos y '_'
-							- El primer caracter ha de ser alfabetico y '_' (Si no es el caso, el token no se hace/expande, así que se mantiene el "$+contenido")
-							- La cadena para hasta no encontrar un caracter válido y, si no está separado por un " " entonces va pegado
-							- Aceptar "$?"
-
-*/

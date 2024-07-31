@@ -6,21 +6,18 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:51:07 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/25 20:16:24 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:01:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static const void *(*g_data_type[])(void *list) =\
-{(void *)cast_token, (void *)cast_env};
-
-void	add_prev(void **list)
+void	add_prev(t_basic_list **list)
 {
-	t_token	*tmp;
-	t_token	*prev;
+	t_basic_list	*tmp;
+	t_basic_list	*prev;
 
-	tmp = (t_token *)*list;
+	tmp = *list;
 	prev = NULL;
 	while (tmp)
 	{
@@ -31,57 +28,27 @@ void	add_prev(void **list)
 	}
 }
 
-t_token	*cast_token(void *list)
-{
-	t_token	*tmp_list;
-
-	tmp_list = (t_token *)list;
-	while (tmp_list && tmp_list->next)
-	{
-		if (tmp_list->next)
-			tmp_list = tmp_list->next;
-	}
-	return (tmp_list);
-}
-
-t_env	*cast_env(void *list)
-{
-	list = (t_env *)list;
-	while (((t_env *)list) && ((t_env *)list)->next)
-	{
-		if (((t_env *)list)->next)
-			list = ((t_env *)list)->next;
-	}
-	return (list);
-}
-
-void	*get_last(void *list, t_data_type size)
+void	*get_last(t_basic_list *list)
 {
 	if (!list)
 		return (NULL);
-	list = (void *)g_data_type[size](list);
+	while (list && list->next)
+		list = list->next;
 	return (list);
 }
 
-void	add_back(void **list, void *new, t_data_type size)
+void	add_back(t_basic_list **list, t_basic_list *new)
 {
-	void	*tmp;
+	t_basic_list	*tmp;
 
 	if (list)
 	{
 		if (!*list)
-		{
 			*list = new;
-			if (size  == T_TOKEN)
-				((t_token *)(*list))->prev = NULL;
-		}
 		else
 		{
-			tmp = get_last(*list, size);
-			if (size == T_ENV)
-				((t_env *)tmp)->next = (t_env *)new;
-			else if (size == T_TOKEN)
-				((t_token *)tmp)->next = (t_token *)new;
+			tmp = get_last(*list);
+			tmp->next = new;
 		}
 	}
 }
