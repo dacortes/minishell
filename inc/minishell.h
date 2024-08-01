@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/01 09:57:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 14:59:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,37 +158,51 @@ struct s_basic_list
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
+
 int		iter_list_list_content(t_basic_list *node, void (*f)(void *));
+
 
 /*	built-ins/cd.c				*/
 char	*get_pwd(void);
 
 /*	built-ins/env.c				*/
-t_basic_list *init_env(char **env);
-int		_env(t_basic_list *list, int num_commands);
+t_basic_list	*init_env(char **env);
+int				_env(t_basic_list *list, int num_commands);
 
-/*  built-ins/utils.c */
+/*  built-ins/utils.c 			*/
 void	printf_env(void *content);
 char	*is_shlvl(char *key, char *value);
 
-int 	parsing(t_minishell *mini);
 
+
+/*	parsing/add_token.c			*/
+int		get_token_content(t_content *token_content, char *content, int type);
+t_token	*new_token(char *content, char *del, int space);
+int		init_token(t_basic_list **token, char *content, char *del, int space);
+
+
+/*	parsing/metacharacters.c	*/
+int		metacharacters(t_basic_list **token, char *line, char *del, int *pos);
+int		not_metacharacters(t_basic_list **token, char *line, char *del, int *pos);
+int		metacharacters_sub(t_basic_list **token, char *line, int start, int end);
+int		check_subshell(t_basic_list **token, char *line, int *pos, int end);
+
+/*	parsing/parsing.c			*/
+int 	parsing(t_minishell *mini);
+int		syntax_error(t_basic_list **content);
+
+/*	parsing/syntax_err			*/
+
+/*	parsing/syntax_error		*/
+
+/*	parsing/utils.c				*/
 short	get_type(char *flag, char *content);
 int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
 
+/*	utils/errors.c			*/
 int	error_msg(int error, int code_exit, char *input);
-
-int	metacharacters(t_basic_list **token, char *line, char *del, int *pos);
-int	not_metacharacters(t_basic_list **token, char *line, char *del, int *pos);
-
-
-
-
-char	*printf_type(int type);
-
-
 
 /*	utils/clear_list.c			*/
 void 	free_env(void *content);
@@ -199,4 +213,9 @@ void 	free_list(t_basic_list *node, void (*f)(void *));
 /*	utils/handler.list.c		*/
 void	add_prev(t_basic_list **list);
 void	add_back(t_basic_list **list, t_basic_list *new);
+
+/*	utils/printf_list.c 		*/
+char	*printf_type(int type);
+void	printf_content_token(void *content);
+void	printf_token(t_basic_list *token);
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_token_type.c                                   :+:      :+:    :+:   */
+/*   add_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/01 10:54:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 13:26:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,45 +74,5 @@ int	init_token(t_basic_list **token, char *content, char *del, int space)
 	add_back(token, new);
 	if (tmp->type == ARG &&  ft_strlen(content) == 1 && *content == '&')
 		return(error_msg(SYNTAX, 2, "&"));
-	return (EXIT_SUCCESS);
-}
-
-int	metacharacters(t_basic_list **token, char *line, char *del, int *pos)
-{
-	int		end;
-	int		len;
-	int		space;
-	char	delimiter[1];
-	int		status;
-
-	space = 0;
-	delimiter[0] = del[0];
-	len = ft_strlen(del);
-	if (line[*pos] && del[0] != ' ' && len > 1)
-		(*pos)++;
-	end = ft_strchrpos(&line[*pos], del[0]);
-	if (end == ERROR && del[0] != ' ')
-		return (error_msg(SYNTAX, 2, delimiter));
-	space = set_space(line, pos, del);
-	if (end == ERROR)
-		end = get_end_token(line, del, pos, len);
-	status = init_token(token, ft_strndup(&line[*pos], end), del, space);
-	(*pos) += end;
-	if (del[0] != ' ' && line[*pos] == del[0])
-		++(*pos);
-	if (status)
-		return (status);
-	return (EXIT_SUCCESS);
-}
-
-int	not_metacharacters(t_basic_list **token, char *line, char *del, int *pos)
-{
-	int	end;
-	int	space;
-
-	end = get_end_not_metacharacters(&line[*pos]);
-	space = set_space(line, pos, del);
-	init_token(token, ft_strndup(&line[*pos], end), del, space);
-	(*pos) += end;
 	return (EXIT_SUCCESS);
 }

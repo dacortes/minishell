@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:13:54 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/24 11:24:00 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 13:38:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	is_metacharacters(char c)
+static int	is_metacharacters(char c)
 {
 	return (c != ' ' && c != SIMP_QUOTES && c != DOUBLE_QUOTES && c != '('
 		&& c != ')' && c != '&' && c != '|' && c != '<' && c != '>');

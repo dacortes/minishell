@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 21:39:33 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 14:31:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ int	basic_checker(t_basic_list **token, char *line, int end)
 			if (status)
 				return (status);
 		}
-		// else if (line[i] == '(')
-		// {
-		// 	status = check_subshell(token, line, &i, end);
-		// 	if (status)
-		// 		return (status);
-		// }
-		// else if (line[i] == ')')
-        //     return(error_msg(SYNTAX, 2, error_normalization("(")));
+		else if (line[i] == '(')
+		{
+			status = check_subshell(token, line, &i, end);
+			if (status)
+				return (status);
+		}
+		else if (line[i] == ')')
+            return(error_msg(SYNTAX, 2, ")"));
 		else if (line[i])
 			status = not_metacharacters(token, line, " zz", &i);
 	}
@@ -76,9 +76,9 @@ int parsing(t_minishell *mini)
 		return (mini->status);
 	if (mini->token)
 		add_prev(&mini->token);
-	// mini->status = syntax_error(&mini->token);
-	// if (mini->status)
-	// 	return (mini->status);
+	mini->status = syntax_error(&mini->token);
+	if (mini->status)
+		return (mini->status);
 	// mini->status = get_subshell(mini);
 	// if (mini->status)
 	//  	return (mini->status);
