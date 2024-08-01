@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 21:39:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 09:57:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,13 +171,22 @@ int		_env(t_basic_list *list, int num_commands);
 void	printf_env(void *content);
 char	*is_shlvl(char *key, char *value);
 
+int 	parsing(t_minishell *mini);
 
 short	get_type(char *flag, char *content);
+int		set_space(char *line, int *pos, char *del);
+int		get_end_not_metacharacters(char *str);
+int		get_end_token(char *str, char *del, int *pos, int size_del);
 
 int	error_msg(int error, int code_exit, char *input);
 
 int	metacharacters(t_basic_list **token, char *line, char *del, int *pos);
+int	not_metacharacters(t_basic_list **token, char *line, char *del, int *pos);
 
+
+
+
+char	*printf_type(int type);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 21:34:06 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 10:54:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_token	*new_token(char *content, char *del, int space)
 		exit (error_msg(MALLOC, 1, "new_token: new"));
 	if (*del == SIMP_QUOTES)
 		new->is_quote = SIMP_QUOTES;
-	if (*del == SIMP_QUOTES)
+	if (*del == DOUBLE_QUOTES)
 		new->is_quote = DOUBLE_QUOTES;
 	new->type = get_type(del, content);
 	new->content = content;
@@ -102,5 +102,17 @@ int	metacharacters(t_basic_list **token, char *line, char *del, int *pos)
 		++(*pos);
 	if (status)
 		return (status);
+	return (EXIT_SUCCESS);
+}
+
+int	not_metacharacters(t_basic_list **token, char *line, char *del, int *pos)
+{
+	int	end;
+	int	space;
+
+	end = get_end_not_metacharacters(&line[*pos]);
+	space = set_space(line, pos, del);
+	init_token(token, ft_strndup(&line[*pos], end), del, space);
+	(*pos) += end;
 	return (EXIT_SUCCESS);
 }

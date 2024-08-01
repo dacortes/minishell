@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:51:07 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 17:01:41 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/01 10:46:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*get_last(t_basic_list *list)
 {
 	if (!list)
 		return (NULL);
-	while (list && list->next)
+	while (list->next)
 		list = list->next;
 	return (list);
 }
