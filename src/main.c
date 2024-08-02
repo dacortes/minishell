@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/01 14:08:42 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 09:10:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 			break ;
 		if (mini.get_line)
 		{
-			// free_list(mini.token, free_token);
+			free_list(mini.token, free_token);
 			free(mini.get_line);
 			mini.get_line = NULL;
 		}

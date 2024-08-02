@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 08:45:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 09:09:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	basic_checker(t_basic_list **token, char *line, int end)
 		}
 		else if (line[i] == '&' || line[i] == '|')
 		{
-			printf("estoy aqui\n");
 			status =  metacharacters(token, line, " &|", &i);
 			if (status)
 				return (status);

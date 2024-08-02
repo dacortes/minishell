@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 21:24:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 09:19:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,28 @@ void free_env(void *content)
 	env = ((t_type_list *)content)->env;
     if (env)
 	{
-        free(env->key);
-        free(env->value);
+		ft_free(&env->key, &env->value);
         free(env);
     }
+	env = NULL;
 }
 
 void free_minishell(t_minishell *mini, int flag)
 {
 	if (mini->get_line)
+	{
 		free(mini->get_line);
+		mini->get_line = NULL;
+	}
 	if (mini->env)
 		free_list(mini->env, free_env);
 	if (mini->token)
 		free_list(mini->token, free_token);
 	if (flag)
+	{
 		free(mini);
+		mini = NULL;
+	}
 }
 
 void free_token(void *content)
@@ -61,12 +67,16 @@ void free_token(void *content)
 	if (basic)
 	{
 		token = basic->list_content.token;
-		free(token->content);
-		if (token->type == S_SHELL)
+		if (token && token->content)
+			free(token->content);
+		if (token && token->type == S_SHELL)
 			free_minishell(token->token_content.subs, TRUE);
-		else if (token->type & WILD_CARD)
+		else if (token && token->type & WILD_CARD)
 			free_list(token->token_content.expand, free_token);
+		free(token);
 	}
+	token = NULL;
+	basic = NULL;
 }
 
 void free_list(t_basic_list *node, void (*f)(void *))
@@ -82,4 +92,5 @@ void free_list(t_basic_list *node, void (*f)(void *))
         free(iter);
         iter = tmp;
     }
+	iter = NULL;
 }
