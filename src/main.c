@@ -6,11 +6,29 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/02 13:46:41 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 14:40:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <minishell.h>
+
+int	test_heredoc(t_minishell *mini)
+{
+	pid_t	redir[2];
+	t_basic	*iter;
+	t_basic	*env;
+
+	redir[0] = 0;
+	redir[1] = 0;
+	env = mini->env;
+	iter = mini->token;
+	while (iter && iter->data.token->type != SYN_ERROR && mini->status == 0)
+	{
+		is_heredoc(env, iter, redir, &mini->status);
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
+}
 
 int	mini_rush_plus(int argc, char **argv, char **env)
 {
@@ -25,6 +43,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 	{
 		mini.get_line = readline("patata: ");
 		parsing(&mini);
+		test_heredoc(&mini);
 		printf_token(mini.token);
 		if (mini.get_line && *mini.get_line)
 			add_history(mini.get_line);
@@ -36,6 +55,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 			free(mini.get_line);
 			mini.get_line = NULL;
 		}
+		ft_printf("%s [%d]\n", BLUE"status"END, mini.status);
 	}
 	free_minishell(&mini, FALSE);
 	return (EXIT_SUCCESS);

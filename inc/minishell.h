@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 14:05:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 14:37:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,8 @@ union u_data_type
 struct s_basic
 {
 	t_data_type		data;
-	t_basic	*next;
-	t_basic	*prev;
+	t_basic			*next;
+	t_basic			*prev;
 };
 
 /******************************************************************************/
@@ -171,7 +171,8 @@ void	printf_env(void *content);
 char	*is_shlvl(char *key, char *value);
 char	*search_env(t_basic *env, char *key, int type);
 
-
+/*	expansion/dollar.c			*/
+char	*expansion(t_basic *env, char *content);
 
 /*	parsing/add_token.c			*/
 int		get_token_content(t_content *token_content, char *content, int type);
@@ -198,6 +199,9 @@ short	get_type(char *flag, char *content);
 int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
+
+/*	redirections/redir_heredoc.c	*/
+int		is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status);
 
 /*	utils/errors.c			*/
 int	error_msg(int error, int code_exit, char *input);
