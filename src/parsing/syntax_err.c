@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/01 15:18:00 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 08:24:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	syntax_command(t_basic_list **content)
+int	syntax_command(t_basic_list **content, int redir_flag)
 {
 	t_basic_list	*iter;
 	t_token			*token;
@@ -27,9 +27,9 @@ int	syntax_command(t_basic_list **content)
 	token = iter->list_content.token;
 	while (iter && !(token->type == PIPE || token->type & L_OPERAND))
 	{
+		token = iter->list_content.token;
 		if (token->type & ARG && !(iter->prev && iter->prev->list_content.token->type & REDIR))
 		{
-			ft_printf("estoy dentro\n");
 			if (subs_count)
 			{
 				iter->next->list_content.token->type = SYN_ERROR;
@@ -51,10 +51,9 @@ int	syntax_command(t_basic_list **content)
 			}
 			subs_count++;
 		}
-		token = iter->list_content.token;
 		iter = iter->prev;
 	}
-	if (!arg_count && !subs_count)
+	if (!arg_count && !subs_count && !redir_flag)
 		return (error_msg(SYNTAX, 1, token->content));
 	return (EXIT_SUCCESS);
 }
@@ -64,17 +63,22 @@ int	syntax_error(t_basic_list **content)
 	t_basic_list	*iter;
 	t_token			*token;
 	int				status;
+	int				redir_flag;
 
+	redir_flag = 0;
 	iter = *content;
 	while (iter)
 	{
 		token = iter->list_content.token;
 		if (token->type == PIPE || token->type & L_OPERAND)
 		{
-			status = syntax_command(&iter->prev);
+			status = syntax_command(&iter->prev, redir_flag);
 			if (status) 
 				return (error_msg(SYNTAX, 1, token->content));
+			redir_flag = 0;
 		}
+		else if (token->type & REDIR && iter->next && iter->next->list_content.token->type & ARG)
+			redir_flag = 1;
 		else if (token->type & REDIR && ((iter->next && !(iter->next->list_content.token->type & ARG))
 			|| !iter->next))
 		{
@@ -88,7 +92,7 @@ int	syntax_error(t_basic_list **content)
 		else
 			break;
 	}
-	status = syntax_command(&iter);
+	status = syntax_command(&iter, redir_flag);
 	if (status)
 		return (status);
 	return (EXIT_SUCCESS);

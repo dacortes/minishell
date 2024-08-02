@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/01 14:59:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 08:39:35 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ t_basic_list	*init_env(char **env);
 int				_env(t_basic_list *list, int num_commands);
 
 /*  built-ins/utils.c 			*/
+int		is_metacharacters(char c);
 void	printf_env(void *content);
 char	*is_shlvl(char *key, char *value);
 
