@@ -6,37 +6,37 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/31 19:34:05 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	add_variable_env(t_basic_list **list_env, char *key, char *value, short eql)
+int	add_variable_env(t_basic **list_env, char *key, char *value, short eql)
 {
-	t_basic_list *new_node;
+	t_basic *new_node;
 
 	if (!key)
 		exit (error_msg(MALLOC, 1, "add_variable_env: key"));
 	if (!value)
 		exit (error_msg(MALLOC, 1, "add_variable_env: value"));
-	new_node = ft_calloc(1, sizeof(t_basic_list));
+	new_node = ft_calloc(1, sizeof(t_basic));
 	if (!new_node)
 		exit (error_msg(MALLOC, 1, "add_variable_env: new_node"));
-	new_node->list_content.env = ft_calloc(1, sizeof(t_env));
-	if (!new_node->list_content.env)
+	new_node->data.env = ft_calloc(1, sizeof(t_env));
+	if (!new_node->data.env)
 		exit (error_msg(MALLOC, 1, "add_variable_env: new_node->env"));
-	new_node->list_content.env->key = key;
-	new_node->list_content.env->value = is_shlvl(key, value);
-	new_node->list_content.env->eql = eql;
+	new_node->data.env->key = key;
+	new_node->data.env->value = is_shlvl(key, value);
+	new_node->data.env->eql = eql;
 	new_node->next = NULL;
 	add_back(list_env, new_node);
 	return (EXIT_SUCCESS);
 }
 
-static t_basic_list	*init_basic_env(void)
+static t_basic	*init_basic_env(void)
 {
-	t_basic_list	*list_env;
+	t_basic	*list_env;
 
 	list_env = NULL;
 	add_variable_env(&list_env, ft_strdup("PWD"), get_pwd(), TRUE);
@@ -44,7 +44,7 @@ static t_basic_list	*init_basic_env(void)
 	return (list_env);
 }
 
-int	add_env(t_basic_list **new_env, char *line)
+int	add_env(t_basic **new_env, char *line)
 {
 	int	pos;
 	int tmp = 0;
@@ -63,9 +63,9 @@ int	add_env(t_basic_list **new_env, char *line)
 	return (EXIT_SUCCESS);
 }
 
-t_basic_list *init_env(char **env)
+t_basic *init_env(char **env)
 {
-	t_basic_list	*new_env;
+	t_basic	*new_env;
 	int				i;
 
 	if (!env || !*env)
@@ -77,10 +77,10 @@ t_basic_list *init_env(char **env)
 	return (new_env);
 }
 
-int	_env(t_basic_list *list, int num_commands)
+int	_env(t_basic *list, int num_commands)
 {
 	if (num_commands > 1)
 		return (error_msg(ARGUMENT, 1, "env"));
-	iter_list_list_content(list, printf_env);
+	content_loop(list, printf_env);
 	return (EXIT_SUCCESS);
 }

@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 09:42:52 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	basic_checker(t_basic_list **token, char *line, int end)
+int	basic_checker(t_basic **token, char *line, int end)
 {
 	int i = 0;
 	int	status = 0;
@@ -64,13 +64,13 @@ int	basic_checker(t_basic_list **token, char *line, int end)
 
 int	get_subshell(t_minishell *subs)
 {
-	t_basic_list	*iter;
+	t_basic	*iter;
 	t_token			*token;
 
 	iter = subs->token;
 	while (iter)
 	{
-		token = iter->list_content.token;
+		token = iter->data.token;
 		if (token->type == S_SHELL)
 		{
 			token->token_content.subs->get_line = ft_strdup(token->content);

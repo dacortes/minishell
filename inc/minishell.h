@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 08:39:35 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 14:05:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;
 typedef struct s_env			t_env;
 
-typedef	struct s_basic_list		t_basic_list;
+typedef	struct s_basic			t_basic;
 typedef union  u_content		t_content;
-typedef	union  u_type_list		t_type_list;
+typedef	union  u_data_type		t_data_type;
 
 
 enum e_error_code
@@ -102,11 +102,11 @@ enum e_tokens_types
 	WILD_CARD = 1 << 13 | EXPAN,
 };
 
-typedef enum e_data_type
+typedef enum e_data_enum
 {
 	T_TOKEN,
 	T_ENV,
-}	t_data_type;
+}	t_data_enum;
 
 struct s_env // array to array char **
 {
@@ -117,16 +117,16 @@ struct s_env // array to array char **
 
 struct s_minishell
 {
-	int				status;
-	char			*get_line;
-	t_basic_list	*env;
-	t_basic_list	*token;
+	int		status;
+	char	*get_line;
+	t_basic	*env;
+	t_basic	*token;
 };
 
 union u_content
 {
-	t_minishell		*subs;
-	t_basic_list	*expand;
+	t_minishell	*subs;
+	t_basic		*expand;
 	int			redir_here[2];
 };
 
@@ -140,57 +140,54 @@ struct s_token
 };
 
 
-union u_type_list
+union u_data_type
 {
 	t_token	*token;
 	t_env	*env;
 };
 
 
-struct s_basic_list
+struct s_basic
 {
-	t_type_list		list_content;
-	t_basic_list	*next;
-	t_basic_list	*prev;
+	t_data_type		data;
+	t_basic	*next;
+	t_basic	*prev;
 };
 
 /******************************************************************************/
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
-
-int		iter_list_list_content(t_basic_list *node, void (*f)(void *));
-
-
 /*	built-ins/cd.c				*/
 char	*get_pwd(void);
 
 /*	built-ins/env.c				*/
-t_basic_list	*init_env(char **env);
-int				_env(t_basic_list *list, int num_commands);
+t_basic	*init_env(char **env);
+int		_env(t_basic *list, int num_commands);
 
 /*  built-ins/utils.c 			*/
 int		is_metacharacters(char c);
 void	printf_env(void *content);
 char	*is_shlvl(char *key, char *value);
+char	*search_env(t_basic *env, char *key, int type);
 
 
 
 /*	parsing/add_token.c			*/
 int		get_token_content(t_content *token_content, char *content, int type);
 t_token	*new_token(char *content, char *del, int space);
-int		init_token(t_basic_list **token, char *content, char *del, int space);
+int		init_token(t_basic **token, char *content, char *del, int space);
 
 
 /*	parsing/metacharacters.c	*/
-int		metacharacters(t_basic_list **token, char *line, char *del, int *pos);
-int		not_metacharacters(t_basic_list **token, char *line, char *del, int *pos);
-int		metacharacters_sub(t_basic_list **token, char *line, int start, int end);
-int		check_subshell(t_basic_list **token, char *line, int *pos, int end);
+int		metacharacters(t_basic **token, char *line, char *del, int *pos);
+int		not_metacharacters(t_basic **token, char *line, char *del, int *pos);
+int		metacharacters_sub(t_basic **token, char *line, int start, int end);
+int		check_subshell(t_basic **token, char *line, int *pos, int end);
 
 /*	parsing/parsing.c			*/
 int 	parsing(t_minishell *mini);
-int		syntax_error(t_basic_list **content);
+int		syntax_error(t_basic **content);
 
 /*	parsing/syntax_err			*/
 
@@ -209,14 +206,18 @@ int	error_msg(int error, int code_exit, char *input);
 void 	free_env(void *content);
 void	free_token(void *content);
 void	free_minishell(t_minishell *mini, int flag);
-void 	free_list(t_basic_list *node, void (*f)(void *));
+void 	free_list(t_basic *node, void (*f)(void *));
 
 /*	utils/handler.list.c		*/
-void	add_prev(t_basic_list **list);
-void	add_back(t_basic_list **list, t_basic_list *new);
+void	add_prev(t_basic **list);
+void	add_back(t_basic **list, t_basic *new);
+
+/*	utils/loops.c				*/
+int		content_loop(t_basic *node, void (*f)(void *));
+t_basic *bool_loop(t_basic *node, int (*cmp)(t_data_type *, void *), void *arg);
 
 /*	utils/printf_list.c 		*/
 char	*printf_type(int type);
 void	printf_content_token(void *content);
-void	printf_token(t_basic_list *token);
+void	printf_token(t_basic *token);
 #endif

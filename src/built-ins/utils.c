@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:36:38 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/01 14:09:10 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 14:05:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void printf_env(void *content)
 {
 	t_env	*env;
 
-	env = ((t_type_list *)content)->env;
+	env = ((t_data_type *)content)->env;
 	if (!env)
 		return ;
 	if(env && env->eql && env->key && env->value)
@@ -60,4 +60,23 @@ char	*is_shlvl(char *key, char *value)
 		value = ft_itoa(shlvl);
 	}
 	return (value);
+}
+
+static int	key_compare(t_data_type *data, void *key)
+{
+	return (!ft_strncmp(data->env->key, (char *)key, -1));
+}
+
+char	*search_env(t_basic *env, char *key, int type)
+{
+	t_basic *find;
+
+	find = bool_loop(env, key_compare, key);
+	if (!find)
+		return ("");
+	if (type == KEY)
+		return (find->data.env->key);
+	else if (type == VALUE)
+		return (find->data.env->value);
+	return ("");
 }

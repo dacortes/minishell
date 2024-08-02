@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 10:50:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	get_token_content(t_content *token_content, char *content, int type)
 		ft_bzero(token_content->redir_here, sizeof(int));
 	else if (type & WILD_CARD)
 	{
-		token_content->expand = ft_calloc(sizeof(t_basic_list), 1);
+		token_content->expand = ft_calloc(sizeof(t_basic), 1);
 		if (!token_content->expand)
 			exit (error_msg(MALLOC, 1, "get_token_content: expand"));
 	}
@@ -58,18 +58,18 @@ t_token	*new_token(char *content, char *del, int space)
 	return (new);
 }
 
-int	init_token(t_basic_list **token, char *content, char *del, int space)
+int	init_token(t_basic **token, char *content, char *del, int space)
 {
-	t_basic_list	*new;
+	t_basic	*new;
 	t_token			*tmp;
 
 	if (!content)
 		exit (error_msg(MALLOC, 1, "init_token: content"));
-	new = ft_calloc(sizeof(t_basic_list), 1);
+	new = ft_calloc(sizeof(t_basic), 1);
 	if (!new)
 		exit (error_msg(MALLOC, 1, "init_token: new"));
 	tmp = new_token(content, del, space);
-	new->list_content.token = tmp;
+	new->data.token = tmp;
 	new->next = NULL;
 	add_back(token, new);
 	if (tmp->type == ARG &&  ft_strlen(content) == 1 && *content == '&')

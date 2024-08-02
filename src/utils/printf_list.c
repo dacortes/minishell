@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/01 15:27:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ char	*printf_type(int type)
 	return (values[i]);
 }
 
-void	printf_subshell(t_basic_list *content)
+void	printf_subshell(t_basic *content)
 {
 	ft_printf("%s\n", ORANGE"--------SUBSHEL----------"END);
-	iter_list_list_content(content, printf_content_token);
+	content_loop(content, printf_content_token);
 	ft_printf("%s\n", ORANGE"------------------------"END);
 }
 
@@ -43,10 +43,10 @@ void	printf_content_token(void *content)
 	char			*quote;
 	t_token			*token;
 	t_token			*prev_token;
-	t_basic_list	*prev;
+	t_basic	*prev;
 
-	token = ((t_basic_list *)content)->list_content.token;
-	prev = ((t_basic_list *)content)->prev;
+	token = ((t_basic *)content)->data.token;
+	prev = ((t_basic *)content)->prev;
 	quote = BLUE"false"END;
 	ft_printf("%s%s%s\n", TUR"Content: *"END, token->content, TUR"*"END);
 	if (token->is_quote == SIMP_QUOTES || token->is_quote == DOUBLE_QUOTES)
@@ -59,7 +59,7 @@ void	printf_content_token(void *content)
 	ft_printf("%s%s\n", TUR" Type: "END, printf_type(token->type));
 	if (prev)
 	{
-		prev_token = ((t_basic_list *)content)->prev->list_content.token;
+		prev_token = ((t_basic *)content)->prev->data.token;
 		if (prev_token)
 			ft_printf("%s%s\n", TUR" PREV: "END, prev_token->content);
 	}
@@ -67,8 +67,8 @@ void	printf_content_token(void *content)
 		printf_subshell(token->token_content.subs->token);
 }
 
-void	printf_token(t_basic_list *token)
+void	printf_token(t_basic *token)
 {
 	ft_printf("%s\n", ORANGE"Print Tokens"END);
-	iter_list_list_content(token, printf_content_token);
+	content_loop(token, printf_content_token);
 }

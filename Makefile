@@ -14,22 +14,12 @@ DEPENDENCIES = $(addprefix $(DIRECTORIES_UTILS)/, $(SOURCES:.c=.d))
 INCLUDES = $(addprefix -I, inc) \
 		   $(addprefix -I, lib/libft)
 SOURCES = 	built-ins/cd.c built-ins/env.c built-ins/utils.c\
-			utils/clear_list.c utils/handler_list.c\
+			expansion/dollar.c\
 			parsing/add_token.c parsing/metacharacters.c  parsing/parsing.c\
 			parsing/syntax_err.c parsing/utils.c\
-			utils/errors.c utils/printf_list.c\
+			utils/clear_list.c utils/errors.c utils/handler_list.c\
+			utils/loops.c utils/printf_list.c\
 			main.c
-
-# built-ins/cd.c built-ins/env.c built-ins/unset.c \
-		  built-ins/pwd.c built-ins/utils.c \
-		  parsing/add_token_type.c parsing/utils.c parsing/parsing.c\
-		  parsing/syntax_err.c\
-		  redirections/redir_heredoc.c\
-		  redirections/redir_in.c redirections/redir_out.c\
-		  redirections/redirections.c\
-		  utils/clear_list.c utils/errors.c utils/handler_list.c\
-		  utils/printf_list.c\
-		  main.c
 
 LIBFT = ./lib/libft/
 LIB_LIBFT = $(LIBFT)libft.a
@@ -85,6 +75,7 @@ dir:
 	make -C $(LIBFT) --no-print-directory
 	-mkdir -p $(DIRECTORIES_UTILS)
 	-mkdir -p $(DIRECTORIES_UTILS)/built-ins
+	-mkdir -p $(DIRECTORIES_UTILS)/expansion
 	-mkdir -p $(DIRECTORIES_UTILS)/utils
 	-mkdir -p $(DIRECTORIES_UTILS)/parsing
 	-mkdir -p $(DIRECTORIES_UTILS)/redirections

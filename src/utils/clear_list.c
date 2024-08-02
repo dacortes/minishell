@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 09:19:08 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void free_env(void *content)
 {
     t_env *env;
 
-	env = ((t_type_list *)content)->env;
+	env = ((t_data_type *)content)->env;
     if (env)
 	{
 		ft_free(&env->key, &env->value);
@@ -60,13 +60,13 @@ void free_minishell(t_minishell *mini, int flag)
 
 void free_token(void *content)
 {
-	t_basic_list	*basic;
+	t_basic	*basic;
 	t_token			*token;
 
-	basic = ((t_basic_list *)content);
+	basic = ((t_basic *)content);
 	if (basic)
 	{
-		token = basic->list_content.token;
+		token = basic->data.token;
 		if (token && token->content)
 			free(token->content);
 		if (token && token->type == S_SHELL)
@@ -79,16 +79,16 @@ void free_token(void *content)
 	basic = NULL;
 }
 
-void free_list(t_basic_list *node, void (*f)(void *))
+void free_list(t_basic *node, void (*f)(void *))
 {
-    t_basic_list *iter;
-    t_basic_list *tmp;
+    t_basic *iter;
+    t_basic *tmp;
 
     iter = node;
     while (iter)
 	{
         tmp = iter->next;
-        f(&(iter->list_content));
+        f(&(iter->data));
         free(iter);
         iter = tmp;
     }

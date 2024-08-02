@@ -6,16 +6,16 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:51:07 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/01 10:46:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 13:48:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	add_prev(t_basic_list **list)
+void	add_prev(t_basic **list)
 {
-	t_basic_list	*tmp;
-	t_basic_list	*prev;
+	t_basic	*tmp;
+	t_basic	*prev;
 
 	tmp = *list;
 	prev = NULL;
@@ -28,7 +28,7 @@ void	add_prev(t_basic_list **list)
 	}
 }
 
-void	*get_last(t_basic_list *list)
+void	*get_last(t_basic *list)
 {
 	if (!list)
 		return (NULL);
@@ -37,9 +37,9 @@ void	*get_last(t_basic_list *list)
 	return (list);
 }
 
-void	add_back(t_basic_list **list, t_basic_list *new)
+void	add_back(t_basic **list, t_basic *new)
 {
-	t_basic_list	*tmp;
+	t_basic	*tmp;
 
 	if (list)
 	{

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:25:51 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/02 12:52:30 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 13:48:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_end(char *line, char *del, int *pos, char *delimiter)
 	return (end);
 }
 
-int	metacharacters(t_basic_list **token, char *line, char *del, int *pos)
+int	metacharacters(t_basic **token, char *line, char *del, int *pos)
 {
 	int		end;
 	int		len;
@@ -57,7 +57,7 @@ int	metacharacters(t_basic_list **token, char *line, char *del, int *pos)
 }
 
 
-int	not_metacharacters(t_basic_list **token, char *line, char *del, int *pos)
+int	not_metacharacters(t_basic **token, char *line, char *del, int *pos)
 {
 	int	end;
 	int	space;
@@ -69,7 +69,7 @@ int	not_metacharacters(t_basic_list **token, char *line, char *del, int *pos)
 	return (EXIT_SUCCESS);
 }
 
-int	metacharacters_sub(t_basic_list **token, char *line, int start, int end)
+int	metacharacters_sub(t_basic **token, char *line, int start, int end)
 {
 	int	space;
 	int	status;
@@ -82,7 +82,7 @@ int	metacharacters_sub(t_basic_list **token, char *line, int start, int end)
 	return (EXIT_SUCCESS);
 }
 
-int	check_subshell(t_basic_list **token, char *line, int *pos, int end)
+int	check_subshell(t_basic **token, char *line, int *pos, int end)
 {
 	int	count;
 	int	size;

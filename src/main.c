@@ -6,27 +6,11 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/02 09:45:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 13:46:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <minishell.h>
-
-int	iter_list_list_content(t_basic_list *node, void (*f)(void *))
-{
-	t_basic_list	*iter;
-
-
-	if (!node)
-		return (EXIT_SUCCESS);
-	iter = node;
-	while(iter)
-	{
-		f(&(iter->list_content));
-		iter = iter->next;
-	}
-	return (EXIT_SUCCESS);
-}
 
 int	mini_rush_plus(int argc, char **argv, char **env)
 {
