@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:36:38 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/02 14:05:52 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 15:10:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*is_shlvl(char *key, char *value)
 	return (value);
 }
 
-static int	key_compare(t_data_type *data, void *key)
+int	key_compare(t_data_type *data, void *key)
 {
 	return (!ft_strncmp(data->env->key, (char *)key, -1));
 }

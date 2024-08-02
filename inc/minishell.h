@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 14:37:56 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 15:47:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ struct s_minishell
 {
 	int		status;
 	char	*get_line;
+	char	*cur_dir;
+	char	*old_dir;
 	t_basic	*env;
 	t_basic	*token;
 };
@@ -159,16 +161,20 @@ struct s_basic
 /******************************************************************************/
 
 /*	built-ins/cd.c				*/
+int		replace(t_basic **env, char	*key, char *value);
 char	*get_pwd(void);
+int		update_oldpwd(t_minishell *mini, char *dir);
 
 /*	built-ins/env.c				*/
 t_basic	*init_env(char **env);
+int		add_env(t_basic **new_env, char *line);
 int		_env(t_basic *list, int num_commands);
 
 /*  built-ins/utils.c 			*/
 int		is_metacharacters(char c);
 void	printf_env(void *content);
 char	*is_shlvl(char *key, char *value);
+int		key_compare(t_data_type *data, void *key);
 char	*search_env(t_basic *env, char *key, int type);
 
 /*	expansion/dollar.c			*/

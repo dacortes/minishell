@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:21:04 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/23 09:01:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 15:32:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,3 +29,5 @@ int	check_key(char *key)
 	}
 	return (TRUE);
 }
+
+//el replace sirve para cambiar el valor
