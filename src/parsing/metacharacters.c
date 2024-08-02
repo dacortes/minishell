@@ -6,11 +6,28 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:25:51 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/02 10:08:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 12:52:30 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	get_end(char *line, char *del, int *pos, char *delimiter)
+{
+	int end;
+	int	len;
+
+	len = ft_strlen(del);
+	end = ft_strchrpos(&line[*pos], del[0]);
+	if (end == NOT_FOUND && del[0] != ' ')
+		return (error_msg(SYNTAX, 2, delimiter), ERROR);
+	if (!(*delimiter == SIMP_QUOTES || *delimiter == DOUBLE_QUOTES)
+		&& !is_metacharacters(line[*pos]) && end != ERROR)
+		end = NOT_FOUND;
+	if (end == NOT_FOUND)
+		end = get_end_token(line, del, pos, len);
+	return (end);
+}
 
 int	metacharacters(t_basic_list **token, char *line, char *del, int *pos)
 {
@@ -26,13 +43,9 @@ int	metacharacters(t_basic_list **token, char *line, char *del, int *pos)
 	len = ft_strlen(del);
 	if (line[*pos] && del[0] != ' ' && len > 1)
 		(*pos)++;
-	end = ft_strchrpos(&line[*pos], del[0]);
-	if (end == ERROR && del[0] != ' ')
-		return (error_msg(SYNTAX, 2, delimiter));
-	if (!(*delimiter == SIMP_QUOTES || *delimiter == DOUBLE_QUOTES) && !is_metacharacters(line[*pos]) && end != ERROR)
-		end = ERROR;
+	end = get_end(line, del, pos, delimiter);
 	if (end == ERROR)
-		end = get_end_token(line, del, pos, len);
+		return (2);
 	space = set_space(line, pos, del);
 	status = init_token(token, ft_strndup(&line[*pos], end), del, space);
 	(*pos) += end;
@@ -42,6 +55,7 @@ int	metacharacters(t_basic_list **token, char *line, char *del, int *pos)
 		return (status);
 	return (EXIT_SUCCESS);
 }
+
 
 int	not_metacharacters(t_basic_list **token, char *line, char *del, int *pos)
 {
