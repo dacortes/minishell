@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/01 14:31:58 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 07:46:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,27 @@ int	basic_checker(t_basic_list **token, char *line, int end)
 	return (EXIT_SUCCESS);
 }
 
+int	get_subshell(t_minishell *subs)
+{
+	t_basic_list	*iter;
+	t_token			*token;
+
+	iter = subs->token;
+	while (iter)
+	{
+		token = iter->list_content.token;
+		if (token->type == S_SHELL)
+		{
+			token->token_content.subs->get_line = token->content;
+			token->token_content.subs->status = parsing(token->token_content.subs);
+			if (token->token_content.subs->status)
+				return (token->token_content.subs->status);
+		}
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int parsing(t_minishell *mini)
 {
 	char	*line;
@@ -79,8 +100,8 @@ int parsing(t_minishell *mini)
 	mini->status = syntax_error(&mini->token);
 	if (mini->status)
 		return (mini->status);
-	// mini->status = get_subshell(mini);
-	// if (mini->status)
-	//  	return (mini->status);
+	mini->status = get_subshell(mini);
+	if (mini->status)
+	 	return (mini->status);
 	return (EXIT_SUCCESS);
 }
