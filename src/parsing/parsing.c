@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 09:09:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 09:42:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ int	get_subshell(t_minishell *subs)
 		token = iter->list_content.token;
 		if (token->type == S_SHELL)
 		{
-			token->token_content.subs->get_line = token->content;
+			token->token_content.subs->get_line = ft_strdup(token->content);
+			if (!token->token_content.subs->get_line)
+				exit (error_msg(MALLOC, 1, "get_subshell: get_line"));
 			token->token_content.subs->status = parsing(token->token_content.subs);
 			if (token->token_content.subs->status)
 				return (token->token_content.subs->status);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:25:51 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/02 09:07:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/02 10:08:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,19 @@ int	metacharacters(t_basic_list **token, char *line, char *del, int *pos)
 	int		end;
 	int		len;
 	int		space;
-	char	delimiter[1];
+	char	delimiter[2];
 	int		status;
 
 	space = 0;
-	delimiter[0] = del[0];
+	delimiter[0] = line[*pos];
+	delimiter[1] = '\0';
 	len = ft_strlen(del);
 	if (line[*pos] && del[0] != ' ' && len > 1)
 		(*pos)++;
 	end = ft_strchrpos(&line[*pos], del[0]);
 	if (end == ERROR && del[0] != ' ')
 		return (error_msg(SYNTAX, 2, delimiter));
-	if (!is_metacharacters(line[*pos]) && end != ERROR)
+	if (!(*delimiter == SIMP_QUOTES || *delimiter == DOUBLE_QUOTES) && !is_metacharacters(line[*pos]) && end != ERROR)
 		end = ERROR;
 	if (end == ERROR)
 		end = get_end_token(line, del, pos, len);
