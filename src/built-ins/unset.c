@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 14:33:00 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/03 08:55:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/03 10:41:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	_unset(t_basic **env, char *key)
 	if (prev)
 	{
 		next = rm->next;
-		if (next)
-			prev->next = next;
-		free(rm);
+		prev->next = next;
 	}
+	free(rm->data.env);
+	free(rm);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/03 08:47:01 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/03 10:49:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ enum e_error_code
 	SYNTAX = 1 << 1,
 	ARGUMENT = 1 << 2,
 	PERROR = 1 << 3,
+	EXPORT = 1 << 4,
 };
 
 enum e_tokens_types

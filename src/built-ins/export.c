@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:21:04 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 15:32:42 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/03 10:47:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,9 @@ int	check_key(char *key)
 }
 
 //el replace sirve para cambiar el valor
+//"mini: export: `%s\': not a valid identifier\n"
+int	add_export(t_basic *env, char *key)
+{
+	if (check_key(key))
+		return (error_msg());
+}
