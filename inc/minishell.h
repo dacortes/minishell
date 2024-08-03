@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 15:47:04 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/03 08:47:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,9 @@ int		update_oldpwd(t_minishell *mini, char *dir);
 t_basic	*init_env(char **env);
 int		add_env(t_basic **new_env, char *line);
 int		_env(t_basic *list, int num_commands);
+
+/*	built-ins/env.c				*/
+int		_unset(t_basic **env, char *key);
 
 /*  built-ins/utils.c 			*/
 int		is_metacharacters(char c);

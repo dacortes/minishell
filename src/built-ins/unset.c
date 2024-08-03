@@ -3,37 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 14:33:00 by dacortes          #+#    #+#             */
-/*   Updated: 2024/07/20 14:51:01 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/08/03 08:55:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	_unset(t_env **env, char *key)
+int	_unset(t_basic **env, char *key)
 {
-	t_env	*rm;
-	t_env	*prev;
+	t_basic	*rm;
+	t_basic	*prev;
+	t_basic	*next;
 
-	rm = *env;
-	prev = NULL;
-	while (rm)
+	rm = bool_loop(*env, key_compare, key);
+	if (!rm)
+		return (EXIT_SUCCESS);
+	ft_free(&rm->data.env->key, &rm->data.env->value);
+	prev = rm->prev;
+	if (prev)
 	{
-		if (!ft_strncmp(rm->key, key, ft_strlen(key)))
-		{
-			if (prev)
-				prev->next = rm->next;
-			else
-				*env = rm->next;
-			ft_free(&rm->key, &rm->value);
-			free(rm);
-			return (EXIT_SUCCESS);
-		}
-		prev = rm;
-		rm = rm->next;
+		next = rm->next;
+		if (next)
+			prev->next = next;
+		free(rm);
 	}
 	return (EXIT_SUCCESS);
 }
-
