@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/03 10:42:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/04 11:03:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 
 	ft_bzero(&mini, sizeof(t_minishell));
 	mini.env = init_env(env);
-	// update_oldpwd(&mini, "lol");
-	// ft_printf("[%s]\n", search_env(mini.env, "OLDPWD", VALUE));
-	// _env(mini.env, 1);
-	// ft_printf("---------------------------\n");
-	// _unset(&mini.env, "OLDPWD");
-	// _env(mini.env, 1);
 	while ("The stupid evaluator is testing")
 	{
 		mini.get_line = readline("patata: ");

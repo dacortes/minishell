@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:51:07 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 13:48:22 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/03 14:17:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ void	add_prev(t_basic **list)
 	{
 		if (prev)
 			tmp->prev = prev;
+		if (prev && tmp->data.token->type & EXPAN
+			&& prev->data.token->type == R_HER)
+			tmp->data.token->type = ARG;
 		prev = tmp;
 		tmp = tmp->next;
 	}
+
 }
 
 void	*get_last(t_basic *list)

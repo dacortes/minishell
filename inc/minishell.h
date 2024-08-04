@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/03 10:49:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/04 10:40:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@
 # define ERR_MALLOC "error trying to allocate memory"
 # define ERR_SYNTAX "syntax error near unexpected token"
 # define ERR_ARGUMENT "too many arguments"
+# define ERR_EXPORT "export: not a valid identifier"
 
 typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;
@@ -171,15 +172,21 @@ t_basic	*init_env(char **env);
 int		add_env(t_basic **new_env, char *line);
 int		_env(t_basic *list, int num_commands);
 
-/*	built-ins/env.c				*/
+/*	built-ins/export.c			*/
+int		add_export(t_basic **env, char *line);
+int		_export(t_basic *env);
+/*	built-ins/unset.c				*/
 int		_unset(t_basic **env, char *key);
 
-/*  built-ins/utils.c 			*/
+/*  built-ins/utils_env.c 			*/
 int		is_metacharacters(char c);
 void	printf_env(void *content);
 char	*is_shlvl(char *key, char *value);
 int		key_compare(t_data_type *data, void *key);
 char	*search_env(t_basic *env, char *key, int type);
+
+/*  built-ins/utils_env.c 			*/
+void	printf_export(void *content);
 
 /*	expansion/dollar.c			*/
 char	*expansion(t_basic *env, char *content);
@@ -214,7 +221,7 @@ int		get_end_token(char *str, char *del, int *pos, int size_del);
 int		is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status);
 
 /*	utils/errors.c			*/
-int	error_msg(int error, int code_exit, char *input);
+int		error_msg(int error, int code_exit, char *input);
 
 /*	utils/clear_list.c			*/
 void 	free_env(void *content);

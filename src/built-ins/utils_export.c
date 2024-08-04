@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/20 14:33:00 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 08:02:12 by codespace        ###   ########.fr       */
+/*   Created: 2024/08/04 10:40:56 by codespace         #+#    #+#             */
+/*   Updated: 2024/08/04 10:41:19 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	_unset(t_basic **env, char *key)
+void printf_export(void *content)
 {
-	t_basic	*rm;
-	t_basic	*prev;
-	t_basic	*next;
+	t_env	*env;
 
-	rm = bool_loop(*env, key_compare, key);
-	if (!rm)
-		return (EXIT_SUCCESS);
-	ft_free(&rm->data.env->key, &rm->data.env->value);
-	prev = rm->prev;
-	if (prev)
-	{
-		next = rm->next;
-		prev->next = next;
-	}
-	free(rm->data.env);
-	free(rm);
-	return (EXIT_SUCCESS);
+	env = ((t_data_type *)content)->env;
+	if (!env)
+		return ;
+	if (!env->eql)
+		ft_printf("declare -x %s\n", env->key);
+	else if (env->eql && !env->value[0])
+		ft_printf("declare -x %s=\"\"\n", env->key);
+	else
+		ft_printf("declare -x %s=\"%s\"\n", env->key, env->value);
 }

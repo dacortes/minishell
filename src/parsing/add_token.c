@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/04 11:10:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_token_content(t_content *token_content, char *content, int type)
 		token_content->subs = ft_calloc(sizeof(t_minishell), 1);
 		if (!token_content->subs)
 			exit (error_msg(MALLOC, 1, "get_token_content: subs"));
-		token_content->subs->get_line = ft_strdup(content);
+		token_content->subs->get_line = content;
 		if (!token_content->subs->get_line)
 			exit (error_msg(MALLOC, 1, "get_token_content: get_line"));
 	}
