@@ -6,13 +6,14 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:21:04 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 11:00:34 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/04 12:45:43 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 // gestionar el export a"=20"
+//si es una token de type arg y no tiene espacios las junta
 int	check_key(char *key, int *flag)
 {
 	int	i;
