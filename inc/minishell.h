@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 10:40:47 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/04 15:16:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 /*                            MACROS                                          */
 /******************************************************************************/
 
+# include <termios.h>
 # include <libft.h>
 # include <fcntl.h>
 # include <unistd.h>
@@ -120,6 +121,7 @@ struct s_env // array to array char **
 struct s_minishell
 {
 	int		status;
+	char	*user;
 	char	*get_line;
 	char	*cur_dir;
 	char	*old_dir;

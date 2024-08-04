@@ -6,11 +6,20 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/02 14:44:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/04 16:13:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	handle_siginth(int sig)
+{
+	if (sig == SIGINT)
+	{
+		// ft_printf("\n");
+		exit(1);
+	}
+}
 
 int	read_heredoc(t_basic *env, t_basic *token, pid_t *redir)
 {
@@ -21,6 +30,7 @@ int	read_heredoc(t_basic *env, t_basic *token, pid_t *redir)
 	next = token->next;
 	while (line && next && next->data.token->content)
 	{
+		signal(SIGINT, handle_siginth);
 		line = readline(ORANGE"> "END);
 		if (line && ft_strncmp(next->data.token->content, line, -1) == FOUND)
 		{

@@ -6,11 +6,17 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/04 11:03:09 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/04 16:12:54 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <minishell.h>
+
+
+// int	prompt(t_minishell *mini)
+// {
+// 	return (EXIT_SUCCESS);
+// }
 
 int	test_heredoc(t_minishell *mini)
 {
@@ -30,6 +36,36 @@ int	test_heredoc(t_minishell *mini)
 	return (EXIT_SUCCESS);
 }
 
+// int	init_mini_rush_plus(t_minishell *mini, char **env)
+// {
+// 	ft_bzero(mini, sizeof(t_minishell));
+// 	mini->env = init_env(env);
+// 	return (EXIT_SUCCESS);
+// }
+
+void	term_init(void)
+{
+	struct termios	term;
+
+	if (tcgetattr(STDIN_FILENO, &term) == ERROR)
+		exit (error_msg(PERROR, 1, "term_init: term"));
+	term.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == ERROR)
+		exit (error_msg(PERROR, 1, "term_init: term"));
+}
+
+void	ft_sigint(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		// get_stt(TRUE, 1);
+	}
+}
+
 int	mini_rush_plus(int argc, char **argv, char **env)
 {
 	t_minishell	mini;
@@ -39,8 +75,11 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 
 	ft_bzero(&mini, sizeof(t_minishell));
 	mini.env = init_env(env);
+	term_init();
 	while ("The stupid evaluator is testing")
 	{
+		signal(SIGINT, ft_sigint);
+		signal(SIGQUIT, SIG_IGN);
 		mini.get_line = readline("patata: ");
 		parsing(&mini);
 		test_heredoc(&mini);
