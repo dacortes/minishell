@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/06 06:55:47 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/06 13:01:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 /*                            MACROS                                          */
 /******************************************************************************/
 
-# include <termios.h>
 # include <libft.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <dirent.h>
+# include <termios.h>
 # include <sys/wait.h>
-# include <ft_printf.h>
 # include <sys/types.h>
+# include <ft_printf.h>
 # include <linux/limits.h>
 # include <get_next_line.h>
 # include <readline/readline.h>

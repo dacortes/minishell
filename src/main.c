@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/06 10:34:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/06 15:03:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,39 @@ int	init_mini_rush_plus(t_minishell *mini, char **env)
 	return (EXIT_SUCCESS);
 }
 
+
+char	*get_dir_branch(void)
+{
+	char	*dir;
+	int		dif;
+
+	dir = get_pwd();
+	while (dir && *dir)
+	{
+		dif = ft_strrchr(dir, '/') - dir;
+		ft_memmove(&dir[ft_strlen(dir)], "/.git/HEAD", ft_strlen(dir) + 1);
+		if (!access(dir, F_OK | R_OK))
+			break;
+		ft_memmove(&dir[dif], "/.git/HEAD", ft_strlen(&dir[dif]) + 1);
+		if (!ft_strncmp(dir, "/.git/HEAD", -1))
+			break;
+		ft_memmove(&dir[dif], "\0", ft_strlen(&dir[dif]));
+	}
+	return (dir);
+}
+
 char	*get_branch(void)
 {
 	char	*branch;
+	char	*dir;
 	int		fd;
-	int		pos;
-
-	if (access(".git", F_OK) == NOT_FOUND)
-		return ft_strdup("U.U");
-	else if (access(".git/HEAD", F_OK | R_OK) == NOT_FOUND)
+	
+	dir = get_dir_branch();
+	if (!*dir)
 		return (ft_strdup("UWU"));
-	fd = open(".git/HEAD", O_RDONLY);
+	fd = open(dir, O_RDONLY);
 	if (fd == ERROR)
-		return (ft_strdup("-\\/UWU\\/-"));
+		return (free(dir), ft_strdup("-\\/UWU\\/-"));
 	branch = "UWU";
 	while (branch)
 	{
@@ -95,11 +115,9 @@ char	*get_branch(void)
 			break ;
 		free(branch);
 	}
-	ft_memmove(branch, &branch[16 + 1], ft_strlen(&branch[16]));
-	pos = ft_strchrpos(branch, '\n');
-	if (pos == NOT_FOUND)
-		return (ft_strdup("-\\/UWU\\/-"));
-	return (branch[pos] = '\0', close(fd), branch);
+	branch[ft_strlen(branch) - 1] = '\0';
+	ft_memmove(branch, &branch[16], ft_strlen(&branch[16]) + 1);
+	return (free(dir), close(fd), branch);
 }
 
 int	prompt(t_minishell *mini)
@@ -123,8 +141,7 @@ int	prompt(t_minishell *mini)
 	need[8] = NULL;
 	join = ft_strjoin_max(need);
 	mini->get_line = readline(join);
-	free(need[6]);
-	free(join);
+	ft_free(&need[6], &join);
 	return (EXIT_SUCCESS);
 }
 
