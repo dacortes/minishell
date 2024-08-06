@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 11:11:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/06 07:18:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ void free_env(void *content)
 
 void free_minishell(t_minishell *mini, int flag)
 {
-	if (mini->get_line)
-	{
-		free(mini->get_line);
-		mini->get_line = NULL;
-	}
+	ft_free(&mini->get_line, &mini->user);
+	ft_free(&mini->cur_dir, &mini->old_dir);
 	if (mini->env)
 		free_list(mini->env, free_env);
 	if (mini->token)

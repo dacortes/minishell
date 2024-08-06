@@ -19,6 +19,7 @@ SOURCES = 	built-ins/cd.c built-ins/env.c built-ins/export.c\
 			parsing/add_token.c parsing/metacharacters.c  parsing/parsing.c\
 			parsing/syntax_err.c parsing/utils.c\
 			redirections/redir_heredoc.c\
+			signals/signals.c\
 			utils/clear_list.c utils/errors.c utils/handler_list.c\
 			utils/loops.c utils/printf_list.c\
 			main.c
@@ -80,6 +81,7 @@ dir:
 	-mkdir -p $(DIRECTORIES_UTILS)/expansion
 	-mkdir -p $(DIRECTORIES_UTILS)/parsing
 	-mkdir -p $(DIRECTORIES_UTILS)/redirections
+	-mkdir -p $(DIRECTORIES_UTILS)/signals
 	-mkdir -p $(DIRECTORIES_UTILS)/utils
 progress: $(OBJECTS) $(NAME)
 

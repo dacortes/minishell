@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 15:16:32 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/06 06:55:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,11 @@ int		get_end_token(char *str, char *del, int *pos, int size_del);
 
 /*	redirections/redir_heredoc.c	*/
 int		is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status);
+
+/*	signals/signals.c		*/
+void	term_init(void);
+void	_sigint(int sig);
+void	handle_siginth(int sig);
 
 /*	utils/errors.c			*/
 int		error_msg(int error, int code_exit, char *input);
