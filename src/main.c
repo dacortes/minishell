@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/06 08:03:06 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/06 10:34:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,37 @@ int	init_mini_rush_plus(t_minishell *mini, char **env)
 	return (EXIT_SUCCESS);
 }
 
+char	*get_branch(void)
+{
+	char	*branch;
+	int		fd;
+	int		pos;
+
+	if (access(".git", F_OK) == NOT_FOUND)
+		return ft_strdup("U.U");
+	else if (access(".git/HEAD", F_OK | R_OK) == NOT_FOUND)
+		return (ft_strdup("UWU"));
+	fd = open(".git/HEAD", O_RDONLY);
+	if (fd == ERROR)
+		return (ft_strdup("-\\/UWU\\/-"));
+	branch = "UWU";
+	while (branch)
+	{
+		branch = get_next_line(fd);
+		if (!ft_strncmp(branch, "ref: refs/heads/", 16))
+			break ;
+		free(branch);
+	}
+	ft_memmove(branch, &branch[16 + 1], ft_strlen(&branch[16]));
+	pos = ft_strchrpos(branch, '\n');
+	if (pos == NOT_FOUND)
+		return (ft_strdup("-\\/UWU\\/-"));
+	return (branch[pos] = '\0', close(fd), branch);
+}
+
 int	prompt(t_minishell *mini)
 {
-	char	*need[8];
+	char	*need[9];
 	char	*join;
 
 	need[0] = "["TUR;
@@ -87,11 +115,15 @@ int	prompt(t_minishell *mini)
 		need[4] = ft_strrchr(mini->cur_dir, '/');
 	else
 		need[4] = &ft_strrchr(mini->cur_dir, '/')[1];
-	need[5] = BLUE" git:(aqui va la rama)";
-	need[6] = TUR" 🗂"CYAN"  ᐅ "END;
-	need[7] = NULL;
+	need[5] = BLUE" git:("TUR;
+	need[6] = get_branch();
+	if (!need[6])
+		exit(error_msg(MALLOC, 1, "prompt: need[6]"));
+	need[7] = END""BLUE")"TUR" 🗂"CYAN"  ᐅ "END;
+	need[8] = NULL;
 	join = ft_strjoin_max(need);
 	mini->get_line = readline(join);
+	free(need[6]);
 	free(join);
 	return (EXIT_SUCCESS);
 }
