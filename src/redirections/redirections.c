@@ -6,11 +6,32 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/27 12:29:01 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:45:16 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
+{
+	t_basic *tmp;
+
+	tmp = start;
+	while (tmp != end)
+	{
+		
+		tmp = tmp->next;
+	}
+}
+
+int	reset_redirs(t_minishell *mini)
+{
+	if (dup2(mini->term_fd[0], mini->redir[0]) == FAILURE)
+		return (error_msg(PERROR, 1, "Dup2"));
+	if (dup2(mini->term_fd[1], mini->redir[1]) == FAILURE)
+		return (error_msg(PERROR, 1, "Dup2"));
+	return(EXIT_SUCCESS);
+}
 
 //se asume que la token next existe
 int	parse_open(t_token *current, int type, int *redir)

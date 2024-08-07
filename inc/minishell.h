@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/07 09:31:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 09:53:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@
 # define FOUND      0
 # define NOT_FOUND  -1
 # define CHILD		0
+# define NO_CHILD	1
 
 # define KEY    1
 # define VALUE  2
@@ -123,6 +124,8 @@ struct s_minishell
 {
 	int		status;
 	char	*user;
+	int		redir[2];
+	int		term_fd[2];
 	char	*get_line;
 	char	*cur_dir;
 	char	*old_dir;
@@ -209,6 +212,10 @@ int		check_subshell(t_basic **token, char *line, int *pos, int end);
 /*	parsing/parsing.c			*/
 int 	parsing(t_minishell *mini);
 int		syntax_error(t_basic **content);
+
+/*  redirections/redirections.c */
+int		reset_redirs(t_minihsell *mini);
+int		parse_open(t_token *currect, int type, int	*redir);
 
 /*	parsing/syntax_err			*/
 
