@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/06 13:01:28 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 09:31:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,12 @@ int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
 
+/*	prompt/prompt.c				*/
+char	*ft_strjoin_max(char **need);
+char	*get_dir_branch(void);
+char	*get_branch(void);
+int		prompt(t_minishell *mini);
+
 /*	redirections/redir_heredoc.c	*/
 int		is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status);
 
@@ -244,6 +250,7 @@ void	add_back(t_basic **list, t_basic *new);
 /*	utils/loops.c				*/
 int		content_loop(t_basic *node, void (*f)(void *));
 t_basic *bool_loop(t_basic *node, int (*cmp)(t_data_type *, void *), void *arg);
+t_basic	*bool_loop_void(t_basic *node, int (*cmp)(void *, void *), void *arg);
 
 /*	utils/printf_list.c 		*/
 char	*printf_type(int type);

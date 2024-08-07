@@ -18,6 +18,7 @@ SOURCES = 	built-ins/cd.c built-ins/env.c built-ins/export.c\
 			expansion/dollar.c\
 			parsing/add_token.c parsing/metacharacters.c  parsing/parsing.c\
 			parsing/syntax_err.c parsing/utils.c\
+			prompt/prompt.c\
 			redirections/redir_heredoc.c\
 			signals/signals.c\
 			utils/clear_list.c utils/errors.c utils/handler_list.c\
@@ -79,6 +80,7 @@ dir:
 	-mkdir -p $(DIRECTORIES_UTILS)
 	-mkdir -p $(DIRECTORIES_UTILS)/built-ins
 	-mkdir -p $(DIRECTORIES_UTILS)/expansion
+	-mkdir -p $(DIRECTORIES_UTILS)/prompt
 	-mkdir -p $(DIRECTORIES_UTILS)/parsing
 	-mkdir -p $(DIRECTORIES_UTILS)/redirections
 	-mkdir -p $(DIRECTORIES_UTILS)/signals

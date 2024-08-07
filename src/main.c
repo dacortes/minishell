@@ -6,35 +6,11 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/06 15:03:47 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 09:48:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <minishell.h>
-
-char	*ft_strjoin_max(char **need)
-{
-	char	*join;
-	int		iter;
-	int		len;
-
-	if (!need || !*need)
-		return (NULL);
-	iter = 0;
-	len = 0;
-	while (need[iter])
-		len += ft_strlen(need[iter++]);
-	join = ft_calloc(len + 1, sizeof(char));
-	if (!join)
-		exit (error_msg(MALLOC, 1, "ft_strjoin_max: join"));
-	iter = 0;
-	while (need[iter])
-	{
-		ft_strlcat(join, need[iter], len + ft_strlen(need[iter]) + 1);
-		iter++;
-	}
-	return (join);
-}
 
 int	test_heredoc(t_minishell *mini)
 {
@@ -75,74 +51,58 @@ int	init_mini_rush_plus(t_minishell *mini, char **env)
 }
 
 
-char	*get_dir_branch(void)
+int	count_arg(void *node, void *count)
 {
-	char	*dir;
-	int		dif;
+	t_token	*token;
+	t_token	*next;
+	t_basic	*cast;
+	int		*ptr;
 
-	dir = get_pwd();
-	while (dir && *dir)
+	cast = (t_basic *)node;
+	ptr = (int *)count;
+	while (cast->next)
 	{
-		dif = ft_strrchr(dir, '/') - dir;
-		ft_memmove(&dir[ft_strlen(dir)], "/.git/HEAD", ft_strlen(dir) + 1);
-		if (!access(dir, F_OK | R_OK))
-			break;
-		ft_memmove(&dir[dif], "/.git/HEAD", ft_strlen(&dir[dif]) + 1);
-		if (!ft_strncmp(dir, "/.git/HEAD", -1))
-			break;
-		ft_memmove(&dir[dif], "\0", ft_strlen(&dir[dif]));
-	}
-	return (dir);
-}
-
-char	*get_branch(void)
-{
-	char	*branch;
-	char	*dir;
-	int		fd;
-	
-	dir = get_dir_branch();
-	if (!*dir)
-		return (ft_strdup("UWU"));
-	fd = open(dir, O_RDONLY);
-	if (fd == ERROR)
-		return (free(dir), ft_strdup("-\\/UWU\\/-"));
-	branch = "UWU";
-	while (branch)
-	{
-		branch = get_next_line(fd);
-		if (!ft_strncmp(branch, "ref: refs/heads/", 16))
+		token = cast->data.token;
+		next = cast->next->data.token;
+		if (token->type == ARG && !next->has_space && next->type == ARG)
+			cast = cast->next;
+		else
 			break ;
-		free(branch);
 	}
-	branch[ft_strlen(branch) - 1] = '\0';
-	ft_memmove(branch, &branch[16], ft_strlen(&branch[16]) + 1);
-	return (free(dir), close(fd), branch);
+	if (cast)
+	{
+		token = cast->data.token;
+		if (token->type == ARG)
+			(*ptr)++;
+		node = cast;
+	}
+	return (token->type == PIPE || token->type == AND
+		|| token->type == OR || token->type == S_SHELL);
 }
 
-int	prompt(t_minishell *mini)
-{
-	char	*need[9];
-	char	*join;
+// int	add_array(void *node, void *)
+// {
+// 	int	*len;
 
-	need[0] = "["TUR;
-	need[1] = mini->user;
-	need[2] = END"]";
-	need[3] = TUR" ➜ "CYAN;
-	if (!mini->cur_dir[1])
-		need[4] = ft_strrchr(mini->cur_dir, '/');
-	else
-		need[4] = &ft_strrchr(mini->cur_dir, '/')[1];
-	need[5] = BLUE" git:("TUR;
-	need[6] = get_branch();
-	if (!need[6])
-		exit(error_msg(MALLOC, 1, "prompt: need[6]"));
-	need[7] = END""BLUE")"TUR" 🗂"CYAN"  ᐅ "END;
-	need[8] = NULL;
-	join = ft_strjoin_max(need);
-	mini->get_line = readline(join);
-	ft_free(&need[6], &join);
-	return (EXIT_SUCCESS);
+// 	*len = (int *)_len;
+
+// }
+
+char	**to_array(t_minishell *mini)
+{
+	char	**array;
+	int		count;
+
+	count = 0;
+	bool_loop_void(mini->token, count_arg, &count);
+	ft_printf("count [%d]\n", count);
+	array = ft_calloc(count, sizeof(char *));
+	if (!array)
+		exit(error_msg(MALLOC, 1, "to_array: array"));
+	// bool_loop_void(mini->token, add_array, );
+	free(array);
+	array = NULL;
+	return (array);
 }
 
 int	mini_rush_plus(int argc, char **argv, char **env)
@@ -161,6 +121,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		parsing(&mini);
 		test_heredoc(&mini);
 		printf_token(mini.token);
+		to_array(&mini);
 		if (mini.get_line && *mini.get_line)
 			add_history(mini.get_line);
 		if (!mini.get_line)
@@ -179,5 +140,5 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 
 int main(int argc, char **argv, char **env)
 {
-	return mini_rush_plus(argc, argv, env);
+	return (mini_rush_plus(argc, argv, env));
 }

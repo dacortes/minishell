@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:42:48 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 09:30:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ t_basic *bool_loop(t_basic *node, int (*cmp)(t_data_type *, void *), void *arg)
     while (node)
 	{
         if (cmp(&node->data, arg))
+            return (node);
+        node = node->next;
+    }
+    return (NULL);
+}
+
+t_basic *bool_loop_void(t_basic *node, int (*cmp)(void *, void *), void *arg)
+{
+    while (node)
+	{
+        if (cmp(node, arg))
             return (node);
         node = node->next;
     }
