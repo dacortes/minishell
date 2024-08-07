@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/03 10:49:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/04 17:35:49 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@
 # define FOUND      0
 # define NOT_FOUND  -1
 # define CHILD		0
+# define NO_CHILD	1
 
 # define KEY    1
 # define VALUE  2
@@ -119,6 +120,8 @@ struct s_env // array to array char **
 struct s_minishell
 {
 	int		status;
+	int		redir[2];
+	int		term_fd[2];
 	char	*get_line;
 	char	*cur_dir;
 	char	*old_dir;
@@ -200,6 +203,10 @@ int		check_subshell(t_basic **token, char *line, int *pos, int end);
 int 	parsing(t_minishell *mini);
 int		syntax_error(t_basic **content);
 
+/*  redirections/redirections.c */
+int		reset_redirs(t_minihsell *mini);
+int		parse_open(t_token *currect, int type, int	*redir);
+
 /*	parsing/syntax_err			*/
 
 /*	parsing/syntax_error		*/
@@ -214,7 +221,7 @@ int		get_end_token(char *str, char *del, int *pos, int size_del);
 int		is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status);
 
 /*	utils/errors.c			*/
-int	error_msg(int error, int code_exit, char *input);
+int		error_msg(int error, int code_exit, char *input);
 
 /*	utils/clear_list.c			*/
 void 	free_env(void *content);
