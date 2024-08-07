@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/04 19:33:46 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:02:32 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 			exit(error_msg(PERROR, 1, "do_pipe: dup2"));
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
-		execute_cmd(mini, start, end->prev, CHILD);
+		execute_cmd(mini, start, end, CHILD);
 		exit(mini->status);
 	}
 	if(dup2(pipe_fd[0], 0) == ERROR);
@@ -130,18 +130,18 @@ int	manager(t_minishell *mini)
 	skip = 0;
 	end = mini->token;
 	start = mini->token;
-	while (end && end->next)
+	while (end)
 	{
 		if 	(end->data.token->type == PIPE && !skip)
 		{
-			do_pipe(mini, start, end->prev);
+			do_pipe(mini, start, end);
 			start = end->next;
 		}
 		else if (end->data.token->type & L_OPERAND)
 		{
 			if (!skip)
 			{
-				execute_cmd(mini, start, end->prev, NO_CHILD);
+				execute_cmd(mini, start, end, NO_CHILD);
 				reset_redirs(mini);
 			}
 			if ((end->data.token->type & AND && !mini->status)

@@ -6,13 +6,23 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/04 19:33:51 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:45:16 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	redirections(t_minishell *mini, )
+int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
+{
+	t_basic *tmp;
+
+	tmp = start;
+	while (tmp != end)
+	{
+		
+		tmp = tmp->next;
+	}
+}
 
 int	reset_redirs(t_minishell *mini)
 {
