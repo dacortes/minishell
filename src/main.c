@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/07 09:48:32 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 15:16:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,16 @@ int	init_mini_rush_plus(t_minishell *mini, char **env)
 	term_init();
 	ft_bzero(mini, sizeof(t_minishell));
 	mini->env = init_env(env);
-	mini->user = ft_strdup(search_env(mini->env, "USER", VALUE));
-	if (!mini->user)
-		exit(error_msg(MALLOC, 1, "init_mini_rush_plus: user"));
+	mini->user = protected(ft_strdup(search_env(mini->env, "USER", VALUE)),
+		"init_mini_rush_plus: user");
 	if (mini->user && !*mini->user)
 	{
 		free(mini->user);
 		mini->user = ft_strdup("UWU");
 	}
 	mini->cur_dir = get_pwd();
-	mini->old_dir = ft_strdup(search_env(mini->env, "OLDPWD", VALUE));
-	if (!mini->old_dir)
-		exit(error_msg(MALLOC, 1, "init_mini_rush_plus: old_dir"));
+	mini->old_dir = protected(ft_strdup(search_env(mini->env, "OLDPWD", VALUE)),
+		"init_mini_rush_plus: old_dir");
 	return (EXIT_SUCCESS);
 }
 
@@ -80,14 +78,40 @@ int	count_arg(void *node, void *count)
 		|| token->type == OR || token->type == S_SHELL);
 }
 
-// int	add_array(void *node, void *)
-// {
-// 	int	*len;
+char	**add_array(t_basic *iter, t_basic *iter_prev, int count)
+{
+	char	**array;
+	t_token	*curr;
+	t_token	*prev;
+	int		i;
 
-// 	*len = (int *)_len;
-
-// }
-
+	array = protected(ft_calloc(count + 1, sizeof(char *)),
+		"add_array: array");
+	i = 0;
+	while (iter)
+	{
+		curr = iter->data.token;
+		if (iter_prev)
+		{
+			prev = iter_prev->data.token;
+			if (curr->type == ARG && !prev->has_space && prev->type == ARG)
+			{
+				array[i] = ft_strjoin(prev->content, curr->content);
+				iter = iter->next;
+				iter_prev = iter->prev;
+			}
+			else if (curr->type == PIPE || curr->type == AND
+			|| curr->type == OR || curr->type == S_SHELL)
+			break ;
+		}
+		else if (curr->type == ARG && iter->next && iter->next->data.token->has_space)
+			array[i++] = protected(ft_strdup(curr->content),"add_array: array");
+		iter = iter->next;
+		if (iter)
+			iter_prev = iter->prev;
+	}
+	return (array);
+}
 char	**to_array(t_minishell *mini)
 {
 	char	**array;
@@ -96,10 +120,14 @@ char	**to_array(t_minishell *mini)
 	count = 0;
 	bool_loop_void(mini->token, count_arg, &count);
 	ft_printf("count [%d]\n", count);
-	array = ft_calloc(count, sizeof(char *));
-	if (!array)
-		exit(error_msg(MALLOC, 1, "to_array: array"));
-	// bool_loop_void(mini->token, add_array, );
+	array = add_array(mini->token, mini->token->prev, count);
+	int i = 0;
+	while (array[i])
+	{
+		ft_printf("*%s*\n", array[i]);
+		free(array[i++]);
+	}
+	
 	free(array);
 	array = NULL;
 	return (array);

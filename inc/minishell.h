@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/07 09:53:15 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 13:04:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ int 	parsing(t_minishell *mini);
 int		syntax_error(t_basic **content);
 
 /*  redirections/redirections.c */
-int		reset_redirs(t_minihsell *mini);
+// int		reset_redirs(t_minihsell *mini);
 int		parse_open(t_token *currect, int type, int	*redir);
 
 /*	parsing/syntax_err			*/
@@ -243,6 +243,7 @@ void	handle_siginth(int sig);
 
 /*	utils/errors.c			*/
 int		error_msg(int error, int code_exit, char *input);
+void	*protected(void *memory, char *error_str);
 
 /*	utils/clear_list.c			*/
 void 	free_env(void *content);

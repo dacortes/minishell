@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:55:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/07 09:53:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 13:04:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,11 @@ int	error_msg(int error, int code_exit, char *input)
 	}
 	(void)e;/*QUITAR AL ENTREGAR*/
 	return (code_exit);
+}
+
+void	*protected(void *memory, char *error_str)
+{
+	if (!memory)
+		exit(error_msg(MALLOC, 1, error_str));
+	return (memory);
 }
