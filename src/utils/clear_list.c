@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/06 07:18:09 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 12:41:37 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	**free_double_ptr(char **ptr)
+char	*free_double_ptr(char **ptr)
 {
 	int	i;
 
@@ -24,6 +24,7 @@ char	**free_double_ptr(char **ptr)
 		free(ptr[i]);
 		ptr[i] = NULL;
 	}
+	free(ptr);
 	return (NULL);
 }
 

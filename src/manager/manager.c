@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 11:25:06 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:48:19 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 
 	child_created = 0;
 	expand_tokens(t_minishell *mini, t_basic *start, t_basic *end);// NO EXISTE
-	cmd = get_cmds(t_basic *start, t_basic *end); //NO EXISTE
+	cmd = get_cmds(t_basic *start, t_basic *end);
 	if (start->data.token->type == S_SHELL)
 	{
 		if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
@@ -70,8 +70,8 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 			{
 				if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
 					return (ERROR);
-				path = get_path(mini);
-				env = substract_env(mini->env);
+				path = get_path(mini, cmd[0]);
+				env = substract_env(mini); // NO EXISTE
 				execve(path, cmd, env);
 				exit(error_msg(PERROR, 1, cmd[0]));
 			}
@@ -81,8 +81,8 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		{
 			if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
 				return (ERROR);
-			path = get_path(mini, cmd[0]); // NO EXISTE
-			env = substract_env(mini->env);
+			path = get_path(mini, cmd[0]);
+			env = substract_env(mini); // NO EXISTE
 			execve(path, cmd, env);
 			exit(error_msg(PERROR, 1, cmd[0]));
 		}
@@ -95,6 +95,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		while (wait(NULL) != -1)
 			;
 	}
+	free_double_ptr();
 	return(EXIT_SUCCESS);	
 }
 

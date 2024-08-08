@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 09:31:37 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 19:44:51 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ struct s_token
 	char		*content;
 	t_content	token_content;
 };
-
 
 union u_data_type
 {
