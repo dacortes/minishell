@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/06 07:18:09 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 15:59:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	**free_double_ptr(char **ptr)
+char	*free_double_ptr(char **ptr)
 {
 	int	i;
 
@@ -24,6 +24,7 @@ char	**free_double_ptr(char **ptr)
 		free(ptr[i]);
 		ptr[i] = NULL;
 	}
+	free(ptr);
 	return (NULL);
 }
 
@@ -68,8 +69,8 @@ void free_token(void *content)
 			free(token->content);
 		if (token && token->type == S_SHELL)
 			free_minishell(token->token_content.subs, TRUE);
-		else if (token && token->type & WILD_CARD)
-			free_list(token->token_content.expand, free_token);
+		/*else if (token && token->type & WILD_CARD)
+			free_list(token->token_content.expand, free_token);*/
 		free(token);
 	}
 	token = NULL;

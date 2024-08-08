@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/03 14:31:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 14:31:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ char	*ft_str_replace(const char *inp, size_t start, size_t end, char *rep)
 	return (new);
 }
 
-char *expand_token(t_basic *env, char *content, int start, int end)
+char *expand_str(t_minishell *mini, char *content, int start, int end)
 {
 	char *aux;
 	char *key;
 	char *value;
 
 	if (content[end] == '?')
-		aux = ft_str_replace(content, start, end, "0");
+		aux = ft_str_replace(content, start -1, end + 1, "0");
 	else
 	{
 		key = ft_strndup(&content[start], end - start);
-		value = ft_strdup(search_env(env, key, VALUE));
+		value = ft_strdup(search_env(mini->env, key, VALUE));
 		free(key);
 		if (value)
 		{
@@ -58,14 +58,14 @@ char *expand_token(t_basic *env, char *content, int start, int end)
 	return (aux);
 }
 
-char	*expansion(t_basic *env, char *content)
+char	*expansion(t_minishell *mini, char *content)
 {
 	int	end;
 	int	start;
 
 	end = 0;
-	start = -1;
-	while (content[++start])
+	start = 0;
+	while (content[start])
 	{
 		if (content[start] == '$')
 		{
@@ -75,14 +75,16 @@ char	*expansion(t_basic *env, char *content)
 				end = start;
 				while (content[end] && (ft_isalnum(content[end]) || content[end] == '_'))
 					++end;
-				content = expand_token(env, content, start, end);
+				content = expand_str(mini, content, start, end);
 			}
 			else if (content[start] && content[start] == '?')
 			{	
 				end = start;
-				content = expand_token(env, content, start - 1, end + 1);
+				content = expand_str(mini, content, start, end);
 			}
 		}
+		else
+			++start;
 	}
 	return (content);
 }

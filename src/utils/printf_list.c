@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 09:49:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	printf_content_token(void *content)
 	ft_printf("%s%s%s\n", TUR"Content: *"END, token->content, TUR"*"END);
 	if (token->is_quote == SIMP_QUOTES || token->is_quote == DOUBLE_QUOTES)
 	{
-		ft_printf("%s\n", TUR" Type quote: "END, token->is_quote);
+		ft_printf("%s%c\n", TUR" Type quote: "END, token->is_quote);
 		quote = BLUE"true"END;
 	}
 	ft_printf("%s%s\n", TUR" Is quote: "END, quote);

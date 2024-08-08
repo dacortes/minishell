@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 08:28:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 15:58:43 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ struct s_minishell
 union u_content
 {
 	t_minishell	*subs;
-	t_basic		*expand;
+	//t_basic		*expand;
 	int			redir_here[2];
 };
 
@@ -194,7 +194,10 @@ char	*search_env(t_basic *env, char *key, int type);
 void	printf_export(void *content);
 
 /*	expansion/dollar.c			*/
-char	*expansion(t_basic *env, char *content);
+char	*expansion(t_minishell *mini, char *content);
+
+/*	expansion/token.c			*/
+int		expand_token(t_minishell *mini, t_basic *start, t_basic *end);
 
 /*	parsing/add_token.c			*/
 int		get_token_content(t_content *token_content, char *content, int type);
@@ -233,7 +236,7 @@ char	*get_branch(void);
 int		prompt(t_minishell *mini);
 
 /*	redirections/redir_heredoc.c	*/
-int		is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status);
+int		is_heredoc(t_minishell *mini, t_basic *token, pid_t *redir, int *status);
 
 /*	signals/signals.c		*/
 void	term_init(void);
@@ -251,6 +254,7 @@ void	free_minishell(t_minishell *mini, int flag);
 void 	free_list(t_basic *node, void (*f)(void *));
 
 /*	utils/handler.list.c		*/
+void	*get_last(t_basic *list);
 void	add_prev(t_basic **list);
 void	add_back(t_basic **list, t_basic *new);
 

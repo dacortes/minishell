@@ -15,7 +15,7 @@ INCLUDES = $(addprefix -I, inc) \
 		   $(addprefix -I, lib/libft)
 SOURCES = 	built-ins/cd.c built-ins/env.c built-ins/export.c\
 			built-ins/utils_env.c built-ins/utils_export.c built-ins/unset.c\
-			expansion/dollar.c\
+			expansion/dollar.c expansion/token.c\
 			parsing/add_token.c parsing/metacharacters.c  parsing/parsing.c\
 			parsing/syntax_err.c parsing/utils.c\
 			prompt/prompt.c\

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 08:26:16 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 15:47:34 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ int	test_heredoc(t_minishell *mini)
 {
 	pid_t	redir[2];
 	t_basic	*iter;
-	t_basic	*env;
 
 	redir[0] = 0;
 	redir[1] = 0;
-	env = mini->env;
 	iter = mini->token;
 	while (iter && iter->data.token->type != SYN_ERROR && mini->status == 0)
 	{
-		is_heredoc(env, iter, redir, &mini->status);
+		is_heredoc(mini, iter, redir, &mini->status);
 		iter = iter->next;
 	}
 	return (EXIT_SUCCESS);
@@ -63,6 +61,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		prompt(&mini);
 		parsing(&mini);
 		test_heredoc(&mini);
+		expand_token(&mini, mini.token, NULL);
 		printf_token(mini.token);
 		to_array(&mini);
 		if (mini.get_line && *mini.get_line)

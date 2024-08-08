@@ -6,14 +6,14 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/07 19:14:45 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/08 11:30:54 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 
-int	read_heredoc(t_basic *env, t_basic *token, pid_t *redir)
+int	read_heredoc(t_minishell *mini, t_basic *token, pid_t *redir)
 {
 	t_basic *next;
 	char	*line;
@@ -32,7 +32,7 @@ int	read_heredoc(t_basic *env, t_basic *token, pid_t *redir)
 		else
 		{
 			if (line && *line)
-				line = expansion(env, line);
+				line = expansion(mini, line);
 			fd_printf(redir[1], "%s", line);
 		}
 		free(line);
@@ -42,7 +42,7 @@ int	read_heredoc(t_basic *env, t_basic *token, pid_t *redir)
 	exit (EXIT_SUCCESS);
 }
 
-int	is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status)
+int	is_heredoc(t_minishell *mini, t_basic *token, pid_t *redir, int *status)
 {
 	pid_t	heredoc;
 
@@ -57,7 +57,7 @@ int	is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status)
 		{
 			if (redir[0] > 0)
 				close(redir[0]);
-			read_heredoc(env, token, redir);
+			read_heredoc(mini, token, redir);
 		}
 		if (waitpid(heredoc, status, 0) == ERROR)
 		{

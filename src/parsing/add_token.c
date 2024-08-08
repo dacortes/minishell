@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 11:10:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 15:58:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	get_token_content(t_content *token_content, char *content, int type)
 	}
 	else if (type == R_HER)
 		ft_bzero(token_content->redir_here, sizeof(int));
-	else if (type & WILD_CARD)
+	/*else if (type & WILD_CARD)
 	{
 		token_content->expand = ft_calloc(sizeof(t_basic), 1);
 		if (!token_content->expand)
 			exit (error_msg(MALLOC, 1, "get_token_content: expand"));
-	}
+	}*/
 	return (EXIT_SUCCESS);
 }
 
@@ -61,7 +61,7 @@ t_token	*new_token(char *content, char *del, int space)
 int	init_token(t_basic **token, char *content, char *del, int space)
 {
 	t_basic	*new;
-	t_token			*tmp;
+	t_token	*tmp;
 
 	if (!content)
 		exit (error_msg(MALLOC, 1, "init_token: content"));
