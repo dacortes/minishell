@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 11:14:39 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/08 09:32:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		parsing(&mini);
 		test_heredoc(&mini);
 		printf_token(mini.token);
-		to_array(&mini);
+		//to_array(&mini);
 		if (mini.get_line && *mini.get_line)
 			add_history(mini.get_line);
 		if (!mini.get_line)

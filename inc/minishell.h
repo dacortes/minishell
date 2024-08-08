@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 08:28:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 09:31:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,5 +265,5 @@ void	printf_content_token(void *content);
 void	printf_token(t_basic *token);
 
 /*	utils/to_array.c			*/
-char	**to_array(t_minishell *mini);
+char	**get_cmds(t_basic *start, t_basic *end);
 #endif
