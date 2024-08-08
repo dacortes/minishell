@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/08 14:31:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 19:32:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,16 @@ char *expand_str(t_minishell *mini, char *content, int start, int end)
 		key = ft_strndup(&content[start], end - start);
 		value = ft_strdup(search_env(mini->env, key, VALUE));
 		free(key);
-		if (value)
+		if (value && *value)
 		{
 			aux = ft_str_replace(content, start - 1, end, value);
 			free (value);
 		}
 		else
-			aux = ft_str_replace(content, start, end, "");
+		{
+			aux = ft_str_replace(content, start - 1, end, "");
+			free (value);
+		}
 	}
 	if (!aux)
 		exit(error_msg(MALLOC, 1, "expand_token: aux"));
@@ -85,6 +88,8 @@ char	*expansion(t_minishell *mini, char *content)
 		}
 		else
 			++start;
+		if ((int)ft_strlen(content) < start)
+			break ;
 	}
 	return (content);
 }

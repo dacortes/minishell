@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 15:58:43 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 19:02:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ enum e_error_code
 	ARGUMENT = 1 << 2,
 	PERROR = 1 << 3,
 	EXPORT = 1 << 4,
+	EXIT = 1 << 5,
 };
 
 enum e_tokens_types
@@ -176,6 +177,9 @@ int		update_oldpwd(t_minishell *mini, char *dir);
 t_basic	*init_env(char **env);
 int		add_env(t_basic **new_env, char *line);
 int		_env(t_basic *list, int num_commands);
+
+/*	built-ins/exit.c				*/
+int		_exit_(t_minishell *mini, char **command, int num_arg);
 
 /*	built-ins/export.c			*/
 int		add_export(t_basic **env, char *line);

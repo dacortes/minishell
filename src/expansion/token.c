@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/08 15:58:11 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 19:28:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ t_basic	*connect_lists(t_minishell *mini, t_basic *node, t_basic *new)
 		new->data.token->has_space = node->data.token->has_space;
 	}
 	last = get_last(new);
-	last->next = node->next;
-	if (last->next)
-		node->next->prev = last;
+	if (last)
+	{
+		last->next = node->next;
+		if (last->next)
+			node->next->prev = last;
+	}
 	//free(node->data.token->token_content.expand);
 	free(node->data.token->content);
     free(node->data.token);
@@ -72,7 +75,9 @@ int	expand_token(t_minishell *mini, t_basic *start, t_basic *end)
 			ft_printf("soy una patata\n");
 			start = wordspliting(mini, start);
 		}
+		if (!start)
+			break ;
 		start = start->next;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
