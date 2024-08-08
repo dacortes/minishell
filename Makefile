@@ -22,7 +22,7 @@ SOURCES = 	built-ins/cd.c built-ins/env.c built-ins/export.c\
 			redirections/redir_heredoc.c\
 			signals/signals.c\
 			utils/clear_list.c utils/errors.c utils/handler_list.c\
-			utils/loops.c utils/printf_list.c\
+			utils/loops.c utils/printf_list.c utils/to_array.c\
 			main.c
 
 LIBFT = ./lib/libft/

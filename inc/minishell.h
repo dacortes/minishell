@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 08:12:46 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 08:28:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,4 +263,7 @@ t_basic	*bool_loop_void(t_basic *node, int (*cmp)(void *, void *), void *arg);
 char	*printf_type(int type);
 void	printf_content_token(void *content);
 void	printf_token(t_basic *token);
+
+/*	utils/to_array.c			*/
+char	**to_array(t_minishell *mini);
 #endif
