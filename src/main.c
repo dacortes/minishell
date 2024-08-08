@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/07 15:16:42 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 08:00:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,40 +78,41 @@ int	count_arg(void *node, void *count)
 		|| token->type == OR || token->type == S_SHELL);
 }
 
-char	**add_array(t_basic *iter, t_basic *iter_prev, int count)
+char **add_array(t_basic *iter, int count)
 {
-	char	**array;
-	t_token	*curr;
-	t_token	*prev;
-	int		i;
+    char	**array;
+	char	*temp;
+    t_token	*curr;
+    t_token	*next;
+    int		i;
 
-	array = protected(ft_calloc(count + 1, sizeof(char *)),
-		"add_array: array");
-	i = 0;
-	while (iter)
-	{
-		curr = iter->data.token;
-		if (iter_prev)
-		{
-			prev = iter_prev->data.token;
-			if (curr->type == ARG && !prev->has_space && prev->type == ARG)
-			{
-				array[i] = ft_strjoin(prev->content, curr->content);
-				iter = iter->next;
-				iter_prev = iter->prev;
-			}
-			else if (curr->type == PIPE || curr->type == AND
-			|| curr->type == OR || curr->type == S_SHELL)
-			break ;
-		}
-		else if (curr->type == ARG && iter->next && iter->next->data.token->has_space)
-			array[i++] = protected(ft_strdup(curr->content),"add_array: array");
-		iter = iter->next;
-		if (iter)
-			iter_prev = iter->prev;
-	}
-	return (array);
+    array = protected(ft_calloc(count + 1, sizeof(char *)), "add_array: array");
+    i = 0;
+    while (iter)
+    {
+        curr = iter->data.token;
+        if (curr->type == ARG)
+        {
+            array[i] = protected(ft_strdup(curr->content), "add_array: array");
+            while (iter->next && iter->next->data.token->type == ARG
+				&& !iter->next->data.token->has_space)
+            {
+                iter = iter->next;
+                next = iter->data.token;
+                temp = array[i];
+                array[i] = protected(ft_strjoin(temp, next->content), "array");
+                free(temp);
+            }
+            i++;
+        }
+        if (curr->type == PIPE || curr->type == AND
+			|| curr->type == OR || curr->type == S_SHELL) // el end que nos pasa frank
+            break;
+        iter = iter->next;
+    }
+    return (array);
 }
+
 char	**to_array(t_minishell *mini)
 {
 	char	**array;
@@ -120,14 +121,13 @@ char	**to_array(t_minishell *mini)
 	count = 0;
 	bool_loop_void(mini->token, count_arg, &count);
 	ft_printf("count [%d]\n", count);
-	array = add_array(mini->token, mini->token->prev, count);
+	array = add_array(mini->token, count);
 	int i = 0;
 	while (array[i])
 	{
 		ft_printf("*%s*\n", array[i]);
 		free(array[i++]);
 	}
-	
 	free(array);
 	array = NULL;
 	return (array);
