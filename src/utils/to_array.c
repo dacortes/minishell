@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 08:27:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 11:25:16 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char **add_array(t_basic *iter, int count)
     return (array);
 }
 
-char	**to_array(t_minishell *mini)
+char	**to_array(t_basic *start, t_basic *end)
 {
 	char	**array;
 	int		count;
