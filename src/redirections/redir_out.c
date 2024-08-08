@@ -6,19 +6,27 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:28 by frankgar          #+#    #+#             */
-/*   Updated: 2024/07/27 14:51:02 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:04:23 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	is_stdout(t_token *current, int *redir, int	*status)
+int	_stdout(t_minishell *mini, t_basic *current)
 {
-	if (current && current->type == R_OUT)
+	int	fd;
+
+	if (current->data.token->type == R_OUT)
 	{
-		if (redir[1] > 0)
-			close (redir[1]);
-		*status = parse_open(current, R_OUT, redir);
+		mini->status = parse_open(current);
+		if (mini->status)
+			return (FAILURE);
+		fd = open(current->data.token->content, O_WRONLY | O_CREAT);
+		if (fd == ERROR)
+			return (error_msg(PERROR, 1, current->data.token->content));
+		if (dup2(fd, 1) == FAILURE)
+			return (error_msg(PERROR, 1, "Dup2")); 
+		close(fd);
 	}
-	return (*status);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/07 11:02:32 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:35:04 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	cmd = get_cmds(t_minishell *mini, t_basic *start, t_basic *end); //NO EXISTE
 	if (start->data.token->type == S_SHELL)
 	{
-		redirections(t_minishell *mini, t_basic *start, t_basic *end);//NO EXISTE
+		if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+			return (ERROR);
 		child = fork();
 		if (child == ERROR)
 			return (error_msg(PERROR, 1, "fork"));
@@ -36,7 +37,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		}
 		child_created = 1;
 	}
-	else if (is_building(cmd[0]))// NO EXISTE
+	else if (is_builtin(cmd[0]))
 	{
 		if (!is_child && mini->redir[0])
 		{
@@ -45,15 +46,17 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				return (error_msg(PERROR, 1, "fork"));
 			if (child == CHILD)
 			{
-				redirections(t_minishell *mini, t_basic *start, t_basic *end);//NO EXISTE
-				do_building(mini, cmd); //NO EXISTE
+				if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+					return (ERROR);
+				do_builtin(mini, cmd); //NO EXISTE
 			}
 			child_created = 1;
 		}
 		else
 		{
-			redirections(t_minishell *mini, t_basic *start, t_basic *end);//NO EXISTE
-			do_building(mini, cmd); //NO EXISTE
+			if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+				return (ERROR);
+			do_builtin(mini, cmd); //NO EXISTE
 		}
 	}
 	else
@@ -65,7 +68,8 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				return (error_msg(PERROR, 1, "fork"));
 			if (child == CHILD)
 			{
-				redirections(t_minishell *mini, t_basic *start, t_basic *end);//NO EXISTE
+				if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+					return (ERROR);
 				path = get_path(mini);
 				env = substract_env(mini->env);
 				execve(path, cmd, env);
@@ -75,7 +79,8 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		}
 		else
 		{
-			redirections(t_minishell *mini, t_basic *start, t_basic *end);//NO EXISTE
+			if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+				return (ERROR);
 			path = get_path(mini);
 			env = substract_env(mini->env);
 			execve(path, cmd, env);
@@ -85,7 +90,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	}
 	if (child_created && !is_child)
 	{
-		if (waitpid(child, &mini->status, 0) != -1)
+		if (waitpid(child, &mini->status, 0) != ERROR)
 			return (error_msg(PERROR, 1, "waitpid"));
 		while (wait(NULL) != -1)
 			;

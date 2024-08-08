@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/07 13:04:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 08:12:46 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ enum e_tokens_types
 	REDIR = 1 << 5,
 	R_IN = 1 << 6 | REDIR,
 	R_OUT = 1 << 7 | REDIR,
-	R_HER = 1 << 8 | REDIR | R_IN,
-	R_APP = 1 << 9 | REDIR | R_OUT,
+	R_HER = 1 << 8 | R_IN,
+	R_APP = 1 << 9 | R_OUT,
 	EXPAN = 1 << 10 | ARG,
 	S_SHELL = 1 << 11,
 	SYN_ERROR = 1 << 12,
@@ -124,7 +124,6 @@ struct s_minishell
 {
 	int		status;
 	char	*user;
-	int		redir[2];
 	int		term_fd[2];
 	char	*get_line;
 	char	*cur_dir;
@@ -214,7 +213,7 @@ int 	parsing(t_minishell *mini);
 int		syntax_error(t_basic **content);
 
 /*  redirections/redirections.c */
-// int		reset_redirs(t_minihsell *mini);
+int		reset_redirs(t_minishell *mini);
 int		parse_open(t_token *currect, int type, int	*redir);
 
 /*	parsing/syntax_err			*/
