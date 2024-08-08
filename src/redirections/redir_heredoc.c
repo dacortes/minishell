@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/06 06:53:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 19:14:45 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	read_heredoc(t_basic *env, t_basic *token, pid_t *redir)
 		}
 		free(line);
 	}
-	close(redir[0]);
+	close(redir[1]);
 	close(redir[0]);
 	exit (EXIT_SUCCESS);
 }
@@ -55,7 +55,7 @@ int	is_heredoc(t_basic *env, t_basic *token, pid_t *redir, int *status)
 			exit (error_msg(PERROR, 1, "is_heredoc: init: child heredoc"));
 		if (heredoc == CHILD)
 		{
-			if (redir[0] >= 0)
+			if (redir[0] > 0)
 				close(redir[0]);
 			read_heredoc(env, token, redir);
 		}

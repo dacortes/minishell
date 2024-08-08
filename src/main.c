@@ -6,11 +6,11 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/07 09:48:32 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/07 19:35:08 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <minishell.h>
+#include <minishell.h>
 
 int	test_heredoc(t_minishell *mini)
 {
