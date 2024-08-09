@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 14:33:00 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 08:02:12 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 13:31:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,17 @@ int	_unset(t_basic **env, char *key)
 	}
 	free(rm->data.env);
 	free(rm);
+	return (EXIT_SUCCESS);
+}
+
+int	unset_loop(t_basic **env, char **command, int num_arg)
+{
+	int	i;
+
+	if (num_arg == 1)
+		return (EXIT_SUCCESS);
+	i = 1;
+	while (command[i])
+		_unset(env, command[i++]);
 	return (EXIT_SUCCESS);
 }

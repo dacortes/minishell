@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:04:09 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 10:27:22 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 13:40:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_builtin(char *cmd)
 {
-	static char	**builtins = {"echo", "cd", "pwd", "export", "unset", "env", \
+	static char	*builtins[8] = {"echo", "cd", "pwd", "export", "unset", "env", \
 								"exit"};
 	int			i;
 	int			len;
@@ -24,16 +24,34 @@ int	is_builtin(char *cmd)
 	while (builtins[i])
 	{
 		if (ft_strncmp(builtins[i], cmd, len))
-			return (TRUE)
+			return (TRUE);
 	}
 	return (FALSE);
 }
 
 int	do_builtin(t_minishell *mini, char **cmd)
 {
-	static char	**builtins = {"echo", "cd", "pwd", "export", "unset", "env", \
-		"exit"};
-	if (ft_strncmp(builtins[0], cmd[0], -1) == EXIT_SUCCESS)
-		_echo();
+	int	num_arg;
+
+	num_arg = ft_double_ptr_len((void **)cmd);
+	if (ft_strncmp("cd", cmd[0], -1) == EXIT_SUCCESS)
+		mini->status = _cd(mini, cmd, num_arg);
+	else if (ft_strncmp("echo", cmd[0], -1) == EXIT_SUCCESS)
+		mini->status = _echo(cmd, num_arg);
+	else if (ft_strncmp("env", cmd[0], -1) == EXIT_SUCCESS)
+		mini->status = _env(mini->env, num_arg);
+	else if (ft_strncmp("exit", cmd[0], -1) == EXIT_SUCCESS)
+		mini->status = _exit_(mini, cmd, num_arg);
+	else if (ft_strncmp("export", cmd[0], -1) == EXIT_SUCCESS)
+	{
+		if (num_arg > 1)
+			mini->status = export_loop(&mini->env, cmd);
+		else
+			mini->status = _export(mini->env);
+	}
+	else if (ft_strncmp("unset", cmd[0], -1) == EXIT_SUCCESS)
+		mini->status = unset_loop(&mini->env, cmd, num_arg);
+	else if (ft_strncmp("pwd", cmd[0], -1) == EXIT_SUCCESS)
+		mini->status = _pwd();
 	return (EXIT_SUCCESS);
 }

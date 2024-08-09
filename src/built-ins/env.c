@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 07:41:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 10:48:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ t_basic *init_env(char **env)
 	return (new_env);
 }
 
-int	_env(t_basic *list, int num_commands)
+int	_env(t_basic *list, int num_arg)
 {
-	if (num_commands > 1)
+	if (num_arg > 1)
 		return (error_msg(ARGUMENT, 1, "env"));
 	content_loop(list, printf_env);
 	return (EXIT_SUCCESS);

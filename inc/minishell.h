@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 10:26:56 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 13:34:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,10 +168,15 @@ struct s_basic
 /*                            FUNCTIONS                                       */
 /******************************************************************************/
 
+/*	built-ins/builtins.c		*/
+int		is_builtin(char *cmd);
+int		do_builtin(t_minishell *mini, char **cmd);
+
 /*	built-ins/cd.c				*/
 int		replace(t_basic **env, char	*key, char *value);
 char	*get_pwd(void);
 int		update_oldpwd(t_minishell *mini, char *dir);
+int		_cd(t_minishell *mini, char **command, int num_arg);
 
 /*	built-ins/echo.c				*/
 int		_echo(char **command, int num_arg);
@@ -179,16 +184,22 @@ int		_echo(char **command, int num_arg);
 /*	built-ins/env.c				*/
 t_basic	*init_env(char **env);
 int		add_env(t_basic **new_env, char *line);
-int		_env(t_basic *list, int num_commands);
+int		_env(t_basic *list, int num_arg);
 
 /*	built-ins/exit.c				*/
 int		_exit_(t_minishell *mini, char **command, int num_arg);
 
 /*	built-ins/export.c			*/
 int		add_export(t_basic **env, char *line);
+int		export_loop(t_basic **env, char **command);
 int		_export(t_basic *env);
+
+/*	built-ins/pwd.c			*/
+int		_pwd(void);
+
 /*	built-ins/unset.c				*/
 int		_unset(t_basic **env, char *key);
+int		unset_loop(t_basic **env, char **command, int num_arg);
 
 /*  built-ins/utils_env.c 			*/
 int		is_metacharacters(char c);

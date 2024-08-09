@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:52:18 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/04 10:43:29 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 10:43:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,13 @@ int	update_pwd(t_minishell *mini, char *path)
 	return (EXIT_SUCCESS);
 }
 
-int	_cd(t_minishell *mini, int num_commands)
+int	_cd(t_minishell *mini, char **command, int num_arg)
 {
-	if (num_commands > 2)
+	if (num_arg > 2)
 		return (error_msg(ARGUMENT, 1, "cd"));
-	if (num_commands == 1)
+	if (num_arg == 1)
 		update_pwd(mini, "");
-	//else if () lista de comandos doble puntero
+	else
+		update_pwd(mini, command[1]);
 	return (EXIT_SUCCESS);
 }

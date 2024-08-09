@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 08:31:47 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 13:39:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ char	**get_cmds(t_basic *start, t_basic *end)
 	count = 0;
 	bool_loop_void(start, count_arg, &count);
 	array = add_array(start, end, count);
-	int i = 0;
+	/*int i = 0;
 	while (array[i])	
-		ft_printf("[%s]\n", array[i++]);
+		ft_printf("[%s]\n", array[i++]);*/
 	return (array); // librerar doble array despues de usarlo
 }

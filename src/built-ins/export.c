@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:21:04 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/04 12:45:43 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 11:04:24 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,21 @@ int	add_export(t_basic **env, char *line)
 	else if (*aux.value && pos == NOT_FOUND)
 		replace(env, aux.key, &line[pos]);
 	return (free(aux.key), EXIT_SUCCESS);
+}
+
+int	export_loop(t_basic **env, char **command)
+{
+	int	status;
+	int	i = 1;
+
+	status = 0;
+	while (command[i])
+	{
+		if (add_export(env, command[i]))
+			status = 1;
+		i++;
+	}
+	return (status);
 }
 
 int	_export(t_basic *env)
