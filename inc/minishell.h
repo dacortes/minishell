@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 15:37:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 15:56:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ enum e_error_code
 	PERROR = 1 << 3,
 	EXPORT = 1 << 4,
 	EXIT = 1 << 5,
+	AMBIGUOUS = 1 << 6,
 };
 
 enum e_tokens_types
@@ -127,6 +128,7 @@ struct s_minishell
 	int		status;
 	char	*user;
 	int		term_fd[2];
+	int		redir[2];
 	char	*get_line;
 	char	*cur_dir;
 	char	*old_dir;
@@ -212,6 +214,13 @@ char	*search_env(t_basic *env, char *key, int type);
 /*  built-ins/utils_env.c 			*/
 void	printf_export(void *content);
 
+/*	manager/manager_utils.c			*/
+char	*get_path(t_minishell *mini, char *cmd);
+char	*select_cmd_path(char **path, char *cmd);
+char	**substract_env(t_minishell *mini);
+int 	get_env_size(t_basic *env);
+/*	manager/manager.c			*/
+int		manager(t_minishell *mini);
 /*	expansion/dollar.c			*/
 char	*expansion(t_minishell *mini, char *content);
 
@@ -234,9 +243,20 @@ int		check_subshell(t_basic **token, char *line, int *pos, int end);
 int 	parsing(t_minishell *mini);
 int		syntax_error(t_basic **content);
 
+/*  redirections/redir_append.c */
+
+
 /*  redirections/redirections.c */
+int		redirections(t_minishell *mini, t_basic *start, t_basic *end);
 int		reset_redirs(t_minishell *mini);
 int		parse_open(t_basic *current);
+
+/*  redirections/redir_in.c */
+int		_stdinp(t_minishell *mini, t_basic *current);
+
+/*  redirections/redir_out.c */
+int		_stdout(t_minishell *mini, t_basic *current);
+
 
 /*	parsing/syntax_err			*/
 

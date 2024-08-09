@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:45:41 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 20:16:43 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:00:18 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char **substract_env(t_minishell *mini)
 	t_basic	*iter;
 
 	i = 0;
-	env = protected(ft_calloc(get_env_size(mini->env, sizeof(char * )), "ENV"));
+	env = protected(ft_calloc(get_env_size(mini->env), sizeof(char *)), "env");
 	iter = mini->env;
 	while(iter)
 	{

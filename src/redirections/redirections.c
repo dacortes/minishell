@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 13:09:40 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:02:13 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
 	{
 		if (tmp->data.token->type & REDIR)
 		{
-			_stdin(mini, tmp->next);
+			_stdinp(mini, tmp->next);
 			_stdout(mini, tmp->next);
-			_heredoc(mini, tmp->next);
-			_append(mini, tmp->next);
+			//_heredoc(mini, tmp->next);
+			//_append(mini, tmp->next);
 		}
 		tmp = tmp->next;
 	}
 	if (mini->status)
 		return(ERROR);
-	return(EXIT_SUCCESS)
+	return(EXIT_SUCCESS);
 }
 
 int	reset_redirs(t_minishell *mini)
@@ -49,7 +49,7 @@ int	parse_open(t_basic *current)
 	file = current->data.token->content;
 	if (current->next->data.token->type == EXPAN \
 		&& current->next->next->data.token->expanded == TRUE)
-			return (error_msg(AMBIGUOS, 1, file));
+			return (error_msg(AMBIGUOUS, 1, file));
 	if (current->data.token->type & R_IN)
 	{
 		if (access(file, F_OK) == ERROR)

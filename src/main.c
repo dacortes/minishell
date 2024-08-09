@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 13:38:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 16:04:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,19 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		if (!mini.get_line || !*mini.get_line)
 			break ;
 		parsing(&mini);
-		test_heredoc(&mini);
-		expand_token(&mini, mini.token, NULL);
+		// manager(&mini);
+		//test_heredoc(&mini);
+		///expand_token(&mini, mini.token, NULL);
 		//printf_token(mini.token);
-		char **foo = get_cmds(mini.token, NULL);
-		do_builtin(&mini, foo);
-		free_double_ptr(foo);
-		if (mini.get_line)
-		{
-			free_list(mini.token, free_token);
-			ft_free(&mini.get_line, NULL);
-			mini.token = NULL;
-		}
+		// char **foo = get_cmds(mini.token, NULL);
+		// do_builtin(&mini, foo);
+		// free_double_ptr(foo);
+		// if (mini.get_line)
+		// {
+		// 	free_list(mini.token, free_token);
+		// 	ft_free(&mini.get_line, NULL);
+		// 	mini.token = NULL;
+		// }
 		ft_printf("%s [%d]\n", BLUE"status:"END, mini.status);
 	}
 	free_minishell(&mini, FALSE);

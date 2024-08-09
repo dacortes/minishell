@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 08:43:37 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 15:58:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	char	*path;
 
 	child_created = 0;
-	expand_tokens(t_minishell *mini, t_basic *start, t_basic *end);// NO EXISTE
-	cmd = get_cmds(t_basic *start, t_basic *end);
+	env = NULL;
+	expand_token(mini,start,end);// NO EXISTE
+	cmd = get_cmds(start, end);
 	if (start->data.token->type == S_SHELL)
 	{
-		if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+		if (redirections(mini, start, end))
 			return (ERROR);
 		child = fork();
 		if (child == ERROR)
@@ -46,7 +47,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				return (error_msg(PERROR, 1, "fork"));
 			if (child == CHILD)
 			{
-				if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+				if (redirections(mini, start, end))
 					return (ERROR);
 				do_builtin(mini, cmd); //NO EXISTE
 			}
@@ -54,7 +55,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		}
 		else
 		{
-			if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+			if (redirections(mini, start, end))
 				return (ERROR);
 			do_builtin(mini, cmd); //NO EXISTE
 		}
@@ -68,7 +69,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				return (error_msg(PERROR, 1, "fork"));
 			if (child == CHILD)
 			{
-				if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+				if (redirections(mini, start, end))
 					return (ERROR);
 				path = get_path(mini, cmd[0]);
 				env = substract_env(mini); // NO EXISTE
@@ -79,7 +80,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		}
 		else
 		{
-			if (redirections(t_minishell *mini, t_basic *start, t_basic *end))
+			if (redirections(mini, start, end))
 				return (ERROR);
 			path = get_path(mini, cmd[0]);
 			env = substract_env(mini); // NO EXISTE
@@ -95,7 +96,8 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		while (wait(NULL) != -1)
 			;
 	}
-	free_double_ptr();
+	free_double_ptr(cmd);
+	free_double_ptr(env);
 	return(EXIT_SUCCESS);	
 }
 
@@ -115,10 +117,10 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 			exit(error_msg(PERROR, 1, "do_pipe: dup2"));
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
-		execute_cmd(mini, start, end, CHILD);
+		exec_cmd(mini, start, end, CHILD);
 		exit(mini->status);
 	}
-	if(dup2(pipe_fd[0], 0) == ERROR);
+	if(dup2(pipe_fd[0], 0) == ERROR)
 		exit(error_msg(PERROR, 1, "do_pipe: dup2"));
 	mini->redir[0] = pipe_fd[0];
 	close(pipe_fd[1]);
@@ -146,7 +148,7 @@ int	manager(t_minishell *mini)
 		{
 			if (!skip)
 			{
-				execute_cmd(mini, start, end, NO_CHILD);
+				exec_cmd(mini, start, end, NO_CHILD);
 				reset_redirs(mini);
 			}
 			if ((end->data.token->type & AND && !mini->status)
@@ -159,6 +161,6 @@ int	manager(t_minishell *mini)
 		end = end->next;
 	}
 	if (!skip)
-		execute_cmd(mini, start, end, NO_CHILD);
+		exec_cmd(mini, start, end, NO_CHILD);
 	return (mini->status);
 }

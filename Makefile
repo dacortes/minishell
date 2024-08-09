@@ -17,11 +17,14 @@ SOURCES = 	built-ins/builtins.c built-ins/cd.c built-ins/echo.c\
 			built-ins/env.c built-ins/exit.c built-ins/export.c\
 			built-ins/utils_env.c built-ins/pwd.c built-ins/utils_export.c\
 			built-ins/unset.c\
+			manager/manager.c manager/manager_utils.c\
 			expansion/dollar.c expansion/token.c\
 			parsing/add_token.c parsing/metacharacters.c  parsing/parsing.c\
 			parsing/syntax_err.c parsing/utils.c\
 			prompt/prompt.c\
-			redirections/redir_heredoc.c\
+			redirections/redir_append.c redirections/redir_heredoc.c\
+			redirections/redir_in.c redirections/redir_out.c\
+			redirections/redirections.c\
 			signals/signals.c\
 			utils/clear_list.c utils/errors.c utils/handler_list.c\
 			utils/loops.c utils/printf_list.c utils/get_cmd.c\
@@ -81,6 +84,7 @@ dir:
 	make -C $(LIBFT) --no-print-directory
 	-mkdir -p $(DIRECTORIES_UTILS)
 	-mkdir -p $(DIRECTORIES_UTILS)/built-ins
+	-mkdir -p $(DIRECTORIES_UTILS)/manager
 	-mkdir -p $(DIRECTORIES_UTILS)/expansion
 	-mkdir -p $(DIRECTORIES_UTILS)/prompt
 	-mkdir -p $(DIRECTORIES_UTILS)/parsing
