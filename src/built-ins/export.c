@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:21:04 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 11:04:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 15:02:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	check_key(char *key, int *flag)
 	}
 	if (key[i] == '+')
 		*flag = i;
+	if (*flag == NOT_FOUND && !key[i])
+		return (TRUE);
 	if ((*flag != NOT_FOUND && key[i + 1] && key[i + 1] != '=')
 		|| (*flag && !key[i + 1]))
 		return(FALSE);

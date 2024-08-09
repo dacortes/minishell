@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:07:51 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/06 15:09:07 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 15:15:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ char	*get_branch(void)
 	while (branch)
 	{
 		branch = get_next_line(fd);
-		if (!ft_strncmp(branch, "ref: refs/heads/", 16))
+		if (branch && !ft_strncmp(branch, "ref: refs/heads/", 16))
 			break ;
 		free(branch);
 	}
+	if (!branch)
+		return (free(dir), close(fd), ft_strdup("UWU"));
 	branch[ft_strlen(branch) - 1] = '\0';
 	ft_memmove(branch, &branch[16], ft_strlen(&branch[16]) + 1);
 	return (free(dir), close(fd), branch);

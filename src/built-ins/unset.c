@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 14:33:00 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 13:31:15 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 14:33:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	_unset(t_basic **env, char *key)
 	}
 	free(rm->data.env);
 	free(rm);
+	rm = NULL;
 	return (EXIT_SUCCESS);
 }
 

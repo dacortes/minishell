@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:52:18 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/09 10:43:28 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 15:24:30 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ int	update_oldpwd(t_minishell *mini, char *dir)
 		add_env(&mini->env, "OLDPWD=");
 	replace(&mini->env, "OLDPWD", dir);
 	//tener cuidado con la memoria dinamica de cur_dir
-	// ft_free(mini->old_dir, NULL);
-	// mini->old_dir = mini->cur_dir;
-	// ft_free(mini->cur_dir, NULL);
-	// mini->cur_dir = dir;
+	ft_free(&mini->old_dir, NULL);
+	mini->old_dir = mini->cur_dir;
+	ft_free(&mini->cur_dir, NULL);
+	mini->cur_dir = dir;
 	return (EXIT_SUCCESS);
 }
 
@@ -80,6 +80,7 @@ int	update_pwd(t_minishell *mini, char *path)
 	replace(&mini->env, "PWD", dir);
 	if (ft_strncmp(dir, mini->cur_dir, PATH_MAX) != 0)
 		update_oldpwd(mini, dir);
+	//ft_free(&dir, NULL);
 	return (EXIT_SUCCESS);
 }
 
