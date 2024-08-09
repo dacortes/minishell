@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   to_array.c                                         :+:      :+:    :+:   */
+/*   get_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 08:27:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/08 19:51:23 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include<minishell.h> 
+#include <minishell.h> 
 
 int	count_arg(void *node, void *count)
 {
@@ -41,7 +41,7 @@ int	count_arg(void *node, void *count)
 		|| token->type == OR || token->type == S_SHELL);
 }
 
-char **add_array(t_basic *iter, int count)
+char **add_array(t_basic *start, t_basic *end, int count)
 {
     char	**array;
 	char	*temp;
@@ -51,47 +51,37 @@ char **add_array(t_basic *iter, int count)
 
     array = protected(ft_calloc(count + 1, sizeof(char *)), "add_array: array");
     i = 0;
-    while (iter)
+    while (start)
     {
-        curr = iter->data.token;
+        curr = start->data.token;
         if (curr->type == ARG)
         {
             array[i] = protected(ft_strdup(curr->content), "add_array: array");
-            while (iter->next && iter->next->data.token->type == ARG
-				&& !iter->next->data.token->has_space)
+            while (start->next && start->next->data.token->type == ARG
+				&& !start->next->data.token->has_space)
             {
-                iter = iter->next;
-                next = iter->data.token;
+                start = start->next;
+                next = start->data.token;
                 temp = array[i];
                 array[i] = protected(ft_strjoin(temp, next->content), "array");
                 free(temp);
             }
             i++;
         }
-        if (curr->type == PIPE || curr->type == AND
-			|| curr->type == OR || curr->type == S_SHELL) // el end que nos pasa frank
+        if (start == end)
             break;
-        iter = iter->next;
+        start = start->next;
     }
     return (array);
 }
 
-char	**to_array(t_minishell *mini)
+char	**get_cmds(t_basic *start, t_basic *end)
 {
 	char	**array;
 	int		count;
 
 	count = 0;
-	bool_loop_void(mini->token, count_arg, &count);
-	ft_printf("count [%d]\n", count);
-	array = add_array(mini->token, count);
-	int i = 0;
-	while (array[i])
-	{
-		ft_printf("*%s*\n", array[i]);
-		free(array[i++]);
-	}
-	free(array);
-	array = NULL;
-	return (array);
+	bool_loop_void(start, count_arg, &count);
+	array = add_array(start, end, count);
+	return (array); // librerar doble array despues de usarlo
 }
