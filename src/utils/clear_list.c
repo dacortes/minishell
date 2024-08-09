@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 15:59:17 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 08:13:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void free_minishell(t_minishell *mini, int flag)
 void free_token(void *content)
 {
 	t_basic	*basic;
-	t_token			*token;
+	t_token	*token;
 
 	basic = ((t_basic *)content);
 	if (basic)
 	{
 		token = basic->data.token;
 		if (token && token->content)
-			free(token->content);
+			ft_free(&token->content, NULL);
 		if (token && token->type == S_SHELL)
 			free_minishell(token->token_content.subs, TRUE);
 		/*else if (token && token->type & WILD_CARD)
@@ -74,7 +74,6 @@ void free_token(void *content)
 		free(token);
 	}
 	token = NULL;
-	basic = NULL;
 }
 
 void free_list(t_basic *node, void (*f)(void *))
@@ -83,12 +82,14 @@ void free_list(t_basic *node, void (*f)(void *))
     t_basic *tmp;
 
     iter = node;
+	
     while (iter)
 	{
-        tmp = iter->next;
         f(&(iter->data));
+		tmp = iter->next;
         free(iter);
         iter = tmp;
     }
+	free(iter);
 	iter = NULL;
 }

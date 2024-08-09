@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 18:43:44 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 08:11:27 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,20 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		signal(SIGINT, _sigint);
 		signal(SIGQUIT, SIG_IGN);
 		prompt(&mini);
+		if (mini.get_line && *mini.get_line)
+			add_history(mini.get_line);
+		if (!mini.get_line || !*mini.get_line)
+			break ;
 		parsing(&mini);
 		test_heredoc(&mini);
 		expand_token(&mini, mini.token, NULL);
 		printf_token(mini.token);
 		to_array(&mini);
-		if (mini.get_line && *mini.get_line)
-			add_history(mini.get_line);
-		if (!mini.get_line)
-			break ;
 		if (mini.get_line)
 		{
 			free_list(mini.token, free_token);
-			free(mini.get_line);
-			mini.get_line = NULL;
+			ft_free(&mini.get_line, NULL);
+			mini.token = NULL;
 		}
 		ft_printf("%s [%d]\n", BLUE"status:"END, mini.status);
 	}
