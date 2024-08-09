@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 08:44:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 13:09:40 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int	parse_open(t_basic *current)
 	char	*file;
 
 	file = current->data.token->content;
+	if (current->next->data.token->type == EXPAN \
+		&& current->next->next->data.token->expanded == TRUE)
+			return (error_msg(AMBIGUOS, 1, file));
 	if (current->data.token->type & R_IN)
 	{
 		if (access(file, F_OK) == ERROR)

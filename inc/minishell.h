@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 10:26:56 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 14:48:28 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@
 # define ERR_SYNTAX "syntax error near unexpected token"
 # define ERR_ARGUMENT "too many arguments"
 # define ERR_EXPORT "export: not a valid identifier"
+# define ERR_AMBIGUOUS "%sbash: %s: ambiguous redirection%s" 
 
 typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;
