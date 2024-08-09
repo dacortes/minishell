@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:54:05 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 09:49:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 09:59:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 char	*printf_type(int type)
 {
 	int		i;
-	int		keys[12] = {OR, AND, ARG, PIPE, R_IN, R_OUT, R_APP, R_HER, EXPAN,
+	static int		keys[12] = {OR, AND, ARG, PIPE, R_IN, R_OUT, R_APP, R_HER, EXPAN,
 			S_SHELL, WILD_CARD, SYN_ERROR};
-	char	*values[13] = {"OR", "AND", "arg", "PIPE", "Redirection in",
+	static char	*values[13] = {"OR", "AND", "arg", "PIPE", "Redirection in",
 		"Redirection out", "Redirection append", "Redirection her doc",
 		"Expansion", "Sub shell", "Wild card", "syntax error", "no type"};
 	
@@ -41,22 +41,27 @@ void	printf_subshell(t_basic *content)
 void	printf_content_token(void *content)
 {
 	char			*quote;
+	char			*expanded;
 	t_token			*token;
 	t_token			*prev_token;
-	t_basic	*prev;
+	t_basic			*prev;
 
 	token = ((t_basic *)content)->data.token;
 	prev = ((t_basic *)content)->prev;
 	quote = BLUE"false"END;
+	expanded = YELLOW"false"END;
 	ft_printf("%s%s%s\n", TUR"Content: *"END, token->content, TUR"*"END);
 	if (token->is_quote == SIMP_QUOTES || token->is_quote == DOUBLE_QUOTES)
 	{
 		ft_printf("%s%c\n", TUR" Type quote: "END, token->is_quote);
 		quote = BLUE"true"END;
 	}
+	if (token->expanded)
+		expanded = YELLOW"true"END;
 	ft_printf("%s%s\n", TUR" Is quote: "END, quote);
-	ft_printf("%s%d\n", TUR" Has space: "END, token->has_space);
 	ft_printf("%s%s\n", TUR" Type: "END, printf_type(token->type));
+	ft_printf("%s%s\n", TUR" expanded: "END, expanded);
+	ft_printf("%s%d\n", TUR" Has space: "END, token->has_space);
 	if (prev)
 	{
 		prev_token = ((t_basic *)content)->prev->data.token;

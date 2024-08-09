@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:28 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/07 17:04:23 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/09 08:44:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	_stdout(t_minishell *mini, t_basic *current)
 	{
 		mini->status = parse_open(current);
 		if (mini->status)
-			return (FAILURE);
+			return (EXIT_FAILURE);
 		fd = open(current->data.token->content, O_WRONLY | O_CREAT);
 		if (fd == ERROR)
 			return (error_msg(PERROR, 1, current->data.token->content));
-		if (dup2(fd, 1) == FAILURE)
+		if (dup2(fd, 1) == ERROR)
 			return (error_msg(PERROR, 1, "Dup2")); 
 		close(fd);
 	}

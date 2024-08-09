@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 12:46:27 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/04 13:15:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 10:25:43 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,16 @@ int	loop_echo(char **argv, int *pos1, int *pos2)
 	return (EXIT_SUCCESS);
 }
 
-int	_echo(char **argv, int argc)
+int	_echo(char **command, int num_arg)
 {
 	int	pos1;
 	int	pos2;
 
 	pos1 = 1;
 	pos2 = 2;
-	if (argc == 1)
+	if (num_arg == 1)
 		ft_printf("\n");
 	if (argc >= 2)
-		loop_echo(argv, &pos1, &pos2);
+		loop_echo(command, &pos1, &pos2);
 	return (EXIT_SUCCESS);
 }

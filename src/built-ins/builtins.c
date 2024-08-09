@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:04:09 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/07 20:53:47 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/09 10:27:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,9 @@ int	is_builtin(char *cmd)
 
 int	do_builtin(t_minishell *mini, char **cmd)
 {
+	static char	**builtins = {"echo", "cd", "pwd", "export", "unset", "env", \
+		"exit"};
+	if (ft_strncmp(builtins[0], cmd[0], -1) == EXIT_SUCCESS)
+		_echo();
+	return (EXIT_SUCCESS);
 }

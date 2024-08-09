@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 15:48:19 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/09 08:43:37 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 	mini->redir[0] = pipe_fd[0];
 	close(pipe_fd[1]);
 	close(pipe_fd[0]);
-
 	return (EXIT_SUCCESS);
 }
 

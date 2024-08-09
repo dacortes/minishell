@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/07 17:05:57 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/09 08:44:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
 
 int	reset_redirs(t_minishell *mini)
 {
-	if (dup2(mini->term_fd[0], 0) == FAILURE)
+	if (dup2(mini->term_fd[0], 0) == ERROR)
 		return (error_msg(PERROR, 1, "Dup2"));
-	if (dup2(mini->term_fd[1], 1) == FAILURE)
+	if (dup2(mini->term_fd[1], 1) == ERROR)
 		return (error_msg(PERROR, 1, "Dup2"));
 	return(EXIT_SUCCESS);
 }

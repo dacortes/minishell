@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 08:21:32 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 08:37:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*free_double_ptr(char **ptr)
 		ptr[i] = NULL;
 	}
 	free(ptr);
-	free(ptr);
+	ptr = NULL;
 	return (NULL);
 }
 

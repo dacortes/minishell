@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 08:18:33 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 10:26:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ struct s_token
 {
 	int			type;
 	short		is_quote;
+	short		expanded;
 	int			has_space;
 	char		*content;
 	t_content	token_content;
@@ -171,6 +172,9 @@ struct s_basic
 int		replace(t_basic **env, char	*key, char *value);
 char	*get_pwd(void);
 int		update_oldpwd(t_minishell *mini, char *dir);
+
+/*	built-ins/echo.c				*/
+int		_echo(char **command, int num_arg);
 
 /*	built-ins/env.c				*/
 t_basic	*init_env(char **env);
@@ -251,6 +255,7 @@ int		error_msg(int error, int code_exit, char *input);
 void	*protected(void *memory, char *error_str);
 
 /*	utils/clear_list.c			*/
+char	*free_double_ptr(char **ptr);
 void 	free_env(void *content);
 void	free_token(void *content);
 void	free_minishell(t_minishell *mini, int flag);

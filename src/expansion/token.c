@@ -6,11 +6,39 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/08 19:28:23 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 10:20:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	*get_last_expand(t_basic *list)
+{
+	int	i;
+
+	if (!list)
+		return (NULL);
+	i = 0;
+	while (list->next)
+	{
+		if (i == 0)
+		{
+			list->data.token->type = EXPAN;
+			list->data.token->expanded = FALSE;
+		}
+		else
+			list->data.token->expanded = TRUE;
+		list = list->next;
+		i++;
+	}
+	list->data.token->expanded = TRUE;
+	if (i == 0)
+	{
+		list->data.token->type = EXPAN;
+		list->data.token->expanded = FALSE;
+	}
+	return (list);
+}
 
 t_basic	*connect_lists(t_minishell *mini, t_basic *node, t_basic *new)
 {
@@ -24,14 +52,13 @@ t_basic	*connect_lists(t_minishell *mini, t_basic *node, t_basic *new)
 		node->prev->next = new;
 		new->data.token->has_space = node->data.token->has_space;
 	}
-	last = get_last(new);
+	last = get_last_expand(new);
 	if (last)
 	{
 		last->next = node->next;
 		if (last->next)
 			node->next->prev = last;
 	}
-	//free(node->data.token->token_content.expand);
 	free(node->data.token->content);
     free(node->data.token);
     free(node);
@@ -71,10 +98,7 @@ int	expand_token(t_minishell *mini, t_basic *start, t_basic *end)
 		if (token->type == EXPAN && token->is_quote == DOUBLE_QUOTES)
 			token->content = expansion(mini, token->content);
 		else if (token->type == EXPAN && token->is_quote == FALSE)
-		{
-			ft_printf("soy una patata\n");
 			start = wordspliting(mini, start);
-		}
 		if (!start)
 			break ;
 		start = start->next;

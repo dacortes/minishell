@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/08 19:51:23 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/09 08:31:47 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	count_arg(void *node, void *count)
 	{
 		token = cast->data.token;
 		next = cast->next->data.token;
-		if (token->type == ARG && !next->has_space && next->type == ARG)
+		if ((token->type == ARG || token->type == EXPAN) && !next->has_space && next->type == ARG)
 			cast = cast->next;
 		else
 			break ;
@@ -33,7 +33,7 @@ int	count_arg(void *node, void *count)
 	if (cast)
 	{
 		token = cast->data.token;
-		if (token->type == ARG)
+		if (token->type == ARG || token->type == EXPAN)
 			(*ptr)++;
 		node = cast;
 	}
@@ -54,10 +54,11 @@ char **add_array(t_basic *start, t_basic *end, int count)
     while (start)
     {
         curr = start->data.token;
-        if (curr->type == ARG)
+        if (curr->type == ARG || curr->type == EXPAN)
         {
             array[i] = protected(ft_strdup(curr->content), "add_array: array");
-            while (start->next && start->next->data.token->type == ARG
+            while (start->next && (start->next->data.token->type == ARG
+				|| start->next->data.token->type == EXPAN)
 				&& !start->next->data.token->has_space)
             {
                 start = start->next;
@@ -83,5 +84,8 @@ char	**get_cmds(t_basic *start, t_basic *end)
 	count = 0;
 	bool_loop_void(start, count_arg, &count);
 	array = add_array(start, end, count);
+	int i = 0;
+	while (array[i])	
+		ft_printf("[%s]\n", array[i++]);
 	return (array); // librerar doble array despues de usarlo
 }
