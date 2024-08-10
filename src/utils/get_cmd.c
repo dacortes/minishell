@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 10:48:08 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:28:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	count_arg(void *node, void *count)
 
 	cast = (t_basic *)node;
 	ptr = (int *)count;
-	while (cast->next)
+	if (cast->next)
+		ft_printf("lol\n");
+	while (cast && cast->next)
 	{
 		token = cast->data.token;
 		next = cast->next->data.token;
@@ -91,5 +93,10 @@ char	**get_cmds(t_basic *start, t_basic *end)
 	/*int i = 0;
 	while (array[i])	
 		ft_printf("[%s]\n", array[i++]);*/
+	if (array && !*array)
+	{
+		free_double_ptr(array);
+		return (NULL);
+	}
 	return (array); // librerar doble array despues de usarlo
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 10:54:01 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:25:51 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,13 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	env = NULL;
 	path = NULL;
 	expand_token(mini,start,end);
+	//return (0);
 	cmd = get_cmds(start, end);
+	// if (cmd && !*cmd)
+	// {
+	// 	free_double_ptr(cmd);
+	// 	return (EXIT_SUCCESS);
+	// }
 	if (start->data.token->type == S_SHELL)
 	{
 		if (redirections(mini, start, end))
@@ -40,7 +46,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		}
 		child_created = 1;
 	}
-	else if (is_builtin(cmd[0]))
+	else if ((cmd && is_builtin(cmd[0])) || !cmd)
 	{
 		if (is_child == NO_CHILD && mini->redir[0])
 		{
@@ -104,7 +110,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	free_double_ptr(cmd);
 	if (path)
 		ft_free(&path, NULL);
-	return(EXIT_SUCCESS);	
+	return(EXIT_SUCCESS);
 }
 
 int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
