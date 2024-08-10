@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 10:03:39 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/10 13:24:40 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ int	test_heredoc(t_minishell *mini)
 int	init_mini_rush_plus(t_minishell *mini, char **env)
 {
 	term_init();
+	mini->term_fd[0] = dup(0);
+	mini->term_fd[1] = dup(1);
+	if (mini->term_fd[0] == ERROR || mini->term_fd[1] == ERROR)
+		exit(error_msg(PERROR, 1, "mini_init: dup"));
+	if (!isatty(mini->term_fd[0]) || !isatty(mini->term_fd[1]))
+		exit(error_msg(PERROR, 1, "mini_init: dup"));
 	ft_bzero(mini, sizeof(t_minishell));
 	mini->env = init_env(env);
 	mini->user = protected(ft_strdup(search_env(mini->env, "USER", VALUE)),
@@ -80,7 +86,10 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		}
 		ft_printf("%s [%d]\n", BLUE"status:"END, mini.status);
 	}
+	fd_printf(2, "estoy aqui\n");
 	free_minishell(&mini, FALSE);
+	close(mini.term_fd[0]);
+	close(mini.term_fd[1]);
 	return (EXIT_SUCCESS);
 }
 

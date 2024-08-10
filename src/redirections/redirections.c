@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 19:00:24 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/10 13:20:34 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
 
 int	reset_redirs(t_minishell *mini)
 {
+	fd_printf(2, "RESET\n");
+	if (isatty(mini->term_fd[0]))
+		fd_printf(2, "Tolo binen 0\n");
+	if (isatty(mini->term_fd[0]))
+		fd_printf(2, "Tolo binen 1\n");
 	if (dup2(mini->term_fd[0], 0) == ERROR)
 		return (error_msg(PERROR, 1, "Dup2"));
 	if (dup2(mini->term_fd[1], 1) == ERROR)

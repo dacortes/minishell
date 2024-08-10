@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 10:28:09 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/10 12:45:41 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	count_arg(void *node, void *count)
 
 	cast = (t_basic *)node;
 	ptr = (int *)count;
-	if (cast->next)
-		ft_printf("lol\n");
 	while (cast && cast->next)
 	{
 		token = cast->data.token;

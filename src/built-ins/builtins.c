@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:04:09 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 10:19:38 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/10 12:43:08 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	do_builtin(t_minishell *mini, char **cmd)
 {
 	int	num_arg;
 
+	if (!cmd || !*cmd)
+		return (EXIT_SUCCESS);
 	num_arg = ft_double_ptr_len((void **)cmd);
 	if (ft_strncmp("cd", cmd[0], -1) == EXIT_SUCCESS)
 		mini->status = _cd(mini, cmd, num_arg);

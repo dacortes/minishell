@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 10:25:51 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/10 14:51:21 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,12 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	env = NULL;
 	path = NULL;
 	expand_token(mini,start,end);
-	//return (0);
 	cmd = get_cmds(start, end);
-	// if (cmd && !*cmd)
-	// {
-	// 	free_double_ptr(cmd);
-	// 	return (EXIT_SUCCESS);
-	// }
 	if (start->data.token->type == S_SHELL)
 	{
 		if (redirections(mini, start, end))
 			return (ERROR);
-		printf("HIJO SUBSHELL\n");
+		fd_printf(mini->term_fd[1], "HIJO SUBSHELL\n");
 		child = fork();
 		if (child == ERROR)
 			return (error_msg(PERROR, 1, "fork"));
@@ -50,7 +44,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	{
 		if (is_child == NO_CHILD && mini->redir[0])
 		{
-			printf("HIJO BUILTIN\n");
+			fd_printf(mini->term_fd[1], "HIJO BUILTIN\n");
 			child = fork();
 			if (child == ERROR)
 				return (error_msg(PERROR, 1, "fork"));
@@ -73,7 +67,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	{
 		if (is_child == NO_CHILD)
 		{
-			printf("HIJO EXEC\n");
+			fd_printf(mini->term_fd[1], "HIJO EXEC\n");
 			child = fork();
 			if (child == ERROR)
 				return (error_msg(PERROR, 1, "fork"));
@@ -90,6 +84,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		}
 		else
 		{
+			fd_printf(mini->term_fd[1], "hijito hace su trabajo\n");
 			if (redirections(mini, start, end))
 				return (ERROR);
 			path = get_path(mini, cmd[0]);
@@ -99,17 +94,21 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		}
 
 	}
+	if (!isatty(mini->term_fd[1]))
+		printf("QUE COÑO PASAAAA\n");
+	fd_printf(mini->term_fd[1], "FIN EXEC\n");
 	if (child_created && is_child == NO_CHILD)
 	{
+		fd_printf(mini->term_fd[1], "dos\n");
 		if (waitpid(child, &mini->status, 0) == ERROR)
 			return (error_msg(PERROR, 1, "waitpid"));
 		while (wait(NULL) != -1)
-			;
+			printf("otro\n");
 	}
 	free_double_ptr(env);
 	free_double_ptr(cmd);
 	if (path)
-		ft_free(&path, NULL);
+		ft_free(&path, NULL);	
 	return(EXIT_SUCCESS);
 }
 
@@ -120,7 +119,7 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 
 	if (pipe(pipe_fd) == ERROR)
 		exit(error_msg(PERROR, 1, "do_pipe: pipe"));
-	printf("HIJO PIPE\n");
+	fd_printf(mini->term_fd[1], "HIJO PIPE\n");
 	child = fork();
 	if (child == ERROR)
 		exit(error_msg(PERROR, 1, "do_pipe: child"));
@@ -175,6 +174,7 @@ int	manager(t_minishell *mini)
 	}
 	if (!skip)
 		exec_cmd(mini, start, end, NO_CHILD);
+	fd_printf(mini->term_fd[1], "Reset redirs\n");
 	reset_redirs(mini);
 	return (mini->status);
 }
