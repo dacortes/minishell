@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 19:11:11 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 18:44:32 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:53:19 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	_stdinp(t_minishell *mini, t_basic *current)
 
 	if (current->data.token->type == R_IN)
 	{
+		printf("1\n");
 		mini->status = parse_open(current);
 		if (mini->status)
 			return (EXIT_FAILURE);
@@ -25,7 +26,7 @@ int	_stdinp(t_minishell *mini, t_basic *current)
 		if (fd == ERROR)
 			return (error_msg(PERROR, 1, current->next->data.token->content));
 		if (dup2(fd, 0) == ERROR)
-			return (error_msg(PERROR, 1, "Dup2")); 
+			return (error_msg(PERROR, 1, "Dup2"));
 		close(fd);
 	}
 	return (EXIT_SUCCESS);

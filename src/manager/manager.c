@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 20:50:03 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:54:01 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,6 @@ int	manager(t_minishell *mini)
 	}
 	if (!skip)
 		exec_cmd(mini, start, end, NO_CHILD);
+	reset_redirs(mini);
 	return (mini->status);
 }

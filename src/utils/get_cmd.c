@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 20:20:51 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:48:08 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	count_arg(void *node, void *count)
 			(*ptr)++;
 		node = cast;
 	}
-	return (token->type == PIPE || token->type == L_OPERAND || token->type == S_SHELL);
+	return (token->type == PIPE || token->type & L_OPERAND || token->type == S_SHELL);
 }
 
 char **add_array(t_basic *start, t_basic *end, int count)
