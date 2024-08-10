@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:52:18 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/09 15:44:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/10 07:52:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	update_oldpwd(t_minishell *mini, char *dir)
 	find = search_env(mini->env, "OLDPWD", KEY);
 	if (find && !*find)
 		add_env(&mini->env, "OLDPWD=");
-	replace(&mini->env, "OLDPWD", dir);
+	replace(&mini->env, "OLDPWD", mini->cur_dir);
 	ft_free(&mini->old_dir, NULL);
-	mini->old_dir = protected(ft_strdup(mini->cur_dir), "update_oldpwd: old_dir");
+	mini->old_dir = protected(ft_strdup(mini->cur_dir), "old_dir");
 	ft_free(&mini->cur_dir, NULL);
 	mini->cur_dir = dir;
 	return (EXIT_SUCCESS);
@@ -77,9 +77,10 @@ int	update_pwd(t_minishell *mini, char *path)
 	if (!dir)
 		return (1);
 	replace(&mini->env, "PWD", dir);
-	if (ft_strncmp(dir, mini->cur_dir, PATH_MAX) != 0)
+	if (!ft_strncmp(dir, mini->cur_dir, PATH_MAX))
+		 ft_free(&dir, NULL);
+	else if (ft_strncmp(dir, mini->cur_dir, PATH_MAX) != 0)
 		update_oldpwd(mini, dir);
-	ft_free(&dir, NULL);
 	return (EXIT_SUCCESS);
 }
 

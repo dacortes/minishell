@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 14:33:00 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 14:33:29 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/10 09:55:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@ int	_unset(t_basic **env, char *key)
 	rm = bool_loop(*env, key_compare, key);
 	if (!rm)
 		return (EXIT_SUCCESS);
+	if (rm == *env)
+		*env = rm->next;
 	ft_free(&rm->data.env->key, &rm->data.env->value);
 	prev = rm->prev;
+	next = rm->next;
 	if (prev)
-	{
-		next = rm->next;
 		prev->next = next;
-	}
+	if (next)
+		next->prev = prev;
 	free(rm->data.env);
 	free(rm);
-	rm = NULL;
 	return (EXIT_SUCCESS);
 }
 
