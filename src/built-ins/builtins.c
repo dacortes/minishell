@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:04:09 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 14:55:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 20:38:13 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@ int	is_builtin(char *cmd)
 	int			len;
 
 	i = 0;
+	if (!cmd)
+		return (TRUE);
 	len = ft_strlen(cmd);
 	while (builtins[i])
 	{
-		if (ft_strncmp(builtins[i], cmd, len))
+		if (!ft_strncmp(builtins[i], cmd, len))
 			return (TRUE);
+		i++;
 	}
 	return (FALSE);
 }
@@ -34,7 +37,9 @@ int	do_builtin(t_minishell *mini, char **cmd)
 	int	num_arg;
 
 	num_arg = ft_double_ptr_len((void **)cmd);
-	if (ft_strncmp("cd", cmd[0], -1) == EXIT_SUCCESS)
+	if (!*cmd)
+		return (EXIT_SUCCESS);
+	else if (ft_strncmp("cd", cmd[0], -1) == EXIT_SUCCESS)
 		mini->status = _cd(mini, cmd, num_arg);
 	else if (ft_strncmp("echo", cmd[0], -1) == EXIT_SUCCESS)
 		mini->status = _echo(cmd, num_arg);

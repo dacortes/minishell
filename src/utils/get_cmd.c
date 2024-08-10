@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 13:39:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 20:20:51 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ int	count_arg(void *node, void *count)
 	if (cast)
 	{
 		token = cast->data.token;
-		if (token->type == ARG || token->type == EXPAN)
+		if (token->type & EXPAN)
 			(*ptr)++;
 		node = cast;
 	}
-	return (token->type == PIPE || token->type == AND
-		|| token->type == OR || token->type == S_SHELL);
+	return (token->type == PIPE || token->type == L_OPERAND || token->type == S_SHELL);
 }
 
 char **add_array(t_basic *start, t_basic *end, int count)
@@ -54,7 +53,7 @@ char **add_array(t_basic *start, t_basic *end, int count)
     while (start)
     {
         curr = start->data.token;
-        if (curr->type == ARG || curr->type == EXPAN)
+        if (curr->type & ARG && (!start->prev || !(start->prev->data.token->type & REDIR)))
         {
             array[i] = protected(ft_strdup(curr->content), "add_array: array");
             while (start->next && (start->next->data.token->type == ARG
@@ -73,6 +72,11 @@ char **add_array(t_basic *start, t_basic *end, int count)
             break;
         start = start->next;
     }
+	/*if (!array[0])
+	{
+		free(array[0]);
+		free(array);
+	}*/
     return (array);
 }
 
