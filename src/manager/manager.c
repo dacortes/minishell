@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 15:58:51 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/10 10:54:01 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 
 	child_created = 0;
 	env = NULL;
-	expand_token(mini,start,end);// NO EXISTE
+	path = NULL;
+	expand_token(mini,start,end);
 	cmd = get_cmds(start, end);
 	if (start->data.token->type == S_SHELL)
 	{
 		if (redirections(mini, start, end))
 			return (ERROR);
+		printf("HIJO SUBSHELL\n");
 		child = fork();
 		if (child == ERROR)
 			return (error_msg(PERROR, 1, "fork"));
@@ -40,8 +42,9 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	}
 	else if (is_builtin(cmd[0]))
 	{
-		if (!is_child && mini->redir[0])
+		if (is_child == NO_CHILD && mini->redir[0])
 		{
+			printf("HIJO BUILTIN\n");
 			child = fork();
 			if (child == ERROR)
 				return (error_msg(PERROR, 1, "fork"));
@@ -49,7 +52,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 			{
 				if (redirections(mini, start, end))
 					return (ERROR);
-				do_builtin(mini, cmd); //NO EXISTE
+				do_builtin(mini, cmd);
 			}
 			child_created = 1;
 		}
@@ -57,13 +60,14 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		{
 			if (redirections(mini, start, end))
 				return (ERROR);
-			do_builtin(mini, cmd); //NO EXISTE
+			do_builtin(mini, cmd);
 		}
 	}
 	else
 	{
-		if (!is_child)
+		if (is_child == NO_CHILD)
 		{
+			printf("HIJO EXEC\n");
 			child = fork();
 			if (child == ERROR)
 				return (error_msg(PERROR, 1, "fork"));
@@ -72,7 +76,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				if (redirections(mini, start, end))
 					return (ERROR);
 				path = get_path(mini, cmd[0]);
-				env = substract_env(mini); // NO EXISTE
+				env = substract_env(mini);
 				execve(path, cmd, env);
 				exit(error_msg(PERROR, 1, cmd[0]));
 			}
@@ -83,21 +87,23 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 			if (redirections(mini, start, end))
 				return (ERROR);
 			path = get_path(mini, cmd[0]);
-			env = substract_env(mini); // NO EXISTE
+			env = substract_env(mini);
 			execve(path, cmd, env);
 			exit(error_msg(PERROR, 1, cmd[0]));
 		}
 
 	}
-	if (child_created && !is_child)
+	if (child_created && is_child == NO_CHILD)
 	{
-		if (waitpid(child, &mini->status, 0) != ERROR)
+		if (waitpid(child, &mini->status, 0) == ERROR)
 			return (error_msg(PERROR, 1, "waitpid"));
 		while (wait(NULL) != -1)
 			;
 	}
-	free_double_ptr(cmd);
 	free_double_ptr(env);
+	free_double_ptr(cmd);
+	if (path)
+		ft_free(&path, NULL);
 	return(EXIT_SUCCESS);	
 }
 
@@ -108,6 +114,7 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 
 	if (pipe(pipe_fd) == ERROR)
 		exit(error_msg(PERROR, 1, "do_pipe: pipe"));
+	printf("HIJO PIPE\n");
 	child = fork();
 	if (child == ERROR)
 		exit(error_msg(PERROR, 1, "do_pipe: child"));
@@ -162,5 +169,6 @@ int	manager(t_minishell *mini)
 	}
 	if (!skip)
 		exec_cmd(mini, start, end, NO_CHILD);
+	reset_redirs(mini);
 	return (mini->status);
 }

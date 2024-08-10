@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 16:02:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 19:00:24 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
 	{
 		if (tmp->data.token->type & REDIR)
 		{
-			_stdinp(mini, tmp->next);
-			_stdout(mini, tmp->next);
+			_stdinp(mini, tmp);
+			_stdout(mini, tmp);
 			//_heredoc(mini, tmp->next);
 			//_append(mini, tmp->next);
 		}
@@ -46,18 +46,18 @@ int	parse_open(t_basic *current)
 {
 	char	*file;
 
-	file = current->data.token->content;
+	file = current->next->data.token->content;
 	if (current->next->data.token->type == EXPAN \
 		&& current->next->next->data.token->expanded == TRUE)
 			return (error_msg(AMBIGUOUS, 1, file));
-	if (current->data.token->type & R_IN)
+	if (current->data.token->type == R_IN)
 	{
 		if (access(file, F_OK) == ERROR)
 			return (error_msg(PERROR, 1, file));
 		else if (access(file, R_OK) == ERROR)
 			return (error_msg(PERROR, 1, file));
 	}
-	if (current->data.token->type & R_OUT)
+	else if (current->data.token->type == R_OUT)
 	{
 		if (access(file, F_OK) == FOUND && access(file, W_OK) == ERROR)
 			return (error_msg(PERROR, 1, file));

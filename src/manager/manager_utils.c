@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:45:41 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 16:00:18 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/09 20:31:05 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char **substract_env(t_minishell *mini)
 	{
 		if (iter->data.env->eql == TRUE)
 		{
-			env[i] = protected(ft_strjoin(env[i], iter->data.env->key), "ENV");
+			env[i] = protected(ft_strjoin("", iter->data.env->key), "ENV");
 			tmp = env[i];
 			env[i] = protected(ft_strjoin(env[i], "="), "ENV");
 			free (tmp);
@@ -72,6 +72,11 @@ char	*select_cmd_path(char **path, char *cmd)
 		if (tmp)
 		{
 			free(tmp);
+			tmp = NULL;
+		}
+		if (path[x])
+		{
+			free(path[x]);
 			tmp = NULL;
 		}
 	}
