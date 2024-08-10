@@ -6,12 +6,11 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 13:24:40 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:33:42 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
 
 int	test_heredoc(t_minishell *mini)
 {
@@ -32,13 +31,9 @@ int	test_heredoc(t_minishell *mini)
 int	init_mini_rush_plus(t_minishell *mini, char **env)
 {
 	term_init();
+	ft_bzero(mini, sizeof(t_minishell));
 	mini->term_fd[0] = dup(0);
 	mini->term_fd[1] = dup(1);
-	if (mini->term_fd[0] == ERROR || mini->term_fd[1] == ERROR)
-		exit(error_msg(PERROR, 1, "mini_init: dup"));
-	if (!isatty(mini->term_fd[0]) || !isatty(mini->term_fd[1]))
-		exit(error_msg(PERROR, 1, "mini_init: dup"));
-	ft_bzero(mini, sizeof(t_minishell));
 	mini->env = init_env(env);
 	mini->user = protected(ft_strdup(search_env(mini->env, "USER", VALUE)),
 		"init_mini_rush_plus: user");
@@ -68,7 +63,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		prompt(&mini);
 		if (mini.get_line && *mini.get_line)
 			add_history(mini.get_line);
-		if (!mini.get_line || !*mini.get_line)
+		if (!mini.get_line)
 			break ;
 		if (!parsing(&mini))
 			manager(&mini);

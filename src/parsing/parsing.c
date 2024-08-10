@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/10 19:06:54 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,32 @@ int	basic_checker(t_basic **token, char *line, int end)
 	return (EXIT_SUCCESS);
 }
 
+
+t_basic	*coppy_env(t_basic *src_env)
+{
+	t_basic	*res;
+	t_basic	*new;
+	t_basic	*iter;
+	t_env	*env;
+
+	iter = src_env;
+	res = NULL;
+	while (iter)
+	{
+		env = iter->data.env;
+		new = protected(ft_calloc(sizeof(t_basic), 1), "coppy: new");
+		new->data.env = protected(ft_calloc(sizeof(t_env), 1), "coppy: new");
+		new->data.env->key = protected(ft_strdup(env->key), "coppy: key");
+		new->data.env->value = protected(ft_strdup(env->value), "coppy: value");
+		new->data.env->eql = env->eql;
+		add_back(&res, new);
+		iter = iter->next;
+	}
+	add_prev(&res);
+	return (res);
+}
+
+
 int	get_subshell(t_minishell *subs)
 {
 	t_basic	*iter;
@@ -79,6 +105,8 @@ int	get_subshell(t_minishell *subs)
 			token->token_content.subs->status = parsing(token->token_content.subs);
 			if (token->token_content.subs->status)
 				return (token->token_content.subs->status);
+			if (subs->env)
+				token->token_content.subs->env = coppy_env(subs->env);
 		}
 		iter = iter->next;
 	}
