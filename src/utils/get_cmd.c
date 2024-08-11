@@ -88,9 +88,9 @@ char	**get_cmds(t_basic *start, t_basic *end)
 	count = 0;
 	bool_loop_void(start, count_arg, &count);
 	array = add_array(start, end, count);
-	int i = 0;
+	/*int i = 0;
 	while (array[i])	
-		ft_printf("[%s]\n", array[i++]);
+		ft_printf("[%s]\n", array[i++]);*/
 	if (array && !*array)
 	{
 		free_double_ptr(array);

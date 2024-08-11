@@ -284,6 +284,7 @@ char	*get_branch(void);
 int		prompt(t_minishell *mini);
 
 /*	signals/signals.c		*/
+int		get_status(int flag, int value);
 void	term_init(void);
 void	_sigint(int sig);
 void	handle_siginth(int sig);

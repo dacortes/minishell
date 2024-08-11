@@ -38,13 +38,15 @@ void	exit_loop(t_minishell *mini, char **command)
 int	_exit_(t_minishell *mini, char **command, int num_arg)
 {
 	if (num_arg == 1)
-		free_minishell(mini, FALSE);//puede tener problemas cuando esta dentro de un hijo
+	{
+		free_minishell(mini, FALSE);
+		exit(EXIT_SUCCESS);
+	}
 	else if (num_arg >= 2)
 	{
 		exit_loop(mini, command);
 		if (num_arg > 2)
 			return (error_msg(ARGUMENT, 1, "exit"));
-		//puede que tengamos que limpiar la memoria
 		exit(ft_atoi(command[1]));
 	}
 	return (EXIT_SUCCESS);

@@ -115,7 +115,7 @@ int	expand_token(t_minishell *mini, t_basic **start, t_basic *end)
 	}
 	if (init && init->prev)
 		*start = init->prev;
-	else
+	else if (init && !init->prev)
 		*start = init;
 	return (EXIT_SUCCESS);
 }

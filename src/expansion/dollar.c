@@ -33,16 +33,18 @@ char	*ft_str_replace(const char *inp, size_t start, size_t end, char *rep)
 
 char *expand_str(t_minishell *mini, char *content, int start, int end)
 {
-	char *aux;
-	char *key;
-	char *value;
+	char	*aux;
+	char	*key;
+	char	*value;
+	char	*status;
 
+	status = protected(ft_itoa(mini->status), "expand: status");
 	if (content[end] == '?')
-		aux = ft_str_replace(content, start -1, end + 1, "0");
+		aux = ft_str_replace(content, start -1, end + 1, status);
 	else
 	{
-		key = ft_strndup(&content[start], end - start);
-		value = ft_strdup(search_env(mini->env, key, VALUE));
+		key = protected(ft_strndup(&content[start], end - start), "key");
+		value = protected(ft_strdup(search_env(mini->env, key, VALUE)), "val");
 		free(key);
 		if (value && *value)
 		{
@@ -55,10 +57,8 @@ char *expand_str(t_minishell *mini, char *content, int start, int end)
 			free (value);
 		}
 	}
-	if (!aux)
-		exit(error_msg(MALLOC, 1, "expand_token: aux"));
-	free(content);
-	return (aux);
+	protected(aux, "expand_token: aux");
+	return (ft_free(&content, &status), aux);
 }
 
 char	*expansion(t_minishell *mini, char *content)

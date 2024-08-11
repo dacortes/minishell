@@ -12,6 +12,15 @@
 
 #include <minishell.h>
 
+int	get_status(int flag, int value)
+{
+	static int	var;
+
+	if (flag == TRUE)
+		var = value;
+	return (var);
+}
+
 void	term_init(void)
 {
 	struct termios	term;
@@ -31,6 +40,7 @@ void	_sigint(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		get_status(TRUE, 1);
 		// get_stt(TRUE, 1); // agregar funcion para cambiar el estatus
 	}
 }

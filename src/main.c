@@ -51,21 +51,15 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 			break ;
 		if (!parsing(&mini))
 			manager(&mini);
-		//test_heredoc(&mini);
-		// expand_token(&mini, mini.token, NULL);
-		// printf_token(mini.token);
-		// char **foo = get_cmds(mini.token, NULL);
-		// do_builtin(&mini, foo);
-		// free_double_ptr(foo);
 		if (mini.get_line)
 		{
 			free_list(mini.token, free_token);
 			ft_free(&mini.get_line, NULL);
 			mini.token = NULL;
 		}
+		get_status(TRUE, mini.status);
 		ft_printf("%s [%d]\n", BLUE"status:"END, mini.status);
 	}
-	fd_printf(2, "estoy aqui\n");
 	free_minishell(&mini, FALSE);
 	close(mini.term_fd[0]);
 	close(mini.term_fd[1]);

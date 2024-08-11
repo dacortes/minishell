@@ -117,11 +117,13 @@ int parsing(t_minishell *mini)
 {
 	char	*line;
 	int		len;
+	//int		status;
 
 	line = mini->get_line;
 	if (!line)
 		exit (EXIT_SUCCESS);
 	len = ft_strlen(line);
+	//status = mini->status;
 	mini->status = basic_checker(&mini->token, line, len);
 	if (mini->status)
 		return (mini->status);
@@ -133,5 +135,7 @@ int parsing(t_minishell *mini)
 	mini->status = get_subshell(mini);
 	if (mini->status)
 	 	return (mini->status);
+	/*if (status && !mini->status)
+		mini->status = status;*/
 	return (EXIT_SUCCESS);
 }
