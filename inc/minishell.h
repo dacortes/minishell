@@ -227,6 +227,12 @@ char	*expansion(t_minishell *mini, char *content);
 /*	expansion/token.c			*/
 int		expand_token(t_minishell *mini, t_basic **start, t_basic *end);
 
+/*	expansion/utils.c			*/
+int		is_space(char c);
+int		get_end_space(char *str);
+int		split_space(t_basic **token, char *line, char *del, int *pos);
+int		search_node(void *src, void *node);
+
 /*	parsing/add_token.c			*/
 int		get_token_content(t_content *token_content, char *content, int type);
 t_token	*new_token(char *content, char *del, int space);

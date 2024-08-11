@@ -24,7 +24,6 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	env = NULL;
 	path = NULL;
 	expand_token(mini, &start, end);
-//	printf_token(start);
 	cmd = get_cmds(start, end);
 	if (start->data.token->type == S_SHELL)
 	{
