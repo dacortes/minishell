@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 17:50:16 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/11 07:17:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
 		{
 			_stdinp(mini, tmp);
 			_stdout(mini, tmp);
+			_append(mini, tmp);
 			//_heredoc(mini, tmp->next);
-			//_append(mini, tmp->next);
 		}
 		tmp = tmp->next;
 	}

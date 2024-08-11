@@ -6,28 +6,29 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:08 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 16:00:45 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/11 07:17:15 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// int	is_append(t_token *token, int *redir, int *status)
-// {
-// 	t_token *next;
-// 	char	*file;
+int	_append(t_minishell *mini, t_basic *current)
+{
+	int	fd;
+	int	flags;
 
-// 	next = token->next;
-// 	if (next && next->type == R_APP)
-// 	{
-// 		file = next->content;
-// 		if (redir[1] >= 0)
-// 			close(redir[1]);
-// 		if (!access(file, F_OK) && access(file, W_OK))
-// 			return (error_msg(PERROR, 1, file));
-// 		redir[1] = open(file, O_WRONLY | O_CREAT | O_APPEND, 0666);
-// 		if (redir[1] == ERROR)
-// 			return (error_msg(PERROR, 1, file));
-// 	}
-// 	return (*status);
-// }
+	flags =  O_WRONLY | O_CREAT | O_APPEND;
+	if (current->data.token->type == R_APP)
+	{
+		mini->status = parse_open(current);
+		if (mini->status)
+			return (EXIT_FAILURE);
+		fd = open(current->next->data.token->content, flags, 0666);
+		if (fd == ERROR)
+			return (error_msg(PERROR, 1, current->next->data.token->content));
+		if (dup2(fd, 1) == ERROR)
+			return (error_msg(PERROR, 1, "Dup2"));
+		close(fd);
+	}
+	return (EXIT_SUCCESS);
+}
