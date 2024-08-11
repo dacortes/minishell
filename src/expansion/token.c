@@ -40,17 +40,22 @@ void	*get_last_expand(t_basic *list)
 	return (list);
 }
 
-t_basic	*connect_lists(t_minishell *mini, t_basic *node, t_basic *new)
+t_basic	*connect_lists(t_minishell *mini, t_basic *node, t_basic *new, t_basic **init)
 {
 	t_basic *last;
 
+	(void)init;
 	if (mini->token == node)
+	{
 		mini->token = new;
+		*init = new;
+	}
 	else
 	{
 		new->prev = node->prev;
 		node->prev->next = new;
 		new->data.token->has_space = node->data.token->has_space;
+		*init = new;
 	}
 	last = get_last_expand(new);
 	if (last)
@@ -65,7 +70,36 @@ t_basic	*connect_lists(t_minishell *mini, t_basic *node, t_basic *new)
 	return (last);
 }
 
-t_basic	*wordspliting(t_minishell *mini, t_basic *node)
+int is_space(char c)
+{
+	 return ((c >= 9 && c <= 13 )|| c == ' ');
+}
+
+int	get_end_space(char *str)
+{
+	int	pos;
+
+	pos = 0;
+	if (!str)
+		return (pos);
+	while (str[pos] && !is_space(str[pos]))
+		pos++;
+	return (pos);
+}
+
+int	split_space(t_basic **token, char *line, char *del, int *pos)
+{
+	int	end;
+	int	space;
+
+	end = get_end_space(&line[*pos]);
+	space = set_space(line, pos, del);
+	init_token(token, ft_strndup(&line[*pos], end), del, space);
+	(*pos) += end;
+	return (EXIT_SUCCESS);
+}
+
+t_basic *wordspliting(t_minishell *mini, t_basic *node, t_basic **init)
 {
 	char	*line;
 	int		end;
@@ -81,27 +115,41 @@ t_basic	*wordspliting(t_minishell *mini, t_basic *node)
 	{
 		while (line[i] == ' ')
 			i++;
-		mini->status = not_metacharacters(&new, line, " zz", &i);
+		mini->status = split_space(&new, line, " zz", &i);
 	}
+	if (line && !*line)
+		mini->status = split_space(&new, line, " zz", &i);
 	free(line);
-	return (connect_lists(mini, node, new));
-	
+	return (connect_lists(mini, node, new, init));
 }
 
-int	expand_token(t_minishell *mini, t_basic *start, t_basic *end)
+int	search_node(void *src, void *node)
+{
+	return (src == node);
+}
+
+int	expand_token(t_minishell *mini, t_basic **start, t_basic *end)
 {
 	t_token	*token;
-
-	while (start != end)
+	t_basic *init;
+	t_basic *iter;
+	
+	init = NULL;
+	iter = *start;
+	while (iter != end)
 	{
-		token = start->data.token;
+		token = iter->data.token;
 		if (token->type == EXPAN && token->is_quote == DOUBLE_QUOTES)
 			token->content = expansion(mini, token->content);
 		else if (token->type == EXPAN && token->is_quote == FALSE)
-			start = wordspliting(mini, start);
-		if (!start)
+			iter = wordspliting(mini, iter, &init);
+		if (!iter)
 			break ;
-		start = start->next;
+		iter = iter->next;
 	}
+	if (init && init->prev)
+		*start = init->prev;
+	else
+		*start = init;
 	return (EXIT_SUCCESS);
 }

@@ -225,7 +225,7 @@ int		manager(t_minishell *mini);
 char	*expansion(t_minishell *mini, char *content);
 
 /*	expansion/token.c			*/
-int		expand_token(t_minishell *mini, t_basic *start, t_basic *end);
+int		expand_token(t_minishell *mini, t_basic **start, t_basic *end);
 
 /*	parsing/add_token.c			*/
 int		get_token_content(t_content *token_content, char *content, int type);
