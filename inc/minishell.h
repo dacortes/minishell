@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/11 07:17:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/11 07:34:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,10 +246,9 @@ int		syntax_error(t_basic **content);
 /*  redirections/redir_append.c */
 int		_append(t_minishell *mini, t_basic *current);
 
-/*  redirections/redirections.c */
-int		redirections(t_minishell *mini, t_basic *start, t_basic *end);
-int		reset_redirs(t_minishell *mini);
-int		parse_open(t_basic *current);
+/*	redirections/redir_heredoc.c	*/
+int		is_heredoc(t_minishell *mini, t_basic *token, pid_t *redir, int *status);
+int		_heredoc(t_minishell *mini, t_basic *current);
 
 /*  redirections/redir_in.c */
 int		_stdinp(t_minishell *mini, t_basic *current);
@@ -257,6 +256,10 @@ int		_stdinp(t_minishell *mini, t_basic *current);
 /*  redirections/redir_out.c */
 int		_stdout(t_minishell *mini, t_basic *current);
 
+/*  redirections/redirections.c */
+int		redirections(t_minishell *mini, t_basic *start, t_basic *end);
+int		reset_redirs(t_minishell *mini);
+int		parse_open(t_basic *current);
 
 /*	parsing/syntax_err			*/
 
@@ -273,9 +276,6 @@ char	*ft_strjoin_max(char **need);
 char	*get_dir_branch(void);
 char	*get_branch(void);
 int		prompt(t_minishell *mini);
-
-/*	redirections/redir_heredoc.c	*/
-int		is_heredoc(t_minishell *mini, t_basic *token, pid_t *redir, int *status);
 
 /*	signals/signals.c		*/
 void	term_init(void);
