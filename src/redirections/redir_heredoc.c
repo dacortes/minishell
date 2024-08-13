@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/11 08:00:13 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/13 15:21:04 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	_heredoc(t_minishell *mini, t_basic *current)
 		if (child == ERROR)
 			exit(error_msg(PERROR, 1, "is_heredoc: init: fork"));
 		if (child == CHILD)
-			tmp = close(redir[0]) + read_heredoc(mini, current, redir);
+			tmp = close(redir[0]) + close(redir[1]) + read_heredoc(mini, current, redir);
 		else
 		{
 			close(redir[1]);
@@ -60,6 +60,7 @@ int	_heredoc(t_minishell *mini, t_basic *current)
 			close(redir[0]);
 			waitpid(child, &mini->status, 0);
 			mini->status = WEXITSTATUS(mini->status);
+			reset_redirs(mini);
 		}
 	}
 	return (EXIT_SUCCESS);

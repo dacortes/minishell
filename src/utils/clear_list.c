@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 20:39:38 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:25:56 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void free_token(void *content)
 	if (basic)
 	{
 		token = basic->data.token;
-		if (token && token->content)
-			ft_free(&token->content, NULL);
 		if (token && token->type == S_SHELL)
 			free_minishell(token->token_content.subs, TRUE);
+		if (token && token->content)
+			ft_free(&token->content, NULL);
 		/*else if (token && token->type & WILD_CARD)
 			free_list(token->token_content.expand, free_token);*/
 		free(token);

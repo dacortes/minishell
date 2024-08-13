@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/02 13:52:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/13 15:45:18 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ int	syntax_error(t_basic **content)
 				return (error_msg(SYNTAX, 1, "("));
 			return (error_msg(SYNTAX, 1, token->content));
 		}
+		else if (token->type == S_SHELL && (iter->prev 
+			&& !(iter->prev->data.token->type & L_OPERAND 
+			|| iter->prev->data.token->type == PIPE)))
+				return (error_msg(SYNTAX, 1, "("));
 		if (iter->next)
 			iter = iter->next;
 		else

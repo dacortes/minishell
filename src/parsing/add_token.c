@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/10 18:45:56 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:36:09 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ t_token	*new_token(char *content, char *del, int space)
 	if (*del == DOUBLE_QUOTES)
 		new->is_quote = DOUBLE_QUOTES;
 	new->type = get_type(del, content);
-	new->content = content;
+	new->content = NULL;
+	if (new->type != S_SHELL)
+		new->content = content;
 	get_token_content(&new->token_content, content, new->type);
 	if (ft_strchrpos(content, '*') != NOT_FOUND && *del != SIMP_QUOTES
 		&& *del != DOUBLE_QUOTES && *del != ')')
