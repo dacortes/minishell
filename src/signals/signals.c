@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:51:47 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/06 06:53:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/13 17:34:45 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	_sigint(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		get_status(TRUE, 1);
-		// get_stt(TRUE, 1); // agregar funcion para cambiar el estatus
+		get_status(TRUE, 130);
 	}
 }
 

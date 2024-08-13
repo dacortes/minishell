@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/11 07:57:10 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/13 18:15:39 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 	init_mini_rush_plus(&mini, env);
 	while ("The stupid evaluator is testing")
 	{
+		get_status(TRUE, mini.status);
 		signal(SIGINT, _sigint);
 		signal(SIGQUIT, SIG_IGN);
 		prompt(&mini);
@@ -51,13 +52,15 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 			break ;
 		if (!parsing(&mini))
 			manager(&mini);
-		if (mini.get_line)
+		mini.status = get_status(TRUE, mini.status);
+		if (mini.get_line && *mini.get_line)
 		{
 			free_list(mini.token, free_token);
 			ft_free(&mini.get_line, NULL);
 			mini.token = NULL;
 		}
-		get_status(TRUE, mini.status);
+		if (mini.get_line && !*mini.get_line)
+			mini.status = 0;
 		ft_printf("%s [%d]\n", BLUE"status:"END, mini.status);
 	}
 	free_minishell(&mini, FALSE);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/12 17:10:40 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:09:21 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,18 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	{
 		if (is_child == NO_CHILD)
 		{
+			printf("HIJO EXEC\n");
 			child = fork();
 			if (child == ERROR)
 				return (error_msg(PERROR, 1, "fork"));
 			if (child == CHILD)
 			{
 				if (redirections(mini, start, end))
-					return (ERROR);
+				{
+					perror("patata");
+					fd_printf(2, "Error :v\n");
+					exit (0);
+				}
 				path = get_path(mini, cmd[0]);
 				env = substract_env(mini);
 				execve(path, cmd, env);
@@ -101,7 +106,9 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 			return (error_msg(PERROR, 1, "waitpid"));
 		while (wait(NULL) != -1)
 			;
+		printf("Hola %d\n", mini->status);
 		mini->status = WEXITSTATUS(mini->status); 
+		printf("Adios %d\n", mini->status);
 	}
 	free_double_ptr(env);
 	free_double_ptr(cmd);
@@ -127,6 +134,7 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 			exit(error_msg(PERROR, 1, "do_pipe: dup2"));
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
+		printf("wakala pipe\n");
 		exec_cmd(mini, start, end, CHILD);
 		exit(mini->status);
 	}
@@ -158,9 +166,9 @@ int	manager(t_minishell *mini)
 		{
 			if (!skip)
 			{
+				printf("wakala 1\n");
 				exec_cmd(mini, start, end, NO_CHILD);
 				reset_redirs(mini);
-
 			}
 			if ((end->data.token->type == AND && !mini->status)
 				|| (end->data.token->type == OR && mini->status))
@@ -172,7 +180,10 @@ int	manager(t_minishell *mini)
 		end = end->next;
 	}
 	if (!skip)
+	{
+		printf("wakala 2 %d\n", mini->status);
 		exec_cmd(mini, start, end, NO_CHILD);
+	}
 	reset_redirs(mini);
 	return (mini->status);
 }
