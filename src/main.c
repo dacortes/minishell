@@ -80,6 +80,7 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 			do_heredoc(&mini);
 			manager(&mini);
 		}
+		printf_token(mini.token);
 		mini.status = get_status(TRUE, mini.status);
 		if (mini.get_line && *mini.get_line)
 		{

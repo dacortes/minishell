@@ -55,9 +55,13 @@ int	basic_checker(t_basic **token, char *line, int end)
 				return (status);
 		}
 		else if (line[i] == ')')
-            return(error_msg(SYNTAX, 2, ")"));
+            return (error_msg(SYNTAX, 2, ")"));
 		else if (line[i])
+		{
 			status = not_metacharacters(token, line, " zz", &i);
+			if (status)
+				return (status);
+		}
 	}
 	return (EXIT_SUCCESS);
 }
@@ -100,12 +104,6 @@ int	get_subshell(t_minishell *subs)
 		token = iter->data.token;
 		if (token->type == S_SHELL)
 		{
-			/*content = token->content;
-			if (!content)
-				content = "";
-			token->token_content.subs->get_line = ft_strdup(content);
-			if (!token->token_content.subs->get_line)
-				exit (error_msg(MALLOC, 1, "get_subshell: get_line"));*/
 			token->token_content.subs->status = parsing(token->token_content.subs);
 			if (token->token_content.subs->status)
 				return (token->token_content.subs->status);
@@ -128,7 +126,6 @@ int parsing(t_minishell *mini)
 		exit (EXIT_SUCCESS);
 	len = ft_strlen(line);
  	status = get_status(FALSE, 1);
-	ft_printf("satus patata %d\n", status);
 	mini->status = basic_checker(&mini->token, line, len);
 	if (mini->status)
 		return (mini->status);
@@ -137,8 +134,8 @@ int parsing(t_minishell *mini)
 	mini->status = syntax_error(&mini->token);
 	if (mini->status)
 		return (mini->status);
-	printf_token(mini->token);
 	mini->status = get_subshell(mini);
+	//printf_token(mini->token->data.token->token_content.subs->token);
 	if (mini->status)
 	 	return (mini->status);
 	if (status && !mini->status)

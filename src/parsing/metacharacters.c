@@ -61,11 +61,14 @@ int	not_metacharacters(t_basic **token, char *line, char *del, int *pos)
 {
 	int	end;
 	int	space;
+	int	status;
 
 	end = get_end_not_metacharacters(&line[*pos]);
 	space = set_space(line, pos, del);
-	init_token(token, ft_strndup(&line[*pos], end), del, space);
+	status = init_token(token, ft_strndup(&line[*pos], end), del, space);
 	(*pos) += end;
+	if (status)
+		return (status);
 	return (EXIT_SUCCESS);
 }
 
