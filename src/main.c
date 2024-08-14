@@ -6,11 +6,36 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/13 18:15:39 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:12:05 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	do_heredoc(t_minishell *mini)
+{
+	t_basic	*iter;
+	t_token	*token;
+	int		redir[2];
+
+	iter = mini->token;
+	while (iter)
+	{
+		token = iter->data.token;
+		if (token->type == R_HER)
+		{
+			ft_printf("estoy aqui\n");
+			open_heredoc(mini, iter, redir);
+		}
+		if (token->type == SYN_ERROR)
+			break ;
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
+
+
 
 int	init_mini_rush_plus(t_minishell *mini, char **env)
 {
@@ -51,7 +76,10 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		if (!mini.get_line)
 			break ;
 		if (!parsing(&mini))
+		{
+			do_heredoc(&mini);
 			manager(&mini);
+		}
 		mini.status = get_status(TRUE, mini.status);
 		if (mini.get_line && *mini.get_line)
 		{

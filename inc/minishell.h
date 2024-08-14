@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/11 07:34:32 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/14 15:32:29 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ union u_content
 {
 	t_minishell	*subs;
 	//t_basic		*expand;
-	int			redir_here[2];
+	int			redir_here;
 };
 
 struct s_token
@@ -253,8 +253,9 @@ int		syntax_error(t_basic **content);
 int		_append(t_minishell *mini, t_basic *current);
 
 /*	redirections/redir_heredoc.c	*/
-int		is_heredoc(t_minishell *mini, t_basic *token, pid_t *redir, int *status);
-int		_heredoc(t_minishell *mini, t_basic *current);
+//int		is_heredoc(t_minishell *mini, t_basic *token, pid_t *redir, int *status);
+//int		_heredoc(t_minishell *mini, t_basic *current);
+int		open_heredoc(t_minishell *mini, t_basic *current, int *redir);
 
 /*  redirections/redir_in.c */
 int		_stdinp(t_minishell *mini, t_basic *current);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/13 10:36:09 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:39:50 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_token_content(t_content *token_content, char *content, int type)
 			exit (error_msg(MALLOC, 1, "get_token_content: get_line"));
 	}
 	else if (type == R_HER)
-		ft_bzero(token_content->redir_here, sizeof(int));
+		token_content->redir_here = 0;
 	/*else if (type & WILD_CARD)
 	{
 		token_content->expand = ft_calloc(sizeof(t_basic), 1);
