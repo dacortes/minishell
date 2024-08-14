@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/13 18:05:10 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:16:44 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ t_basic	*coppy_env(t_basic *src_env)
 int	get_subshell(t_minishell *subs)
 {
 	t_basic	*iter;
-	t_token			*token;
+	t_token	*token;
+	//char	*content;
 
 	iter = subs->token;
 	while (iter)
@@ -99,9 +100,12 @@ int	get_subshell(t_minishell *subs)
 		token = iter->data.token;
 		if (token->type == S_SHELL)
 		{
-			token->token_content.subs->get_line = ft_strdup(token->content);
+			/*content = token->content;
+			if (!content)
+				content = "";
+			token->token_content.subs->get_line = ft_strdup(content);
 			if (!token->token_content.subs->get_line)
-				exit (error_msg(MALLOC, 1, "get_subshell: get_line"));
+				exit (error_msg(MALLOC, 1, "get_subshell: get_line"));*/
 			token->token_content.subs->status = parsing(token->token_content.subs);
 			if (token->token_content.subs->status)
 				return (token->token_content.subs->status);
@@ -133,6 +137,7 @@ int parsing(t_minishell *mini)
 	mini->status = syntax_error(&mini->token);
 	if (mini->status)
 		return (mini->status);
+	printf_token(mini->token);
 	mini->status = get_subshell(mini);
 	if (mini->status)
 	 	return (mini->status);
