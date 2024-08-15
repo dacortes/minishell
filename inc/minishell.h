@@ -253,7 +253,7 @@ int		syntax_error(t_basic **content);
 int		_append(t_minishell *mini, t_basic *current);
 
 /*	redirections/redir_heredoc.c	*/
-int		is_heredoc(t_minishell *mini, t_basic *token, pid_t *redir, int *status);
+int		open_heredoc(t_minishell *mini, t_basic *current, int *redir);
 int		_heredoc(t_minishell *mini, t_basic *current);
 
 /*  redirections/redir_in.c */

@@ -12,6 +12,25 @@
 
 #include <minishell.h>
 
+int	do_heredoc(t_minishell *mini)
+{
+	t_basic	*iter;
+	t_token	*token;
+	int		redir[2];
+
+	iter = mini->token;
+	while (iter)
+	{
+		token = iter->data.token;
+		if (token->type == R_HER)
+			open_heredoc(mini, iter, redir);
+		if (token->type == SYN_ERROR)
+			break ;
+		iter = iter->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	init_mini_rush_plus(t_minishell *mini, char **env)
 {
 	term_init();
@@ -51,7 +70,10 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		if (!mini.get_line)
 			break ;
 		if (!parsing(&mini))
+		{
+			do_heredoc(&mini);
 			manager(&mini);
+		}
 		mini.status = get_status(TRUE, mini.status);
 		if (mini.get_line && *mini.get_line)
 		{
