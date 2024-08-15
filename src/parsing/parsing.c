@@ -99,9 +99,6 @@ int	get_subshell(t_minishell *subs)
 		token = iter->data.token;
 		if (token->type == S_SHELL)
 		{
-			token->token_content.subs->get_line = ft_strdup(token->content);
-			if (!token->token_content.subs->get_line)
-				exit (error_msg(MALLOC, 1, "get_subshell: get_line"));
 			token->token_content.subs->status = parsing(token->token_content.subs);
 			if (token->token_content.subs->status)
 				return (token->token_content.subs->status);

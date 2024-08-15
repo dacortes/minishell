@@ -68,7 +68,7 @@ void free_token(void *content)
 		token = basic->data.token;
 		if (token && token->type == S_SHELL)
 			free_minishell(token->token_content.subs, TRUE);
-		if (token && token->content)
+		else if (token && token->content)
 			ft_free(&token->content, NULL);
 		/*else if (token && token->type & WILD_CARD)
 			free_list(token->token_content.expand, free_token);*/

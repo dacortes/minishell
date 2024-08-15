@@ -46,9 +46,7 @@ t_token	*new_token(char *content, char *del, int space)
 	if (*del == DOUBLE_QUOTES)
 		new->is_quote = DOUBLE_QUOTES;
 	new->type = get_type(del, content);
-	new->content = NULL;
-	if (new->type != S_SHELL)
-		new->content = content;
+	new->content = content;
 	get_token_content(&new->token_content, content, new->type);
 	if (ft_strchrpos(content, '*') != NOT_FOUND && *del != SIMP_QUOTES
 		&& *del != DOUBLE_QUOTES && *del != ')')
