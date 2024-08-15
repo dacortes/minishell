@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/13 17:42:32 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:11:09 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char *expand_str(t_minishell *mini, char *content, int start, int end)
 	char	*value;
 	char	*status;
 
-	status = protected(ft_itoa(mini->status), "expand: status");
+	status = protected(ft_itoa(mini->prev_status), "expand: status");
 	if (content[end] == '?')
 		aux = ft_str_replace(content, start -1, end + 1, status);
 	else

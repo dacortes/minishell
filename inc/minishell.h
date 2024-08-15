@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/11 07:34:32 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/15 17:09:42 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ struct s_env // array to array char **
 struct s_minishell
 {
 	int		status;
+	int		prev_status;
 	char	*user;
 	int		term_fd[2];
 	int		redir[2];

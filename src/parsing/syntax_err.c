@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/15 15:24:23 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:26:58 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	syntax_command(t_basic **content, int redir_flag)
 			if (subs_count)
 			{
 				iter->next->data.token->type = SYN_ERROR;
-				return (error_msg(SYNTAX, 1, "("));
+				return (error_msg(SYNTAX, 2, "("));
 			}
 			arg_count++;
 		}
@@ -42,14 +42,14 @@ int	syntax_command(t_basic **content, int redir_flag)
 			if (subs_count)
 			{
 				iter->next->data.token->type = SYN_ERROR;
-				return (error_msg(SYNTAX, 1, "("));
+				return (error_msg(SYNTAX, 2, "("));
 			}
 			else if (arg_count)
 			{
 				while (iter && !(iter->data.token->type & ARG && !(iter->prev->data.token->type & REDIR)))
 					iter = iter->next;
-				iter->next->data.token->type = SYN_ERROR;
-				return (error_msg(SYNTAX, 1, iter->data.token->content));
+				iter->data.token->type = SYN_ERROR;
+				return (error_msg(SYNTAX, 2, iter->data.token->content));
 			}
 			subs_count++;
 		}
@@ -86,13 +86,13 @@ int	syntax_error(t_basic **content)
 		{
 			token->type = SYN_ERROR;
 			if (iter->next && iter->next->data.token->type == S_SHELL)
-				return (error_msg(SYNTAX, 1, "("));
-			return (error_msg(SYNTAX, 1, token->content));
+				return (error_msg(SYNTAX, 2, "("));
+			return (error_msg(SYNTAX, 2, token->content));
 		}
 		else if (token->type == S_SHELL && (iter->prev 
 			&& !(iter->prev->data.token->type & L_OPERAND 
 			|| iter->prev->data.token->type == PIPE)))
-				return (error_msg(SYNTAX, 1, "("));
+				return (error_msg(SYNTAX, 2, "("));
 		if (iter->next)
 			iter = iter->next;
 		else

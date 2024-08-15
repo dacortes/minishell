@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/13 18:05:10 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:10:49 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,14 +114,13 @@ int parsing(t_minishell *mini)
 {
 	char	*line;
 	int		len;
-	int		status;
+	//int		status;
 
 	line = mini->get_line;
 	if (!line)
 		exit (EXIT_SUCCESS);
 	len = ft_strlen(line);
- 	status = get_status(FALSE, 1);
-	ft_printf("satus patata %d\n", status);
+ 	mini->prev_status = get_status(FALSE, 1);
 	mini->status = basic_checker(&mini->token, line, len);
 	if (mini->status)
 		return (mini->status);
@@ -133,7 +132,7 @@ int parsing(t_minishell *mini)
 	mini->status = get_subshell(mini);
 	if (mini->status)
 	 	return (mini->status);
-	if (status && !mini->status)
-		mini->status = status;
+	//if (status && !mini->status)
+	//	mini->status = status;
 	return (EXIT_SUCCESS);
 }

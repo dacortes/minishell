@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 06:51:47 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/13 17:34:45 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/15 19:25:24 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	handle_siginth(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// ft_printf("\n");
-		exit(1);
+		ft_printf("\n");
+		exit(130);
 	}
 }

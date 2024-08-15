@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/13 18:09:21 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/15 20:32:04 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	{
 		if (redirections(mini, start, end))
 			return (ERROR);
-		fd_printf(2, "HIJO SUBSHELL\n");
 		child = fork();
 		if (child == ERROR)
 			return (error_msg(PERROR, 1, "fork"));
 		if (child == CHILD)
 		{
+			signal(SIGINT, exit);
+			signal(SIGQUIT, exit);
 			start->data.token->token_content.subs->term_fd[0] = dup(0);
 			start->data.token->token_content.subs->term_fd[1] = dup(1);
 			manager(start->data.token->token_content.subs);
@@ -46,12 +47,13 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	{
 		if (is_child == NO_CHILD && mini->redir[0])
 		{
-			fd_printf(2, "HIJO BUILTIN\n");
 			child = fork();
 			if (child == ERROR)
 				return (error_msg(PERROR, 1, "fork"));
 			if (child == CHILD)
 			{
+				signal(SIGINT, exit);
+				signal(SIGQUIT, exit);
 				if (redirections(mini, start, end))
 					return (ERROR);
 				do_builtin(mini, cmd);
@@ -69,12 +71,13 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	{
 		if (is_child == NO_CHILD)
 		{
-			printf("HIJO EXEC\n");
 			child = fork();
 			if (child == ERROR)
 				return (error_msg(PERROR, 1, "fork"));
 			if (child == CHILD)
 			{
+				signal(SIGINT, exit);
+				signal(SIGQUIT, exit);
 				if (redirections(mini, start, end))
 				{
 					perror("patata");
@@ -106,9 +109,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 			return (error_msg(PERROR, 1, "waitpid"));
 		while (wait(NULL) != -1)
 			;
-		printf("Hola %d\n", mini->status);
 		mini->status = WEXITSTATUS(mini->status); 
-		printf("Adios %d\n", mini->status);
 	}
 	free_double_ptr(env);
 	free_double_ptr(cmd);
@@ -130,11 +131,12 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 		exit(error_msg(PERROR, 1, "do_pipe: child"));
 	else if (child == CHILD)
 	{
+		signal(SIGINT, exit);
+		signal(SIGQUIT, exit);
 		if (dup2(pipe_fd[1], 1) == ERROR)
 			exit(error_msg(PERROR, 1, "do_pipe: dup2"));
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
-		printf("wakala pipe\n");
 		exec_cmd(mini, start, end, CHILD);
 		exit(mini->status);
 	}
@@ -157,6 +159,8 @@ int	manager(t_minishell *mini)
 	start = mini->token;
 	while (end)
 	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		if 	(end->data.token->type == PIPE && !skip)
 		{
 			do_pipe(mini, start, end);
@@ -166,7 +170,6 @@ int	manager(t_minishell *mini)
 		{
 			if (!skip)
 			{
-				printf("wakala 1\n");
 				exec_cmd(mini, start, end, NO_CHILD);
 				reset_redirs(mini);
 			}
@@ -180,10 +183,7 @@ int	manager(t_minishell *mini)
 		end = end->next;
 	}
 	if (!skip)
-	{
-		printf("wakala 2 %d\n", mini->status);
 		exec_cmd(mini, start, end, NO_CHILD);
-	}
 	reset_redirs(mini);
 	return (mini->status);
 }

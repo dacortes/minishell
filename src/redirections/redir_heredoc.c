@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/13 15:21:04 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/15 19:11:59 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 			line = expansion(mini, line);
 		fd_printf(redir[1], "%s\n", line);
 		free(line);
+		line = NULL;
 	}
 	close(redir[1]);
 	close(redir[0]);
@@ -40,6 +41,7 @@ int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 int	open_heredoc(t_minishell *mini, t_basic *token, int *redir)
 {
 	pid_t	heredoc;
+	int		status;
 
 	if (token && token->data.token->type == R_HER)
 	{
@@ -53,14 +55,17 @@ int	open_heredoc(t_minishell *mini, t_basic *token, int *redir)
 			if (redir[0] > 0)
 				close(redir[0]);
 			read_heredoc(mini, token, redir);
+			exit(EXIT_SUCCESS);
 		}
-		if (waitpid(heredoc, &mini->status, 0) == ERROR)
+		if (waitpid(heredoc, &status, 0) == ERROR)
 		{
 			close(redir[0]);
 			return (EXIT_FAILURE);
 		}
 		close(redir[1]);
-		mini->status = WEXITSTATUS(mini->status);
+		status = WEXITSTATUS(status);
+		if (status && !mini->status)
+			mini->status = status;
 		token->data.token->token_content.redir_here[0] = redir[0];
 	}
 	return (EXIT_SUCCESS);
