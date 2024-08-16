@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:45:41 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/09 20:31:05 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:43:48 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ char *get_path(t_minishell *mini, char *cmd)
 	int		i;
 
 	i = -1;
+	/*if (ft_strcharpos(cmd, "/") != -1)
+		return ("");*/
 	path = protected(ft_split(search_env(mini->env, "PATH", 2), ':'), "PATH");
 	while (path[++i])
 	{

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 19:03:49 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/16 17:50:41 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	_exit_(t_minishell *mini, char **command, int num_arg)
 	if (num_arg == 1)
 	{
 		free_minishell(mini, FALSE);
-		exit(EXIT_SUCCESS);
+		exit(mini->prev_status);
 	}
 	else if (num_arg >= 2)
 	{

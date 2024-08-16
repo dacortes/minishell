@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/15 20:32:04 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:48:59 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				if (redirections(mini, start, end))
 					return (ERROR);
 				do_builtin(mini, cmd);
+				exit(mini->status);
 			}
 			child_created = 1;
 		}
@@ -105,8 +106,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	if (child_created && is_child == NO_CHILD)
 	{
 		reset_redirs(mini);
-		if (waitpid(child, &mini->status, 0) == ERROR)
-			return (error_msg(PERROR, 1, "waitpid"));
+		waitpid(child, &mini->status, 0);
 		while (wait(NULL) != -1)
 			;
 		mini->status = WEXITSTATUS(mini->status); 
