@@ -5,6 +5,8 @@
 *.a
 *.d
 *.vscode
+*.out
+prueba.c
 *.test
 *.txt
 *.sh

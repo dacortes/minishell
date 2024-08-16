@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/16 17:48:59 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 01:34:19 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 {
 	pid_t	child;
+	t_basic	*token_union;
 	int		child_created;
 	char	**cmd;
 	char	**env;
@@ -125,7 +126,6 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 
 	if (pipe(pipe_fd) == ERROR)
 		exit(error_msg(PERROR, 1, "do_pipe: pipe"));
-	fd_printf(2, "HIJO PIPE\n");
 	child = fork();
 	if (child == ERROR)
 		exit(error_msg(PERROR, 1, "do_pipe: child"));

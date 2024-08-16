@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/16 10:09:32 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/16 20:06:37 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 			mini.token = NULL;
 		}
 		if (mini.get_line && !*mini.get_line)
+		{
 			mini.status = 0;
+			ft_free(&mini.get_line, NULL);
+		}
 		ft_printf("%s [%d]\n", BLUE"status:"END, mini.status);
 	}
 	free_minishell(&mini, FALSE);

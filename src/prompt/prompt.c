@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:07:51 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/10 09:59:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/16 20:01:13 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	prompt(t_minishell *mini)
 	need[0] = "["TUR;
 	need[1] = mini->user;
 	need[2] = END"]";
-	need[3] = TUR" ➜ "CYAN;
+	need[3] = TUR" 🗂 "CYAN;
 	if (mini->cur_dir && !mini->cur_dir[1])
 		need[4] = ft_strrchr(mini->cur_dir, '/');
 	else
@@ -100,7 +100,7 @@ int	prompt(t_minishell *mini)
 	need[6] = get_branch();
 	if (!need[6])
 		exit(error_msg(MALLOC, 1, "prompt: need[6]"));
-	need[7] = END""BLUE")"TUR" 🗂"CYAN"  ᐅ "END;
+	need[7] = END""BLUE")"CYAN"ᐅ "END;
 	need[8] = NULL;
 	join = ft_strjoin_max(need);
 	mini->get_line = readline(join);
