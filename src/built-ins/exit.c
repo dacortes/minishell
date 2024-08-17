@@ -16,12 +16,14 @@ void	exit_loop(t_minishell *mini, char **command)
 {
 	int	i;
 
+	if (ft_strlen(command[1]) > 18)
+		exit (error_msg(NUMERIC_ARG, 2, command[1]));
 	if (command[1][0] && (command[1][0] == '-' || command[1][0] == '+') \
 		&& (!command[1][1]))
-		exit (error_msg(EXIT, 255, command[1]));
+		exit (error_msg(NUMERIC_ARG, 2, command[1]));
 	else if (command[1][0] && (command[1][0] == '-' || command[1][0] == '+') \
 		&& command[1][1] && !ft_isdigit(command[1][1]))
-		exit (error_msg(EXIT, 255, command[1]));
+		exit (error_msg(NUMERIC_ARG, 2, command[1]));
 	i = 0;
 	while (command[1][i])
 	{
@@ -29,7 +31,7 @@ void	exit_loop(t_minishell *mini, char **command)
 			&& command[1][i] != '+')
 		{
 			free_minishell(mini, FALSE);
-			exit (error_msg(EXIT, 255, command[1]));
+			exit (error_msg(NUMERIC_ARG, 2, command[1]));
 		}
 		i++;
 	}

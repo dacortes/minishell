@@ -55,7 +55,7 @@ t_basic *union_token(t_basic *start, t_basic *end)
     {
         if (prev_node && !start->data.token->has_space)
             funsion_token(&prev_node, start);
-        else
+        else if(start->data.token->type != S_SHELL)
         {
             new_node = coppy_token(start);
             add_back(&new_list, new_node);
@@ -63,6 +63,5 @@ t_basic *union_token(t_basic *start, t_basic *end)
         }
         start = start->next;
     }
-    printf_token(new_list);
     return (new_list);
 }

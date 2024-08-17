@@ -23,6 +23,7 @@ int	error_msg(int error, int code_exit, char *input)
 	e = error & AMBIGUOUS && fd_printf(2, ERR_AMBIGUOUS, MINI, input);
 	e = error & NO_FOUND && fd_printf(2, ERR_NO_FOUND, MINI, input);
 	e = error & IS_DIR && fd_printf(2, ERR_IS_DIR, MINI, input);
+	e = error & NUMERIC_ARG && fd_printf(2, ERR_NUMERIC, MINI, input);
 	if (error == PERROR)
 	{
 		fd_printf(2, "%s%s: ", MINI, input);

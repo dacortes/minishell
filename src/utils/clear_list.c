@@ -44,6 +44,8 @@ void free_env(void *content)
 
 void free_minishell(t_minishell *mini, int flag)
 {
+	if (!mini)
+		return ;
 	ft_free(&mini->get_line, &mini->user);
 	ft_free(&mini->cur_dir, &mini->old_dir);
 	if (mini->env)
