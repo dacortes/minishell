@@ -12,8 +12,6 @@
 
 #include <minishell.h>
 
-// gestionar el export a"=20"
-//si es una token de type arg y no tiene espacios las junta
 int	check_key(char *key, int *flag)
 {
 	int	i;

@@ -228,6 +228,9 @@ char	*expansion(t_minishell *mini, char *content);
 /*	expansion/token.c			*/
 int		expand_token(t_minishell *mini, t_basic **start, t_basic *end);
 
+/*	expansion/union_token		*/
+t_basic	*union_token(t_basic *start, t_basic *end);
+
 /*	expansion/utils.c			*/
 int		is_space(char c);
 int		get_end_space(char *str);
@@ -316,6 +319,6 @@ char	*printf_type(int type);
 void	printf_content_token(void *content);
 void	printf_token(t_basic *token);
 
-/*	utils/to_array.c			*/
+/*	utils/get_cmds.c			*/
 char	**get_cmds(t_basic *start, t_basic *end);
 #endif

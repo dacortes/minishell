@@ -55,7 +55,6 @@ t_basic	*connect(t_minishell *mini, t_basic *node, t_basic *new, t_basic **init)
 		new->prev = node->prev;
 		node->prev->next = new;
 		new->data.token->has_space = node->data.token->has_space;
-		*init = new->prev;
 	}
 	last = get_last_expand(new);
 	if (last)

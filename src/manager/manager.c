@@ -23,8 +23,13 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	child_created = 0;
 	env = NULL;
 	path = NULL;
+	//printf_token(start);
 	expand_token(mini, &start, end);
+	t_basic *tmp = union_token(start, end);
+	// free_token();
+	free_list(tmp, free_token);
 	cmd = get_cmds(start, end);
+	//printf("%s\n", cmd[0]);
 	if (start->data.token->type == S_SHELL)
 	{
 		if (redirections(mini, start, end))

@@ -32,6 +32,7 @@ int	_unset(t_basic **env, char *key)
 		next->prev = prev;
 	free(rm->data.env);
 	free(rm);
+	_export(*env);
 	return (EXIT_SUCCESS);
 }
 

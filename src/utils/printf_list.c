@@ -77,3 +77,20 @@ void	printf_token(t_basic *token)
 	ft_printf("%s\n", ORANGE"Print Tokens"END);
 	content_loop(token, printf_content_token);
 }
+
+// void	printf_content_env(void *content)
+// {
+// 	t_env			*env;
+// 	t_env			*prev_env;
+// 	t_basic			*prev;
+
+// 	env =  ((t_basic *)content)->data.env;
+// 	prev = ((t_basic *)content)->prev;
+
+// }
+
+// void	printf_env(t_basic *env)
+// {
+// 	ft_printf("%s\n", ORANGE"Print ENV"END);
+// 	content_loop(env, printf_content_env);
+// }
