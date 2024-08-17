@@ -12,6 +12,26 @@
 
 #include <minishell.h>
 
+int	reverse_loop(t_basic *node, void (*f)(void *))
+{
+	t_basic	*iter;
+
+
+	if (!node)
+		return (EXIT_SUCCESS);
+	iter = node;
+	while(iter->next)
+	{
+		iter = iter->next;
+	}
+	while (iter)
+	{
+		f(&(iter->data));
+		iter = iter->prev;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	_unset(t_basic **env, char *key)
 {
 	t_basic	*rm;
@@ -22,17 +42,16 @@ int	_unset(t_basic **env, char *key)
 	if (!rm)
 		return (EXIT_SUCCESS);
 	if (rm == *env)
-		*env = rm->next;
-	ft_free(&rm->data.env->key, &rm->data.env->value);
+		*env = (*env)->next;
 	prev = rm->prev;
 	next = rm->next;
 	if (prev)
 		prev->next = next;
 	if (next)
 		next->prev = prev;
+	ft_free(&rm->data.env->key, &rm->data.env->value);
 	free(rm->data.env);
 	free(rm);
-	//_export(*env);
 	return (EXIT_SUCCESS);
 }
 

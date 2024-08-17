@@ -91,6 +91,7 @@ int	export_loop(t_basic **env, char **command)
 			status = 1;
 		i++;
 	}
+	add_prev(env, FALSE);
 	return (status);
 }
 

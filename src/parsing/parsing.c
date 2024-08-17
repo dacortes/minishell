@@ -83,7 +83,7 @@ t_basic	*coppy_env(t_basic *src_env)
 		add_back(&res, new);
 		iter = iter->next;
 	}
-	add_prev(&res);
+	add_prev(&res, FALSE);
 	return (res);
 }
 
@@ -125,7 +125,7 @@ int parsing(t_minishell *mini)
 	if (mini->status)
 		return (mini->status);
 	if (mini->token)
-		add_prev(&mini->token);
+		add_prev(&mini->token, TRUE);
 	mini->status = syntax_error(&mini->token);
 	if (mini->status)
 		return (mini->status);

@@ -12,18 +12,19 @@
 
 #include <minishell.h>
 
-void	add_prev(t_basic **list)
+void	add_prev(t_basic **list, int flag)
 {
 	t_basic	*tmp;
 	t_basic	*prev;
 
 	tmp = *list;
 	prev = NULL;
+	(void)flag;
 	while (tmp)
 	{
 		if (prev)
 			tmp->prev = prev;
-		if (prev && tmp->data.token->type & EXPAN
+		if (flag && prev && tmp->data.token->type & EXPAN
 			&& prev->data.token->type == R_HER)
 			tmp->data.token->type = ARG;
 		prev = tmp;

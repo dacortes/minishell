@@ -316,7 +316,7 @@ void 	free_list(t_basic *node, void (*f)(void *));
 
 /*	utils/handler.list.c		*/
 void	*get_last(t_basic *list);
-void	add_prev(t_basic **list);
+void	add_prev(t_basic **list, int flag);
 void	add_back(t_basic **list, t_basic *new);
 
 /*	utils/loops.c				*/

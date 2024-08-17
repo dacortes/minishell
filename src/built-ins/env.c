@@ -74,7 +74,7 @@ t_basic *init_env(char **env)
 	new_env = NULL;
 	while (env[++i])
 		add_env(&new_env, env[i]);
-	add_prev(&new_env);
+	add_prev(&new_env, FALSE);
 	return (new_env);
 }
 
@@ -83,5 +83,6 @@ int	_env(t_basic *list, int num_arg)
 	if (num_arg > 1)
 		return (error_msg(ARGUMENT, 1, "env"));
 	content_loop(list, printf_env);
+	//reverse_loop(list, printf_env);
 	return (EXIT_SUCCESS);
 }
