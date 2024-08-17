@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 11:34:00 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:09:49 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 {
 	pid_t	child;
-	t_basic	*token_union;
+	//t_basic	*token_union;
 	int		child_created;
 	char	**cmd;
 	char	**env;
@@ -27,9 +27,9 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	expand_token(mini, &start, end);
 	t_basic *tmp = union_token(start, end);
 	cmd = get_cmds(tmp, end);
+	//printf_token(tmp);
 	free_list(tmp, free_token);
-	token_union = expand_wild_cards(NULL);
-	//printf("%s\n", cmd[0]);
+	//token_union = expand_wild_cards(NULL);
 	if (start->data.token->type == S_SHELL)
 	{
 		if (redirections(mini, start, end))
@@ -107,11 +107,9 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	if (child_created && is_child == NO_CHILD)
 	{
 		reset_redirs(mini);
-		printf("ESPERO A COMANDO\n");
 		waitpid(child, &mini->status, 0);
 		while (wait(NULL) != -1)
 			;
-		printf("DEJO DE ESPERAR A COMANDO\n");
 		mini->status = WEXITSTATUS(mini->status); 
 	}
 	free_double_ptr(env);
@@ -177,7 +175,11 @@ int	manager(t_minishell *mini)
 			}
 			if ((end->data.token->type == AND && !mini->status)
 				|| (end->data.token->type == OR && mini->status))
+			{
 				skip = 0;
+				get_status(TRUE, mini->status);
+				mini->status = 0;
+			}
 			else 
 				skip = 1;
 			start = end->next;

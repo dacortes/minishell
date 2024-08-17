@@ -49,7 +49,7 @@ int	_exit_(t_minishell *mini, char **command, int num_arg)
 		exit_loop(mini, command);
 		if (num_arg > 2)
 			return (error_msg(ARGUMENT, 1, "exit"));
-		exit(ft_atoi(command[1]));
+		exit((unsigned char)ft_atoi(command[1]));
 	}
 	return (EXIT_SUCCESS);
 }

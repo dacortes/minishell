@@ -74,7 +74,7 @@
 # define ERR_AMBIGUOUS "%s%s: ambiguous redirection%s\n"
 # define ERR_NO_FOUND "%s%s: command not found\n"
 # define ERR_IS_DIR "%s%s: Is a directory\n"
-# define ERR_NUMERIC "%s%s: numeric argument required"
+# define ERR_NUMERIC "%s%s: numeric argument required\n"
 
 typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;

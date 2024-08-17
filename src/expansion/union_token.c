@@ -22,7 +22,7 @@ void    funsion_token(t_basic **prev, t_basic *current)
     cur_token = current->data.token;
     pre_token = (*prev)->data.token;
     content = protected(ft_strjoin(pre_token->content, cur_token->content), "");
-    free((*prev)->data.token->content);
+    ft_free(&(*prev)->data.token->content, NULL);
     (*prev)->data.token->content = content;
     (*prev)->data.token->type = cur_token->type;
     (*prev)->data.token->is_quote = cur_token->is_quote;
