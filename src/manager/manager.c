@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 01:34:19 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:34:00 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	path = NULL;
 	expand_token(mini, &start, end);
 	cmd = get_cmds(start, end);
+	token_union = expand_wild_cards(NULL);
 	if (start->data.token->type == S_SHELL)
 	{
 		if (redirections(mini, start, end))
-			return (ERROR);
+			return (EXIT_FAILURE);
 		child = fork();
 		if (child == ERROR)
 			return (error_msg(PERROR, 1, "fork"));
@@ -56,7 +57,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				signal(SIGINT, exit);
 				signal(SIGQUIT, exit);
 				if (redirections(mini, start, end))
-					return (ERROR);
+					exit (EXIT_FAILURE);
 				do_builtin(mini, cmd);
 				exit(mini->status);
 			}
@@ -81,11 +82,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				signal(SIGINT, exit);
 				signal(SIGQUIT, exit);
 				if (redirections(mini, start, end))
-				{
-					perror("patata");
-					fd_printf(2, "Error :v\n");
-					exit (0);
-				}
+					exit (EXIT_FAILURE);
 				path = get_path(mini, cmd[0]);
 				env = substract_env(mini);
 				execve(path, cmd, env);
@@ -96,7 +93,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 		else
 		{
 			if (redirections(mini, start, end))
-				return (ERROR);
+				exit (EXIT_FAILURE);
 			path = get_path(mini, cmd[0]);
 			env = substract_env(mini);
 			execve(path, cmd, env);
@@ -107,9 +104,11 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	if (child_created && is_child == NO_CHILD)
 	{
 		reset_redirs(mini);
+		printf("ESPERO A COMANDO\n");
 		waitpid(child, &mini->status, 0);
 		while (wait(NULL) != -1)
 			;
+		printf("DEJO DE ESPERAR A COMANDO\n");
 		mini->status = WEXITSTATUS(mini->status); 
 	}
 	free_double_ptr(env);
@@ -159,8 +158,8 @@ int	manager(t_minishell *mini)
 	start = mini->token;
 	while (end)
 	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
+	//	signal(SIGINT, SIG_IGN);
+	//	signal(SIGQUIT, SIG_IGN);
 		if 	(end->data.token->type == PIPE && !skip)
 		{
 			do_pipe(mini, start, end);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/17 00:16:24 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:32:58 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,9 @@ int		is_space(char c);
 int		get_end_space(char *str);
 int		split_space(t_basic **token, char *line, char *del, int *pos);
 int		search_node(void *src, void *node);
+
+/*  expansion/wild_card.c       */
+t_basic	*expand_wild_cards(t_basic *token);
 
 /*	parsing/add_token.c			*/
 int		get_token_content(t_content *token_content, char *content, int type);

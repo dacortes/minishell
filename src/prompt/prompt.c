@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:07:51 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/16 20:01:13 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 10:48:24 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	prompt(t_minishell *mini)
 	char	*need[9];
 	char	*join;
 
+	signal(SIGINT, _sigint);
+	signal(SIGQUIT, SIG_IGN);
 	need[0] = "["TUR;
 	need[1] = mini->user;
 	need[2] = END"]";
@@ -105,5 +107,7 @@ int	prompt(t_minishell *mini)
 	join = ft_strjoin_max(need);
 	mini->get_line = readline(join);
 	ft_free(&need[6], &join);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	return (EXIT_SUCCESS);
 }

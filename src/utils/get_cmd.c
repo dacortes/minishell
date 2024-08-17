@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 12:45:41 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 01:42:05 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,6 @@ char **add_array(t_basic *start, t_basic *end, int count)
             break;
         start = start->next;
     }
-	/*if (!array[0])
-	{
-		free(array[0]);
-		free(array);
-	}*/
     return (array);
 }
 
@@ -88,13 +83,10 @@ char	**get_cmds(t_basic *start, t_basic *end)
 	count = 0;
 	bool_loop_void(start, count_arg, &count);
 	array = add_array(start, end, count);
-	/*int i = 0;
-	while (array[i])	
-		ft_printf("[%s]\n", array[i++]);*/
 	if (array && !*array)
 	{
 		free_double_ptr(array);
 		return (NULL);
 	}
-	return (array); // librerar doble array despues de usarlo
+	return (array);
 }
