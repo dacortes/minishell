@@ -19,6 +19,7 @@ SOURCES = 	built-ins/builtins.c built-ins/cd.c built-ins/echo.c\
 			built-ins/unset.c\
 			manager/manager.c manager/manager_utils.c\
 			expansion/dollar.c expansion/token.c expansion/utils.c\
+			expansion/wild_card.c\
 			expansion/union_token.c\
 			parsing/add_token.c parsing/metacharacters.c  parsing/parsing.c\
 			parsing/syntax_err.c parsing/utils.c\

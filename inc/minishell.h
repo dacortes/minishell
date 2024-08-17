@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/15 17:09:42 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 11:32:58 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <get_next_line.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/stat.h>
 
 /******************************************************************************/
 /*                            COLORS                                          */
@@ -66,11 +67,13 @@
 
 /* error messages */
 # define MINI "\033[1;31mmini rush plus: \033[m"
-# define ERR_MALLOC "error trying to allocate memory"
-# define ERR_SYNTAX "syntax error near unexpected token"
-# define ERR_ARGUMENT "too many arguments"
-# define ERR_EXPORT "export: not a valid identifier"
-# define ERR_AMBIGUOUS "%sbash: %s: ambiguous redirection%s" 
+# define ERR_MALLOC "%serror trying to allocate memory `%s'\n"
+# define ERR_SYNTAX "%ssyntax error near unexpected token `%s'\n"
+# define ERR_ARGUMENT "%stoo many arguments `%s'\n"
+# define ERR_EXPORT "%sexport: not a valid identifier `%s'\n"
+# define ERR_AMBIGUOUS "%s%s: ambiguous redirection%s\n"
+# define ERR_NO_FOUND "%s%s: command not found\n"
+# define ERR_IS_DIR "%s%s: Is a directory\n"
 
 typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;
@@ -90,6 +93,8 @@ enum e_error_code
 	EXPORT = 1 << 4,
 	EXIT = 1 << 5,
 	AMBIGUOUS = 1 << 6,
+	NO_FOUND = 1 << 7,
+	IS_DIR = 1 << 8,
 };
 
 enum e_tokens_types
@@ -236,6 +241,9 @@ int		is_space(char c);
 int		get_end_space(char *str);
 int		split_space(t_basic **token, char *line, char *del, int *pos);
 int		search_node(void *src, void *node);
+
+/*  expansion/wild_card.c       */
+t_basic	*expand_wild_cards(t_basic *token);
 
 /*	parsing/add_token.c			*/
 int		get_token_content(t_content *token_content, char *content, int type);

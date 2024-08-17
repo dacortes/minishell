@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/15 19:11:59 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 10:56:42 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 	{
 		signal(SIGINT, handle_siginth);
 		line = readline(ORANGE"> "END);
-		if (!line || ft_strncmp(next->data.token->content, line, -1) == 0)
+		if (!line || !ft_strncmp(next->data.token->content, line, -1))
 		{
 			free(line);
+			line = NULL;
 			break;
 		}
 		if (*line)
@@ -33,8 +34,11 @@ int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 		free(line);
 		line = NULL;
 	}
+	if (line && !*line)
+		free(line);
 	close(redir[1]);
 	close(redir[0]);
+	signal(SIGINT, SIG_DFL);
 	exit(EXIT_SUCCESS);
 }
 
