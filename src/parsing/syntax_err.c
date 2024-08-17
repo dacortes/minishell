@@ -75,8 +75,8 @@ int	syntax_error(t_basic **content)
 		if (token->type == PIPE || token->type & L_OPERAND)
 		{
 			status = syntax_command(&iter->prev, redir_flag);
-			if (status) 
-				return (status);
+			if (status)
+				return (error_msg(SYNTAX, 2, token->content));
 			redir_flag = 0;
 		}
 		else if (token->type & REDIR && iter->next && iter->next->data.token->type & ARG)

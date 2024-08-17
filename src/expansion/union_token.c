@@ -63,5 +63,6 @@ t_basic *union_token(t_basic *start, t_basic *end)
         }
         start = start->next;
     }
+    add_prev(&new_list, TRUE);
     return (new_list);
 }

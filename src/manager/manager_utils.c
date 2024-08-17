@@ -107,6 +107,8 @@ char *get_path(t_minishell *mini, char *cmd)
 	int		i;
 
 	i = -1;
+	if (!cmd)
+		exit (mini->status);
 	if (ft_strchrpos(cmd, '/') != -1)
 		return (get_executable(cmd));
 	path = protected(ft_split(search_env(mini->env, "PATH", 2), ':'), "PATH");

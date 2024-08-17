@@ -106,6 +106,8 @@ int	mini_rush_plus(int argc, char **argv, char **env)
 		if (!mini.get_line)
 			break ;
 		parsing(&mini);
+		// ft_printf("%s [%d]\n", RED"status:"END, mini.status);
+		// ft_printf("fallo\n");
 		do_heredoc(&mini);
 		if (!mini.status)
 			manager(&mini);
