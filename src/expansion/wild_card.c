@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:40:33 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 15:57:35 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:00:50 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int search_middle_str(char *target, char *src, int start_t, int start_s)
 	{
 		if (target[start_t] == src[start_s])
 		{
-			i = 0
+			i = 0;
 			while (target && src && target[start_t + i] == src[start_s + i])
 				i++;
 			if (!src[start_s + i] || src[start_s = i] == '*')
@@ -78,7 +78,7 @@ int search_middle_str(char *target, char *src, int start_t, int start_s)
 
 int	valid_wildcard(char *src, char	*target)
 {
-	int	start_t;
+/*	int	start_t;
 	int	start_s;
 
 	start_t = 0;
@@ -86,7 +86,9 @@ int	valid_wildcard(char *src, char	*target)
 	while (src[start_s])
 	{
 		if ()
-	}
+	}*/
+	(void)src;
+	(void)target;
 	return (TRUE);
 }
 
