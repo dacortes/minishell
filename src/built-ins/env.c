@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 10:48:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/18 18:21:09 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	add_variable_env(t_basic **list_env, char *key, char *value, short eql)
 {
-	t_basic *new_node;
+	t_basic	*new_node;
 
 	if (!key)
 		exit (error_msg(MALLOC, 1, "add_variable_env: key"));
@@ -47,8 +47,9 @@ static t_basic	*init_basic_env(void)
 int	add_env(t_basic **new_env, char *line)
 {
 	int	pos;
-	int tmp = 0;
+	int	tmp;
 
+	tmp = 0;
 	pos = ft_strchrpos(line, '=');
 	if (pos == NOT_FOUND)
 	{
@@ -63,10 +64,10 @@ int	add_env(t_basic **new_env, char *line)
 	return (EXIT_SUCCESS);
 }
 
-t_basic *init_env(char **env)
+t_basic	*init_env(char **env)
 {
 	t_basic	*new_env;
-	int				i;
+	int		i;
 
 	if (!env || !*env)
 		return (init_basic_env());
@@ -83,6 +84,5 @@ int	_env(t_basic *list, int num_arg)
 	if (num_arg > 1)
 		return (error_msg(ARGUMENT, 1, "env"));
 	content_loop(list, printf_env);
-	//reverse_loop(list, printf_env);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 17:09:49 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:38:48 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,6 @@ int	manager(t_minishell *mini)
 	start = mini->token;
 	while (end)
 	{
-	//	signal(SIGINT, SIG_IGN);
-	//	signal(SIGQUIT, SIG_IGN);
 		if 	(end->data.token->type == PIPE && !skip)
 		{
 			do_pipe(mini, start, end);

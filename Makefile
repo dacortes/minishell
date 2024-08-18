@@ -27,7 +27,7 @@ SOURCES = 	built-ins/builtins.c built-ins/cd.c built-ins/echo.c\
 			redirections/redir_append.c redirections/redir_heredoc.c\
 			redirections/redir_in.c redirections/redir_out.c\
 			redirections/redirections.c\
-			signals/signals.c\
+			signals/signals.c signals/heredoc_signals.c\
 			utils/clear_list.c utils/errors.c utils/handler_list.c\
 			utils/loops.c utils/printf_list.c utils/get_cmd.c\
 			main.c

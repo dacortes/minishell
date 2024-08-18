@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 10:56:42 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:26:47 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,51 @@ int	_heredoc(t_minishell *mini, t_basic *current)
 			return (error_msg(PERROR, 1, "Dup2"));
 		close(current->data.token->token_content.redir_here[0]);
 	}
+	return (EXIT_SUCCESS);
+}
+
+void	close_heredocs(t_minishell *mini)
+{
+	t_basic	*iter;
+	t_token	*token;
+
+	iter = mini->token;
+	while (iter)
+	{
+		token = iter->data.token;
+		if (token->type == R_HER)
+		{
+			if (token->token_content.redir_here[0] > 0)
+				close(token->token_content.redir_here[0]);
+		}
+		iter = iter->next;
+	}
+}
+
+int	do_heredoc(t_minishell *mini)
+{
+	t_basic	*iter;
+	t_token	*token;
+	int		redir[2];
+
+	iter = mini->token;
+	get_break_it(TRUE, 0);
+	signal(SIGINT, break_it);
+	signal(SIGQUIT, SIG_IGN);
+	while (iter)
+	{
+		if (get_break_it(FALSE, 0) == TRUE)
+			break ;
+		token = iter->data.token;
+		if (token->type == R_HER)
+			open_heredoc(mini, iter, redir);
+		else if (token->type == S_SHELL)
+			do_heredoc(token->token_content.subs);
+		else if (token->type & SYN_ERROR)
+			break ;
+		iter = iter->next;
+	}
+	if (mini->status)
+		close_heredocs(mini);
 	return (EXIT_SUCCESS);
 }

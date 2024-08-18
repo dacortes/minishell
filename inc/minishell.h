@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/17 11:32:58 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/18 17:12:40 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,9 @@
 typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;
 typedef struct s_env			t_env;
-
-typedef	struct s_basic			t_basic;
-typedef union  u_content		t_content;
-typedef	union  u_data_type		t_data_type;
-
+typedef struct s_basic			t_basic;
+typedef union u_content			t_content;
+typedef union u_data_type		t_data_type;
 
 enum e_error_code
 {
@@ -115,6 +113,7 @@ enum e_tokens_types
 	S_SHELL = 1 << 11,
 	SYN_ERROR = 1 << 12,
 	WILD_CARD = 1 << 13 | EXPAN,
+	SUBS_SYN_ERR = S_SHELL | SYN_ERROR,
 };
 
 typedef enum e_data_enum
@@ -123,7 +122,7 @@ typedef enum e_data_enum
 	T_ENV,
 }	t_data_enum;
 
-struct s_env // array to array char **
+struct s_env
 {
 	char	*key;
 	char	*value;
@@ -147,7 +146,6 @@ struct s_minishell
 union u_content
 {
 	t_minishell	*subs;
-	//t_basic		*expand;
 	int			redir_here[2];
 };
 
@@ -166,7 +164,6 @@ union u_data_type
 	t_token	*token;
 	t_env	*env;
 };
-
 
 struct s_basic
 {
@@ -226,7 +223,7 @@ void	printf_export(void *content);
 char	*get_path(t_minishell *mini, char *cmd);
 char	*select_cmd_path(char **path, char *cmd);
 char	**substract_env(t_minishell *mini);
-int 	get_env_size(t_basic *env);
+int		get_env_size(t_basic *env);
 /*	manager/manager.c			*/
 int		manager(t_minishell *mini);
 /*	expansion/dollar.c			*/
@@ -252,7 +249,6 @@ int		get_token_content(t_content *token_content, char *content, int type);
 t_token	*new_token(char *content, char *del, int space);
 int		init_token(t_basic **token, char *content, char *del, int space);
 
-
 /*	parsing/metacharacters.c	*/
 int		metacharacters(t_basic **token, char *line, char *del, int *pos);
 int		not_metacharacters(t_basic **token, char *line, char *del, int *pos);
@@ -260,7 +256,7 @@ int		metacharacters_sub(t_basic **token, char *line, int start, int end);
 int		check_subshell(t_basic **token, char *line, int *pos, int end);
 
 /*	parsing/parsing.c			*/
-int 	parsing(t_minishell *mini);
+int		parsing(t_minishell *mini);
 int		syntax_error(t_basic **content);
 
 /*  redirections/redir_append.c */
@@ -269,6 +265,8 @@ int		_append(t_minishell *mini, t_basic *current);
 /*	redirections/redir_heredoc.c	*/
 int		open_heredoc(t_minishell *mini, t_basic *current, int *redir);
 int		_heredoc(t_minishell *mini, t_basic *current);
+void	close_heredocs(t_minishell *mini);
+int		do_heredoc(t_minishell *mini);
 
 /*  redirections/redir_in.c */
 int		_stdinp(t_minishell *mini, t_basic *current);
@@ -281,15 +279,15 @@ int		redirections(t_minishell *mini, t_basic *start, t_basic *end);
 int		reset_redirs(t_minishell *mini);
 int		parse_open(t_basic *current);
 
-/*	parsing/syntax_err			*/
-
-/*	parsing/syntax_error		*/
-
 /*	parsing/utils.c				*/
 short	get_type(char *flag, char *content);
 int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
+
+/*  signals/heredoc_signals     */
+int		get_break_it(int flag, int value);
+void	break_it(int signal);
 
 /*	prompt/prompt.c				*/
 char	*ft_strjoin_max(char **need);
@@ -309,10 +307,10 @@ void	*protected(void *memory, char *error_str);
 
 /*	utils/clear_list.c			*/
 char	*free_double_ptr(char **ptr);
-void 	free_env(void *content);
+void	free_env(void *content);
 void	free_token(void *content);
 void	free_minishell(t_minishell *mini, int flag);
-void 	free_list(t_basic *node, void (*f)(void *));
+void	free_list(t_basic *node, void (*f)(void *));
 
 /*	utils/handler.list.c		*/
 void	*get_last(t_basic *list);
@@ -321,7 +319,7 @@ void	add_back(t_basic **list, t_basic *new);
 
 /*	utils/loops.c				*/
 int		content_loop(t_basic *node, void (*f)(void *));
-t_basic *bool_loop(t_basic *node, int (*cmp)(t_data_type *, void *), void *arg);
+t_basic	*bool_loop(t_basic *node, int (*cmp)(t_data_type *, void *), void *arg);
 t_basic	*bool_loop_void(t_basic *node, int (*cmp)(void *, void *), void *arg);
 
 /*	utils/printf_list.c 		*/

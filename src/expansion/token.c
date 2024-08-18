@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/12 17:09:30 by dacortes         ###   ########.fr       */
+/*   Created: 2024/08/02 12:57:10 by dacortes          #+#    #+#             */
+/*   Updated: 2024/08/18 20:19:10 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	*get_last_expand(t_basic *list)
 
 t_basic	*connect(t_minishell *mini, t_basic *node, t_basic *new, t_basic **init)
 {
-	t_basic *last;
+	t_basic	*last;
 
 	(void)init;
 	if (mini->token == node)
@@ -64,12 +64,12 @@ t_basic	*connect(t_minishell *mini, t_basic *node, t_basic *new, t_basic **init)
 			node->next->prev = last;
 	}
 	free(node->data.token->content);
-    free(node->data.token);
-    free(node);
+	free(node->data.token);
+	free(node);
 	return (last);
 }
 
-t_basic *wordspliting(t_minishell *mini, t_basic *node, t_basic **init)
+t_basic	*wordspliting(t_minishell *mini, t_basic *node, t_basic **init)
 {
 	char	*line;
 	int		end;
@@ -93,29 +93,39 @@ t_basic *wordspliting(t_minishell *mini, t_basic *node, t_basic **init)
 	return (connect(mini, node, new, init));
 }
 
+void	do_wordsplit(t_minishell *mini, t_basic **iter, t_basic **init, \
+														t_basic **first)
+{
+	static int	flag;
+
+	if (!mini)
+	{
+		flag = FALSE;
+		return ;
+	}
+	*iter = wordspliting(mini, *iter, init);
+	if (flag == FALSE)
+		*first = *init;
+	flag = TRUE;
+}
+
 int	expand_token(t_minishell *mini, t_basic **start, t_basic *end)
 {
 	t_token	*token;
-	t_basic *init;
-	t_basic *iter;
+	t_basic	*init;
+	t_basic	*iter;
 	t_basic	*first;
-	int		flag;
-	
+
 	init = NULL;
 	iter = *start;
-	flag = FALSE;
+	do_wordsplit(NULL, NULL, NULL, NULL);
 	while (iter != end)
 	{
 		token = iter->data.token;
 		if (token->type == EXPAN && token->is_quote == DOUBLE_QUOTES)
 			token->content = expansion(mini, token->content);
 		else if (token->type == EXPAN && token->is_quote == FALSE)
-		{
-			iter = wordspliting(mini, iter, &init);
-			if (flag == FALSE)
-				first = init;
-			flag = TRUE;
-		}
+			do_wordsplit(mini, &iter, &init, &first);
 		if (!iter)
 			break ;
 		iter = iter->next;

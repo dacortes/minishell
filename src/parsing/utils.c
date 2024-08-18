@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:13:54 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/02 08:38:50 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/18 20:41:24 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ int	get_end_token(char *str, char *del, int *pos, int size_del)
 			|| (str[*pos] && str[*pos] == del[2]))
 		{
 			if (((str[(*pos)] && str[(*pos)] == del[1])
-				&& (str[(*pos) + 1] && str[(*pos) + 1] == del[1]))
+					&& (str[(*pos) + 1] && str[(*pos) + 1] == del[1]))
 				|| ((str[(*pos)] && str[(*pos)] == del[2])
-				&& (str[(*pos) + 1] && str[(*pos) + 1] == del[2])))
+					&& (str[(*pos) + 1] && str[(*pos) + 1] == del[2])))
 				len = 2;
 		}
 	}

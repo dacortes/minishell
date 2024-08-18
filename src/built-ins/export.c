@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:21:04 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 15:02:01 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/18 18:23:16 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_key(char *key, int *flag)
 		return (TRUE);
 	if ((*flag != NOT_FOUND && key[i + 1] && key[i + 1] != '=')
 		|| (*flag && !key[i + 1]))
-		return(FALSE);
+		return (FALSE);
 	return (TRUE);
 }
 
@@ -45,7 +45,7 @@ int	replace_plus_equal(t_basic **env, char *key, char *value)
 	find_value = search_env(*env, key, VALUE);
 	new_value = ft_strjoin(find_value, value);
 	if (!new_value)
- 		exit(error_msg(MALLOC, 1, "replace_plus_equal: new_value"));
+		exit (error_msg(MALLOC, 1, "replace_plus_equal: new_value"));
 	replace(env, key, new_value);
 	free(new_value);
 	return (EXIT_SUCCESS);
@@ -82,8 +82,9 @@ int	add_export(t_basic **env, char *line)
 int	export_loop(t_basic **env, char **command)
 {
 	int	status;
-	int	i = 1;
+	int	i;
 
+	i = 1;
 	status = 0;
 	while (command[i])
 	{

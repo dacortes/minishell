@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:25:51 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/13 10:21:24 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:42:03 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_end(char *line, char *del, int *pos, char *delimiter)
 {
-	int end;
+	int	end;
 	int	len;
 
 	len = ft_strlen(del);
@@ -55,7 +55,6 @@ int	metacharacters(t_basic **token, char *line, char *del, int *pos)
 		return (status);
 	return (EXIT_SUCCESS);
 }
-
 
 int	not_metacharacters(t_basic **token, char *line, char *del, int *pos)
 {
@@ -99,7 +98,7 @@ int	check_subshell(t_basic **token, char *line, int *pos, int end)
 		tmp++;
 	}
 	if (count != 0 || (line[tmp - 2] && line[tmp -2] == '('))
-		return(error_msg(SYNTAX, 2, ")"));
+		return (error_msg(SYNTAX, 2, ")"));
 	size = tmp - *pos - 1;
 	metacharacters_sub(token, line, *pos + 1, size);
 	*pos = tmp;

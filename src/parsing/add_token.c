@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:28:08 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/13 10:36:09 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:40:22 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ int	get_token_content(t_content *token_content, char *content, int type)
 	}
 	else if (type == R_HER)
 		ft_bzero(token_content->redir_here, sizeof(int));
-	/*else if (type & WILD_CARD)
-	{
-		token_content->expand = ft_calloc(sizeof(t_basic), 1);
-		if (!token_content->expand)
-			exit (error_msg(MALLOC, 1, "get_token_content: expand"));
-	}*/
 	return (EXIT_SUCCESS);
 }
 
@@ -51,7 +45,7 @@ t_token	*new_token(char *content, char *del, int space)
 	if (ft_strchrpos(content, '*') != NOT_FOUND && *del != SIMP_QUOTES
 		&& *del != DOUBLE_QUOTES && *del != ')')
 		new->type = WILD_CARD;
-	if (ft_strchrpos(content, '$') != NOT_FOUND 
+	if (ft_strchrpos(content, '$') != NOT_FOUND
 		&& del[0] != SIMP_QUOTES && del[0] != ')')
 		new->type = EXPAN;
 	new->has_space = space;
@@ -72,7 +66,7 @@ int	init_token(t_basic **token, char *content, char *del, int space)
 	new->data.token = tmp;
 	new->next = NULL;
 	add_back(token, new);
-	if (tmp->type == ARG &&  ft_strlen(content) == 1 && *content == '&')
-		return(error_msg(SYNTAX, 2, "&"));
+	if (tmp->type == ARG && ft_strlen(content) == 1 && *content == '&')
+		return (error_msg(SYNTAX, 2, "&"));
 	return (EXIT_SUCCESS);
 }

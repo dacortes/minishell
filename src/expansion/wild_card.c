@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 17:40:33 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 11:37:59 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:37:05 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**get_posibilites(void)
 	int				i;
 
 	posibilities = protected(ft_calloc(dir_len(), sizeof(char *)), "get_posib");
-	dir  = opendir("./");
+	dir = opendir("./");
 	file = readdir(dir);
 	i = 0;
 	if (!file)
@@ -57,10 +57,11 @@ char	**get_posibilites(void)
 
 t_basic	*get_expansion(t_basic *token)
 {
-	t_basic	*expanded = NULL;
+	t_basic	*expanded;
 	char	**posibilities;
 	int		i;
 
+	expanded = NULL;
 	i = 0;
 	(void)token;
 	posibilities = get_posibilites();
@@ -75,7 +76,7 @@ t_basic	*get_expansion(t_basic *token)
 
 t_basic	*expand_wild_cards(t_basic *token)
 {
-	t_basic *iter;
+	t_basic	*iter;
 	t_basic	*new;
 
 	iter = token;
@@ -87,7 +88,7 @@ t_basic	*expand_wild_cards(t_basic *token)
 		{
 			new = get_expansion(iter);
 			new->prev = iter->prev;
-			while(new->next)
+			while (new->next)
 				new = new->next;
 			new->next = iter->next;
 			free(iter);

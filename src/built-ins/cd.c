@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 10:52:18 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/10 07:52:14 by codespace        ###   ########.fr       */
+/*   Created: 2024/07/21 10:52:18 by dacortes          #+#    #+#             */
+/*   Updated: 2024/08/18 18:18:16 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	replace(t_basic **env, char	*key, char *value)
 {
-	t_basic *found;
+	t_basic	*found;
 
 	found = bool_loop(*env, key_compare, key);
 	if (found)
 	{
 		free(found->data.env->value);
 		found->data.env->value = ft_strdup(value);
-        if (!found->data.env->value)
-            exit(error_msg(MALLOC, 1, "replace: iter->new"));
+		if (!found->data.env->value)
+			exit(error_msg(MALLOC, 1, "replace: iter->new"));
 		return (TRUE);
 	}
 	return (FALSE);
@@ -78,7 +78,7 @@ int	update_pwd(t_minishell *mini, char *path)
 		return (1);
 	replace(&mini->env, "PWD", dir);
 	if (!ft_strncmp(dir, mini->cur_dir, PATH_MAX))
-		 ft_free(&dir, NULL);
+		ft_free(&dir, NULL);
 	else if (ft_strncmp(dir, mini->cur_dir, PATH_MAX) != 0)
 		update_oldpwd(mini, dir);
 	return (EXIT_SUCCESS);
