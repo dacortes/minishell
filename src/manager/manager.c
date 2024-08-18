@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 11:34:00 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:19:18 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,10 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	child_created = 0;
 	env = NULL;
 	path = NULL;
-	//printf_token(start);
 	expand_token(mini, &start, end);
-	t_basic *tmp = union_token(start, end);
-	// free_token();
-	free_list(tmp, free_token);
-	cmd = get_cmds(start, end);
-	token_union = expand_wild_cards(NULL);
-	//printf("%s\n", cmd[0]);
+	token_union = union_token(start, end);
+	cmd = get_cmds(token_union, NULL);
+	//token_union = expand_wild_cards(NULL);
 	if (start->data.token->type == S_SHELL)
 	{
 		if (redirections(mini, start, end))
@@ -118,6 +114,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 	}
 	free_double_ptr(env);
 	free_double_ptr(cmd);
+	free_list(token_union, free_token);
 	if (path)
 		ft_free(&path, NULL);	
 	return(EXIT_SUCCESS);
@@ -142,6 +139,7 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
 		exec_cmd(mini, start, end, CHILD);
+		reset_redirs(mini);
 		exit(mini->status);
 	}
 	if(dup2(pipe_fd[0], 0) == ERROR)
@@ -163,8 +161,6 @@ int	manager(t_minishell *mini)
 	start = mini->token;
 	while (end)
 	{
-	//	signal(SIGINT, SIG_IGN);
-	//	signal(SIGQUIT, SIG_IGN);
 		if 	(end->data.token->type == PIPE && !skip)
 		{
 			do_pipe(mini, start, end);
@@ -180,8 +176,12 @@ int	manager(t_minishell *mini)
 			if ((end->data.token->type == AND && !mini->status)
 				|| (end->data.token->type == OR && mini->status))
 				skip = 0;
-			else 
+			else
+			{
+				mini->status = 0;
+
 				skip = 1;
+			}
 			start = end->next;
 		}
 		end = end->next;
