@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:55:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/17 00:11:24 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:45:37 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	error_msg(int error, int code_exit, char *input)
 	e = error & NO_FOUND && fd_printf(2, ERR_NO_FOUND, MINI, input);
 	e = error & IS_DIR && fd_printf(2, ERR_IS_DIR, MINI, input);
 	e = error & NUMERIC_ARG && fd_printf(2, ERR_NUMERIC, MINI, input);
+	(void)e;
 	if (error == PERROR)
 	{
 		fd_printf(2, "%s%s: ", MINI, input);
