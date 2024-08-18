@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dollar.c                                           :+:      :+:    :+:   */
+/*   union_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/15 17:11:09 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/18 13:52:31 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void    funsion_token(t_basic **prev, t_basic *current)
     (*prev)->data.token->is_quote = cur_token->is_quote;
 }
 
-t_basic    *coppy_token(t_basic *src)
+t_basic    *coppy_token(t_basic *src, int flag_content)
 {
     t_basic *new_node;
 
@@ -37,8 +37,9 @@ t_basic    *coppy_token(t_basic *src)
     new_node->data.token->type = src->data.token->type;
     new_node->data.token->is_quote = src->data.token->is_quote;
     new_node->data.token->has_space = src->data.token->has_space;
-    new_node->data.token->content = protected(ft_strdup(src->data.token->content),
-        "token content");
+	if (flag_content)
+    	new_node->data.token->content = protected(ft_strdup(src->data.token->content),
+        	"token content");
     return (new_node);
 }
 
@@ -57,7 +58,7 @@ t_basic *union_token(t_basic *start, t_basic *end)
             funsion_token(&prev_node, start);
         else if(start->data.token->type != S_SHELL)
         {
-            new_node = coppy_token(start);
+            new_node = coppy_token(start, TRUE);
             add_back(&new_list, new_node);
             prev_node = new_node;
         }

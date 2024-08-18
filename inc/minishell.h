@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/17 11:32:58 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:17:49 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ int		expand_token(t_minishell *mini, t_basic **start, t_basic *end);
 
 /*	expansion/union_token		*/
 t_basic	*union_token(t_basic *start, t_basic *end);
+t_basic	*coppy_token(t_basic *src, int flag_content);
 
 /*	expansion/utils.c			*/
 int		is_space(char c);
