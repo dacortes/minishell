@@ -17,7 +17,8 @@ SOURCES = 	built-ins/builtins.c built-ins/cd.c built-ins/echo.c\
 			built-ins/env.c built-ins/exit.c built-ins/export.c\
 			built-ins/utils_env.c built-ins/pwd.c built-ins/utils_export.c\
 			built-ins/unset.c\
-			manager/manager.c manager/manager_utils.c\
+			manager/manager.c manager/manager_utils.c  manager/manager_sets.c\
+ 			manager/manager_actions.c\
 			expansion/dollar.c expansion/token.c expansion/utils.c\
 			expansion/wild_card.c\
 			expansion/union_token.c\

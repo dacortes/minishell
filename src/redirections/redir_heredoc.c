@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/18 17:26:47 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:52:01 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
+void	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 {
 	t_basic *next;
 	char	*line;
@@ -24,6 +24,7 @@ int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 		line = readline(ORANGE"> "END);
 		if (!line || !ft_strncmp(next->data.token->content, line, -1))
 		{
+			printf("Token content: %s // Line: %s\n", next->data.token->content, line);
 			free(line);
 			line = NULL;
 			break;
@@ -39,7 +40,6 @@ int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 	close(redir[1]);
 	close(redir[0]);
 	signal(SIGINT, SIG_DFL);
-	exit(EXIT_SUCCESS);
 }
 
 int	open_heredoc(t_minishell *mini, t_basic *token, int *redir)

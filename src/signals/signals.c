@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/06 06:51:47 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/15 19:25:24 by frankgar         ###   ########.fr       */
+/*   Created: 2024/08/06 06:51:47 by dacortes          #+#    #+#             */
+/*   Updated: 2024/08/19 21:07:35 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,16 @@ void	handle_siginth(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_printf("\n");
+		ft_printf("%s>%sX%s\n", ORANGE, RED, END);
 		exit(130);
 	}
+}
+
+void	handle_signaled(int *status, int signal)
+{
+	if (signal == 2)
+		ft_printf("^C\n");
+	else if (signal == 3)
+		ft_printf("Quit: (core dumped)\n");
+	*status = 128 + signal;
 }

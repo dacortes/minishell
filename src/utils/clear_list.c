@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/18 17:24:30 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:48:21 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ void free_minishell(t_minishell *mini, int flag)
 		free(mini);
 		mini = NULL;
 	}
-	else
-	{
-		close(mini->term_fd[0]);
-		close(mini->term_fd[1]);
-	}
 }
 
 void free_token(void *content)
@@ -73,7 +68,7 @@ void free_token(void *content)
 	if (basic)
 	{
 		token = basic->data.token;
-		if (token && (token->type == S_SHELL || token->type == SUBS_SYN_ERR))
+		if (token && token->type == S_SHELL)
 			free_minishell(token->token_content.subs, TRUE);
 		else if (token && token->content)
 			ft_free(&token->content, NULL);
@@ -89,7 +84,8 @@ void free_list(t_basic *node, void (*f)(void *))
     t_basic *iter;
     t_basic *tmp;
 
-    iter = node;	
+    iter = node;
+	
     while (iter)
 	{
         f(&(iter->data));

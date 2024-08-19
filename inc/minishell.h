@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/18 17:12:40 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:23:09 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ struct s_basic
 /******************************************************************************/
 
 /*	built-ins/builtins.c		*/
-int		is_builtin(char *cmd);
+int		is_builtin(t_basic *start, t_basic *end);
 int		do_builtin(t_minishell *mini, char **cmd);
 
 /*	built-ins/cd.c				*/
@@ -219,13 +219,28 @@ char	*search_env(t_basic *env, char *key, int type);
 /*  built-ins/utils_env.c 			*/
 void	printf_export(void *content);
 
+/*	manager/manager_actions.c		*/
+pid_t	_subshell(t_minishell *mini, t_basic *start, t_basic *end);
+pid_t	_builtin(t_minishell *mini, t_basic *start, t_basic *end, int is_child);
+void	_execute(t_minishell *mini, t_basic *start, t_basic *end);
+pid_t	_child_builtin(
+			t_minishell *mini, t_basic *start, t_basic *end, char **cmd);
+pid_t	_execute_no_child(
+			t_minishell *mini, t_basic *start, t_basic *end);
+
+/*	manager/manager_sets.c			*/
+int		set_child(int mod_flag, int value);
+void	set_skip(t_minishell *mini, t_basic *end, int	*skip);
+
 /*	manager/manager_utils.c			*/
 char	*get_path(t_minishell *mini, char *cmd);
 char	*select_cmd_path(char **path, char *cmd);
 char	**substract_env(t_minishell *mini);
 int		get_env_size(t_basic *env);
+
 /*	manager/manager.c			*/
-int		manager(t_minishell *mini);
+void	manager(t_minishell *mini);
+
 /*	expansion/dollar.c			*/
 char	*expansion(t_minishell *mini, char *content);
 
@@ -300,6 +315,7 @@ int		get_status(int flag, int value);
 void	term_init(void);
 void	_sigint(int sig);
 void	handle_siginth(int sig);
+void	handle_signaled(int *status, int signal);
 
 /*	utils/errors.c			*/
 int		error_msg(int error, int code_exit, char *input);

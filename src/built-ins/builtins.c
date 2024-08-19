@@ -6,27 +6,33 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 20:04:09 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 12:43:08 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:19:06 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	is_builtin(char *cmd)
+int	is_builtin(t_basic *start, t_basic *end)
 {
 	static char	*builtins[8] = {"echo", "cd", "pwd", "export", "unset", "env", \
 								"exit"};
 	int			i;
-	int			len;
+	t_basic		*tmp;
+	char		**cmd;
 
 	i = 0;
-	len = ft_strlen(cmd);
+	tmp = union_token(start, end);
+	cmd = get_cmds(tmp, end);
+	free_list(tmp, free_token);
+	if (!cmd)
+		return (free_double_ptr(cmd), TRUE);
 	while (builtins[i])
 	{
-		if (!ft_strncmp(builtins[i], cmd, len))
-			return (TRUE);
+		if (!ft_strncmp(builtins[i], cmd[0], -1))
+			return (free_double_ptr(cmd), TRUE);
 		i++;
 	}
+	free_double_ptr(cmd);
 	return (FALSE);
 }
 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/06 15:07:51 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/17 10:48:24 by frankgar         ###   ########.fr       */
+/*   Created: 2024/08/06 15:07:51 by dacortes          #+#    #+#             */
+/*   Updated: 2024/08/19 21:06:40 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <minishell.h>
+#include <minishell.h>
 
 char	*ft_strjoin_max(char **need)
 {
@@ -47,10 +47,10 @@ char	*get_dir_branch(void)
 		dif = ft_strrchr(dir, '/') - dir;
 		ft_memmove(&dir[ft_strlen(dir)], "/.git/HEAD", ft_strlen(dir) + 1);
 		if (!access(dir, F_OK | R_OK))
-			break;
+			break ;
 		ft_memmove(&dir[dif], "/.git/HEAD", ft_strlen(&dir[dif]) + 1);
 		if (!ft_strncmp(dir, "/.git/HEAD", -1))
-			break;
+			break ;
 		ft_memmove(&dir[dif], "\0", ft_strlen(&dir[dif]));
 	}
 	return (dir);
@@ -61,7 +61,7 @@ char	*get_branch(void)
 	char	*branch;
 	char	*dir;
 	int		fd;
-	
+
 	dir = get_dir_branch();
 	if (!*dir)
 		return (ft_strdup("UWU"));

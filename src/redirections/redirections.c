@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:27 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/11 07:34:48 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/19 20:07:16 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
 {
-	t_basic *tmp;
+	t_basic	*tmp;
 
 	tmp = start;
 	while (tmp && tmp != end && !mini->status)
@@ -29,8 +29,8 @@ int	redirections(t_minishell *mini, t_basic *start, t_basic *end)
 		tmp = tmp->next;
 	}
 	if (mini->status)
-		return(ERROR);
-	return(EXIT_SUCCESS);
+		return (ERROR);
+	return (EXIT_SUCCESS);
 }
 
 int	reset_redirs(t_minishell *mini)
@@ -41,7 +41,7 @@ int	reset_redirs(t_minishell *mini)
 		return (error_msg(PERROR, 1, "Dup2"));
 	if (dup2(mini->term_fd[1], 1) == ERROR)
 		return (error_msg(PERROR, 1, "Dup2"));
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 int	parse_open(t_basic *current)
@@ -51,7 +51,7 @@ int	parse_open(t_basic *current)
 	file = current->next->data.token->content;
 	if (current->next->data.token->type == EXPAN \
 		&& current->next->next->data.token->expanded == TRUE)
-			return (error_msg(AMBIGUOUS, 1, file));
+		return (error_msg(AMBIGUOUS, 1, file));
 	if (current->data.token->type == R_IN)
 	{
 		if (access(file, F_OK) == ERROR)

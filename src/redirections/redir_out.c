@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:28 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/10 18:35:01 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:06:11 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	_stdout(t_minishell *mini, t_basic *current)
 	int	fd;
 	int	flags;
 
-	flags =  O_WRONLY | O_CREAT | O_TRUNC;
+	flags = O_WRONLY | O_CREAT | O_TRUNC;
 	if (current->data.token->type == R_OUT)
 	{
 		mini->status = parse_open(current);

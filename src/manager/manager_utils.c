@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:45:41 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/19 09:48:54 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:16:32 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_env_size(t_basic *env)
 			i++;
 		iter = iter->next;
 	}
-	return (i);
+	return (i + 1);
 }
 
 char	**substract_env(t_minishell *mini)

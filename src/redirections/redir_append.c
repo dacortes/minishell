@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:14:08 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/11 07:17:15 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/19 20:05:54 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	_append(t_minishell *mini, t_basic *current)
 	int	fd;
 	int	flags;
 
-	flags =  O_WRONLY | O_CREAT | O_APPEND;
+	flags = O_WRONLY | O_CREAT | O_APPEND;
 	if (current->data.token->type == R_APP)
 	{
 		mini->status = parse_open(current);
