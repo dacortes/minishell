@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:35:42 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/18 16:49:31 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:37:08 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	mini_rush_plus(char **env)
 		prompt(&mini);
 		if (!mini.get_line)
 			break ;
-		parsing(&mini);
+		if (!parsing(&mini))
+			printf_token(mini.token);
 		do_heredoc(&mini);
 		if (!mini.status)
 			manager(&mini);

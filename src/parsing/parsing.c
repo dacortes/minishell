@@ -3,65 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/07 12:09:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/18 21:07:09 by frankgar         ###   ########.fr       */
+/*   Created: 2024/08/19 15:57:04 by dacortes          #+#    #+#             */
+/*   Updated: 2024/08/19 16:53:16 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+int	set_metacharacteres(char *line, t_basic **token, int *i)
+{
+	static char	sets[] = "\"'&|<>";
+	static char	*del[] = {"\"zz", "\'zz", " &|", " &|", " <>", " <>"};
+	int			status;
+	int			j;
+
+	j = 0;
+	status = 0;
+	while (j < 6)
+	{
+		if (line[*i] == sets[j])
+		{
+			status = metacharacters(token, line, del[j], i);
+			if (status)
+				return (status);
+			break ;
+		}
+		++j;
+	}
+	return (status);
+}
+
 int	basic_checker(t_basic **token, char *line, int end)
 {
-	int i = 0;
-	int	status = 0;
+	int	i;
+	int	status;
 
+	i = 0;
+	status = 0;
 	*token = NULL;
 	if (!end || !line[0])
 		return (EXIT_SUCCESS);
 	while (i <= end && line[i])
 	{
-		while(line[i] == ' ')
+		while (line[i] && is_space(line[i]))
 			i++;
-		if (line[i] == DOUBLE_QUOTES)
-		{
-			status = metacharacters(token, line, "\"zz", &i);
-			if (status)
-				return (status);
-		}
-		else if (line[i] == SIMP_QUOTES)
-		{
-			status = metacharacters(token, line, "\'zz", &i);
-			if (status)
-				return (status);
-		}
-		else if (line[i] == '&' || line[i] == '|')
-		{
-			status =  metacharacters(token, line, " &|", &i);
-			if (status)
-				return (status);
-		}
-		else if (line[i] == '<' || line[i] == '>')
-		{
-			status =  metacharacters(token, line, " <>", &i);
-			if (status)
-				return (status);
-		}
-		else if (line[i] == '(')
+		set_metacharacteres(line, token, &i);
+		if (line[i] == '(')
 		{
 			status = check_subshell(token, line, &i, end);
 			if (status)
 				return (status);
 		}
 		else if (line[i] == ')')
-            return(error_msg(SYNTAX, 2, ")"));
+			return (error_msg(SYNTAX, 2, ")"));
 		else if (line[i])
 			status = not_metacharacters(token, line, " zz", &i);
 	}
 	return (EXIT_SUCCESS);
 }
-
 
 t_basic	*coppy_env(t_basic *src_env)
 {
@@ -87,11 +88,10 @@ t_basic	*coppy_env(t_basic *src_env)
 	return (res);
 }
 
-
 int	get_subshell(t_minishell *subs)
 {
 	t_basic	*iter;
-	t_token			*token;
+	t_token	*token;
 
 	iter = subs->token;
 	while (iter)
@@ -99,7 +99,8 @@ int	get_subshell(t_minishell *subs)
 		token = iter->data.token;
 		if (token->type == S_SHELL)
 		{
-			token->token_content.subs->status = parsing(token->token_content.subs);
+			token->token_content.subs->status = \
+				parsing(token->token_content.subs);
 			if (token->token_content.subs->status)
 				return (token->token_content.subs->status);
 			if (subs->env)
@@ -110,17 +111,16 @@ int	get_subshell(t_minishell *subs)
 	return (EXIT_SUCCESS);
 }
 
-int parsing(t_minishell *mini)
+int	parsing(t_minishell *mini)
 {
 	char	*line;
 	int		len;
-	//int		status;
 
 	line = mini->get_line;
 	if (!line)
 		exit (EXIT_SUCCESS);
 	len = ft_strlen(line);
- 	mini->prev_status = get_status(FALSE, 1);
+	mini->prev_status = get_status(FALSE, 1);
 	mini->status = basic_checker(&mini->token, line, len);
 	if (mini->status)
 		return (mini->status);
@@ -131,8 +131,6 @@ int parsing(t_minishell *mini)
 		return (mini->status);
 	mini->status = get_subshell(mini);
 	if (mini->status)
-	 	return (mini->status);
-	//if (status && !mini->status)
-	//	mini->status = status;
+		return (mini->status);
 	return (EXIT_SUCCESS);
 }

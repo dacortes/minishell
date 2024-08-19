@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/19 15:53:13 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:28:23 by dacortes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ pid_t	_builtin(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 }
 
 
-pid_t	_execute(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
+/*pid_t	_execute(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 {
 	pid_t	child;
 	char	**cmd;
@@ -97,7 +97,7 @@ pid_t	_execute(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 
 	return (child);
 }
-
+*/
 int	exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 {
 	pid_t	child;
