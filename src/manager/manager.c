@@ -3,76 +3,119 @@
 /*                                                        :::      ::::::::   */
 /*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/18 20:38:48 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:53:13 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
+int	set_child(int mod_flag, int value)
+{
+	static int	child = FALSE;
+
+	if (mod_flag == TRUE)
+		child = value;
+	return (child);
+}
+
+pid_t	_subshell(t_minishell *mini, t_basic *start, t_basic *end)
 {
 	pid_t	child;
-	//t_basic	*token_union;
-	int		child_created;
+
+	if (redirections(mini, start, end))
+		return (EXIT_FAILURE);
+	child = fork();
+	if (child == ERROR)
+		return (error_msg(PERROR, 1, "fork"));
+	if (child == CHILD)
+	{
+		signal(SIGINT, exit);
+		signal(SIGQUIT, exit);
+		start->data.token->token_content.subs->term_fd[0] = dup(0);
+		start->data.token->token_content.subs->term_fd[1] = dup(1);
+		manager(start->data.token->token_content.subs);
+		exit(mini->status);
+	}
+	set_child (TRUE, TRUE);
+	return (child);
+}
+
+pid_t	_child_builtin(
+			t_minishell *mini, t_basic *start, t_basic *end, char **cmd)
+{
+	pid_t	child;
+
+	child = fork();
+	if (child == ERROR)
+		return (error_msg(PERROR, 1, "fork"));
+	if (child == CHILD)
+	{
+		signal(SIGINT, exit);
+		signal(SIGQUIT, exit);
+		if (redirections(mini, start, end))
+			exit (EXIT_FAILURE);
+		do_builtin(mini, cmd);
+		exit(mini->status);
+	}
+	set_child(TRUE, TRUE);
+	return (child);
+}
+
+pid_t	_builtin(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
+{
+	pid_t	child;
+	char	**cmd;
+	t_basic	*tmp;
+
+	child = -1;
+	tmp = union_token(start, end);
+	cmd = get_cmds(tmp, end);
+	free_list(tmp, free_token);
+	if (is_child == NO_CHILD && mini->redir[0])
+		child = _child_builtin(mini, start, end, cmd);
+	else
+	{
+		if (redirections(mini, start, end))
+			return (ERROR);
+		do_builtin(mini, cmd);
+	}
+	free_double_ptr(cmd);
+	return (child);
+}
+
+
+pid_t	_execute(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
+{
+	pid_t	child;
 	char	**cmd;
 	char	**env;
 	char	*path;
 
-	child_created = 0;
+
+	return (child);
+}
+
+int	exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
+{
+	pid_t	child;
+	char	**cmd;
+	char	**env;
+	char	*path;
+
+	set_child(TRUE, FALSE);
 	env = NULL;
 	path = NULL;
 	expand_token(mini, &start, end);
 	t_basic *tmp = union_token(start, end);
 	cmd = get_cmds(tmp, end);
-	//printf_token(tmp);
 	free_list(tmp, free_token);
-	//token_union = expand_wild_cards(NULL);
 	if (start->data.token->type == S_SHELL)
-	{
-		if (redirections(mini, start, end))
-			return (EXIT_FAILURE);
-		child = fork();
-		if (child == ERROR)
-			return (error_msg(PERROR, 1, "fork"));
-		if (child == CHILD)
-		{
-			signal(SIGINT, exit);
-			signal(SIGQUIT, exit);
-			start->data.token->token_content.subs->term_fd[0] = dup(0);
-			start->data.token->token_content.subs->term_fd[1] = dup(1);
-			manager(start->data.token->token_content.subs);
-			exit(mini->status);
-		}
-		child_created = 1;
-	}
+		child = _subshell(mini, start, end);
 	else if ((cmd && is_builtin(cmd[0])) || !cmd)
-	{
-		if (is_child == NO_CHILD && mini->redir[0])
-		{
-			child = fork();
-			if (child == ERROR)
-				return (error_msg(PERROR, 1, "fork"));
-			if (child == CHILD)
-			{
-				signal(SIGINT, exit);
-				signal(SIGQUIT, exit);
-				if (redirections(mini, start, end))
-					exit (EXIT_FAILURE);
-				do_builtin(mini, cmd);
-				exit(mini->status);
-			}
-			child_created = 1;
-		}
-		else
-		{
-			if (redirections(mini, start, end))
-				return (ERROR);
-			do_builtin(mini, cmd);
-		}
-	}
+		child = _builtin(mini, start, end, is_child);
 	else
 	{
 		if (is_child == NO_CHILD)
@@ -91,7 +134,7 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 				execve(path, cmd, env);
 				exit(error_msg(PERROR, 1, cmd[0]));
 			}
-			child_created = 1;
+			set_child(TRUE, TRUE);
 		}
 		else
 		{
@@ -102,9 +145,8 @@ int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 			execve(path, cmd, env);
 			exit(error_msg(PERROR, 1, cmd[0]));
 		}
-
 	}
-	if (child_created && is_child == NO_CHILD)
+	if (set_child(FALSE, TRUE) && is_child == NO_CHILD)
 	{
 		reset_redirs(mini);
 		waitpid(child, &mini->status, 0);

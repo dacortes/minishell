@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 12:57:10 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/18 20:19:10 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:13:37 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_basic	*wordspliting(t_minishell *mini, t_basic *node, t_basic **init)
 void	do_wordsplit(t_minishell *mini, t_basic **iter, t_basic **init, \
 														t_basic **first)
 {
-	static int	flag;
+	static short	flag;
 
 	if (!mini)
 	{

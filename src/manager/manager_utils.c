@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   manager_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:45:41 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 17:03:12 by dacortes         ###   ########.fr       */
+/*   Updated: 2024/08/19 09:48:54 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int get_env_size(t_basic *env)
+int	get_env_size(t_basic *env)
 {
 	int		i;
-	t_basic *iter;
+	t_basic	*iter;
 
 	i = 0;
 	iter = env;
@@ -28,7 +28,7 @@ int get_env_size(t_basic *env)
 	return (i);
 }
 
-char **substract_env(t_minishell *mini)
+char	**substract_env(t_minishell *mini)
 {
 	char	**env;
 	char	*tmp;
@@ -38,7 +38,7 @@ char **substract_env(t_minishell *mini)
 	i = 0;
 	env = protected(ft_calloc(get_env_size(mini->env), sizeof(char *)), "env");
 	iter = mini->env;
-	while(iter)
+	while (iter)
 	{
 		if (iter->data.env->eql == TRUE)
 		{
@@ -47,7 +47,8 @@ char **substract_env(t_minishell *mini)
 			env[i] = protected(ft_strjoin(env[i], "="), "ENV");
 			free (tmp);
 			tmp = env[i];
-			env[i] = protected(ft_strjoin(env[i], iter->data.env->value), "ENV");
+			env[i] = protected
+				(ft_strjoin(env[i], iter->data.env->value), "ENV");
 			free(tmp);
 			i++;
 		}
@@ -85,22 +86,22 @@ char	*select_cmd_path(char **path, char *cmd)
 	return (cmd_path);
 }
 
-char *get_executable(char *cmd)
+char	*get_executable(char *cmd)
 {
 	struct stat	stats;
-    int			result;
+	int			result;
 
 	if (access(cmd, F_OK) == ERROR)
 		exit(error_msg(PERROR, 127, cmd));
 	result = stat(cmd, &stats);
-    if (result == 0 && (stats.st_mode & S_IFMT) == S_IFDIR)
+	if (result == 0 && (stats.st_mode & S_IFMT) == S_IFDIR)
 		exit(error_msg(IS_DIR, 126, cmd));
 	else if (result == ERROR)
 		exit(error_msg(PERROR, 1, cmd));
 	return (cmd);
 }
 
-char *get_path(t_minishell *mini, char *cmd)
+char	*get_path(t_minishell *mini, char *cmd)
 {
 	char	**path;
 	char	*tmp;
@@ -120,5 +121,5 @@ char *get_path(t_minishell *mini, char *cmd)
 	}
 	tmp = select_cmd_path(path, cmd);
 	free(path);
-	return(tmp);
+	return (tmp);
 }
