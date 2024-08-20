@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/19 18:23:09 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:35:37 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,6 +299,9 @@ short	get_type(char *flag, char *content);
 int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
+
+/*	parsing/syntax_utils.c				*/
+int		set_syntax_error(t_token *token, t_basic *iter);
 
 /*  signals/heredoc_signals     */
 int		get_break_it(int flag, int value);

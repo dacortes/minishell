@@ -23,7 +23,7 @@ SOURCES = 	built-ins/builtins.c built-ins/cd.c built-ins/echo.c\
 			expansion/wild_card.c\
 			expansion/union_token.c\
 			parsing/add_token.c parsing/metacharacters.c  parsing/parsing.c\
-			parsing/syntax_err.c parsing/utils.c\
+			parsing/syntax_err.c parsing/utils.c parsing/syntax_utils.c\
 			prompt/prompt.c\
 			redirections/redir_append.c redirections/redir_heredoc.c\
 			redirections/redir_in.c redirections/redir_out.c\

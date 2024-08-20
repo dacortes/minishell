@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/19 18:19:34 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 09:53:02 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	get_child_status(t_minishell *mini)
 {
-	handle_signaled(&mini->status, WTERMSIG(mini->status));
 	if (WIFEXITED(mini->status))
 		mini->status = WEXITSTATUS(mini->status);
+	else
+		handle_signaled(&mini->status, WTERMSIG(mini->status));
 }
 
 int	exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)

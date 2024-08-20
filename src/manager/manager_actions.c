@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:17:03 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/19 19:17:50 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 10:03:08 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ pid_t	_subshell(t_minishell *mini, t_basic *start, t_basic *end)
 		start->data.token->token_content.subs->term_fd[0] = dup(0);
 		start->data.token->token_content.subs->term_fd[1] = dup(1);
 		manager(start->data.token->token_content.subs);
-		exit(mini->status);
+		exit(start->data.token->token_content.subs->status);
 	}
 	set_child(TRUE, TRUE);
 	return (child);
@@ -75,6 +75,7 @@ void	_execute(t_minishell *mini, t_basic *start, t_basic *end)
 	path = get_path(mini, cmd[0]);
 	env = substract_env(mini);
 	execve(path, cmd, env);
+	printf("Comando :(\n");
 	exit(error_msg(PERROR, 1, cmd[0]));
 }
 

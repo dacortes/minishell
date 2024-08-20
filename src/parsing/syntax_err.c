@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/19 19:28:53 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:54:00 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	check_subs(t_basic *iter, t_token *token, int *arg_count, int *subs_count)
 	}
 	else if (*arg_count)
 	{
-		while (iter && !(iter->data.token->type & ARG 
-			&& !(iter->prev->data.token->type & REDIR)))
+		while (iter && !(iter->data.token->type & ARG
+				&& !(iter->prev->data.token->type & REDIR)))
 			iter = iter->next;
 		iter->data.token->type = SYN_ERROR;
 		return (error_msg(SYNTAX, 2, iter->data.token->content));
@@ -34,9 +34,8 @@ int	check_subs(t_basic *iter, t_token *token, int *arg_count, int *subs_count)
 
 int	check_cmmd(t_basic *iter, t_token *token, int *arg_count, int *subs_count)
 {
-
 	if (token->type & ARG && !(iter->prev
-		&& iter->prev->data.token->type & REDIR))
+			&& iter->prev->data.token->type & REDIR))
 	{
 		if (*subs_count)
 		{
@@ -52,7 +51,7 @@ int	check_cmmd(t_basic *iter, t_token *token, int *arg_count, int *subs_count)
 
 int	syntax_command(t_basic **content, int redir_flag)
 {
-	t_basic	*iter;
+	t_basic			*iter;
 	t_token			*token;
 	int				arg_count;
 	int				subs_count;
@@ -77,6 +76,30 @@ int	syntax_command(t_basic **content, int redir_flag)
 	return (EXIT_SUCCESS);
 }
 
+int	syntax_administrator(
+			t_token *token, t_basic *iter, int status, int *redir_flag)
+{
+	if (token->type == PIPE || token->type & L_OPERAND)
+	{
+		*redir_flag = 0;
+		status = syntax_command(&iter->prev, *redir_flag);
+		if (status == ERROR)
+			return (error_msg(SYNTAX, 2, iter->data.token->content));
+		else if (status)
+			return (status);
+	}
+	else if (token->type & REDIR \
+	&& ((iter->next && !(iter->next->data.token->type & ARG)) || !iter->next))
+		return (set_syntax_error(token, iter));
+	else if (token->type == S_SHELL && (iter->prev
+			&& !(iter->prev->data.token->type & L_OPERAND
+				|| iter->prev->data.token->type == PIPE)))
+		return (set_syntax_error(token, iter));
+	else if (token->type & REDIR
+		&& iter->next && iter->next->data.token->type & ARG)
+		*redir_flag = 1;
+	return (EXIT_SUCCESS);
+}
 
 int	syntax_error(t_basic **content)
 {
@@ -90,36 +113,13 @@ int	syntax_error(t_basic **content)
 	while (iter)
 	{
 		token = iter->data.token;
-		if (token->type == PIPE || token->type & L_OPERAND)
-		{
-			status = syntax_command(&iter->prev, redir_flag);
-			if (status == ERROR)
-				return (error_msg(SYNTAX, 2, iter->data.token->content));
-			else if (status)
-				return (status);
-			redir_flag = 0;
-		}
-		else if (token->type & REDIR && iter->next && iter->next->data.token->type & ARG)
-			redir_flag = 1;
-		else if (token->type & REDIR && ((iter->next && !(iter->next->data.token->type & ARG))
-			|| !iter->next))
-		{
-			token->type = SYN_ERROR;
-			if (iter->next && iter->next->data.token->type == S_SHELL)
-				return (error_msg(SYNTAX, 2, "("));
-			return (error_msg(SYNTAX, 2, token->content));
-		}
-		else if (token->type == S_SHELL && (iter->prev 
-			&& !(iter->prev->data.token->type & L_OPERAND 
-			|| iter->prev->data.token->type == PIPE)))
-		{
-			token->type = SUBS_SYN_ERR;
-			return (error_msg(SYNTAX, 2, "("));
-		}
+		status = syntax_administrator(token, iter, status, &redir_flag);
+		if (status)
+			return (status);
 		if (iter->next)
 			iter = iter->next;
 		else
-			break;
+			break ;
 	}
 	status = syntax_command(&iter, redir_flag);
 	if (status)

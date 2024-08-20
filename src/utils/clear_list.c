@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 16:41:31 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/19 20:48:21 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 12:40:59 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void free_token(void *content)
 	if (basic)
 	{
 		token = basic->data.token;
-		if (token && token->type == S_SHELL)
+		if (token && (token->type == S_SHELL || token->type == SUBS_SYN_ERR))
 			free_minishell(token->token_content.subs, TRUE);
 		else if (token && token->content)
 			ft_free(&token->content, NULL);

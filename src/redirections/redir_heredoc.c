@@ -6,15 +6,15 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/19 20:52:01 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 10:36:00 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
+int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 {
-	t_basic *next;
+	t_basic	*next;
 	char	*line;
 
 	next = token->next;
@@ -24,22 +24,20 @@ void	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 		line = readline(ORANGE"> "END);
 		if (!line || !ft_strncmp(next->data.token->content, line, -1))
 		{
-			printf("Token content: %s // Line: %s\n", next->data.token->content, line);
-			free(line);
-			line = NULL;
-			break;
+			ft_free(&line, NULL);
+			break ;
 		}
 		if (*line)
 			line = expansion(mini, line);
 		fd_printf(redir[1], "%s\n", line);
-		free(line);
-		line = NULL;
+		ft_free(&line, NULL);
 	}
 	if (line && !*line)
 		free(line);
 	close(redir[1]);
 	close(redir[0]);
 	signal(SIGINT, SIG_DFL);
+	exit(EXIT_SUCCESS);
 }
 
 int	open_heredoc(t_minishell *mini, t_basic *token, int *redir)
@@ -59,13 +57,9 @@ int	open_heredoc(t_minishell *mini, t_basic *token, int *redir)
 			if (redir[0] > 0)
 				close(redir[0]);
 			read_heredoc(mini, token, redir);
-			exit(EXIT_SUCCESS);
 		}
 		if (waitpid(heredoc, &status, 0) == ERROR)
-		{
-			close(redir[0]);
-			return (EXIT_FAILURE);
-		}
+			return (close(redir[0]), EXIT_FAILURE);
 		close(redir[1]);
 		status = WEXITSTATUS(status);
 		if (status && !mini->status)
