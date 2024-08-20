@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:21:04 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/18 18:23:16 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:30:12 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_key(char *key, int *flag)
 	return (TRUE);
 }
 
-int	replace_plus_equal(t_basic **env, char *key, char *value)
+int	replace_plus_equal(t_basic **env, char *key, char *value, int eql)
 {
 	char	*new_value;
 	char	*find_value;
@@ -46,7 +46,7 @@ int	replace_plus_equal(t_basic **env, char *key, char *value)
 	new_value = ft_strjoin(find_value, value);
 	if (!new_value)
 		exit (error_msg(MALLOC, 1, "replace_plus_equal: new_value"));
-	replace(env, key, new_value);
+	replace(env, key, new_value, eql);
 	free(new_value);
 	return (EXIT_SUCCESS);
 }
@@ -55,27 +55,27 @@ int	add_export(t_basic **env, char *line)
 {
 	t_env	aux;
 	int		pos;
-	int		foo;
+	int		add;
 
-	foo = NOT_FOUND;
-	if (!check_key(line, &foo))
+	add = NOT_FOUND;
+	if (!check_key(line, &add))
 		return (error_msg(EXPORT, 1, line));
 	pos = ft_strchrpos(line, '=');
 	if (pos == NOT_FOUND)
 		pos = ft_strlen(line);
-	aux.key = ft_strndup(line, pos - (foo != NOT_FOUND && line[foo] == '+'));
+	aux.key = ft_strndup(line, pos - (add != NOT_FOUND && line[add] == '+'));
 	if (!aux.key)
 		exit (error_msg(MALLOC, 1, "add_export: aux.key"));
-	if (foo != NOT_FOUND && foo < pos)
-		ft_memmove(&line[foo], &line[foo + 1], ft_strlen(&line[foo + 1]) + 1);
+	if (add != NOT_FOUND && add < pos)
+		ft_memmove(&line[add], &line[add + 1], ft_strlen(&line[add + 1]) + 1);
 	pos += (line[pos] == '=') * 1;
 	aux.value = search_env(*env, aux.key, KEY);
 	if (!*aux.value)
 		add_env(env, line);
-	else if (*aux.value && pos != NOT_FOUND)
-		replace_plus_equal(env, aux.key, &line[pos]);
-	else if (*aux.value && pos == NOT_FOUND)
-		replace(env, aux.key, &line[pos]);
+	else if (*aux.value && add != NOT_FOUND && ft_strchrpos(line, '=') != -1)
+		replace_plus_equal(env, aux.key, &line[pos], TRUE);
+	else if (*aux.value && add == NOT_FOUND && ft_strchrpos(line, '=') != -1)
+		replace(env, aux.key, &line[pos], TRUE);
 	return (free(aux.key), EXIT_SUCCESS);
 }
 

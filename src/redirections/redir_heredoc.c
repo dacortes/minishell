@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/20 10:36:00 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:46:00 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 			ft_free(&line, NULL);
 			break ;
 		}
-		if (*line)
+		if (*line && next->data.token->is_quote == FALSE)
 			line = expansion(mini, line);
 		fd_printf(redir[1], "%s\n", line);
 		ft_free(&line, NULL);

@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:07:51 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/19 21:06:40 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:44:05 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ char	*get_branch(void)
 	int		fd;
 
 	dir = get_dir_branch();
-	if (!*dir)
-		return (ft_strdup("UWU"));
+	if (!dir || (dir && !*dir))
+		return (ft_free(&dir, NULL), ft_strdup("???"));
 	fd = open(dir, O_RDONLY);
 	if (fd == ERROR)
 		return (free(dir), ft_strdup("-\\/UWU\\/-"));

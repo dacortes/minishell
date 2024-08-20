@@ -6,7 +6,7 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/18 18:21:09 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:27:12 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	add_env(t_basic **new_env, char *line)
 	if (pos == NOT_FOUND)
 	{
 		add_variable_env(new_env, ft_cutdel(line, 0, '\0', &tmp), \
-			ft_cutdel(line, ft_strchrpos(line, '='), '\0', &tmp), FALSE);
+			ft_strdup(""), FALSE);
 	}
 	else
 	{

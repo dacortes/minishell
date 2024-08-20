@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:45:41 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/19 19:16:32 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:41:58 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**substract_env(t_minishell *mini)
 	return (env);
 }
 
-char	*select_cmd_path(char **path, char *cmd)
+char	*select_cmd_path(char ***path, char *cmd)
 {
 	int		i;
 	char	*tmp;
@@ -65,22 +65,14 @@ char	*select_cmd_path(char **path, char *cmd)
 
 	i = -1;
 	cmd_path = NULL;
-	while (path[++i] && !cmd_path)
+	while (path[0][++i])
 	{
-		tmp = protected(ft_strjoin(path[i], cmd), "CMD");
-		if (access(tmp, F_OK) == 0)
+		tmp = protected(ft_strjoin(path[0][i], cmd), "CMD");
+		if (access(tmp, F_OK) == 0 && !cmd_path)
 			cmd_path = protected(ft_strdup(tmp), "CMD");
-		if (tmp)
-		{
-			free(tmp);
-			tmp = NULL;
-		}
-		if (path[i])
-		{
-			free(path[i]);
-			tmp = NULL;
-		}
+		ft_free(&path[0][i], &tmp);
 	}
+	ft_free(&path[0][i], NULL);
 	if (!cmd_path)
 		exit(error_msg(NO_FOUND, 127, cmd));
 	return (cmd_path);
@@ -117,9 +109,10 @@ char	*get_path(t_minishell *mini, char *cmd)
 	{
 		tmp = path[i];
 		path[i] = protected(ft_strjoin(path[i], "/"), "PATH");
-		free(tmp);
+		ft_free(&tmp, NULL);
 	}
-	tmp = select_cmd_path(path, cmd);
+	tmp = select_cmd_path(&path, cmd);
 	free(path);
+	path = NULL;
 	return (tmp);
 }

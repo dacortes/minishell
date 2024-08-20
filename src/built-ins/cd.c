@@ -6,13 +6,13 @@
 /*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 10:52:18 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/18 18:18:16 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:45:37 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	replace(t_basic **env, char	*key, char *value)
+int	replace(t_basic **env, char	*key, char *value, int eql)
 {
 	t_basic	*found;
 
@@ -21,6 +21,9 @@ int	replace(t_basic **env, char	*key, char *value)
 	{
 		free(found->data.env->value);
 		found->data.env->value = ft_strdup(value);
+		found->data.env->eql = FALSE;
+		if (eql != NOT_FOUND)
+			found->data.env->eql = TRUE;
 		if (!found->data.env->value)
 			exit(error_msg(MALLOC, 1, "replace: iter->new"));
 		return (TRUE);
@@ -38,7 +41,7 @@ char	*get_pwd(void)
 	if (getcwd(dir, PATH_MAX) == NULL)
 	{
 		error_msg(PERROR, 1, "getcwd");
-		return (NULL);
+		return (ft_free(&dir, NULL));
 	}
 	return (dir);
 }
@@ -50,7 +53,7 @@ int	update_oldpwd(t_minishell *mini, char *dir)
 	find = search_env(mini->env, "OLDPWD", KEY);
 	if (find && !*find)
 		add_env(&mini->env, "OLDPWD=");
-	replace(&mini->env, "OLDPWD", mini->cur_dir);
+	replace(&mini->env, "OLDPWD", mini->cur_dir, -1);
 	ft_free(&mini->old_dir, NULL);
 	mini->old_dir = protected(ft_strdup(mini->cur_dir), "old_dir");
 	ft_free(&mini->cur_dir, NULL);
@@ -76,7 +79,7 @@ int	update_pwd(t_minishell *mini, char *path)
 	dir = get_pwd();
 	if (!dir)
 		return (1);
-	replace(&mini->env, "PWD", dir);
+	replace(&mini->env, "PWD", dir, -1);
 	if (!ft_strncmp(dir, mini->cur_dir, PATH_MAX))
 		ft_free(&dir, NULL);
 	else if (ft_strncmp(dir, mini->cur_dir, PATH_MAX) != 0)

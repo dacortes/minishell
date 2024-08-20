@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:17:03 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/20 10:03:08 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:54:12 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	_execute(t_minishell *mini, t_basic *start, t_basic *end)
 	path = get_path(mini, cmd[0]);
 	env = substract_env(mini);
 	execve(path, cmd, env);
-	printf("Comando :(\n");
 	exit(error_msg(PERROR, 1, cmd[0]));
 }
 

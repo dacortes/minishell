@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:51:07 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/08 11:46:27 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/20 15:48:50 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	add_prev(t_basic **list, int flag)
 		prev = tmp;
 		tmp = tmp->next;
 	}
-
 }
 
 void	*get_last(t_basic *list)

@@ -6,7 +6,7 @@
 /*   By: frankgar <frankgar@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:18:48 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/19 18:19:24 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:33:33 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	set_skip(t_minishell *mini, t_basic *end, int	*skip)
 		|| (end->data.token->type == OR && mini->status))
 	{
 		*skip = 0;
+		mini->prev_status = mini->status;
 		get_status(TRUE, mini->status);
 		mini->status = 0;
 	}

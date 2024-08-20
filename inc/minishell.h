@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/20 13:35:37 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:18:46 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ int		is_builtin(t_basic *start, t_basic *end);
 int		do_builtin(t_minishell *mini, char **cmd);
 
 /*	built-ins/cd.c				*/
-int		replace(t_basic **env, char	*key, char *value);
+int		replace(t_basic **env, char	*key, char *value, int eql);
 char	*get_pwd(void);
 int		update_oldpwd(t_minishell *mini, char *dir);
 int		_cd(t_minishell *mini, char **command, int num_arg);
@@ -234,7 +234,7 @@ void	set_skip(t_minishell *mini, t_basic *end, int	*skip);
 
 /*	manager/manager_utils.c			*/
 char	*get_path(t_minishell *mini, char *cmd);
-char	*select_cmd_path(char **path, char *cmd);
+char	*select_cmd_path(char ***path, char *cmd);
 char	**substract_env(t_minishell *mini);
 int		get_env_size(t_basic *env);
 
