@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:55:24 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/20 15:39:01 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:36:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	error_msg(int error, int code_exit, char *input)
 {
 	int	e;
 
+	(void)e;
 	e = error & MALLOC && fd_printf(2, ERR_MALLOC, MINI, input);
 	e = error & SYNTAX && fd_printf(2, ERR_SYNTAX, MINI, input);
 	e = error & ARGUMENT && fd_printf(2, ERR_ARGUMENT, MINI, input);

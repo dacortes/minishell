@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 19:13:49 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/20 12:54:00 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:36:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	syntax_command(t_basic **content, int redir_flag)
 	}
 	if (!arg_count && !subs_count && !redir_flag)
 	{
-		iter->data.token->type = SYN_ERROR;
+		if (iter)
+			iter->data.token->type = SYN_ERROR;
 		return (error_msg(SYNTAX, 2, token->content));
 	}
 	return (EXIT_SUCCESS);
