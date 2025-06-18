@@ -3,121 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: frankgar <frankgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:51:44 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 18:19:18 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 09:53:02 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
+void	get_child_status(t_minishell *mini)
+{
+	if (WIFEXITED(mini->status))
+		mini->status = WEXITSTATUS(mini->status);
+	else
+		handle_signaled(&mini->status, WTERMSIG(mini->status));
+}
+
+int	exec_cmd(t_minishell *mini, t_basic *start, t_basic *end, int is_child)
 {
 	pid_t	child;
-	t_basic	*token_union;
-	int		child_created;
-	char	**cmd;
-	char	**env;
-	char	*path;
 
-	child_created = 0;
-	env = NULL;
-	path = NULL;
+	set_child(TRUE, FALSE);
 	expand_token(mini, &start, end);
-	token_union = union_token(start, end);
-	cmd = get_cmds(token_union, NULL);
-	//token_union = expand_wild_cards(NULL);
 	if (start->data.token->type == S_SHELL)
-	{
-		if (redirections(mini, start, end))
-			return (EXIT_FAILURE);
-		child = fork();
-		if (child == ERROR)
-			return (error_msg(PERROR, 1, "fork"));
-		if (child == CHILD)
-		{
-			signal(SIGINT, exit);
-			signal(SIGQUIT, exit);
-			start->data.token->token_content.subs->term_fd[0] = dup(0);
-			start->data.token->token_content.subs->term_fd[1] = dup(1);
-			manager(start->data.token->token_content.subs);
-			exit(mini->status);
-		}
-		child_created = 1;
-	}
-	else if ((cmd && is_builtin(cmd[0])) || !cmd)
-	{
-		if (is_child == NO_CHILD && mini->redir[0])
-		{
-			child = fork();
-			if (child == ERROR)
-				return (error_msg(PERROR, 1, "fork"));
-			if (child == CHILD)
-			{
-				signal(SIGINT, exit);
-				signal(SIGQUIT, exit);
-				if (redirections(mini, start, end))
-					exit (EXIT_FAILURE);
-				do_builtin(mini, cmd);
-				exit(mini->status);
-			}
-			child_created = 1;
-		}
-		else
-		{
-			if (redirections(mini, start, end))
-				return (ERROR);
-			do_builtin(mini, cmd);
-		}
-	}
+		child = _subshell(mini, start, end);
+	else if (is_builtin(start, end))
+		child = _builtin(mini, start, end, is_child);
 	else
 	{
 		if (is_child == NO_CHILD)
-		{
-			child = fork();
-			if (child == ERROR)
-				return (error_msg(PERROR, 1, "fork"));
-			if (child == CHILD)
-			{
-				signal(SIGINT, exit);
-				signal(SIGQUIT, exit);
-				if (redirections(mini, start, end))
-					exit (EXIT_FAILURE);
-				path = get_path(mini, cmd[0]);
-				env = substract_env(mini);
-				execve(path, cmd, env);
-				exit(error_msg(PERROR, 1, cmd[0]));
-			}
-			child_created = 1;
-		}
+			child = _execute_no_child(mini, start, end);
 		else
-		{
-			if (redirections(mini, start, end))
-				exit (EXIT_FAILURE);
-			path = get_path(mini, cmd[0]);
-			env = substract_env(mini);
-			execve(path, cmd, env);
-			exit(error_msg(PERROR, 1, cmd[0]));
-		}
-
+			_execute(mini, start, end);
 	}
-	if (child_created && is_child == NO_CHILD)
+	if (set_child(FALSE, TRUE) && is_child == NO_CHILD)
 	{
 		reset_redirs(mini);
-		printf("ESPERO A COMANDO\n");
 		waitpid(child, &mini->status, 0);
 		while (wait(NULL) != -1)
 			;
-		printf("DEJO DE ESPERAR A COMANDO\n");
-		mini->status = WEXITSTATUS(mini->status); 
 	}
-	free_double_ptr(env);
-	free_double_ptr(cmd);
-	free_list(token_union, free_token);
-	if (path)
-		ft_free(&path, NULL);	
-	return(EXIT_SUCCESS);
+	get_child_status(mini);
+	reset_redirs(mini);
+	return (EXIT_SUCCESS);
 }
 
 int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
@@ -139,10 +68,9 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
 		exec_cmd(mini, start, end, CHILD);
-		reset_redirs(mini);
 		exit(mini->status);
 	}
-	if(dup2(pipe_fd[0], 0) == ERROR)
+	if (dup2(pipe_fd[0], 0) == ERROR)
 		exit(error_msg(PERROR, 1, "do_pipe: dup2"));
 	mini->redir[0] = pipe_fd[0];
 	close(pipe_fd[1]);
@@ -150,7 +78,7 @@ int	do_pipe(t_minishell *mini, t_basic *start, t_basic *end)
 	return (EXIT_SUCCESS);
 }
 
-int	manager(t_minishell *mini)
+void	manager(t_minishell *mini)
 {
 	t_basic	*end;
 	t_basic	*start;
@@ -161,7 +89,7 @@ int	manager(t_minishell *mini)
 	start = mini->token;
 	while (end)
 	{
-		if 	(end->data.token->type == PIPE && !skip)
+		if (end->data.token->type == PIPE && !skip)
 		{
 			do_pipe(mini, start, end);
 			start = end->next;
@@ -169,25 +97,12 @@ int	manager(t_minishell *mini)
 		else if (end->data.token->type & L_OPERAND)
 		{
 			if (!skip)
-			{
 				exec_cmd(mini, start, end, NO_CHILD);
-				reset_redirs(mini);
-			}
-			if ((end->data.token->type == AND && !mini->status)
-				|| (end->data.token->type == OR && mini->status))
-				skip = 0;
-			else
-			{
-				mini->status = 0;
-
-				skip = 1;
-			}
+			set_skip(mini, end, &skip);
 			start = end->next;
 		}
 		end = end->next;
 	}
 	if (!skip)
 		exec_cmd(mini, start, end, NO_CHILD);
-	reset_redirs(mini);
-	return (mini->status);
 }

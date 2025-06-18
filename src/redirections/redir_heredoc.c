@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 20:13:50 by frankgar          #+#    #+#             */
-/*   Updated: 2024/08/17 10:56:42 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:46:00 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 {
-	t_basic *next;
+	t_basic	*next;
 	char	*line;
 
 	next = token->next;
@@ -24,15 +24,13 @@ int	read_heredoc(t_minishell *mini, t_basic *token, int *redir)
 		line = readline(ORANGE"> "END);
 		if (!line || !ft_strncmp(next->data.token->content, line, -1))
 		{
-			free(line);
-			line = NULL;
-			break;
+			ft_free(&line, NULL);
+			break ;
 		}
-		if (*line)
+		if (*line && next->data.token->is_quote == FALSE)
 			line = expansion(mini, line);
 		fd_printf(redir[1], "%s\n", line);
-		free(line);
-		line = NULL;
+		ft_free(&line, NULL);
 	}
 	if (line && !*line)
 		free(line);
@@ -59,13 +57,9 @@ int	open_heredoc(t_minishell *mini, t_basic *token, int *redir)
 			if (redir[0] > 0)
 				close(redir[0]);
 			read_heredoc(mini, token, redir);
-			exit(EXIT_SUCCESS);
 		}
 		if (waitpid(heredoc, &status, 0) == ERROR)
-		{
-			close(redir[0]);
-			return (EXIT_FAILURE);
-		}
+			return (close(redir[0]), EXIT_FAILURE);
 		close(redir[1]);
 		status = WEXITSTATUS(status);
 		if (status && !mini->status)
@@ -84,5 +78,51 @@ int	_heredoc(t_minishell *mini, t_basic *current)
 			return (error_msg(PERROR, 1, "Dup2"));
 		close(current->data.token->token_content.redir_here[0]);
 	}
+	return (EXIT_SUCCESS);
+}
+
+void	close_heredocs(t_minishell *mini)
+{
+	t_basic	*iter;
+	t_token	*token;
+
+	iter = mini->token;
+	while (iter)
+	{
+		token = iter->data.token;
+		if (token->type == R_HER)
+		{
+			if (token->token_content.redir_here[0] > 0)
+				close(token->token_content.redir_here[0]);
+		}
+		iter = iter->next;
+	}
+}
+
+int	do_heredoc(t_minishell *mini)
+{
+	t_basic	*iter;
+	t_token	*token;
+	int		redir[2];
+
+	iter = mini->token;
+	get_break_it(TRUE, 0);
+	signal(SIGINT, break_it);
+	signal(SIGQUIT, SIG_IGN);
+	while (iter)
+	{
+		if (get_break_it(FALSE, 0) == TRUE)
+			break ;
+		token = iter->data.token;
+		if (token->type == R_HER)
+			open_heredoc(mini, iter, redir);
+		else if (token->type == S_SHELL)
+			do_heredoc(token->token_content.subs);
+		else if (token->type & SYN_ERROR)
+			break ;
+		iter = iter->next;
+	}
+	if (mini->status)
+		close_heredocs(mini);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:42:35 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/17 14:17:49 by frankgar         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:18:46 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,14 @@
 # define ERR_AMBIGUOUS "%s%s: ambiguous redirection%s\n"
 # define ERR_NO_FOUND "%s%s: command not found\n"
 # define ERR_IS_DIR "%s%s: Is a directory\n"
+# define ERR_NUMERIC "%s%s: numeric argument required\n"
 
 typedef struct s_minishell		t_minishell;
 typedef struct s_token			t_token;
 typedef struct s_env			t_env;
-
-typedef	struct s_basic			t_basic;
-typedef union  u_content		t_content;
-typedef	union  u_data_type		t_data_type;
-
+typedef struct s_basic			t_basic;
+typedef union u_content			t_content;
+typedef union u_data_type		t_data_type;
 
 enum e_error_code
 {
@@ -95,6 +94,7 @@ enum e_error_code
 	AMBIGUOUS = 1 << 6,
 	NO_FOUND = 1 << 7,
 	IS_DIR = 1 << 8,
+	NUMERIC_ARG = 1 << 9,
 };
 
 enum e_tokens_types
@@ -113,6 +113,7 @@ enum e_tokens_types
 	S_SHELL = 1 << 11,
 	SYN_ERROR = 1 << 12,
 	WILD_CARD = 1 << 13 | EXPAN,
+	SUBS_SYN_ERR = S_SHELL | SYN_ERROR,
 };
 
 typedef enum e_data_enum
@@ -121,7 +122,7 @@ typedef enum e_data_enum
 	T_ENV,
 }	t_data_enum;
 
-struct s_env // array to array char **
+struct s_env
 {
 	char	*key;
 	char	*value;
@@ -145,7 +146,6 @@ struct s_minishell
 union u_content
 {
 	t_minishell	*subs;
-	//t_basic		*expand;
 	int			redir_here[2];
 };
 
@@ -165,7 +165,6 @@ union u_data_type
 	t_env	*env;
 };
 
-
 struct s_basic
 {
 	t_data_type		data;
@@ -178,11 +177,11 @@ struct s_basic
 /******************************************************************************/
 
 /*	built-ins/builtins.c		*/
-int		is_builtin(char *cmd);
+int		is_builtin(t_basic *start, t_basic *end);
 int		do_builtin(t_minishell *mini, char **cmd);
 
 /*	built-ins/cd.c				*/
-int		replace(t_basic **env, char	*key, char *value);
+int		replace(t_basic **env, char	*key, char *value, int eql);
 char	*get_pwd(void);
 int		update_oldpwd(t_minishell *mini, char *dir);
 int		_cd(t_minishell *mini, char **command, int num_arg);
@@ -220,13 +219,28 @@ char	*search_env(t_basic *env, char *key, int type);
 /*  built-ins/utils_env.c 			*/
 void	printf_export(void *content);
 
+/*	manager/manager_actions.c		*/
+pid_t	_subshell(t_minishell *mini, t_basic *start, t_basic *end);
+pid_t	_builtin(t_minishell *mini, t_basic *start, t_basic *end, int is_child);
+void	_execute(t_minishell *mini, t_basic *start, t_basic *end);
+pid_t	_child_builtin(
+			t_minishell *mini, t_basic *start, t_basic *end, char **cmd);
+pid_t	_execute_no_child(
+			t_minishell *mini, t_basic *start, t_basic *end);
+
+/*	manager/manager_sets.c			*/
+int		set_child(int mod_flag, int value);
+void	set_skip(t_minishell *mini, t_basic *end, int	*skip);
+
 /*	manager/manager_utils.c			*/
 char	*get_path(t_minishell *mini, char *cmd);
-char	*select_cmd_path(char **path, char *cmd);
+char	*select_cmd_path(char ***path, char *cmd);
 char	**substract_env(t_minishell *mini);
-int 	get_env_size(t_basic *env);
+int		get_env_size(t_basic *env);
+
 /*	manager/manager.c			*/
-int		manager(t_minishell *mini);
+void	manager(t_minishell *mini);
+
 /*	expansion/dollar.c			*/
 char	*expansion(t_minishell *mini, char *content);
 
@@ -235,7 +249,6 @@ int		expand_token(t_minishell *mini, t_basic **start, t_basic *end);
 
 /*	expansion/union_token		*/
 t_basic	*union_token(t_basic *start, t_basic *end);
-t_basic	*coppy_token(t_basic *src, int flag_content);
 
 /*	expansion/utils.c			*/
 int		is_space(char c);
@@ -251,7 +264,6 @@ int		get_token_content(t_content *token_content, char *content, int type);
 t_token	*new_token(char *content, char *del, int space);
 int		init_token(t_basic **token, char *content, char *del, int space);
 
-
 /*	parsing/metacharacters.c	*/
 int		metacharacters(t_basic **token, char *line, char *del, int *pos);
 int		not_metacharacters(t_basic **token, char *line, char *del, int *pos);
@@ -259,7 +271,7 @@ int		metacharacters_sub(t_basic **token, char *line, int start, int end);
 int		check_subshell(t_basic **token, char *line, int *pos, int end);
 
 /*	parsing/parsing.c			*/
-int 	parsing(t_minishell *mini);
+int		parsing(t_minishell *mini);
 int		syntax_error(t_basic **content);
 
 /*  redirections/redir_append.c */
@@ -268,6 +280,8 @@ int		_append(t_minishell *mini, t_basic *current);
 /*	redirections/redir_heredoc.c	*/
 int		open_heredoc(t_minishell *mini, t_basic *current, int *redir);
 int		_heredoc(t_minishell *mini, t_basic *current);
+void	close_heredocs(t_minishell *mini);
+int		do_heredoc(t_minishell *mini);
 
 /*  redirections/redir_in.c */
 int		_stdinp(t_minishell *mini, t_basic *current);
@@ -280,15 +294,18 @@ int		redirections(t_minishell *mini, t_basic *start, t_basic *end);
 int		reset_redirs(t_minishell *mini);
 int		parse_open(t_basic *current);
 
-/*	parsing/syntax_err			*/
-
-/*	parsing/syntax_error		*/
-
 /*	parsing/utils.c				*/
 short	get_type(char *flag, char *content);
 int		set_space(char *line, int *pos, char *del);
 int		get_end_not_metacharacters(char *str);
 int		get_end_token(char *str, char *del, int *pos, int size_del);
+
+/*	parsing/syntax_utils.c				*/
+int		set_syntax_error(t_token *token, t_basic *iter);
+
+/*  signals/heredoc_signals     */
+int		get_break_it(int flag, int value);
+void	break_it(int signal);
 
 /*	prompt/prompt.c				*/
 char	*ft_strjoin_max(char **need);
@@ -301,6 +318,7 @@ int		get_status(int flag, int value);
 void	term_init(void);
 void	_sigint(int sig);
 void	handle_siginth(int sig);
+void	handle_signaled(int *status, int signal);
 
 /*	utils/errors.c			*/
 int		error_msg(int error, int code_exit, char *input);
@@ -308,19 +326,19 @@ void	*protected(void *memory, char *error_str);
 
 /*	utils/clear_list.c			*/
 char	*free_double_ptr(char **ptr);
-void 	free_env(void *content);
+void	free_env(void *content);
 void	free_token(void *content);
 void	free_minishell(t_minishell *mini, int flag);
-void 	free_list(t_basic *node, void (*f)(void *));
+void	free_list(t_basic *node, void (*f)(void *));
 
 /*	utils/handler.list.c		*/
 void	*get_last(t_basic *list);
-void	add_prev(t_basic **list);
+void	add_prev(t_basic **list, int flag);
 void	add_back(t_basic **list, t_basic *new);
 
 /*	utils/loops.c				*/
 int		content_loop(t_basic *node, void (*f)(void *));
-t_basic *bool_loop(t_basic *node, int (*cmp)(t_data_type *, void *), void *arg);
+t_basic	*bool_loop(t_basic *node, int (*cmp)(t_data_type *, void *), void *arg);
 t_basic	*bool_loop_void(t_basic *node, int (*cmp)(void *, void *), void *arg);
 
 /*	utils/printf_list.c 		*/

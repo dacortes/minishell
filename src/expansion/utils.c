@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/09 10:20:22 by codespace        ###   ########.fr       */
+/*   Created: 2024/08/02 12:57:10 by dacortes          #+#    #+#             */
+/*   Updated: 2024/08/18 18:56:32 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int is_space(char c)
+int	is_space(char c)
 {
-	 return ((c >= 9 && c <= 13 )|| c == ' ');
+	return ((c >= 9 && c <= 13) || c == ' ');
 }
 
 int	get_end_space(char *str)

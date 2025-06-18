@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/02 12:57:10 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/15 17:11:09 by frankgar         ###   ########.fr       */
+/*   Created: 2024/08/02 12:57:10 by dacortes          #+#    #+#             */
+/*   Updated: 2024/08/18 19:38:40 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_str_replace(const char *inp, size_t start, size_t end, char *rep)
 	return (new);
 }
 
-char *expand_str(t_minishell *mini, char *content, int start, int end)
+char	*expand_str(t_minishell *mini, char *content, int start, int end)
 {
 	char	*aux;
 	char	*key;
@@ -47,18 +47,31 @@ char *expand_str(t_minishell *mini, char *content, int start, int end)
 		value = protected(ft_strdup(search_env(mini->env, key, VALUE)), "val");
 		free(key);
 		if (value && *value)
-		{
 			aux = ft_str_replace(content, start - 1, end, value);
-			free (value);
-		}
 		else
-		{
 			aux = ft_str_replace(content, start - 1, end, "");
-			free (value);
-		}
+		free (value);
 	}
 	protected(aux, "expand_token: aux");
 	return (ft_free(&content, &status), aux);
+}
+
+void	expand_dollar(t_minishell *mini, char **content, int *start, int *end)
+{
+	*start += 1;
+	if ((ft_isalpha(content[0][*start]) || content[0][*start] == '_'))
+	{
+		*end = *start;
+		while (content[0][*end] && (ft_isalnum(content[0][*end])
+				|| content[0][*end] == '_'))
+			*end += 1;
+		content[0] = expand_str(mini, content[0], *start, *end);
+	}
+	else if (content[0][*start] && content[0][*start] == '?')
+	{
+		*end = *start;
+		content[0] = expand_str(mini, content[0], *start, *end);
+	}
 }
 
 char	*expansion(t_minishell *mini, char *content)
@@ -71,21 +84,7 @@ char	*expansion(t_minishell *mini, char *content)
 	while (content[start])
 	{
 		if (content[start] == '$')
-		{
-			++start;
-			if ((ft_isalpha(content[start]) || content[start] == '_'))
-			{
-				end = start;
-				while (content[end] && (ft_isalnum(content[end]) || content[end] == '_'))
-					++end;
-				content = expand_str(mini, content, start, end);
-			}
-			else if (content[start] && content[start] == '?')
-			{	
-				end = start;
-				content = expand_str(mini, content, start, end);
-			}
-		}
+			expand_dollar(mini, &content, &start, &end);
 		else
 			++start;
 		if ((int)ft_strlen(content) < start)

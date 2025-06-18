@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/04 10:40:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/04 10:41:19 by codespace        ###   ########.fr       */
+/*   Created: 2024/08/04 10:40:56 by dacortes          #+#    #+#             */
+/*   Updated: 2024/08/18 18:33:47 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void printf_export(void *content)
+void	printf_export(void *content)
 {
 	t_env	*env;
 

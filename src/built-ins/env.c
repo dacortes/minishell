@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dacortes <dacortes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:49:47 by dacortes          #+#    #+#             */
-/*   Updated: 2024/08/09 10:48:20 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/20 18:27:12 by frankgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	add_variable_env(t_basic **list_env, char *key, char *value, short eql)
 {
-	t_basic *new_node;
+	t_basic	*new_node;
 
 	if (!key)
 		exit (error_msg(MALLOC, 1, "add_variable_env: key"));
@@ -47,13 +47,14 @@ static t_basic	*init_basic_env(void)
 int	add_env(t_basic **new_env, char *line)
 {
 	int	pos;
-	int tmp = 0;
+	int	tmp;
 
+	tmp = 0;
 	pos = ft_strchrpos(line, '=');
 	if (pos == NOT_FOUND)
 	{
 		add_variable_env(new_env, ft_cutdel(line, 0, '\0', &tmp), \
-			ft_cutdel(line, ft_strchrpos(line, '='), '\0', &tmp), FALSE);
+			ft_strdup(""), FALSE);
 	}
 	else
 	{
@@ -63,10 +64,10 @@ int	add_env(t_basic **new_env, char *line)
 	return (EXIT_SUCCESS);
 }
 
-t_basic *init_env(char **env)
+t_basic	*init_env(char **env)
 {
 	t_basic	*new_env;
-	int				i;
+	int		i;
 
 	if (!env || !*env)
 		return (init_basic_env());
@@ -74,7 +75,7 @@ t_basic *init_env(char **env)
 	new_env = NULL;
 	while (env[++i])
 		add_env(&new_env, env[i]);
-	add_prev(&new_env);
+	add_prev(&new_env, FALSE);
 	return (new_env);
 }
 
