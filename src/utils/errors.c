@@ -16,6 +16,7 @@ int	error_msg(int error, int code_exit, char *input)
 {
 	int	e;
 
+	(void)e;
 	e = error & MALLOC && fd_printf(2, ERR_MALLOC, MINI, input);
 	e = error & SYNTAX && fd_printf(2, ERR_SYNTAX, MINI, input);
 	e = error & ARGUMENT && fd_printf(2, ERR_ARGUMENT, MINI, input);
